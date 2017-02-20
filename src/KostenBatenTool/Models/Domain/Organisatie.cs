@@ -7,15 +7,20 @@ namespace KostenBatenTool.Models.Domain
 {
     public class Organisatie
     {
-        public Contactpersoon Contactpersoon { get; private set; }
-        public IEnumerable<Afdeling> Afdelingen { get; private set; }
-        public string Naam { get; private set; }
-        public string Straat { get; private set; }
-        public int Huisnummer { get; private set; }
-        public int Postcode { get; private set; }
-        public string Gemeente { get; private set; }
-        public int GemiddeldAantalWerkuren { get; private set; }
-        public int PatronaleBijdrage { get; private set; }
-        public string Logo { get; private set; }
+        
+        
+        #region Properties
+
+        public Contactpersoon Contactpersoon { get; set; }
+        public IEnumerable<Afdeling> Afdelingen { get; set; }
+        public string Naam { get; set; }
+        public string Straat { get; set; }
+        public int Huisnummer { get; set; }
+        public int Postcode { get; set; }
+        public string Gemeente { get; set; }
+        public double UrenWerkWeek { get; set; }
+        public double PatronaleBijdrage { get; set; }
+        public string Logo { get; set; } 
+        #endregion
     }
 }
