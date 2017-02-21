@@ -18,39 +18,43 @@
     @Html.ApplicationInsightsJavaScript(TelemetryConfiguration)
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">KostenBatenTool</a>
-            </div>
-            <div class="navbar-collapse collapse">
+    <div class="wrap">
+        <nav class="nav-bar" role="navigation">
+            <div id="top-menu" class="container-fluid active">
+                <a class="navbar-brand" href="#"><img src="~/images/kairosLogo.png" alt="logo" id="logo"/></a>
                 <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
+                    <li class="dropdown movable">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span>Naam gebruiker</span> <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#"><span class="fa fa-user"></span>Mijn profiel</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#"><span class="fa fa-power-off"></span>Uitloggen</a></li>
+                        </ul>
+                    </li>
                 </ul>
-                @await Html.PartialAsync("_LoginPartial")
             </div>
+        </nav>
+        <aside id="side-menu" class="aside" role="navigation">
+                <ul class="nav nav-list accordion">
+                    <li class="nav-header"><i class="fa fa-home fa-3x"></i></li>
+                    <li class="nav-header"><i class="fa fa-bar-chart fa-2x"></i></li>
+                    <li class="nav-header"><i class="fa fa-archive fa-2x"></i></li>
+                </ul>
+        </aside>
         </div>
-    </div>
-    <div class="container body-content">
-        @RenderBody()
+       <div class="container body-content">
+      @RenderBody()
         <hr />
-        <footer>
+     <!--   <footer>
             <p>&copy; 2017 - KostenBatenTool</p>
-        </footer>
+        </footer>-->
     </div>
 
     <environment names="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
+        <script src="https://use.fontawesome.com/f9fbd9e00a.js"></script>
     </environment>
     <environment names="Staging,Production">
         <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
@@ -62,7 +66,8 @@
                 asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal">
         </script>
         <script src="~/js/site.min.js" asp-append-version="true"></script>
-    </environment>
+
+        <script src="https://use.fontawesome.com/f9fbd9e00a.js"></script>    </environment>
 
     @RenderSection("scripts", required: false)
 </body>

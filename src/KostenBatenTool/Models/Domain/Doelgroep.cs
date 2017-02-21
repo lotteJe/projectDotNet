@@ -5,10 +5,13 @@ using System.Threading.Tasks;
 
 namespace KostenBatenTool.Models.Domain
 {
-    public class Afdeling
+    public enum Doelgroep
     {
-        #region Properties
-        public string Naam { get; set; } 
-        #endregion
+        Laaggeschoold,
+        Middengeschoold,
+        Tussen55En60,
+        Boven60,
+        Ander
+
     }
 }
