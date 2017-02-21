@@ -105,8 +105,11 @@ namespace KostenBatenTool.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
+                ArbeidsBemiddelaar ab = new ArbeidsBemiddelaar(model.Naam, model.Voornaam, model.Email, model.NaamOrganisatie, model.Straat, model.Huisnummer, model.Postcode, model.Gemeente);
+                //opslaan??
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                var result = await _userManager.CreateAsync(user, model.Password);
+                string password = generateRandomPassword();
+                var result = await _userManager.CreateAsync(user, password);
                 if (result.Succeeded)
                 {
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=532713
@@ -124,6 +127,11 @@ namespace KostenBatenTool.Controllers
 
             // If we got this far, something failed, redisplay form
             return View(model);
+        }
+
+        private string generateRandomPassword()
+        {
+            return "random";
         }
 
         //
