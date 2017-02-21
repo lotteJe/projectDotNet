@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 
 namespace KostenBatenTool.Models.Domain
 {
-    public class Afdeling
+    public abstract class DetailKost
     {
         #region Properties
-        public string Naam { get; set; } 
+        public decimal Bedrag { get; set; } 
         #endregion
     }
 }
