@@ -2,19 +2,36 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using KostenBatenTool.Models.Domain;
 
-namespace KostenBatenTool.Models
+namespace KostenBatenTool.Models.Domain
 {
     public abstract class Kost
     {
         #region Properties
-        public string KorteOmschrijving { get; set; }
-        public string Vraag { get; set; }
-        public double Resultaat { get; set; }
 
+        public decimal Resultaat { get; set; }
+        public ICollection<DetailKost> Details { get; set; }
         #endregion
+
+        #region Constructors
+        protected Kost()
+        {
+            Details = new List<DetailKost>();
+        } 
+        #endregion
+
         #region Methods
-        public abstract double BerekenResultaat(); 
+
+        public void BerekenResultaat()
+        {
+            Resultaat = Details.Sum(d => d.Bedrag);
+        }
+
+        public IEnumerable<DetailKost> GeefDetailKosten()
+        {
+            return Details;
+        }
         #endregion
     }
 }

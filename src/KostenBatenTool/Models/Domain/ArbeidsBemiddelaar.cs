@@ -6,17 +6,54 @@ using Microsoft.AspNetCore.Mvc;
 
 using KostenBatenTool.Models.Domain;
 
-namespace KostenBatenTool.Models
+namespace KostenBatenTool.Models.Domain
 {
     public class ArbeidsBemiddelaar : Persoon
     {
-        public Organisatie eigenOrganisatie { get; private set; }
-        public IEnumerable<Analyse> Analyses { get; private set; }
+        #region Properties
 
-        public ArbeidsBemiddelaar(string naam, string voornaam, string email):base(naam,voornaam, email)
+        public Organisatie EigenOrganisatie { get; set; }
+        public IList<Analyse> Analyses { get; private set; }
+
+        #endregion
+
+        #region Constructors
+        public ArbeidsBemiddelaar(string naam, string voornaam, string email, Organisatie organisatie):base(naam, voornaam, email)
         {
             Analyses = new List<Analyse>();
-
+            EigenOrganisatie = organisatie;
         }
+        #endregion
+
+        #region Methods
+
+        public void MaakNieuweAnalyse(Organisatie organisatie)
+        {
+            Analyse nieuweAnalyse = new Analyse(organisatie);
+            Analyses.Add(nieuweAnalyse);
+        }
+
+        public IEnumerable<Organisatie> GeefAlleOrganisaties()
+        {
+            return Analyses.Select(a => a.Organisatie);
+        }
+
+        public IEnumerable<Analyse> SorteerAnalysesOpOrganisatie()
+        {
+            return Analyses.OrderBy(a => a.Organisatie.Naam);
+        }
+
+        public IEnumerable<Analyse> ZoekInAnalyes(String zoekterm)
+        {
+            IEnumerable<Analyse> analyses = Analyses.Where(a => a.Organisatie.Naam.Contains(zoekterm)
+            || a.Organisatie.Gemeente.Contains(zoekterm)).ToList();
+
+            if (!analyses.Any())
+                throw new InvalidOperationException("Geen resultaten gevonden.");
+            return Analyses;
+        }
+
+        #endregion
+
     }
 }

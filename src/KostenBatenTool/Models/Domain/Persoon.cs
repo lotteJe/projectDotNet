@@ -7,14 +7,24 @@ namespace KostenBatenTool.Models.Domain
 {
     public abstract class Persoon
     {
+        #region Properties
+
         public string Naam { get;  set; }
         public string Voornaam { get;  set; }
         public string Email { get;  set; }
 
-        public Persoon(string naam, string voornaam, string email){
+        #endregion
+
+        #region Constructors
+        protected Persoon(string naam, string voornaam, string email)
+        {
             Naam = naam;
             Voornaam = voornaam;
             Email = email;
-            }
+        }
+
+        #endregion
+
+
     }
 }

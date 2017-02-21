@@ -2,20 +2,35 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using KostenBatenTool.Models.Domain;
 
-namespace KostenBatenTool.Models
+namespace KostenBatenTool.Models.Domain
 {
     public class LoonKost : Kost
     {
         #region Properties
 
-        public double TotaleLoonKost { get; set; }
-        
+        public decimal TotaleLoonKost { get; set; }
+       
+        #endregion
+
+        #region Constructors
+
+        public LoonKost(Analyse analyse)
+        {
+            Details.Add(new LoonKostDetail(analyse));
+
+        }
 
         #endregion
-        public override double BerekenResultaat()
+
+        #region Methods
+        
+        public void BerekenTotaleKost()
         {
-            throw new NotImplementedException();
+            TotaleLoonKost = Details.Cast<LoonKostDetail>().Sum(d => d.FunctieKost);
         }
+
+        #endregion
     }
 }
