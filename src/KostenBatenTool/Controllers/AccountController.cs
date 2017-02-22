@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging;
 using KostenBatenTool.Models;
 using KostenBatenTool.Models.AccountViewModels;
 using KostenBatenTool.Services;
+using KostenBatenTool.Models.Domain;
 
 namespace KostenBatenTool.Controllers
 {
@@ -105,7 +106,8 @@ namespace KostenBatenTool.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                ArbeidsBemiddelaar ab = new ArbeidsBemiddelaar(model.Naam, model.Voornaam, model.Email, model.NaamOrganisatie, model.Straat, model.Huisnummer, model.Postcode, model.Gemeente);
+                Organisatie organisatie = new Organisatie(model.NaamOrganisatie, model.Straat, model.Huisnummer, model.Postcode, model.Gemeente);
+                ArbeidsBemiddelaar ab = new ArbeidsBemiddelaar(model.Naam, model.Voornaam, model.Email, organisatie);
                 //opslaan??
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 string password = generateRandomPassword();

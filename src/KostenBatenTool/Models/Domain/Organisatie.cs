@@ -15,12 +15,21 @@ namespace KostenBatenTool.Models.Domain
         public IEnumerable<Afdeling> Afdelingen { get; set; }
         public string Naam { get; set; }
         public string Straat { get; set; }
-        public int Huisnummer { get; set; }
+        public string Huisnummer { get; set; }
         public int Postcode { get; set; }
         public string Gemeente { get; set; }
         public double UrenWerkWeek { get; set; }
         public double PatronaleBijdrage { get; set; }
         public string Logo { get; set; } 
+
+        public Organisatie(string naam, string straat, string huisnummer, int postcode, string gemeente)
+        {
+            Naam = naam;
+            Straat = straat;
+            Huisnummer = huisnummer;
+            Postcode = postcode;
+            Gemeente = gemeente; 
+        }
         #endregion
     }
 }

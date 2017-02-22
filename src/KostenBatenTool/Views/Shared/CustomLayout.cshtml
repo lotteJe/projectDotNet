@@ -1,0 +1,76 @@
+﻿@using System.Collections.Generic
+@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Http.Authentication
+@model LoginViewModel
+@inject SignInManager<ApplicationUser> SignInManager
+@{ 
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <environment names="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/css/site.css" />
+    </environment>
+    <environment names="Staging,Production">
+        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/css/bootstrap.min.css"
+              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+    </environment>
+    @Html.ApplicationInsightsJavaScript(TelemetryConfiguration)
+</head>
+<body>
+    <div class="row">
+        <div class="jumbotron col-xs-6 col-md-4 col-md-offset-1 " style="margin-top:8em">
+            <a asp-area="" asp-controller="Account" asp-action="Login" class="btn-default">Aanmelden</a>
+            <a asp-area="" asp-controller="Account" asp-action="Register" class="btn-default">Registreren</a>
+            @RenderBody()
+        </div>
+
+
+            <div class="col-md-4 col-md-offset-1">
+                <section>
+                    <img src="~/images/kairosLogoZwart.png" />
+                    <hr />
+                <div>
+                    <p>
+                        Waarom zou een werkgever investeren in het tewerkstellen van personen met een grote afstand tot de arbeidsmarkt en/of functiecreatie? We zijn geneigd te denken dat we - ook managers en bedrijfsleiders - erg rationele wezens zijn, die (grote) beslissingen weloverwogen maken. Maar... zijn menselijke beslissingen wel zo rationeel als we denken?
+
+                        Niet echt. Mensen beslissen op basis van eigen kennis, ervaring, inschattingsvermogen en intuïtie. We gaan er vanuit dat we daarmee in staat zijn om consistente en evenwichtige beslissingen te nemen of, anders gezegd, een rationele afweging te maken. De waarheid is echter heel anders. Veel van onze besluitvorming wordt door een automatische piloot-functie van onze hersenen gedaan. Met als gevolg dat wij, en ook werkgevers, veel beslissingen nemen op basis van vooroordelen in plaats van alle beschikbare informatie in overweging te nemen.
+
+                        Het maken van een business case kan helpen om de besluitvorming te verbeteren, want het geeft betrouwbare, op feiten gebaseerde informatie en vermindert de subjectiviteit in beoordeling en besluitvorming.  De kans dat de werkgever op jouw aanbod zal ingaan, vergroot naarmate je deze vraag duidelijk en zakelijk onderbouwd weet te beantwoorden.
+
+                        Met dit model kan je werkgevers inzicht geven in de economische waarde van het werken met mensen met een grote afstand tot de arbeidsmarkt.
+                    </p>
+                </div>
+                    
+                    
+                </section>
+            </div>
+        </div>
+
+    <environment names="Development">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+    </environment>
+    <environment names="Staging,Production">
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
+                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                asp-fallback-test="window.jQuery">
+        </script>
+        <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/bootstrap.min.js"
+                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
+                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal">
+        </script>
+        <script src="~/js/site.min.js" asp-append-version="true"></script>
+    </environment>
+</body>
+</html>
+
