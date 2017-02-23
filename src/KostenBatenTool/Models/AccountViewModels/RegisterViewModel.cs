@@ -1,50 +1,42 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace KostenBatenTool.Models.AccountViewModels
 {
     public class RegisterViewModel
     {
-
-        [Required]
+        [Required(ErrorMessage = "Naam is verplicht")]
         [Display(Name = "Naam")]
-
         public string Naam { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Voornaam is verplicht")]
         [Display(Name = "Voornaam")]
         public string Voornaam { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "E-mailadres is verplicht")]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Naam van de organisatie is verplicht")]
         [Display(Name = "Naam organisatie")]
         public string NaamOrganisatie { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Naam is verplicht")]
         [Display(Name = "Straat")]
         public string Straat { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Huisnummer is verplicht")]
         [Display(Name = "Huisnummer")]
         [RegularExpression(@"[1-9][0-9]*[a-zA-Z]", ErrorMessage = "Moet een getal zijn, mag maximum 1 letter bevatten!")]
         public string Huisnummer { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Postcode is verplicht")]
         [Display(Name = "Postcode")]
         [RegularExpression(@"[1-9][0-9]{3}", ErrorMessage = "Moet een getal zijn, mag maximum 1 letter bevatten!")]
         public int Postcode { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Gemeente is verplicht")]
         [Display(Name = "Gemeente")]
         public string Gemeente { get; set; }
-
-        
-    }
+        }
 }
