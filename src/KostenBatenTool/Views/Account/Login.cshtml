@@ -4,6 +4,10 @@
     Layout = "~/Views/Shared/CustomLayout.cshtml";
 }
 
+
+                <form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
+                    <hr />
+
 <div id="login" class="jumbotron col-md-4 col-md-offset-1 animated fadeInDown">
     <div class="tabs">
         <a asp-area="" asp-controller="Account" asp-action="Login" class="tab btn-default col-md-6 active" style=" pointer-events: none">Aanmelden</a>
@@ -34,6 +38,7 @@
     </form>
 
     </div>
+
 
 
 
