@@ -1,83 +1,75 @@
 ﻿@model RegisterViewModel
-@using System.Collections.Generic
-@using Microsoft.AspNetCore.Http
-@using Microsoft.AspNetCore.Http.Authentication
 @inject SignInManager<ApplicationUser> SignInManager
 @{
     Layout = "~/Views/Shared/CustomLayout.cshtml";
 }
+<div id="register" class="jumbotron col-md-4 col-md-offset-1 animated fadeInDown">
+    <div class="tabs">
+        <a asp-area="" asp-controller="Account" asp-action="Login" class="tab btn-default col-md-6">AANMELDEN</a>
+        <a asp-area="" asp-controller="Account" asp-action="Register" class="tab btn-default col-md-6 active" style=" pointer-events: none">REGISTREREN</a>
+    </div>
+    <div class="container">
+        <form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
+      
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="naam" class="control-label">Naam</label>
+                    <input asp-for="Naam" id="naam" type="text" class="form-control" name="naam" >
+                    <span asp-validation-for="Naam" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <label for="voornaam" class="control-label">Voornaam</label>
+                    <input asp-for="Voornaam" id="voornaam" type="text" class="form-control" name="voornaam" >
+                    <span asp-validation-for="Voornaam" class="text-danger"></span>
+                </div>
+            </div>
+           
 
-                <form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
-                    <hr />
-                    <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="col-md-12">
+                <label for="email" class="control-label">Email</label>
+                <input asp-for="Email" id="email" type="text" class="form-control" name="email" >
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
 
-                    <div class="container">
-                        
-                        <div class="row">
-                            <div class="col-md-5 col-md-offset-1" style="padding-bottom: 8px">
-                                <div class="input-group" >
-                                    <label for="Name" class="control-label">Naam</label>
-                                    <input asp-for="Naam" id="naam" type="text" class="form-control" name="naam" placeholder="Naam">
-                                    <span asp-validation-for="Naam" class="text-danger"></span>
-                                </div>
-                            </div>
+            <div class="col-md-12">
+                <label for="naamOrganisatie" class="control-label">Naam organisatie</label>
+                <input asp-for="NaamOrganisatie" id="naamOrganisatie" type="text" class="form-control" name="naamOrganisatie" >
+                <span asp-validation-for="NaamOrganisatie" class="text-danger"></span>
+            </div>
 
-                            <div class="col-md-5">
-                                <div class="input-group col-md-offset-1" style="padding-bottom: 8px">
-                                    <label for="Voornaam" class="control-label">Voornaam</label>
-                                    <input asp-for="Voornaam" id="voornaam" type="text" class="form-control" name="voornaam" placeholder="Voornaam">
-                                    <span asp-validation-for="Voornaam" class="text-danger"></span>
-                                </div>
-                            </div>
-                        </div>
+            <div class="row">
+                <div class="col-md-8">
+                    <label for="Straat" class="control-label">Straat</label>
+                    <input asp-for="Straat" id="Straat" type="text" class="form-control" name="Straat" >
+                    <span asp-validation-for="Straat" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <label for="Huisnummer" class="control-label">Huisnummer</label>
+                    <input asp-for="Huisnummer" id="Huisnummer" type="text" class="form-control" name="Huisnummer" >
+                    <span asp-validation-for="Huisnummer" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <label for="Postcode" class="control-label">Postcode</label>
+                    <input asp-for="Postcode" id="Postcode" type="text" class="form-control" name="Postcode" >
+                    <span asp-validation-for="Postcode" class="text-danger"></span>
+                </div>
 
-                        <div class="input-group col-md-offset-1" style="padding-bottom: 8px">
-                            <label for="Email" class="control-label">Email</label>
-                            <input asp-for="Email" id="email" type="text" class="form-control" name="email" placeholder="example@email.com">
-                            <span asp-validation-for="Email" class="text-danger"></span>
-                        </div>
+                <div class="col-md-8">
+                    <label for="Gemeente" class="control-label">Gemeente</label>
+                    <input asp-for="Gemeente" id="Gemeente" type="text" class="form-control" name="Gemeente" >
+                    <span asp-validation-for="Gemeente" class="text-danger"></span>
+                </div>
+            </div>
 
-                        <div class="input-group col-md-offset-1" style="padding-bottom: 8px">
-                            <label for="NaamOrganisatie" class="control-label">Naam organisatie</label>
-                            <input asp-for="NaamOrganisatie" id="naamOrganisatie" type="text" class="form-control" name="naamOrganisatie" placeholder="Naam organisatie">
-                            <span asp-validation-for="NaamOrganisatie" class="text-danger"></span>
-                        </div>
+      
+            <div class="form-group">
+                <div class="col-md-offset-9">
+                    <button type="submit" class="btn btn-default knop">Registreer</button>
+                </div>
+            </div>
 
-                        <div class="row">
-                            <div class="col-md-9 col-md-offset-1" style="padding-bottom: 8px">
-                                <div class="input-group">
-                                    <label for="Straat" class="control-label">Straat</label>
-                                    <input asp-for="Straat" id="Straat" type="text" class="form-control" name="Straat" placeholder="Straat">
-                                    <span asp-validation-for="Straat" class="text-danger"></span>
-                                </div>
-                            </div>
-
-                            <div class="col-md-2">
-                                <div class="input-group col-md-offset-1" style="padding-bottom: 8px">
-                                    <label for="Huisnummer" class="control-label">Huisnummer</label>
-                                    <input asp-for="Huisnummer" id="Huisnummer" type="text" class="form-control" name="Huisnummer" placeholder="Huisnummer">
-                                    <span asp-validation-for="Huisnummer" class="text-danger"></span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="input-group col-md-offset-1" style="padding-bottom: 8px">
-                            <label for="Postcode" class="control-label">Postcode</label>
-                            <input asp-for="Postcode" id="Postcode" type="text" class="form-control" name="Postcode" placeholder="Postcode">
-                            <span asp-validation-for="Postcode" class="text-danger"></span>
-                        </div>
-
-                        <div class="input-group col-md-offset-1" style="padding-bottom: 8px">
-                            <label for="Gemeente" class="control-label">Gemeente</label>
-                            <input asp-for="Gemeente" id="Gemeente" type="text" class="form-control" name="Gemeente" placeholder="Gemeente">
-                            <span asp-validation-for="Gemeente" class="text-danger"></span>
-                        </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-md-offset-8 col-md-4">
-                                <button type="submit" class="btn btn-default">Registreer</button>
-                            </div>
-                        </div>
-
-</form>
+        </form>
+    </div>
+</div>

@@ -8,13 +8,14 @@
 }
 
 html {
-     background: url('../images/bg.png') no-repeat center center fixed; 
+    background: url('../images/bg.png') no-repeat center center fixed; 
      -webkit-background-size: cover;
      -moz-background-size: cover;
       -o-background-size: cover;
-     background-size: cover;
-     
+    -ms-background-size: cover;
+    background-size: cover;     
 }
+
 body {
      background-color: transparent;
      font-family:'abadi'!important;
@@ -28,9 +29,11 @@ body {
     background-color: white;
     width: auto;
    height: 90.5vmin;
+    -ms-opacity: 0.9;
     opacity: 0.9;
-   }
- /*naam gebruiker*/
+}
+
+/*naam gebruiker*/
  a.dropdown-toggle {
      color: white;
   }
@@ -102,14 +105,15 @@ div#top-menu {
   width: 100%;
   background: transparent;
 }
-.wrap ul.accordion li{
-  height: 70px;
+.wrap ul.accordion li {
+    height: 70px;
   cursor: pointer;
   display: block;
   position: relative;
   -webkit-transition: all 0.4s ease;
   -o-transition: all 0.4s ease;
-  transition: all 0.4s ease;
+    -ms-transition: all 0.4s ease;
+    transition: all 0.4s ease;
 }
 
 .wrap ul.accordion li i {
@@ -120,7 +124,8 @@ div#top-menu {
   color: white;
   -webkit-transition: all 0.4s ease;
   -o-transition: all 0.4s ease;
-  transition: all 0.4s ease;
+    -ms-transition: all 0.4s ease;
+    transition: all 0.4s ease;
 }
 
 
@@ -163,4 +168,105 @@ div#top-menu {
 } 
 ul.nav.nav-list.accordion li i {
     text-align:center;
+}
+
+/* LOGIN & REGISTER */
+
+.tabs {
+    text-align: center;
+    min-height: 110px;
+}
+.tab{
+    background-color: transparent;
+    font-size: 30px;
+    text-transform: uppercase;
+    padding: 20px;
+    border-bottom: 1px solid #3c4042;
+    margin-bottom: 20px;
+}
+.tab:first-of-type {
+    border-right: 1px solid #3c4042;
+      border-bottom-right-radius: 10px;
+}
+.tab:nth-of-type(2) {
+    border-bottom-left-radius: 10px;
+    border-left: 1px solid #3c4042;
+}
+
+.tab:hover, .tab:focus {
+     background-color: transparent;
+     text-decoration: none;
+}
+.tab.active {
+    border: none;
+    background-color: transparent;
+    }
+
+.jumbotron {
+    background-color: white;
+    border-radius: 10px;
+    padding: 0;
+}
+#register {
+    margin-top: 130px;
+}
+
+#login {
+    margin-top: 200px;
+}
+
+.intro{ margin-top:5%;
+    margin-bottom: 5%;}
+
+.row {
+    margin: 0;
+}
+.knop {
+     color: #ffffff;
+     background: #3c4042;
+     font-size: 16px;
+     text-transform: uppercase;
+    margin-top: 15px;
+}
+#aanmelden {
+    text-align: right;
+ 
+}
+#ww {
+    text-align: right;
+      
+  }
+#ww a {
+    color: #3b4041;
+    font-size: 15px;
+}
+ 
+#intro {
+    font-size: 16px;
+    margin-top: 40px;
+   }
+
+img#logoIntro {
+    width: 400px;
+}
+
+#intro p {
+    padding: 20px 5px;
+  }
+
+
+
+#gegeven {
+    padding: 30px 10px;
+}
+.gegevens {
+     padding: 0 40px ;
+}
+
+label.control-label {
+    font-size: 16px;
+}
+
+span.text-danger.field-validation-error {
+    font-size: 15px;
 }
