@@ -19,7 +19,7 @@ namespace KostenBatenTool.Models.Domain
         public int Postcode { get; set; }
         public string Gemeente { get; set; }
         public double UrenWerkWeek { get; set; }
-        public double PatronaleBijdrage { get; set; }
+        public decimal PatronaleBijdrage { get; set; }
         public string Logo { get; set; } 
 
         public Organisatie(string naam, string straat, string huisnummer, int postcode, string gemeente)
@@ -31,5 +31,17 @@ namespace KostenBatenTool.Models.Domain
             Gemeente = gemeente; 
         }
         #endregion
+
+        public Organisatie(string naam, string straat, string huisnummer, int postcode, string gemeente)
+        {
+            Naam = naam;
+            Straat = straat;
+            Huisnummer = huisnummer;
+            Postcode = postcode;
+            Gemeente = gemeente;
+        }
+
+
+
     }
 }
