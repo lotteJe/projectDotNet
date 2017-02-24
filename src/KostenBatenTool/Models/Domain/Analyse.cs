@@ -36,7 +36,8 @@ namespace KostenBatenTool.Models.Domain
         
         public decimal BerekenNettoResultaat()
         {
-            return BerekenBatenResultaat() - BerekenKostenResultaat();
+            return BerekenKostenResultaat();
+            //return BerekenBatenResultaat() - BerekenKostenResultaat();
         }
 
         public decimal BerekenKostenResultaat()
@@ -44,10 +45,10 @@ namespace KostenBatenTool.Models.Domain
             return Kosten.Select(k => k.BerekenResultaat()).Sum(); 
         }
 
-        public decimal BerekenBatenResultaat()
-        {
-            return Baten.Select(b => b.BerekenResultaat()).Sum();
-        }
+        //public decimal BerekenBatenResultaat()
+       // {
+            //return Baten.Select(b => b.BerekenResultaat()).Sum();
+       // }
 
         
 

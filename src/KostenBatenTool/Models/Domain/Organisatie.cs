@@ -32,14 +32,7 @@ namespace KostenBatenTool.Models.Domain
         }
         #endregion
 
-        public Organisatie(string naam, string straat, string huisnummer, int postcode, string gemeente)
-        {
-            Naam = naam;
-            Straat = straat;
-            Huisnummer = huisnummer;
-            Postcode = postcode;
-            Gemeente = gemeente;
-        }
+       
 
 
 
