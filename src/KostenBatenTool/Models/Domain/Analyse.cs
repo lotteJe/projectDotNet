@@ -13,9 +13,7 @@ namespace KostenBatenTool.Models.Domain
         public ICollection<Baat> Baten { get; set; }
         public Organisatie Organisatie { get; set; }
         public DateTime AanmaakDatum { get; private set; }
-        public decimal NettoResultaat { get; private set; }
-        public decimal KostenResultaat { get; private set; }
-        public decimal BatenResultaat { get; private set; }
+        
         #endregion
 
         #region Constructors
@@ -25,8 +23,9 @@ namespace KostenBatenTool.Models.Domain
             Organisatie = organisatie;
             AanmaakDatum = DateTime.Now;
             Kosten = new List<Kost>();
-            Kosten.Add(new LoonKost(this));
             Baten = new List<Baat>();
+            Kosten.Add(new LoonKost(this));
+            Kosten.Add(new WerkkledijKost());
            
         }
 
@@ -34,19 +33,20 @@ namespace KostenBatenTool.Models.Domain
 
         #region Methods
 
-        public void BerekenNettoResultaat()
+        
+        public decimal BerekenNettoResultaat()
         {
-            NettoResultaat = BatenResultaat - KostenResultaat;
+            return BerekenBatenResultaat() - BerekenKostenResultaat();
         }
 
-        public void BerekenKostenResultaat()
+        public decimal BerekenKostenResultaat()
         {
-            KostenResultaat = Kosten.Sum( k => k.Resultaat);
+            return Kosten.Select(k => k.BerekenResultaat()).Sum(); 
         }
 
-        public void BerekenBatenResultaat()
+        public decimal BerekenBatenResultaat()
         {
-            BatenResultaat = Baten.Sum(b => b.Resultaat);
+            return Baten.Select(b => b.BerekenResultaat()).Sum();
         }
 
         

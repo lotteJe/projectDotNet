@@ -12,6 +12,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "KostenBatenTool", "src\KostenBatenTool\KostenBatenTool.xproj", "{5A5F6BCD-2D9D-4905-BECB-70CC7B2E8096}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{3DCD2F18-7F84-4C13-BEAF-FE97B23DE575}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "KostenBatenToolTests", "test\KostenBatenToolTests\KostenBatenToolTests.xproj", "{22BFD6BE-0770-43F4-B7F6-DC19C4C28170}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -22,11 +26,16 @@ Global
 		{5A5F6BCD-2D9D-4905-BECB-70CC7B2E8096}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5A5F6BCD-2D9D-4905-BECB-70CC7B2E8096}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5A5F6BCD-2D9D-4905-BECB-70CC7B2E8096}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22BFD6BE-0770-43F4-B7F6-DC19C4C28170}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22BFD6BE-0770-43F4-B7F6-DC19C4C28170}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22BFD6BE-0770-43F4-B7F6-DC19C4C28170}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22BFD6BE-0770-43F4-B7F6-DC19C4C28170}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{5A5F6BCD-2D9D-4905-BECB-70CC7B2E8096} = {16BEA594-CD7C-4F56-9B1A-ED0EDAD399C1}
+		{22BFD6BE-0770-43F4-B7F6-DC19C4C28170} = {3DCD2F18-7F84-4C13-BEAF-FE97B23DE575}
 	EndGlobalSection
 EndGlobal
