@@ -40,6 +40,7 @@ namespace KostenBatenTool.Models.Domain
         {
            return Enumerable.Range(0, Lijnen.Count).ToList().Select(x => BerekenKostPerLijn(x)).ToList().Sum();
 
+
         }
 
         public override decimal BerekenKostPerLijn(int index)
