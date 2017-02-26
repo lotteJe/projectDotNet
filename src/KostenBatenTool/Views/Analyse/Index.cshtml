@@ -1,0 +1,41 @@
+﻿@*@model IEnumerable<KostenBatenTool.Models.Domain.Analyse>*@
+@{
+    ViewData["Title"] = "Archief";
+}
+
+<h2>@ViewData["Title"]</h2>
+<hr />
+
+<div class="container-fluid">
+    <table class="table table-responsive archief table-striped">
+        <tr>
+            <th>Datum</th>
+            <th>Uur</th>
+            <th>Werkgever</th>
+            <th>Gemeente</th>
+            <th>Resultaat</th>
+            <th>Kosten</th>
+            <th>Baten</th>
+            <th></th>
+        </tr>
+        @for (int i = 0; i < 4; i++)
+        {
+            <tr>
+                <td>Datum</td>
+                <td>Uur</td>
+                <td>Werkgever</td>
+                <td>Gemeente</td>
+                <td>Resultaat</td>
+                <td>Kosten</td>
+                <td>Baten</td>
+                <td>
+                    <i class="fa fa fa-download animated fadeInDown " aria-hidden="true"></i>
+                    <i class="fa fa-paper-plane animated fadeInDown" aria-hidden="true"></i>
+                    <i class="fa fa-print animated fadeInDown" aria-hidden="true"></i>
+                    <i class="fa fa-trash animated fadeInDown" aria-hidden="true"></i>
+                </td>
+            </tr>
+        }
+       
+    </table>
+</div>

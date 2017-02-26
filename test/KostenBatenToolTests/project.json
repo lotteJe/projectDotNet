@@ -1,4 +1,4 @@
-﻿{
+{
   "version": "1.0.0-*",
   "buildOptions": {
     "debugType": "portable"
@@ -7,6 +7,7 @@
     "dotnet-test-xunit": "1.0.0-rc2-build10025",
     "KostenBatenTool": "1.0.0-*",
     "Moq": "4.7.0",
+    "System.Net.Mail": "1.0.0-rtm-00002",
     "System.Runtime.Serialization.Primitives": "4.3.0",
     "xunit": "2.1.0"
   },
