@@ -1,4 +1,4 @@
-﻿{
+{
   "userSecretsId": "aspnet-KostenBatenTool-7148533d-e687-4997-9678-716ef78b4d1c",
 
   "dependencies": {
@@ -41,10 +41,11 @@
       "version": "1.0.0-preview2-final",
       "type": "build"
     },
-    "Microsoft.VisualStudio.Web.CodeGenerators.Mvc":  {
+    "Microsoft.VisualStudio.Web.CodeGenerators.Mvc": {
       "version": "1.0.0-preview2-final",
       "type": "build"
-    }
+    },
+    "Microsoft.AspNetCore.Session": "1.1.0"
   },
 
   "tools": {
