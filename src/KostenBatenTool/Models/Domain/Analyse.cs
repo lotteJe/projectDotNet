@@ -18,6 +18,10 @@ namespace KostenBatenTool.Models.Domain
 
         #region Constructors
 
+        public Analyse() //enkel voor testen
+        {
+            
+        }
         public Analyse(Organisatie organisatie)
         {
             Organisatie = organisatie;
