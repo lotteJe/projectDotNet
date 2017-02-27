@@ -56,7 +56,16 @@ namespace KostenBatenTool.Models.Domain
             }
             if (waarde.GetType() == Velden[key]) // Checken of Object van juiste dataype is
             {
-                Lijnen[index][key] = waarde;
+                if ((Velden[key] == typeof(decimal) && (decimal) waarde < 0) ||
+                    (Velden[key] == typeof(double) && (double) waarde < 0))
+                {
+                    throw new ArgumentException("Waarde mag niet negatief zijn");
+                }
+                else
+                {
+                    Lijnen[index][key] = waarde;
+                }
+                
             }
             else // Object is van verkeerde datatype
             {

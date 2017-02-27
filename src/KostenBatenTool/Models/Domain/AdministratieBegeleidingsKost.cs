@@ -31,9 +31,10 @@ namespace KostenBatenTool.Models.Domain
 
         public override decimal BerekenKostPerLijn(int index)
         {
-            Lijnen[index]["jaarbedrag"] = (((decimal) Lijnen[index]["uren"])/152) 
+            Lijnen[index]["jaarbedrag"] = (((decimal) Lijnen[index]["uren"])/36) 
                 * (decimal) Lijnen[index]["bruto maandloon begeleider"] 
-                * (1 + Analyse.Organisatie.PatronaleBijdrage);
+                * (1 + Analyse.Organisatie.PatronaleBijdrage)
+                *12;
             return (decimal)Lijnen[index]["jaarbedrag"];
         }
         #endregion

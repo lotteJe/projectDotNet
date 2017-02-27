@@ -8,10 +8,13 @@ namespace KostenBatenToolTests.Models
 {
     public class LoonKostTest
     {
+        #region Fields
         private Analyse _analyse;
         private Organisatie _organisatie;
         private Kost _kost;
+        #endregion
 
+        #region Constructors
         public LoonKostTest()
         {
             _organisatie = new Organisatie("a", "b", "c", 1000, "d");
@@ -20,8 +23,9 @@ namespace KostenBatenToolTests.Models
             _analyse = new Analyse(_organisatie);
             _kost = new LoonKost(_analyse);
         }
+        #endregion
 
-       
+        #region Tests
         [Fact]
         public void LoonKost_MaaktJuisteVeldenAan()
         {
@@ -40,7 +44,7 @@ namespace KostenBatenToolTests.Models
         }
 
         [Fact]
-        public void LoonKost_MaaktLijnAan()
+        public void LoonKost_MaaktJuisteLijnAan()
         {
             Assert.True(_kost.Lijnen[0].ContainsKey("functie"));
             Assert.True(_kost.Lijnen[0].ContainsKey("uren per week"));
@@ -61,6 +65,14 @@ namespace KostenBatenToolTests.Models
         {
             _kost.VulVeldIn(0, "functie", "test");
             Assert.Equal(_kost.Lijnen[0]["functie"], "test");
+        }
+
+        [Fact]
+        public void VulVeldInFunctie_WaardeWijzigen()
+        {
+            _kost.VulVeldIn(0, "functie", "test");
+            _kost.VulVeldIn(0, "functie", "test2");
+            Assert.Equal(_kost.Lijnen[0]["functie"], "test2");
         }
 
         [Fact]
@@ -115,10 +127,18 @@ namespace KostenBatenToolTests.Models
         }
 
         [Fact]
-        public void VulVeldInUrenPerWeek_GooitExceptieDecimal()
+        public void VulVeldInUrenPerWeek_GooitExceptieDouble()
         {
             Assert.Throws<ArgumentException>(() => _kost.VulVeldIn(0, "uren per week", 3.0));
         }
+
+        [Fact]
+        public void VulVeldIn_GooitExceptieNegatieveWaarde()
+        {
+            Assert.Throws<ArgumentException>(() => _kost.VulVeldIn(0, "uren per week", -1.0M));
+
+        }
+
 
         //[Fact]
         //public void VulVeldInUrenPerWeek_MoetFalen()
@@ -311,7 +331,6 @@ namespace KostenBatenToolTests.Models
 
         }
 
-
         [Fact]
         public void BerekenMaandloonPatronaalPerLijn_TweedeLijn()
         {
@@ -392,6 +411,8 @@ namespace KostenBatenToolTests.Models
             Assert.Equal(_kost.BerekenResultaat(), 35640M);
         }
 
-
+        #endregion
     }
+
+
 }
