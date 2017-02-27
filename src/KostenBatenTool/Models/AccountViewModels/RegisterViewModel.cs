@@ -27,7 +27,7 @@ namespace KostenBatenTool.Models.AccountViewModels
 
         [Required(ErrorMessage = "Huisnummer is verplicht")]
         [Display(Name = "Huisnummer")]
-        [RegularExpression(@"[1-9][0-9]*[a-zA-Z]", ErrorMessage = "Moet een getal zijn, mag maximum 1 letter bevatten!")]
+        [RegularExpression(@"\d{1,4}[[:alpha:]]{0,1}", ErrorMessage = "Moet een getal zijn, mag maximum 1 letter bevatten!")]
         public string Huisnummer { get; set; }
 
         [Required(ErrorMessage = "Postcode is verplicht")]

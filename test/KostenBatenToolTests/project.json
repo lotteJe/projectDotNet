@@ -2,6 +2,8 @@
   "version": "1.0.0-*",
   "testRunner": "xunit",
   "dependencies": {
+    "System.Net.Mail": "1.0.0-rtm-00002",
+    "System.Runtime.Serialization.Primitives": "4.3.0",
     "xunit": "2.2.0-beta2-build3300",
     "Moq": "4.6.38-alpha",
     "dotnet-test-xunit": "2.2.0-preview2-build1029",
