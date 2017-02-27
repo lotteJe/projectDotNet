@@ -8,7 +8,15 @@ namespace KostenBatenTool.Models.Domain
     public class Afdeling
     {
         #region Properties
-        public string Naam { get; set; } 
+        public string Naam { get; set; }
+        #endregion
+
+        #region Constructors
+
+        public Afdeling(string naam)
+        {
+            Naam = naam;
+        }
         #endregion
     }
 }

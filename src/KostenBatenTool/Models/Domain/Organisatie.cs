@@ -7,7 +7,10 @@ namespace KostenBatenTool.Models.Domain
 {
     public class Organisatie
     {
+        #region Fields
         private decimal _patronaleBijdrage = 35M;
+
+        #endregion
 
         #region Properties
 
@@ -40,7 +43,10 @@ namespace KostenBatenTool.Models.Domain
 
         public string Logo { get; set; }
 
+        #endregion
 
+
+        #region Constructors
         public Organisatie(string naam, string straat, string huisnummer, int postcode, string gemeente)
         {
             Naam = naam;
@@ -49,6 +55,7 @@ namespace KostenBatenTool.Models.Domain
             Postcode = postcode;
             Gemeente = gemeente;
         }
+
         #endregion
 
 
