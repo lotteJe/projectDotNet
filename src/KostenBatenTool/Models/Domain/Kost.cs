@@ -7,18 +7,18 @@ using KostenBatenTool.Models.Domain;
 
 namespace KostenBatenTool.Models.Domain
 {
-   
+
     public abstract class Kost
     {
         #region Properties
 
-       
+
         public Dictionary<string, Type> Velden { get; set; } = new Dictionary<string, Type>();
-        public IList<Dictionary<string,Object>> Lijnen { get; set; } = new List<Dictionary<string, object>>();
-        
+        public IList<Dictionary<string, Object>> Lijnen { get; set; } = new List<Dictionary<string, object>>();
+
         #endregion
 
-        
+
         #region Methods
 
 
@@ -27,33 +27,40 @@ namespace KostenBatenTool.Models.Domain
 
         public abstract decimal BerekenKostPerLijn(int index);
 
-       
+        public void VoegLijnToe(int index) //Voegt nieuwe Dictionary toe op index waarvan alle strings ingevuld zijn en elk object null is
+        {
+            Lijnen.Insert(index, new Dictionary<string, object>());
+            foreach (KeyValuePair<string, Type> veld in Velden)
+            {
+
+                Lijnen[index].Add(veld.Key, null);
+            }
+        }
+
+
         public void VulVeldIn(int index, string key, Object waarde)
         {
+            if (index == Lijnen.Count) //Als Lijn nog niet bestaat, ze toevoegen
+            {
+                VoegLijnToe(index);
+
+            }
+            else if (index > Lijnen.Count || index < 0)//als index ongeldig is exception gooien
+            {
+                throw new ArgumentException("Index is ongeldig!");
+
+            }
+            if (!Lijnen[index].ContainsKey(key))//als key niet bestaat exception gooien
+            {
+                throw new ArgumentException("Sleutel bestaat niet!");
+            }
             if (waarde.GetType() == Velden[key]) // Checken of Object van juiste dataype is
             {
-                if (Lijnen.ElementAt(index) != null) //Checken of lijn al bestaat
-                {
-                    if (Lijnen[index][key] != null) // Checken of Veld al bestaat
-                    {
-                        Lijnen[index][key] = waarde;
-                    }
-                    else // veld bestaat nog niet
-                    {
-                        Lijnen[index].Add(key, waarde);
-                    }
-                }
-                else // lijn bestaat nog niet
-                {
-                    Dictionary<string, Object> lijn = new Dictionary<string, object>();
-                    lijn.Add(key, waarde);
-                    Lijnen.Insert(index, lijn);
-                }
-
+                Lijnen[index][key] = waarde;
             }
             else // Object is van verkeerde datatype
             {
-                throw new System.ArgumentException("Waarde moet {0} zijn", Velden[key].ToString());
+                throw new ArgumentException("Waarde moet {0} zijn!", Velden[key].ToString());
             }
 
         }
