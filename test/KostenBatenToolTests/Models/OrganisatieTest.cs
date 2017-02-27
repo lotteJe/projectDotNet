@@ -8,12 +8,18 @@ namespace KostenBatenToolTests.Models
 {
     public class OrganisatieTest
     {
+        #region Fields
         private Organisatie _organisatie;
+        #endregion
+
+        #region Constructors
         public OrganisatieTest()
         {
             _organisatie = new Organisatie("naam","straat", "1a", 1000, "gemeente");
         }
+        #endregion
 
+        #region Tests
         [Fact]
         public void Constructor_Test()
         {
@@ -40,6 +46,6 @@ namespace KostenBatenToolTests.Models
         {
             Assert.Throws<ArgumentException>(() => _organisatie.PatronaleBijdrage = 101M);
         }
-
+        #endregion
     }
 }
