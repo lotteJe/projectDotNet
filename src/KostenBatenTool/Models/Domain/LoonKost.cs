@@ -124,14 +124,7 @@ namespace KostenBatenTool.Models.Domain
             }
         }
 
-        public void ControleerIndex(int index)
-        {
-            if (index >= Lijnen.Count || index < 0)
-            {
-                throw new ArgumentException("ïndex is ongeldig!");
-            }
-        }
-
+       
         #endregion
 
 

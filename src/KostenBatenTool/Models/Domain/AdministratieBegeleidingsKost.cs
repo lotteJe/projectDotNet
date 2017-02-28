@@ -31,11 +31,19 @@ namespace KostenBatenTool.Models.Domain
 
         public override decimal BerekenKostPerLijn(int index)
         {
+            ControleerIndex(index);
+            ControleerVelden(index);
             Lijnen[index]["jaarbedrag"] = (((decimal) Lijnen[index]["uren"])/36) 
                 * (decimal) Lijnen[index]["bruto maandloon begeleider"] 
                 * (1 + Analyse.Organisatie.PatronaleBijdrage)
                 *12;
             return (decimal)Lijnen[index]["jaarbedrag"];
+        }
+
+        public void ControleerVelden(int index)
+        {
+            if (Lijnen[index]["bruto maandloon begeleider"] == null || Lijnen[index]["uren"] == null)
+                throw new ArgumentException($"Velden op rij {index} zijn niet ingevuld!");
         }
         #endregion
     }

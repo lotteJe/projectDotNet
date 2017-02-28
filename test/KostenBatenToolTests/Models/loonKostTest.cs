@@ -19,7 +19,7 @@ namespace KostenBatenToolTests.Models
         {
             _organisatie = new Organisatie("a", "b", "c", 1000, "d");
             _organisatie.UrenWerkWeek = 40.0M;
-            _organisatie.PatronaleBijdrage = 35M;
+            _organisatie.PatronaleBijdrage = 0.35M;
             _analyse = new Analyse(_organisatie);
             _kost = new LoonKost(_analyse);
         }
@@ -97,6 +97,7 @@ namespace KostenBatenToolTests.Models
         [Fact]
         public void VulVeldInFunctie_VoegtNieuweLijnToe()
         {
+            _kost.VulVeldIn(0, "functie", "test");
             _kost.VulVeldIn(1, "functie", "test2");
             Assert.Equal(_kost.Lijnen[1]["functie"], "test2");
         }
@@ -150,6 +151,7 @@ namespace KostenBatenToolTests.Models
         [Fact]
         public void VulVeldInUrenPerWeek_VoegtLijnToe()
         {
+            _kost.VulVeldIn(0, "uren per week", 1M);
             _kost.VulVeldIn(1, "uren per week", 1.2M);
             Assert.Equal(_kost.Lijnen[1]["uren per week"], 1.2M);
         }
@@ -162,11 +164,39 @@ namespace KostenBatenToolTests.Models
         }
 
         [Fact]
+        public void VulDoelgroepIn_VoegtNieuweLijnToeVorigeNietLeeg()
+        {
+            _kost.VulVeldIn(0, "uren per week", 1M);
+            _kost.VulVeldIn(1, "doelgroep", Doelgroep.Ander);
+            Assert.Equal(_kost.Lijnen[1]["doelgroep"], Doelgroep.Ander);
+        }
+
+        [Fact]
+        public void vulDoelgroepIn_GooitExceptieVorigeLijnNietIngevuld()
+        {
+            Assert.Throws<ArgumentException>(() => _kost.VulVeldIn(1, "doelgroep", Doelgroep.Ander));
+
+        }
+
+        [Fact]
         public void VulDoelgroepIn_GooitExceptieString()
         {
             Assert.Throws<ArgumentException>(() => _kost.VulVeldIn(0, "doelgroep", "test"));
         }
 
+        [Fact]
+        public void VulPercentageIn()
+        {
+           _kost.VulVeldIn(0, "% Vlaamse ondersteuningspremie", 0.75M);
+            Assert.Equal(_kost.Lijnen[0]["% Vlaamse ondersteuningspremie"], 0.75M);
+        }
+        
+        [Fact]
+        public void VulPercentageIn_GooitExceptieGroterDan1()
+        {
+            Assert.Throws<ArgumentException>(() => _kost.VulVeldIn(0, "% Vlaamse ondersteuningspremie", 1.2M));
+        }
+        
         [Fact]
         public void BerekenMaandloonPatronaalPerLijn()
         {
@@ -334,6 +364,7 @@ namespace KostenBatenToolTests.Models
         [Fact]
         public void BerekenMaandloonPatronaalPerLijn_TweedeLijn()
         {
+            _kost.VulVeldIn(0, "bruto maandloon fulltime", 1000M);
             _kost.VulVeldIn(1, "bruto maandloon fulltime", 1200M);
             _kost.VulVeldIn(1, "uren per week", 40.0M);
             ((LoonKost)_kost).BerekenMaandloonPatronaalPerLijn(1);
@@ -343,6 +374,7 @@ namespace KostenBatenToolTests.Models
         [Fact]
         public void BerekenDoelgroepVerminderingPerLijn_DoelgroepLaaggeschooldMaandloonMinderDan2500_TweedeLijn()
         {
+            _kost.VulVeldIn(0, "bruto maandloon fulltime", 1000M);
             _kost.VulVeldIn(1, "bruto maandloon fulltime", 1000M);
             _kost.VulVeldIn(1, "uren per week", 40.0M);
             _kost.VulVeldIn(1, "doelgroep", Doelgroep.Laaggeschoold);
@@ -353,6 +385,7 @@ namespace KostenBatenToolTests.Models
         [Fact]
         public void BerekenGemiddeldeVopPerMaandPerLijn_TweedeLijn()
         {
+            _kost.VulVeldIn(0, "bruto maandloon fulltime", 1000M);
             _kost.VulVeldIn(1, "bruto maandloon fulltime", 1200M);
             _kost.VulVeldIn(1, "uren per week", 40.0M);
             _kost.VulVeldIn(1, "doelgroep", Doelgroep.Laaggeschoold);

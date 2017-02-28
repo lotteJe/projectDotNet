@@ -8,7 +8,7 @@ namespace KostenBatenTool.Models.Domain
     public class Organisatie
     {
         #region Fields
-        private decimal _patronaleBijdrage = 35M;
+        private decimal _patronaleBijdrage = 0.35M;
 
         #endregion
 
@@ -29,13 +29,13 @@ namespace KostenBatenTool.Models.Domain
 
             set
             {
-                if (value < 0 || value > 100)
+                if (value < 0 || value > 1)
                 {
-                    throw new ArgumentException("Patronale bijdrage moet tussen 0 en 100 liggen.");
+                    throw new ArgumentException("Patronale bijdrage moet tussen 0 en 1 liggen.");
                 }
                 else
                 {
-                    _patronaleBijdrage = value / 100;
+                    _patronaleBijdrage = value;
                 }
 
             }
