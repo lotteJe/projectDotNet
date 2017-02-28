@@ -10,7 +10,7 @@ namespace KostenBatenToolTests.Models
     public class AdministratieBegeleidingsKostTest
     {
         #region Fields
-        private readonly Kost _kost;
+        private readonly Berekening _kost;
         private Analyse _analyse;
         private Organisatie _organisatie;
         #endregion
@@ -156,7 +156,7 @@ namespace KostenBatenToolTests.Models
             
             _kost.VulVeldIn(0, "uren", 38.5M);
             _kost.VulVeldIn(0, "bruto maandloon begeleider", 1200M);
-            Assert.Equal(_kost.BerekenKostPerLijn(0), 20790M);
+            Assert.Equal(_kost.BerekenBedragPerLijn(0), 20790M);
             Assert.Equal(_kost.Lijnen[0]["jaarbedrag"], 20790M);
         }
 
@@ -167,7 +167,7 @@ namespace KostenBatenToolTests.Models
             _kost.VulVeldIn(0, "bruto maandloon begeleider", 1200M);
             _kost.VulVeldIn(1, "uren", 40M);
             _kost.VulVeldIn(1, "bruto maandloon begeleider", 1000M);
-            Assert.Equal(_kost.BerekenKostPerLijn(1), 18000M);
+            Assert.Equal(_kost.BerekenBedragPerLijn(1), 18000M);
             Assert.Equal(_kost.Lijnen[1]["jaarbedrag"], 18000M);
         }
 
@@ -175,7 +175,7 @@ namespace KostenBatenToolTests.Models
         public void BerekenKostPerLijn_GooitExceptieUrenNietIngevuld()
         {
             _kost.VulVeldIn(0, "bruto maandloon begeleider", 1200M);
-            Assert.Throws<ArgumentException>(() => _kost.BerekenKostPerLijn(0));
+            Assert.Throws<ArgumentException>(() => _kost.BerekenBedragPerLijn(0));
             
         }
 
@@ -183,14 +183,14 @@ namespace KostenBatenToolTests.Models
         public void BerekenKostPerLijn_GooitExceptieMaandloonNietIngevuld()
         {
             _kost.VulVeldIn(0, "uren", 38.5M);
-            Assert.Throws<ArgumentException>(() => _kost.BerekenKostPerLijn(0));
+            Assert.Throws<ArgumentException>(() => _kost.BerekenBedragPerLijn(0));
 
         }
 
         [Fact]
         public void BerekenKostPerLijn_GooitExceptieNietsIngevuld()
         {
-            Assert.Throws<ArgumentException>(() => _kost.BerekenKostPerLijn(0));
+            Assert.Throws<ArgumentException>(() => _kost.BerekenBedragPerLijn(0));
         }
 
         [Fact]
@@ -199,7 +199,7 @@ namespace KostenBatenToolTests.Models
             _kost.VulVeldIn(0, "uren", 38.5M);
             _kost.VulVeldIn(0, "bruto maandloon begeleider", 1200M);
             _kost.VulVeldIn(1, "bruto maandloon begeleider", 1000M);
-            Assert.Throws<ArgumentException>(() => _kost.BerekenKostPerLijn(1));
+            Assert.Throws<ArgumentException>(() => _kost.BerekenBedragPerLijn(1));
 
         }
 
@@ -209,7 +209,7 @@ namespace KostenBatenToolTests.Models
             _kost.VulVeldIn(0, "uren", 38.5M);
             _kost.VulVeldIn(0, "bruto maandloon begeleider", 1200M);
             _kost.VulVeldIn(1, "uren", 40M);
-            Assert.Throws<ArgumentException>(() => _kost.BerekenKostPerLijn(1));
+            Assert.Throws<ArgumentException>(() => _kost.BerekenBedragPerLijn(1));
 
         }
 

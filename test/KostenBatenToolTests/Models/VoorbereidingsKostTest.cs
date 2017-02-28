@@ -10,7 +10,7 @@ namespace KostenBatenToolTests.Models
     public class VoorbereidingsKostTest
     {
         #region Fields
-        private readonly Kost _kost;
+        private readonly Berekening _kost;
         #endregion
 
         #region Constructors
@@ -144,7 +144,7 @@ namespace KostenBatenToolTests.Models
         public void BerekenKostPerLijn()
         {
             _kost.VulVeldIn(0, "bedrag", 1200M);
-            Assert.Equal(_kost.BerekenKostPerLijn(0), 1200M);
+            Assert.Equal(_kost.BerekenBedragPerLijn(0), 1200M);
         }
 
         [Fact]
@@ -152,7 +152,7 @@ namespace KostenBatenToolTests.Models
         {
             _kost.VulVeldIn(0, "bedrag", 1200M);
             _kost.VulVeldIn(1, "bedrag", 1000M);
-            Assert.Equal(_kost.BerekenKostPerLijn(1), 1000M);
+            Assert.Equal(_kost.BerekenBedragPerLijn(1), 1000M);
         }
 
         [Fact]

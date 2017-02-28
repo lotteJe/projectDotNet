@@ -8,7 +8,7 @@ using KostenBatenTool.Models.Domain;
 namespace KostenBatenTool.Models.Domain
 {
 
-    public abstract class Kost
+    public abstract class Berekening
     {
         #region Properties
 
@@ -25,7 +25,7 @@ namespace KostenBatenTool.Models.Domain
         public abstract decimal BerekenResultaat();
 
 
-        public abstract decimal BerekenKostPerLijn(int index);
+        public abstract decimal BerekenBedragPerLijn(int index);
 
        // public abstract void ControleerVelden(int index);
 

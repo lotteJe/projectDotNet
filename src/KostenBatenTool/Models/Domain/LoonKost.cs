@@ -6,7 +6,7 @@ using KostenBatenTool.Models.Domain;
 
 namespace KostenBatenTool.Models.Domain
 {
-    public class LoonKost : Kost
+    public class LoonKost : Berekening
     {
 
         #region Properties
@@ -40,7 +40,7 @@ namespace KostenBatenTool.Models.Domain
 
         public decimal BerekenTotaleLoonKost()
         {
-            return Enumerable.Range(0, Lijnen.Count).ToList().Select(x => BerekenKostPerLijn(x)).ToList().Sum();
+            return Enumerable.Range(0, Lijnen.Count).ToList().Select(x => BerekenBedragPerLijn(x)).ToList().Sum();
 
 
         }
@@ -50,7 +50,7 @@ namespace KostenBatenTool.Models.Domain
             return Enumerable.Range(0, Lijnen.Count).ToList().Select(x => BerekenMaandloonPatronaalPerLijn(x)).ToList().Sum()*12;
         }
 
-        public override decimal BerekenKostPerLijn(int index)
+        public override decimal BerekenBedragPerLijn(int index)
         {
             ControleerIndex(index);
             BerekenMaandloonPatronaalPerLijn(index);

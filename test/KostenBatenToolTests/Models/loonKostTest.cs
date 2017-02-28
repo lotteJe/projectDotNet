@@ -11,7 +11,7 @@ namespace KostenBatenToolTests.Models
         #region Fields
         private Analyse _analyse;
         private Organisatie _organisatie;
-        private Kost _kost;
+        private Berekening _kost;
         #endregion
 
         #region Constructors
@@ -356,7 +356,7 @@ namespace KostenBatenToolTests.Models
             _kost.VulVeldIn(0, "% Vlaamse ondersteuningspremie", 0.2M);
             _kost.VulVeldIn(0, "aantal maanden IBO", 2M);
             _kost.VulVeldIn(0, "totale productiviteitspremie IBO",100M);
-            Assert.Equal(_kost.BerekenKostPerLijn(0), 8801.6M);
+            Assert.Equal(_kost.BerekenBedragPerLijn(0), 8801.6M);
             Assert.Equal(_kost.Lijnen[0]["totale loonkost eerste jaar"], 8801.6M);
 
         }
@@ -411,7 +411,7 @@ namespace KostenBatenToolTests.Models
             _kost.VulVeldIn(1, "% Vlaamse ondersteuningspremie", 0.4M);
             _kost.VulVeldIn(1, "aantal maanden IBO", 3M);
             _kost.VulVeldIn(1, "totale productiviteitspremie IBO", 200M);
-            Assert.Equal(Math.Round(_kost.BerekenKostPerLijn(1),2), 7146.94M);
+            Assert.Equal(Math.Round(_kost.BerekenBedragPerLijn(1),2), 7146.94M);
             Assert.Equal( Math.Round((decimal)_kost.Lijnen[1]["totale loonkost eerste jaar"], 2), 7146.94M);
 
         }
