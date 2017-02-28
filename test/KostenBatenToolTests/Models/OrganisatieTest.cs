@@ -32,7 +32,7 @@ namespace KostenBatenToolTests.Models
         [Fact]
         public void SetPatronaleBijdrage()
         {
-            _organisatie.PatronaleBijdrage = 35M;
+            _organisatie.PatronaleBijdrage = 0.35M;
             Assert.Equal(_organisatie.PatronaleBijdrage, 0.35M);
         }
 
@@ -42,9 +42,9 @@ namespace KostenBatenToolTests.Models
             Assert.Throws<ArgumentException>(() => _organisatie.PatronaleBijdrage = -1M);
         }
         [Fact]
-        public void SetPatronaleBijdrage_GooitExceptieGroterDan100()
+        public void SetPatronaleBijdrage_GooitExceptieGroterDan1()
         {
-            Assert.Throws<ArgumentException>(() => _organisatie.PatronaleBijdrage = 101M);
+            Assert.Throws<ArgumentException>(() => _organisatie.PatronaleBijdrage = 1.01M);
         }
         #endregion
     }

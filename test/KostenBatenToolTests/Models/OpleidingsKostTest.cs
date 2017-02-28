@@ -7,31 +7,31 @@ using KostenBatenTool.Models.Domain;
 
 namespace KostenBatenToolTests.Models
 {
-    public class AanpassingsKostTest
+    public class OpleidingsKostTest
     {
         #region Fields
         private readonly Kost _kost;
         #endregion
 
         #region Constructors
-        public AanpassingsKostTest()
+        public OpleidingsKostTest()
         {
-            _kost = new AanpassingsKost();
+            _kost = new OpleidingsKost();
         }
         #endregion
 
         #region Tests
 
         [Fact]
-        public void AanpassingsKost_MaaktJuisteVeldenAan()
+        public void OpleidingsKost_MaaktJuisteVeldenAan()
         {
             Assert.Equal(_kost.Velden["type"], typeof(string));
             Assert.Equal(_kost.Velden["bedrag"], typeof(decimal));
-            
+
         }
 
         [Fact]
-        public void AanpassingsKost_MaaktJuisteLijnAan()
+        public void OpleidingsKost_MaaktJuisteLijnAan()
         {
             Assert.True(_kost.Lijnen[0].ContainsKey("type"));
             Assert.True(_kost.Lijnen[0].ContainsKey("bedrag"));
@@ -74,7 +74,6 @@ namespace KostenBatenToolTests.Models
             Assert.Throws<ArgumentException>(() => _kost.VulVeldIn(2, "bedrag", 1000M));
 
         }
-
         [Fact]
         public void vulBedragIn_GooitExceptieVorigeLijnNietIngevuld()
         {
@@ -89,7 +88,7 @@ namespace KostenBatenToolTests.Models
             _kost.VulVeldIn(1, "bedrag", 1200M);
             Assert.Equal(_kost.Lijnen[1]["bedrag"], 1200M);
         }
-        
+
         [Fact]
         public void VulTypeIn()
         {
@@ -118,7 +117,6 @@ namespace KostenBatenToolTests.Models
         {
             Assert.Throws<ArgumentException>(() => _kost.VulVeldIn(0, "types", "test"));
         }
-
         [Fact]
         public void VulTypeIn_GooitExceptieKeyBestaatNietTweedeLijn()
         {
@@ -162,18 +160,6 @@ namespace KostenBatenToolTests.Models
             _kost.VulVeldIn(0, "bedrag", 1200M);
             _kost.VulVeldIn(1, "bedrag", 1000M);
             Assert.Equal(_kost.BerekenResultaat(), 2200M);
-        }
-
-        [Fact]
-        public void BerekenKostPerLijn_GooitExceptieBedragNietIngevuld()
-        {
-            Assert.Throws<ArgumentException>(() => _kost.BerekenKostPerLijn(0));
-        }
-
-        [Fact]
-        public void BerekenResultaat_GooitExceptieBedragNietIngevuld()
-        {
-            Assert.Throws<ArgumentException>(() => _kost.BerekenResultaat());
         }
         #endregion
     }

@@ -27,29 +27,40 @@ namespace KostenBatenTool.Models.Domain
 
         public abstract decimal BerekenKostPerLijn(int index);
 
+       // public abstract void ControleerVelden(int index);
+
         public void VoegLijnToe(int index) //Voegt nieuwe Dictionary toe op index waarvan alle strings ingevuld zijn en elk object null is
         {
-            Lijnen.Insert(index, new Dictionary<string, object>());
-            foreach (KeyValuePair<string, Type> veld in Velden)
+            if (index == 0 || !ControleerVorigeLijnLeeg(index))
             {
+                Lijnen.Insert(index, new Dictionary<string, object>());
+                foreach (KeyValuePair<string, Type> veld in Velden)
+                {
 
-                Lijnen[index].Add(veld.Key, null);
+                    Lijnen[index].Add(veld.Key, null);
+                }
             }
+            else
+            {
+                throw new ArgumentException("Vorige lijn is niet ingevuld");
+            }
+           
         }
 
 
         public void VulVeldIn(int index, string key, Object waarde)
         {
+           
             if (index == Lijnen.Count) //Als Lijn nog niet bestaat, ze toevoegen
             {
                 VoegLijnToe(index);
 
             }
-            else if (index > Lijnen.Count || index < 0)//als index ongeldig is exception gooien
+            if (index < 0 || index > Lijnen.Count)
             {
                 throw new ArgumentException("Index is ongeldig!");
-
             }
+                
             if (!Lijnen[index].ContainsKey(key))//als key niet bestaat exception gooien
             {
                 throw new ArgumentException("Sleutel bestaat niet!");
@@ -61,17 +72,38 @@ namespace KostenBatenTool.Models.Domain
                 {
                     throw new ArgumentException("Waarde mag niet negatief zijn");
                 }
-                else
+                if (key.Contains("%") && (decimal) waarde > 1)
                 {
-                    Lijnen[index][key] = waarde;
+                    throw new ArgumentException("Waarde mag tussen 0 en 1 liggen.");
                 }
+                Lijnen[index][key] = waarde;
+                
                 
             }
             else // Object is van verkeerde datatype
             {
-                throw new ArgumentException("Waarde moet {0} zijn!", Velden[key].ToString());
+                throw new ArgumentException($"Waarde moet {Velden[key].ToString()} zijn!");
             }
 
+        }
+
+        public void ControleerIndex(int index)
+        {
+            if(index < 0 || index >= Lijnen.Count)
+                throw new ArgumentException("Index is ongeldig!");
+        }
+
+        private bool ControleerVorigeLijnLeeg(int index)
+        {
+            
+            foreach (KeyValuePair<string, Object> pair in Lijnen[index-1])
+            {
+                if (pair.Value != null)
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
         #endregion

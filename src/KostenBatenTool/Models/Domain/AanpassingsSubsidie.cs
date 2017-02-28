@@ -5,13 +5,13 @@ using System.Threading.Tasks;
 
 namespace KostenBatenTool.Models.Domain
 {
-    public class VoorbereidingsKost : Kost
+    public class AanpassingsSubsidie : Kost
     {
         #region Constructors
-        public VoorbereidingsKost()
+
+        public AanpassingsSubsidie()
         {
-            Velden.Add("type", typeof(String));
-            Velden.Add("bedrag", typeof(decimal));
+            Velden.Add("jaarbedrag", typeof(decimal));
             VoegLijnToe(0);
         }
         #endregion
@@ -19,13 +19,13 @@ namespace KostenBatenTool.Models.Domain
         #region Methods
         public override decimal BerekenResultaat()
         {
-            return Enumerable.Range(0, Lijnen.Count).ToList().Select(x => BerekenKostPerLijn(x)).ToList().Sum();
+           return BerekenKostPerLijn(0);
         }
 
         public override decimal BerekenKostPerLijn(int index)
         {
             ControleerIndex(index);
-            return (decimal)Lijnen[index]["bedrag"];
+            return (decimal)Lijnen[index]["jaarbedrag"]; 
         }
         #endregion
     }

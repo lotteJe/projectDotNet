@@ -24,6 +24,7 @@ namespace KostenBatenTool.Models.Domain
 
         public override decimal BerekenKostPerLijn(int index)
         {
+            ControleerIndex(index);
             return (decimal)Lijnen[index]["bedrag"];
         }
         #endregion

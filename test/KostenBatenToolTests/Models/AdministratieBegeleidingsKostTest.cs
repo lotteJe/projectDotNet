@@ -20,7 +20,7 @@ namespace KostenBatenToolTests.Models
         {
             _organisatie = new Organisatie("a", "b", "c", 1000, "d");
             _organisatie.UrenWerkWeek = 40.0M;
-            _organisatie.PatronaleBijdrage = 35M;
+            _organisatie.PatronaleBijdrage = 0.35M;
             _analyse = new Analyse(_organisatie);
             _kost = new AdministratieBegeleidingsKost(_analyse);
         }
@@ -84,8 +84,16 @@ namespace KostenBatenToolTests.Models
         }
 
         [Fact]
+        public void vulUrenIn_GooitExceptieVorigeLijnNietIngevuld()
+        {
+            Assert.Throws<ArgumentException>(() => _kost.VulVeldIn(1, "uren", 40M));
+
+        }
+
+        [Fact]
         public void VulUrenIn_VoegtNieuweLijnToe()
         {
+            _kost.VulVeldIn(0, "uren", 40M);
             _kost.VulVeldIn(1, "uren", 38.5M);
             Assert.Equal(_kost.Lijnen[1]["uren"], 38.5M);
         }
@@ -100,6 +108,7 @@ namespace KostenBatenToolTests.Models
         [Fact]
         public void VulMaandloonIn_VoegtNieuweLijnToe()
         {
+            _kost.VulVeldIn(0, "bruto maandloon begeleider", 1000M);
             _kost.VulVeldIn(1, "bruto maandloon begeleider", 1200M);
             Assert.Equal(_kost.Lijnen[1]["bruto maandloon begeleider"], 1200M);
         }
@@ -110,10 +119,19 @@ namespace KostenBatenToolTests.Models
             Assert.Throws<ArgumentException>(() => _kost.VulVeldIn(0, "functie", 1200M));
         }
 
+        
         [Fact]
         public void VulMaandloonIn_GooitExceptieKeyBestaatNietTweedeLijn()
         {
+            _kost.VulVeldIn(0, "bruto maandloon begeleider", 1000M);
             Assert.Throws<ArgumentException>(() => _kost.VulVeldIn(1, "functie", 1200M));
+        }
+
+        [Fact]
+        public void vulTypeIn_GooitExceptieVorigeLijnNietIngevuld()
+        {
+            Assert.Throws<ArgumentException>(() => _kost.VulVeldIn(1, "type", "test"));
+
         }
 
         [Fact]
@@ -122,6 +140,14 @@ namespace KostenBatenToolTests.Models
             _kost.VulVeldIn(0,"bruto maandloon begeleider", 1200M);
             _kost.VulVeldIn(0, "bruto maandloon begeleider", 1000M);
             Assert.Equal(_kost.Lijnen[0]["bruto maandloon begeleider"], 1000M);
+        }
+
+        [Fact]
+        public void VulMaadloonIn_VoegtNieuweLijnToeVorigeNietLeeg()
+        {
+            _kost.VulVeldIn(0, "bruto maandloon begeleider", 1000M);
+            _kost.VulVeldIn(1, "uren", 40M);
+            Assert.Equal(_kost.Lijnen[1]["uren"], 40M);
         }
 
         [Fact]
@@ -143,6 +169,48 @@ namespace KostenBatenToolTests.Models
             _kost.VulVeldIn(1, "bruto maandloon begeleider", 1000M);
             Assert.Equal(_kost.BerekenKostPerLijn(1), 18000M);
             Assert.Equal(_kost.Lijnen[1]["jaarbedrag"], 18000M);
+        }
+
+        [Fact]
+        public void BerekenKostPerLijn_GooitExceptieUrenNietIngevuld()
+        {
+            _kost.VulVeldIn(0, "bruto maandloon begeleider", 1200M);
+            Assert.Throws<ArgumentException>(() => _kost.BerekenKostPerLijn(0));
+            
+        }
+
+        [Fact]
+        public void BerekenKostPerLijn_GooitExceptieMaandloonNietIngevuld()
+        {
+            _kost.VulVeldIn(0, "uren", 38.5M);
+            Assert.Throws<ArgumentException>(() => _kost.BerekenKostPerLijn(0));
+
+        }
+
+        [Fact]
+        public void BerekenKostPerLijn_GooitExceptieNietsIngevuld()
+        {
+            Assert.Throws<ArgumentException>(() => _kost.BerekenKostPerLijn(0));
+        }
+
+        [Fact]
+        public void BerekenKostPerLijn_GooitExceptieUrenNietIngevuldTweedeLijn()
+        {
+            _kost.VulVeldIn(0, "uren", 38.5M);
+            _kost.VulVeldIn(0, "bruto maandloon begeleider", 1200M);
+            _kost.VulVeldIn(1, "bruto maandloon begeleider", 1000M);
+            Assert.Throws<ArgumentException>(() => _kost.BerekenKostPerLijn(1));
+
+        }
+
+        [Fact]
+        public void BerekenKostPerLijn_GooitExceptieMaandloonNietIngevuldTweedeLijn()
+        {
+            _kost.VulVeldIn(0, "uren", 38.5M);
+            _kost.VulVeldIn(0, "bruto maandloon begeleider", 1200M);
+            _kost.VulVeldIn(1, "uren", 40M);
+            Assert.Throws<ArgumentException>(() => _kost.BerekenKostPerLijn(1));
+
         }
 
         [Fact]
