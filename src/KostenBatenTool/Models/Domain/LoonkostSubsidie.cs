@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace KostenBatenTool.Models.Domain
 {
-    public class LoonkostSubsidie : Kost
+    public class LoonkostSubsidie : Berekening
     {
         #region Properties
 
@@ -26,10 +26,10 @@ namespace KostenBatenTool.Models.Domain
         #region Methods
         public override decimal BerekenResultaat()
         {
-            return BerekenKostPerLijn(0);
+            return BerekenBedragPerLijn(0);
         }
 
-        public override decimal BerekenKostPerLijn(int index)
+        public override decimal BerekenBedragPerLijn(int index)
         {
             if (index != 0)
             {

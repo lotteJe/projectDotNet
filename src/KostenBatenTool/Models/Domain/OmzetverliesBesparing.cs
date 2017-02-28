@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace KostenBatenTool.Models.Domain
 {
-    public class OmzetverliesBesparing : Kost
+    public class OmzetverliesBesparing : Berekening
     {
         #region Constructors
 
@@ -21,10 +21,10 @@ namespace KostenBatenTool.Models.Domain
         #region Methods
         public override decimal BerekenResultaat()
         {
-            return BerekenKostPerLijn(0);
+            return BerekenBedragPerLijn(0);
         }
 
-        public override decimal BerekenKostPerLijn(int index)
+        public override decimal BerekenBedragPerLijn(int index)
         {
             ControleerIndex(index);
             Lijnen[index]["totaalbesparing"] = (decimal) Lijnen[index]["jaarbedrag omzetverlies"] * (decimal) Lijnen[index]["% besparing"];

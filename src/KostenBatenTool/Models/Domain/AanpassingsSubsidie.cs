@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace KostenBatenTool.Models.Domain
 {
-    public class AanpassingsSubsidie : Kost
+    public class AanpassingsSubsidie : Berekening
     {
         #region Constructors
 
@@ -19,10 +19,10 @@ namespace KostenBatenTool.Models.Domain
         #region Methods
         public override decimal BerekenResultaat()
         {
-           return BerekenKostPerLijn(0);
+           return BerekenBedragPerLijn(0);
         }
 
-        public override decimal BerekenKostPerLijn(int index)
+        public override decimal BerekenBedragPerLijn(int index)
         {
             ControleerIndex(index);
             return (decimal)Lijnen[index]["jaarbedrag"]; 

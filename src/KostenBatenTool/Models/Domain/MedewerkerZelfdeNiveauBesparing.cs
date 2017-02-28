@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace KostenBatenTool.Models.Domain
 {
-    public class MedewerkerZelfdeNiveauBesparing : Kost
+    public class MedewerkerZelfdeNiveauBesparing : Berekening
     {
         #region Properties
         public Analyse Analyse { get; set; }
@@ -27,11 +27,11 @@ namespace KostenBatenTool.Models.Domain
         #region Methods
         public override decimal BerekenResultaat()
         {
-            return Enumerable.Range(0, Lijnen.Count).ToList().Select(x => BerekenKostPerLijn(x)).ToList().Sum();
+            return Enumerable.Range(0, Lijnen.Count).ToList().Select(x => BerekenBedragPerLijn(x)).ToList().Sum();
 
         }
 
-        public override decimal BerekenKostPerLijn(int index)
+        public override decimal BerekenBedragPerLijn(int index)
         {
             ControleerIndex(index);
             if ((decimal) Lijnen[index]["uren"] == 0 || Lijnen[index]["uren"] == null)
