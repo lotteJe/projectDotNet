@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using System.Security.Claims;
+using KostenBatenTool.Models.Domain;
 using Microsoft.AspNetCore.Identity;
 
 namespace KostenBatenTool.Models
@@ -11,11 +12,21 @@ namespace KostenBatenTool.Models
     // Add profile data for application users by adding properties to the ApplicationUser class
     public class ApplicationUser : IdentityUser
     {
-        //public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
-        //{
-        //    var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
+        //public string Naam { get; set; }
 
-        //    //http://stackoverflow.com/questions/28335353/how-to-extend-available-properties-of-user-identity
-        //}
+        //public string Voornaam { get; set; }
+
+        public string Email { get; set; }
+
+        //public string NaamOrganisatie { get; set; }
+
+        //public string Straat { get; set; }
+
+        //public string Huisnummer { get; set; }
+
+        //public int Postcode { get; set; }
+
+        //public string Gemeente { get; set; }
+       // public Organisatie Organisatie { get; set; }
     }
 }

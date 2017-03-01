@@ -8,7 +8,7 @@ using KostenBatenTool.Models;
 
 namespace KostenBatenTool.Controllers
 {
-   /* [Authorize]*/
+    [Authorize]
     public class HomeController : Controller
     {
         public IActionResult Index()

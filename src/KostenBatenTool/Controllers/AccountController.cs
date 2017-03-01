@@ -35,7 +35,7 @@ namespace KostenBatenTool.Controllers
             _smsSender = smsSender;
             _logger = loggerFactory.CreateLogger<AccountController>();
         }
-        [AllowAnonymous]/*moet nadien weg*/
+      
         public IActionResult Index()
         {
             return View();

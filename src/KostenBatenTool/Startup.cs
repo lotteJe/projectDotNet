@@ -46,13 +46,14 @@ namespace KostenBatenTool
             services.AddApplicationInsightsTelemetry(Configuration);
 
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-
+                options.UseMySql(Configuration["Data:DefaultConnection:ConnectionString"]));
+            services.AddSession();
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
-
+            
             services.AddMvc();
+            services.AddScoped<KostenBatenInitializer>();
 
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
@@ -60,7 +61,7 @@ namespace KostenBatenTool
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, KostenBatenInitializer kostenBatenInitializer)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
@@ -81,6 +82,7 @@ namespace KostenBatenTool
             app.UseApplicationInsightsExceptionTelemetry();
 
             app.UseStaticFiles();
+            app.UseSession();
 
             app.UseIdentity();
 
@@ -92,6 +94,7 @@ namespace KostenBatenTool
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+            kostenBatenInitializer.InitializeData().Wait();
         }
     }
 }
