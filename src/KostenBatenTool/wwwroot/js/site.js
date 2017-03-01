@@ -55,3 +55,40 @@ $(function () {
         }
     });
 });
+
+$(function () {
+    $("aside[data-navigation='true']").find("li").children("a").each(function () {
+        if ($(this).attr("href") === window.location.pathname) {
+            $(this).parent().addClass("active");
+        }
+    });
+});
+
+/* Laad partial view bij nieuwe analyse */
+$('#show-partial').click(function () {
+    $('#partial').show();
+});
+$('#show-baten').click(function () {
+    $('#batenpartial').show();
+    $('#overzichtpartial').hide();
+    $('#kostenpartial').hide();
+    $('#show-overzicht').removeClass("active");
+    $('#show-baten').addClass("active");
+    $('#show-kosten').removeClass("active");
+});
+$('#show-overzicht').click(function () {
+    $('#batenpartial').hide();
+    $('#overzichtpartial').show();
+    $('#kostenpartial').hide();
+    $('#show-overzicht').addClass("active");
+    $('#show-baten').removeClass("active");
+    $('#show-kosten').removeClass("active");
+});
+$('#show-kosten').click(function () {
+    $('#batenpartial').hide();
+    $('#overzichtpartial').hide();
+    $('#kostenpartial').show();
+    $('#show-overzicht').removeClass("active");
+    $('#show-baten').removeClass("active");
+    $('#show-kosten').addClass("active");
+});

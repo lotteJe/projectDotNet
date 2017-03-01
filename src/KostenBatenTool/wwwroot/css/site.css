@@ -50,7 +50,6 @@ a.dropdown-toggle {
 /* sidebar */
 .wrap {
     position: relative;
-
 }
 
 div#top-menu {
@@ -157,7 +156,7 @@ div#top-menu {
         }
 }
 
-.fa-home, .fa-bar-chart, .fa-archive {
+.fa-home, .fa-balance-scale, .fa-archive {
     display: inline-block;
     width: 100%;
 }
@@ -362,4 +361,127 @@ hr {
 
 #omschrijving {
     height: 200px;
+}
+
+/* partial werkgevers */
+#partial, #kostenpartial, #batenpartial {
+    display: none;
+}
+
+.werkgevers {
+    background-color: #fff;
+    background-clip: padding-box;
+    padding-top: 15px;
+    margin-top: 15px;
+}
+
+    .werkgevers td {
+        width: 20%;
+    }
+
+.werkgeverTabs a {
+    border: 5px solid transparent;
+    background-clip: padding-box;
+    background-color: #78A208;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.werkgeverTabs {
+    margin-top: 15px;
+}
+
+    .werkgeverTabs a:hover, .werkgeverTabs a:focus, .werkgeverTabs a:active {
+        background-color: white;
+        border: 5px solid transparent;
+        color: #3b4041;
+    }
+
+/* Overzicht baten kosten */
+.overzichtTabs {
+    text-align: center;
+    margin-top: 20px;
+}
+
+    .overzichtTabs a {
+        background-color: #78A208;
+        color: #fff;
+        cursor: pointer;
+        padding: 8px;
+    }
+
+        .overzichtTabs a:hover, .overzichtTabs a.active, .overzichtTabs a:focus {
+            background-color: white;
+            color: #3b4041;
+            padding: 8px;
+            text-decoration: none;
+        }
+
+        .overzichtTabs a:first-of-type {
+            border-bottom-left-radius: 10px;
+            border-top-left-radius: 10px;
+        }
+
+        .overzichtTabs a:last-of-type {
+            border-top-right-radius: 10px;
+            border-bottom-right-radius: 10px;
+        }
+
+.overzicht, .overzichtB, .overzichtK {
+    background-color: #ffffff;
+    margin-top: 10px;
+    width: 100%;
+    table-layout: fixed;
+}
+
+
+    .overzicht td:first-of-type, .overzicht td:last-of-type, .overzichtB td:first-of-type, .overzichtK td:first-of-type {
+        width: 70px;
+        text-align: center;
+        font-size: 80%;
+    }
+
+    .overzicht th:first-of-type, .overzicht th:last-of-type, .overzichtB th:first-of-type, .overzichtK th:first-of-type {
+        width: 70px;
+    }
+
+    .overzicht th, .overzichtB th, .overzichtK th {
+        font-size: 90%;
+    }
+
+
+    .overzicht td:nth-of-type(2), .overzicht td:nth-of-type(5), .overzichtK td:nth-of-type(2), .overzichtB td:nth-of-type(2) {
+        font-size: 80%;
+    }
+
+    .overzicht td:nth-of-type(3), .overzichtB td:nth-of-type(3) {
+        color: green;
+        font-size: 80%;
+    }
+
+    .overzicht td:nth-of-type(4), .overzichtK td:nth-of-type(3) {
+        color: red;
+        font-size: 80%;
+    }
+
+    .overzicht td:nth-of-type(3), .overzicht td:nth-of-type(4), .overzicht th:nth-of-type(3), .overzicht th:nth-of-type(4) {
+        width: 150px;
+        text-align: center;
+    }
+
+    .overzicht td:nth-of-type(5), .overzicht th:last-of-type {
+        text-align: right;
+    }
+
+.overzichtBtn {
+    margin-top: 25px;
+    text-align: right;
+}
+
+h2 {
+    font-size: 25px;
 }
