@@ -27,7 +27,7 @@ namespace KostenBatenTool.Models.Domain
 
         public abstract decimal BerekenBedragPerLijn(int index);
 
-       // public abstract void ControleerVelden(int index);
+       // public abstract boolean ControleerOfResultaatKanBerekendWorden(int index);
 
         public void VoegLijnToe(int index) //Voegt nieuwe Dictionary toe op index waarvan alle strings ingevuld zijn en elk object null is
         {
@@ -48,7 +48,7 @@ namespace KostenBatenTool.Models.Domain
         }
 
 
-        public void VulVeldIn(int index, string key, Object waarde)
+        public decimal VulVeldIn(int index, string key, Object waarde)//geeft telkens totaalresultaat terug
         {
            
             if (index == Lijnen.Count) //Als Lijn nog niet bestaat, ze toevoegen
@@ -67,7 +67,7 @@ namespace KostenBatenTool.Models.Domain
             }
             if (waarde.GetType() == Velden[key]) // Checken of Object van juiste dataype is
             {
-                if ((Velden[key] == typeof(decimal) && (decimal) waarde < 0) ||
+                if ((Velden[key] == typeof(decimal) && (decimal) waarde < 0) || //checken of waarde geen negatief getal is
                     (Velden[key] == typeof(double) && (double) waarde < 0))
                 {
                     throw new ArgumentException("Waarde mag niet negatief zijn");
@@ -77,8 +77,12 @@ namespace KostenBatenTool.Models.Domain
                     throw new ArgumentException("Waarde mag tussen 0 en 1 liggen.");
                 }
                 Lijnen[index][key] = waarde;
-                
-                
+                //if(ControleerOfResultaatKanBerekendWorden(){
+                    //BerekenResultaatPerLijn(index);
+
+            //}
+                return BerekenResultaat(); // bij voeg lijn toe op 0 zetten!!!!!!!!!!
+
             }
             else // Object is van verkeerde datatype
             {

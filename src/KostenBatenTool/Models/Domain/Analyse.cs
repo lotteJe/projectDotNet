@@ -10,8 +10,8 @@ namespace KostenBatenTool.Models.Domain
     {
         #region Properties
 
-        public ICollection<Berekening> Kosten { get; set; }
-        public ICollection<Berekening> Baten { get; set; }
+        public IList<Berekening> Kosten { get; set; }
+        public IList<Berekening> Baten { get; set; }
         public Organisatie Organisatie { get; set; }
         public DateTime AanmaakDatum { get; private set; }
 
