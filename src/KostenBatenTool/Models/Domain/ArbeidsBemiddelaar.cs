@@ -52,6 +52,8 @@ namespace KostenBatenTool.Models.Domain
             return Analyses;
         }
 
+       
+
         #endregion
 
     }
