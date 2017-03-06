@@ -22,14 +22,14 @@ namespace KostenBatenToolTests.Models
             _organisatie.UrenWerkWeek = 40.0M;
             _organisatie.PatronaleBijdrage = 0.35M;
             _analyse = new Analyse(_organisatie);
-            _kost = new MedewerkerHogerNiveauBesparing(_analyse);
+            _kost = new AdministratieBegeleidingsKost(_analyse);
         }
         #endregion
 
         #region Tests
 
         [Fact]
-        public void AanpassingsKost_MaaktJuisteVeldenAan()
+        public void AdministratieBegeleidingsKost_MaaktJuisteVeldenAan()
         {
             Assert.Equal(_kost.Velden["uren"], typeof(decimal));
             Assert.Equal(_kost.Velden["bruto maandloon begeleider"], typeof(decimal));
@@ -38,7 +38,7 @@ namespace KostenBatenToolTests.Models
         }
 
         [Fact]
-        public void AanpassingsKost_MaaktJuisteLijnAan()
+        public void AdministratieBegeleidingsKost_MaaktJuisteLijnAan()
         {
             Assert.True(_kost.Lijnen[0].ContainsKey("uren"));
             Assert.True(_kost.Lijnen[0].ContainsKey("bruto maandloon begeleider"));

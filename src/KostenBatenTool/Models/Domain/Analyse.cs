@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using KostenBatenToolTests.Models;
 
 
 namespace KostenBatenTool.Models.Domain
@@ -31,13 +32,13 @@ namespace KostenBatenTool.Models.Domain
             Kosten.Add(new WerkkledijKost());
             Kosten.Add(new AanpassingsKost());
             Kosten.Add(new OpleidingsKost());
-            Kosten.Add(new MedewerkerHogerNiveauBesparing(this));
+            Kosten.Add(new AdministratieBegeleidingsKost(this));
             Kosten.Add(new AndereKost());
 
             Baten.Add(new LoonkostSubsidie((LoonKost) Kosten.First(k => k is LoonKost)));
             Baten.Add(new AanpassingsSubsidie());
             Baten.Add(new MedewerkerZelfdeNiveauBesparing(this));
-            Baten.Add(new MedewerkerHogereNiveauBesparing(this));
+            Baten.Add(new MedewerkerHogerNiveauBesparing(this));
             Baten.Add(new UitzendkrachtenBesparing());
             Baten.Add(new OmzetverliesBesparing());
             Baten.Add(new ProductiviteitsWinst());

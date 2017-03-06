@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace KostenBatenTool.Models.Domain
 {
-    public class MedewerkerHogerNiveauBesparing : Berekening
+    public class AdministratieBegeleidingsKost : Berekening
     {
 
         #region Properties
@@ -13,7 +13,7 @@ namespace KostenBatenTool.Models.Domain
         #endregion
 
         #region Constructors
-        public MedewerkerHogerNiveauBesparing(Analyse analyse)
+        public AdministratieBegeleidingsKost(Analyse analyse)
         {
             Analyse = analyse;
             Velden.Add("uren", typeof(decimal));
