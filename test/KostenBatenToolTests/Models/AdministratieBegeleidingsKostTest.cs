@@ -22,7 +22,7 @@ namespace KostenBatenToolTests.Models
             _organisatie.UrenWerkWeek = 40.0M;
             _organisatie.PatronaleBijdrage = 0.35M;
             _analyse = new Analyse(_organisatie);
-            _kost = new AdministratieBegeleidingsKost(_analyse);
+            _kost = new MedewerkerHogerNiveauBesparing(_analyse);
         }
         #endregion
 

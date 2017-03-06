@@ -77,6 +77,7 @@ namespace KostenBatenTool.Models.Domain
                 Lijnen[index][key] = waarde;
                 //BerekenBedragPerLijn(index);
 
+
             }
             else // Object is van verkeerde datatype
             {

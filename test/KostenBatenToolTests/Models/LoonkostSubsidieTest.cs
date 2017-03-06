@@ -49,7 +49,7 @@ namespace KostenBatenToolTests.Models
         }
 
         [Fact]
-        public void LoonKost_MaaktJuisteLijnAan()
+        public void LoonKostSubsidie_MaaktJuisteLijnAan()
         {
             Assert.True(_baat.Lijnen[0].ContainsKey("Totale loonkostsubsidie"));
         }

@@ -31,7 +31,7 @@ namespace KostenBatenTool.Models.Domain
             Kosten.Add(new WerkkledijKost());
             Kosten.Add(new AanpassingsKost());
             Kosten.Add(new OpleidingsKost());
-            Kosten.Add(new AdministratieBegeleidingsKost(this));
+            Kosten.Add(new MedewerkerHogerNiveauBesparing(this));
             Kosten.Add(new AndereKost());
 
             Baten.Add(new LoonkostSubsidie((LoonKost) Kosten.First(k => k is LoonKost)));
