@@ -48,7 +48,7 @@ namespace KostenBatenTool.Models.Domain
         }
 
 
-        public decimal VulVeldIn(int index, string key, Object waarde)//geeft telkens totaalresultaat terug
+        public void VulVeldIn(int index, string key, Object waarde)//geeft telkens totaalresultaat terug
         {
            
             if (index == Lijnen.Count) //Als Lijn nog niet bestaat, ze toevoegen
@@ -81,7 +81,7 @@ namespace KostenBatenTool.Models.Domain
                     //BerekenResultaatPerLijn(index);
 
             //}
-                return BerekenResultaat(); // bij voeg lijn toe op 0 zetten!!!!!!!!!!
+                //return BerekenResultaat(); // bij voeg lijn toe op 0 zetten!!!!!!!!!!
 
             }
             else // Object is van verkeerde datatype

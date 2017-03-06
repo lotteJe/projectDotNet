@@ -90,8 +90,8 @@ namespace KostenBatenToolTests.Models
         //[Fact]
         //public void VulVeldInFunctie_MoetFalen()
         //{
-        //   _kost.VulVeldIn(0, "functie", 0M);
-        //   Assert.Equal(_kost.Lijnen[0]["functie"], 0M);
+        //   _baat.VulVeldIn(0, "functie", 0M);
+        //   Assert.Equal(_baat.Lijnen[0]["functie"], 0M);
         //}
 
         [Fact]
@@ -144,8 +144,8 @@ namespace KostenBatenToolTests.Models
         //[Fact]
         //public void VulVeldInUrenPerWeek_MoetFalen()
         //{
-        //    _kost.VulVeldIn(0, "uren per week", "test");
-        //    Assert.Equal(_kost.Lijnen[0]["uren per week"], "test");
+        //    _baat.VulVeldIn(0, "uren per week", "test");
+        //    Assert.Equal(_baat.Lijnen[0]["uren per week"], "test");
         //}
 
         [Fact]

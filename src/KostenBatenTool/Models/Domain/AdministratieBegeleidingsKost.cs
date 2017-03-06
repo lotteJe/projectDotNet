@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace KostenBatenTool.Models.Domain
 {
-    public class AdministratieBegeleidingsKost : Berekening
+    public class MedewerkerHogerNiveauBesparing : Berekening
     {
 
         #region Properties
@@ -13,7 +13,7 @@ namespace KostenBatenTool.Models.Domain
         #endregion
 
         #region Constructors
-        public AdministratieBegeleidingsKost(Analyse analyse)
+        public MedewerkerHogerNiveauBesparing(Analyse analyse)
         {
             Analyse = analyse;
             Velden.Add("uren", typeof(decimal));
@@ -32,7 +32,6 @@ namespace KostenBatenTool.Models.Domain
         public override decimal BerekenBedragPerLijn(int index)
         {
             ControleerIndex(index);
-            ControleerVelden(index);
             Lijnen[index]["jaarbedrag"] = (((decimal) Lijnen[index]["uren"])/36) 
                 * (decimal) Lijnen[index]["bruto maandloon begeleider"] 
                 * (1 + Analyse.Organisatie.PatronaleBijdrage)
@@ -40,11 +39,11 @@ namespace KostenBatenTool.Models.Domain
             return (decimal)Lijnen[index]["jaarbedrag"];
         }
 
-        public void ControleerVelden(int index)
-        {
-            if (Lijnen[index]["bruto maandloon begeleider"] == null || Lijnen[index]["uren"] == null)
-                throw new ArgumentException($"Velden op rij {index} zijn niet ingevuld!");
-        }
+        //public void ControleerVelden(int index)
+        //{
+        //    if (Lijnen[index]["bruto maandloon begeleider"] == null || Lijnen[index]["uren"] == null)
+        //        throw new ArgumentException($"Velden op rij {index} zijn niet ingevuld!");
+        //}
         #endregion
     }
 }

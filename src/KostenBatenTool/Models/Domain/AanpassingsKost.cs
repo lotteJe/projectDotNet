@@ -25,17 +25,16 @@ namespace KostenBatenTool.Models.Domain
         public override decimal BerekenBedragPerLijn(int index)
         {
             ControleerIndex(index);
-            ControleerVelden(index);
             return (decimal)Lijnen[index]["bedrag"];
         }
 
-        public void ControleerVelden(int index )
-        {
-            if (Lijnen[index]["bedrag"] == null)
-            {
-                throw new ArgumentException($"Veld op rij {index} is niet ingevuld!");
-            }
-        }
+        //public void ControleerVelden(int index )
+        //{
+        //    if (Lijnen[index]["bedrag"] == null)
+        //    {
+        //        throw new ArgumentException($"Veld op rij {index} is niet ingevuld!");
+        //    }
+        //}
         #endregion
 
     }
