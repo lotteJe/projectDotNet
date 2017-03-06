@@ -164,17 +164,7 @@ namespace KostenBatenToolTests.Models
             Assert.Equal(_kost.BerekenResultaat(), 2200M);
         }
 
-        [Fact]
-        public void BerekenKostPerLijn_GooitExceptieBedragNietIngevuld()
-        {
-            Assert.Throws<ArgumentException>(() => _kost.BerekenBedragPerLijn(0));
-        }
-
-        [Fact]
-        public void BerekenResultaat_GooitExceptieBedragNietIngevuld()
-        {
-            Assert.Throws<ArgumentException>(() => _kost.BerekenResultaat());
-        }
+       
         #endregion
     }
 }

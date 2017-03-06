@@ -27,8 +27,6 @@ namespace KostenBatenTool.Models.Domain
 
         public abstract decimal BerekenBedragPerLijn(int index);
 
-       // public abstract boolean ControleerOfResultaatKanBerekendWorden(int index);
-
         public void VoegLijnToe(int index) //Voegt nieuwe Dictionary toe op index waarvan alle strings ingevuld zijn en elk object null is
         {
             if (index == 0 || !ControleerVorigeLijnLeeg(index))
@@ -44,13 +42,13 @@ namespace KostenBatenTool.Models.Domain
             {
                 throw new ArgumentException("Vorige lijn is niet ingevuld");
             }
-           
+
         }
 
 
-        public void VulVeldIn(int index, string key, Object waarde)//geeft telkens totaalresultaat terug
+        public void VulVeldIn(int index, string key, Object waarde)
         {
-           
+
             if (index == Lijnen.Count) //Als Lijn nog niet bestaat, ze toevoegen
             {
                 VoegLijnToe(index);
@@ -60,28 +58,25 @@ namespace KostenBatenTool.Models.Domain
             {
                 throw new ArgumentException("Index is ongeldig!");
             }
-                
+
             if (!Lijnen[index].ContainsKey(key))//als key niet bestaat exception gooien
             {
                 throw new ArgumentException("Sleutel bestaat niet!");
             }
             if (waarde.GetType() == Velden[key]) // Checken of Object van juiste dataype is
             {
-                if ((Velden[key] == typeof(decimal) && (decimal) waarde < 0) || //checken of waarde geen negatief getal is
-                    (Velden[key] == typeof(double) && (double) waarde < 0))
+                if ((Velden[key] == typeof(decimal) && (decimal)waarde < 0) || //checken of waarde geen negatief getal is
+                    (Velden[key] == typeof(double) && (double)waarde < 0))
                 {
                     throw new ArgumentException("Waarde mag niet negatief zijn");
                 }
-                if (key.Contains("%") && (decimal) waarde > 1)
+                if (key.Contains("%") && (decimal)waarde > 1)
                 {
                     throw new ArgumentException("Waarde mag tussen 0 en 1 liggen.");
                 }
                 Lijnen[index][key] = waarde;
-                //if(ControleerOfResultaatKanBerekendWorden(){
-                    //BerekenResultaatPerLijn(index);
+                //BerekenBedragPerLijn(index);
 
-            //}
-                //return BerekenResultaat(); // bij voeg lijn toe op 0 zetten!!!!!!!!!!
 
             }
             else // Object is van verkeerde datatype
@@ -93,14 +88,14 @@ namespace KostenBatenTool.Models.Domain
 
         public void ControleerIndex(int index)
         {
-            if(index < 0 || index >= Lijnen.Count)
+            if (index < 0 || index >= Lijnen.Count)
                 throw new ArgumentException("Index is ongeldig!");
         }
 
         private bool ControleerVorigeLijnLeeg(int index)
         {
-            
-            foreach (KeyValuePair<string, Object> pair in Lijnen[index-1])
+
+            foreach (KeyValuePair<string, Object> pair in Lijnen[index - 1])
             {
                 if (pair.Value != null)
                 {

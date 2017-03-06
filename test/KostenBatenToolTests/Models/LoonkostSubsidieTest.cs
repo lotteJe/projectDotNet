@@ -57,6 +57,9 @@ namespace KostenBatenToolTests.Models
         [Fact]
         public void BerekenBedragPerLijn()
         {
+
+            //juiste velden uit LoonKostTest halen
+            Assert.Equal(_kost.Lijnen[0]["Totale loonkostsubsidie"], 0M);
             //return testen
             //invulling veld testen
             //Assert.Equal(_baat.Velden["Totale loonkostsubsidie"],);
