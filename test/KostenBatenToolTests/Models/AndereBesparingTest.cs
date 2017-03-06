@@ -109,7 +109,7 @@ namespace KostenBatenToolTests.Models
         {
             _baat.VulVeldIn(0, "jaarbedrag", 1000M);
             _baat.VulVeldIn(1, "type besparing", "test");
-            Assert.Equal(_baat.Lijnen[1]["beschrijving"], "test");
+            Assert.Equal(_baat.Lijnen[1]["type besparing"], "test");
         }
 
         [Fact]
@@ -121,7 +121,7 @@ namespace KostenBatenToolTests.Models
         [Fact]
         public void VulTypeBesparingIn_GooitExceptieKeyBestaatNietTweedeLijn()
         {
-            _baat.VulVeldIn(0, "beschrijving", "test");
+            _baat.VulVeldIn(0, "jaarbedrag", 1000M);
             Assert.Throws<ArgumentException>(() => _baat.VulVeldIn(1, "type besparingen", "test"));
         }
 
