@@ -6,13 +6,15 @@
 }
 
 html {
-    background: url('../images/bg.png') no-repeat center center fixed;
+    background: url('https://static.wixstatic.com/media/192f9b_18d6d9fc02b2469a849ca2065fe28f67~mv2_d_1754_1240_s_2.jpg/v1/fill/w_1225,h_703,al_c,q_85,usm_0.66_1.00_0.01/192f9b_18d6d9fc02b2469a849ca2065fe28f67~mv2_d_1754_1240_s_2.webp') no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     -ms-background-size: cover;
     background-size: cover;
 }
+
+
 
 body {
     background-color: transparent;
@@ -215,6 +217,10 @@ ul.nav.nav-list.accordion li i {
     border-radius: 10px;
     padding: 0;
     margin-bottom: 0;
+    -webkit-box-shadow: 5px 5px 34px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 5px 5px 34px 0px rgba(0,0,0,0.75);
+    box-shadow: 5px 5px 34px 0px rgba(0,0,0,0.75);
+    margin-left: 70px;
 }
 
 .intro {
@@ -248,15 +254,32 @@ ul.nav.nav-list.accordion li i {
     }
 
 #intro {
-    font-size: 16px;
+    font-size: 15px;
+    
+    color: black;
 }
 
+  
+
 img#logoIntro {
-    width: 400px;
+    width: 70%;
+    /*filter: drop-shadow(1px 1px 7px rgba(0,0,0,.4));*/
 }
 
 #intro p {
     padding: 20px 5px;
+}
+
+.panel-heading .accordion-toggle:after  {
+    font-family: 'Glyphicons Halflings';  
+    content: "\e114";    
+    float:right;        
+    color: rgba(0, 0, 0, .3);         
+    font-size: 50px;
+    padding-top: 80px;
+}
+.panel-heading .accordion-toggle.collapsed:after {
+   content: "\e080";    
 }
 
 
@@ -286,9 +309,10 @@ span.text-danger.field-validation-error {
 /* absolute positioning and transforms */
 
 .box-left {
+    
     position: absolute;
-    top: 25%;
-    left: 0;
+    top: 50%;
+    left: 25%;
     transform: translate(-50%, -50%);
 }
 
@@ -485,3 +509,11 @@ hr {
 h2 {
     font-size: 25px;
 }
+
+img#logo {
+    width: 40px;
+    margin-right: 20px;
+}
+
+/* landingspagina*/
+
