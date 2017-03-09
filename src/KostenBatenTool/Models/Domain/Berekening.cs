@@ -12,7 +12,7 @@ namespace KostenBatenTool.Models.Domain
     {
         #region Properties
 
-
+        public int BerekeningId { get; set; }
         public Dictionary<string, Type> Velden { get; set; } = new Dictionary<string, Type>();
         public IList<Dictionary<string, Object>> Lijnen { get; set; } = new List<Dictionary<string, object>>();
 

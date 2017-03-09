@@ -1,5 +1,6 @@
-﻿<table class="table table-responsive table-striped werkgevers">
-  <tr>
+﻿@model IEnumerable<KostenBatenTool.Models.Domain.Organisatie>
+<table class="table table-responsive table-striped werkgevers">
+    <tr>
         <th>Werkgever</th>
         <th>Postcode</th>
         <th>Gemeente</th>
@@ -7,16 +8,16 @@
         <th>Patronale bijdrage</th>
     </tr>
 
-    @for (int i = 0; i < 5; i++)
+    @foreach (var item in Model)
     {
-    
-    <tr onclick="window.document.location='Index';">
-        <td>Declerck</td>
-        <td>9340</td>
-        <td>Lede</td>
-        <td>24</td>
-        <td>35</td>
-    </tr>
-       
-        }
+
+        <tr onclick="window.document.location = @item.OrganisatieId;">
+            <td>@item.Naam</td>
+            <td>@item.Postcode</td>
+            <td>@item.Gemeente</td>
+            <td>@item.UrenWerkWeek</td>
+            <td>@item.PatronaleBijdrage</td>
+        </tr>
+
+    }
 </table>
