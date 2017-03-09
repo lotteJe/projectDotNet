@@ -34,8 +34,19 @@ namespace KostenBatenTool.Models.Domain
                 Lijnen.Insert(index, new Dictionary<string, object>());
                 foreach (KeyValuePair<string, Type> veld in Velden)
                 {
+                    if (veld.Value == typeof(decimal))
+                    {
+                        Lijnen[index].Add(veld.Key, 0M);
+                    }
+                    else if (veld.Value == typeof(double))
+                    {
+                        Lijnen[index].Add(veld.Key, 0);
+                    }
+                    else
+                    {
 
-                    Lijnen[index].Add(veld.Key, null);
+                        Lijnen[index].Add(veld.Key, null);
+                    }
                 }
             }
             else

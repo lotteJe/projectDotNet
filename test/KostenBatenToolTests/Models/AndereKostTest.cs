@@ -156,6 +156,26 @@ namespace KostenBatenToolTests.Models
         }
 
         [Fact]
+        public void BerekenKostPerLijn_Geeft0EnkelTypeIngevuld()
+        {
+            _kost.VulVeldIn(0, "type", "test");
+            Assert.Equal(_kost.BerekenBedragPerLijn(0), 0M);
+        }
+
+        [Fact]
+        public void BerekenKostPerLijn_Geeft0NietsIngevuld()
+        {
+            Assert.Equal(_kost.BerekenBedragPerLijn(0), 0M);
+        }
+
+        [Fact]
+        public void BerekenResultaat_Geeft0NietsIngevuld()
+        {
+            Assert.Equal(_kost.BerekenResultaat(), 0M);
+
+        }
+
+        [Fact]
         public void BerekenResultaat()
         {
             _kost.VulVeldIn(0, "bedrag", 1200M);

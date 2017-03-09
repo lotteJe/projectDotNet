@@ -156,6 +156,26 @@ namespace KostenBatenToolTests.Models
         }
 
         [Fact]
+        public void BerekenBaatPerLijn_Geeft0EnkelTypeIngevuld()
+        {
+            _baat.VulVeldIn(0, "type besparing", "test");
+            Assert.Equal(_baat.BerekenBedragPerLijn(0), 0M);
+        }
+
+        [Fact]
+        public void BerekenBaatPerLijn_Geeft0NietsIngevuld()
+        {
+            Assert.Equal(_baat.BerekenBedragPerLijn(0), 0M);
+        }
+
+        [Fact]
+        public void BerekenResultaat_Geeft0NietsIngevuld()
+        {
+            Assert.Equal(_baat.BerekenResultaat(), 0M);
+
+        }
+
+        [Fact]
         public void BerekenResultaat()
         {
             _baat.VulVeldIn(0, "jaarbedrag", 1200M);
