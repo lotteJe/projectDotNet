@@ -11,10 +11,12 @@ namespace KostenBatenTool.Data.Repositories
     public class OrganisatieRepository : IOrganisatieRepository
     {
         private readonly DbSet<Organisatie> _organisaties;
+        private readonly ApplicationDbContext _dbContext;
 
         public OrganisatieRepository(ApplicationDbContext dbContext)
         {
             _organisaties = dbContext.Organisaties;
+            _dbContext = dbContext;
 
         }
         public Organisatie GetBy(string naam)
@@ -25,6 +27,20 @@ namespace KostenBatenTool.Data.Repositories
         public IEnumerable<Organisatie> GetAll()
         {
             return _organisaties.ToList();
+        }
+
+        public void Add(Organisatie organisatie)
+        {
+            _organisaties.Add(organisatie);
+        }
+
+        public void Delete(Organisatie organisatie)
+        {
+            _organisaties.Remove(organisatie);
+        }
+        public void SaveChanges()
+        {
+            _dbContext.SaveChanges();
         }
     }
 }

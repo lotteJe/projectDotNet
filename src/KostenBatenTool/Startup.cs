@@ -97,7 +97,7 @@ namespace KostenBatenTool
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
-            kostenBatenInitializer.InitializeData();
+            kostenBatenInitializer.InitializeData().Wait();
         }
     }
 }

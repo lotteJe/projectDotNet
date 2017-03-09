@@ -13,6 +13,9 @@ namespace KostenBatenTool.Models.Domain
         Organisatie GetBy(string naam);
         IEnumerable<Organisatie> GetAll();
 
+        void Add(Organisatie organisatie);
+        void SaveChanges();
+        void Delete(Organisatie organisatie);
 
     }
 }
