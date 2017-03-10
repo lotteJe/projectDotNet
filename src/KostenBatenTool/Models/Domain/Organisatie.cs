@@ -51,6 +51,8 @@ namespace KostenBatenTool.Models.Domain
             
         }
         #region Constructors
+
+       
         public Organisatie(string naam, string straat, string huisnummer, int postcode, string gemeente)
         {
             Naam = naam;

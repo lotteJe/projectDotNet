@@ -35,13 +35,8 @@ namespace KostenBatenToolTests.Models
         public override decimal BerekenBedragPerLijn(int index)
         {
             ControleerIndex(index);
-            if ((decimal)Lijnen[index]["uren"] == 0 || Lijnen[index]["uren"] == null)
-            {
-                Lijnen[index]["totale loonkost per jaar"] = 0M;
-            }
-            else
-            {
-                if (Analyse.Organisatie.UrenWerkWeek == 0)
+
+            if (Analyse.Organisatie.UrenWerkWeek == 0)
                 {
                     throw new ArgumentException("Uren werkweek van de organisatie mag niet 0 zijn!");
                 }
@@ -52,7 +47,7 @@ namespace KostenBatenToolTests.Models
                                                                 * (decimal)Lijnen[index]["bruto maandloon fulltime"]
                                                                 * (1 + Analyse.Organisatie.PatronaleBijdrage) * 13.92M;
                 }
-            }
+            
 
             return (decimal)Lijnen[index]["totale loonkost per jaar"];
         }

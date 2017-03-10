@@ -172,18 +172,20 @@ namespace KostenBatenToolTests.Models
         }
 
         [Fact]
-        public void BerekenKostPerLijn_GooitExceptieUrenNietIngevuld()
+        public void BerekenBaatPerLijn_GooitExceptieUrenWerkweek0()
         {
-            _baat.VulVeldIn(0, "bruto maandloon fulltime", 1200M);
+            ((MedewerkerHogerNiveauBesparing)_baat).Analyse.Organisatie.UrenWerkWeek = 0M;
+            _baat.VulVeldIn(0, "uren", 40M);
             Assert.Throws<ArgumentException>(() => _baat.BerekenBedragPerLijn(0));
 
         }
+
 
         [Fact]
         public void BerekenKostPerLijn_GooitExceptieMaandloonNietIngevuld()
         {
             _baat.VulVeldIn(0, "uren", 38.5M);
-            Assert.Throws<ArgumentException>(() => _baat.BerekenBedragPerLijn(0));
+            Assert.Equal(_baat.BerekenBedragPerLijn(0),0M);
 
         }
 
@@ -212,7 +214,42 @@ namespace KostenBatenToolTests.Models
             Assert.Throws<ArgumentException>(() => _baat.BerekenBedragPerLijn(1));
 
         }
+        [Fact]
+        public void BerekenBaatPerLijn_Geeft0EnkelUrenIngevuld()
+        {
+            _baat.VulVeldIn(0, "uren", 40M);
+            Assert.Equal(_baat.BerekenBedragPerLijn(0), 0M);
+        }
 
+        [Fact]
+        public void BerekenBaatPerLijn_Geeft0EnkelMaandloonIngevuld()
+        {
+            _baat.VulVeldIn(0, "bruto maandloon fulltime", 1000M);
+            Assert.Equal(_baat.BerekenBedragPerLijn(0), 0M);
+            Assert.Equal(_baat.Lijnen[0]["totale loonkost per jaar"], 0M);
+        }
+
+        [Fact]
+        public void BerekenBaatPerLijn_Geeft0UrenNull()
+        {
+            _baat.VulVeldIn(0, "uren", 40M);
+            Assert.Equal(_baat.BerekenBedragPerLijn(0), 0M);
+            Assert.Equal(_baat.Lijnen[0]["totale loonkost per jaar"], 0M);
+        }
+
+        [Fact]
+        public void BerekenBaatPerLijn_Geeft0NietsIngevuld()
+        {
+            Assert.Equal(_baat.BerekenBedragPerLijn(0), 0M);
+            Assert.Equal(_baat.Lijnen[0]["totale loonkost per jaar"], 0M);
+        }
+
+        [Fact]
+        public void BerekenResultaat_Geeft0NietsIngevuld()
+        {
+            Assert.Equal(_baat.BerekenResultaat(), 0M);
+
+        }
         [Fact]
         public void BerekenResultaat()
         {
