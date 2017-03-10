@@ -35,6 +35,7 @@ namespace KostenBatenTool.Models.Domain
         {
             ControleerIndex(index);
             
+
                 if (Analyse.Organisatie.UrenWerkWeek == 0)
                 {
                     throw new ArgumentException("Uren werkweek van de organisatie mag niet 0 zijn!");
