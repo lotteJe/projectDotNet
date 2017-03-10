@@ -38,6 +38,12 @@ namespace KostenBatenToolTests.Models
         }
 
         [Fact]
+        public void WerkkledijKost_ZetBedragOp0()
+        {
+            Assert.Equal(_kost.Lijnen[0]["bedrag"], 0M);
+        }
+
+        [Fact]
         public void VulBedragIn()
         {
             _kost.VulVeldIn(0, "bedrag", 1200M);
@@ -76,10 +82,10 @@ namespace KostenBatenToolTests.Models
         }
 
         [Fact]
-        public void vulBedragIn_GooitExceptieVorigeLijnNietIngevuld()
+        public void vulBedragIn_VoegtLijnToeVorigeLijnNietIngevuld()
         {
-            Assert.Throws<ArgumentException>(() => _kost.VulVeldIn(1, "bedrag", 1000M));
-
+            _kost.VulVeldIn(1, "bedrag", 1200M);
+            Assert.Equal(_kost.Lijnen[1]["bedrag"], 1200M);
         }
 
         [Fact]
@@ -126,13 +132,7 @@ namespace KostenBatenToolTests.Models
             Assert.Throws<ArgumentException>(() => _kost.VulVeldIn(1, "types", "test"));
         }
 
-        [Fact]
-        public void vulTypeIn_GooitExceptieVorigeLijnNietIngevuld()
-        {
-            Assert.Throws<ArgumentException>(() => _kost.VulVeldIn(1, "type", "test"));
-
-        }
-
+       
         [Fact]
         public void VulTypeIn_WaardeWijzigen()
         {
@@ -162,6 +162,18 @@ namespace KostenBatenToolTests.Models
             _kost.VulVeldIn(0, "bedrag", 1200M);
             _kost.VulVeldIn(1, "bedrag", 1000M);
             Assert.Equal(_kost.BerekenResultaat(), 2200M);
+        }
+
+        [Fact]
+        public void BerekenKostPerLijn_NietsIngevuldGeeft0()
+        {
+            Assert.Equal(_kost.BerekenBedragPerLijn(0), 0M);
+        }
+
+        [Fact]
+        public void BerekenResultaat_NietsIngevuldGeeft0()
+        {
+            Assert.Equal(_kost.BerekenResultaat(), 0M);
         }
         #endregion
     }
