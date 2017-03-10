@@ -197,6 +197,7 @@ namespace KostenBatenToolTests.Models
             _kost.VulVeldIn(0, "uren", 38.5M);
             Assert.Equal(_kost.BerekenBedragPerLijn(0), 0);
             Assert.Equal(_kost.Lijnen[0]["jaarbedrag"], 0M);
+
         }
 
         [Fact]
@@ -212,6 +213,7 @@ namespace KostenBatenToolTests.Models
             _kost.VulVeldIn(0, "uren", 38.5M);
             _kost.VulVeldIn(0, "bruto maandloon begeleider", 1200M);
             _kost.VulVeldIn(1, "bruto maandloon begeleider", 1000M);
+
             Assert.Equal(_kost.BerekenBedragPerLijn(1), 0);
             Assert.Equal(_kost.Lijnen[1]["jaarbedrag"], 0M);
 
@@ -227,6 +229,7 @@ namespace KostenBatenToolTests.Models
             Assert.Equal(_kost.Lijnen[1]["jaarbedrag"], 0M);
 
         }
+
 
         [Fact]
         public void BerekenResultaat()

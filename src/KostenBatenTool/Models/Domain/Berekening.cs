@@ -43,6 +43,7 @@ namespace KostenBatenTool.Models.Domain
                     }
                     else
                     {
+
                         Lijnen[index].Add(veld.Key, null);
                     }
                 }

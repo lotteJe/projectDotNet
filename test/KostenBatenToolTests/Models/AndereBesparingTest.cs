@@ -173,11 +173,13 @@ namespace KostenBatenToolTests.Models
         }
 
         [Fact]
+
         public void BerekenBaatPerLijn_NietsIngevuldGeeft0()
         {
             Assert.Equal(_baat.BerekenBedragPerLijn(0), 0M);
         }
         
+
         [Fact]
         public void BerekenResultaat()
         {

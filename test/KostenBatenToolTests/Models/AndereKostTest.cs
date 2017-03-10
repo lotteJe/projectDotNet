@@ -172,12 +172,15 @@ namespace KostenBatenToolTests.Models
         }
 
         [Fact]
+
         public void BerekenKostPerLijn_NietsIngevuldGeeft0()
         {
+
             Assert.Equal(_kost.BerekenBedragPerLijn(0), 0M);
         }
 
         [Fact]
+
         public void BerekenResultaat()
         {
             _kost.VulVeldIn(0, "bedrag", 1200M);
