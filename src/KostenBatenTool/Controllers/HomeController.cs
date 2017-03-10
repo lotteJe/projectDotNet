@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using KostenBatenTool.Models;
 using KostenBatenTool.Models.Domain;
+using MongoDB.Driver;
+using MongoDB.Bson;
 
 namespace KostenBatenTool.Controllers
 {
@@ -21,6 +23,19 @@ namespace KostenBatenTool.Controllers
         }
         public IActionResult Index()
         {
+            var client = new MongoClient();
+            var database = client.GetDatabase("Kairos");
+            var collection = database.GetCollection<BsonDocument>("organisatie");
+            var document = new BsonDocument
+            {
+                {"name","MongoDb" },
+                {"info" , new BsonDocument
+                {
+                    {"x", 123 },
+                    {"y", 345 }
+                } }
+            };
+            collection.InsertOne(document);
             return View();
         }
 
