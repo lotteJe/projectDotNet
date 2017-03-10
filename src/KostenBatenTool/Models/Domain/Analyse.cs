@@ -21,7 +21,7 @@ namespace KostenBatenTool.Models.Domain
 
         #region Constructors
 
-
+       
         public Analyse(Organisatie organisatie)
         {
             Organisatie = organisatie;

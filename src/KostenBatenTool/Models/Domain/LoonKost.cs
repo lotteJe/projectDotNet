@@ -89,10 +89,17 @@ namespace KostenBatenTool.Models.Domain
         public void BerekenGemiddeldeVopPerMaand(int index)
         {
             ControleerIndex(index);
-            Lijnen[index]["gemiddelde VOP per maand"] = 
-                ((decimal)Lijnen[index]["bruto loon per maand incl patronale bijdragen"] 
-                - ((decimal)Lijnen[index]["doelgroepvermindering per maand"]) /3 )
-                * (decimal)Lijnen[index]["% Vlaamse ondersteuningspremie"];
+            //if ((decimal) Lijnen[index]["bruto loon per maand incl patronale bijdragen"] == 0
+            //    || (decimal) Lijnen[index]["doelgroepvermindering per maand"] == 0 ||
+            //    (decimal) Lijnen[index]["% Vlaamse ondersteuningspremie"] == 0)
+            //    Lijnen[index]["gemiddelde VOP per maand"] = 0M;
+            //else
+            {
+                Lijnen[index]["gemiddelde VOP per maand"] =
+                    ((decimal) Lijnen[index]["bruto loon per maand incl patronale bijdragen"]
+                     - ((decimal) Lijnen[index]["doelgroepvermindering per maand"])/3)
+                    *(decimal) Lijnen[index]["% Vlaamse ondersteuningspremie"];
+            }
         }
 
         public void BerekenDoelgroepVermindering(int index)
@@ -101,7 +108,10 @@ namespace KostenBatenTool.Models.Domain
             decimal urenWerkWeek = Analyse.Organisatie.UrenWerkWeek;
             decimal maandloon = (decimal)Lijnen[index]["bruto maandloon fulltime"];
             decimal urenPerWeek = (decimal)Lijnen[index]["uren per week"];
-            Lijnen[index]["doelgroepvermindering per maand"] = 0M;
+            if (Lijnen[index]["doelgroep"] == null)
+               return;
+            if(urenWerkWeek == 0M)
+                throw new ArgumentException("Uren werk week mag niet 0 zijn.");
             switch ((Doelgroep)Lijnen[index]["doelgroep"])
             {
                 case Doelgroep.Laaggeschoold:

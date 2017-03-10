@@ -36,6 +36,12 @@ namespace KostenBatenToolTests.Models
         }
 
         [Fact]
+        public void AanpassingsSubsidie_ZetJaarbedragOp0()
+        {
+            Assert.Equal(_baat.Lijnen[0]["jaarbedrag"], 0M);
+        }
+
+        [Fact]
         public void VulJaarbedragIn()
         {
             _baat.VulVeldIn(0, "jaarbedrag", 1200M);
@@ -72,13 +78,7 @@ namespace KostenBatenToolTests.Models
             Assert.Throws<ArgumentException>(() => _baat.VulVeldIn(2, "jaarbedrag", 1000M));
 
         }
-        [Fact]
-        public void vulJaarbedragIn_GooitExceptieVorigeLijnNietIngevuld()
-        {
-            Assert.Throws<ArgumentException>(() => _baat.VulVeldIn(1, "jaarbedrag", 1000M));
-
-        }
-        
+       
         [Fact]
         public void BerekenBaatPerLijn()
         {
@@ -86,13 +86,26 @@ namespace KostenBatenToolTests.Models
             Assert.Equal(_baat.BerekenBedragPerLijn(0), 1200M);
         }
 
-        
+        [Fact]
+        public void BerekenBaatPerLijn_NietsIngevuldGeeft0()
+        {
+            Assert.Equal(_baat.BerekenBedragPerLijn(0), 0M);
+        }
+
         [Fact]
         public void BerekenResultaat()
         {
             _baat.VulVeldIn(0, "jaarbedrag", 1200M);
             Assert.Equal(_baat.BerekenResultaat(), 1200);
         }
+        
+        [Fact]
+        public void BerekenResultaat_NietsIngevuldGeeft0()
+        {
+            Assert.Equal(_baat.BerekenResultaat(), 0M);
+        }
+
+
         #endregion
     }
 }

@@ -61,6 +61,20 @@ namespace KostenBatenToolTests.Models
         }
 
         [Fact]
+        public void LoonKost_ZetBedragenOp0()
+        {
+            Assert.Equal(_kost.Lijnen[0]["uren per week"], 0M);
+            Assert.Equal(_kost.Lijnen[0]["bruto maandloon fulltime"], 0M);
+            Assert.Equal(_kost.Lijnen[0]["% Vlaamse ondersteuningspremie"], 0M);
+            Assert.Equal(_kost.Lijnen[0]["bruto loon per maand incl patronale bijdragen"], 0M);
+            Assert.Equal(_kost.Lijnen[0]["gemiddelde VOP per maand"], 0M);
+            Assert.Equal(_kost.Lijnen[0]["doelgroepvermindering per maand"], 0M);
+            Assert.Equal(_kost.Lijnen[0]["aantal maanden IBO"], 0M);
+            Assert.Equal(_kost.Lijnen[0]["totale productiviteitspremie IBO"], 0M);
+            Assert.Equal(_kost.Lijnen[0]["totale loonkost eerste jaar"], 0M);
+        }
+
+        [Fact]
         public void VulVeldInFunctie()
         {
             _kost.VulVeldIn(0, "functie", "test");
@@ -87,12 +101,6 @@ namespace KostenBatenToolTests.Models
             Assert.Throws<ArgumentException>(() => _kost.VulVeldIn(0, "fnctie", "test"));
         }
 
-        //[Fact]
-        //public void VulVeldInFunctie_MoetFalen()
-        //{
-        //   _baat.VulVeldIn(0, "functie", 0M);
-        //   Assert.Equal(_baat.Lijnen[0]["functie"], 0M);
-        //}
 
         [Fact]
         public void VulVeldInFunctie_VoegtNieuweLijnToe()
@@ -140,14 +148,6 @@ namespace KostenBatenToolTests.Models
 
         }
 
-
-        //[Fact]
-        //public void VulVeldInUrenPerWeek_MoetFalen()
-        //{
-        //    _baat.VulVeldIn(0, "uren per week", "test");
-        //    Assert.Equal(_baat.Lijnen[0]["uren per week"], "test");
-        //}
-
         [Fact]
         public void VulVeldInUrenPerWeek_VoegtLijnToe()
         {
@@ -171,12 +171,6 @@ namespace KostenBatenToolTests.Models
             Assert.Equal(_kost.Lijnen[1]["doelgroep"], Doelgroep.Ander);
         }
 
-        [Fact]
-        public void vulDoelgroepIn_GooitExceptieVorigeLijnNietIngevuld()
-        {
-            Assert.Throws<ArgumentException>(() => _kost.VulVeldIn(1, "doelgroep", Doelgroep.Ander));
-
-        }
 
         [Fact]
         public void VulDoelgroepIn_GooitExceptieString()
@@ -200,8 +194,6 @@ namespace KostenBatenToolTests.Models
         [Fact]
         public void BerekenMaandloonPatronaalPerLijn()
         {
-            //_analyse.SetupGet(m => m.Organisatie.UrenWerkWeek).Returns(20.0);
-            //_analyse.SetupGet(m => m.Organisatie.PatronaleBijdrage).Returns(0.35M);
             _kost.VulVeldIn(0, "bruto maandloon fulltime", 1000M);
             _kost.VulVeldIn(0, "uren per week", 40.0M);
             ((LoonKost)_kost).BerekenMaandloonPatronaalPerLijn(0);
@@ -230,6 +222,26 @@ namespace KostenBatenToolTests.Models
             _kost.VulVeldIn(0, "bruto maandloon fulltime", 1000M);
             _kost.VulVeldIn(0, "uren per week", 40.0M);
             Assert.Throws<ArgumentException>(() => ((LoonKost)_kost).BerekenMaandloonPatronaalPerLijn(0));
+        }
+
+        [Fact]
+        public void BerekenMaandloonPatronaalPerLijn_Geeft0NietsIngevuld()
+        {
+            Assert.Equal(((LoonKost)_kost).BerekenMaandloonPatronaalPerLijn(0), 0M);
+        }
+
+        [Fact]
+        public void BerekenMaandloonPatronaalPerLijn_Geeft0BrutoMaandloonNietIngevuld()
+        {
+            _kost.VulVeldIn(0, "uren per week", 40.0M);
+            Assert.Equal(((LoonKost)_kost).BerekenMaandloonPatronaalPerLijn(0), 0M);
+        }
+
+        [Fact]
+        public void BerekenMaandloonPatronaalPerLijn_Geeft0UrenPerWeekNietIngevuld()
+        {
+            _kost.VulVeldIn(0, "bruto maandloon fulltime", 1000M);
+            Assert.Equal(((LoonKost)_kost).BerekenMaandloonPatronaalPerLijn(0), 0M);
         }
 
         [Fact]
@@ -323,6 +335,44 @@ namespace KostenBatenToolTests.Models
         }
 
         [Fact]
+        public void BerekenDoelgroepVermindering_Geeft0DoelgroepNietIngevuld()
+        {
+            _kost.VulVeldIn(0, "bruto maandloon fulltime", 1000M);
+            _kost.VulVeldIn(0, "uren per week", 40.0M);
+            ((LoonKost)_kost).BerekenDoelgroepVermindering(0);
+            Assert.Equal(_kost.Lijnen[0]["doelgroepvermindering per maand"], 0M);
+        }
+
+        [Fact]
+        public void BerekenDoelgroepVermindering_GooitExceptieUrenWerkWeek0()
+        {
+            ((LoonKost) _kost).Analyse.Organisatie.UrenWerkWeek = 0M;
+            _kost.VulVeldIn(0, "bruto maandloon fulltime", 1000M);
+            _kost.VulVeldIn(0, "uren per week", 40.0M);
+            _kost.VulVeldIn(0, "doelgroep", Doelgroep.Ander);
+            Assert.Throws<ArgumentException>(() => ((LoonKost)_kost).BerekenDoelgroepVermindering(0));
+
+        }
+
+        [Fact]
+        public void BerekenDoelgroepVermindering_Geeft0BrutoMaandloonNietIngevuld()
+        {
+            _kost.VulVeldIn(0, "uren per week", 40.0M);
+            _kost.VulVeldIn(0, "doelgroep", Doelgroep.Ander);
+            ((LoonKost)_kost).BerekenDoelgroepVermindering(0);
+            Assert.Equal(_kost.Lijnen[0]["doelgroepvermindering per maand"], 0M);
+        }
+
+        [Fact]
+        public void BerekenDoelgroepVermindering_Geeft0UrenPerWeekNietIngevuld()
+        {
+            _kost.VulVeldIn(0, "bruto maandloon fulltime", 1000M);
+            _kost.VulVeldIn(0, "doelgroep", Doelgroep.Ander);
+            ((LoonKost)_kost).BerekenDoelgroepVermindering(0);
+            Assert.Equal(_kost.Lijnen[0]["doelgroepvermindering per maand"], 0M);
+        }
+
+        [Fact]
         public void BerekenGemiddeldeVopPerMaandPerLijn()
         {
             _kost.VulVeldIn(0, "bruto maandloon fulltime", 1000M);
@@ -334,19 +384,51 @@ namespace KostenBatenToolTests.Models
             ((LoonKost)_kost).BerekenGemiddeldeVopPerMaand(0);
             Assert.Equal(_kost.Lijnen[0]["gemiddelde VOP per maand"], 245M);
         }
+        
         [Fact]
-        public void BerekenGemiddeldeVopPerMaandPerLijn_Nul()
+        public void BerekenGemiddeldeVopPerMaandPerLijn_Geeft0NietsIngevuld()
         {
-            _kost.VulVeldIn(0, "bruto maandloon fulltime", 1000M);
-            _kost.VulVeldIn(0, "uren per week", 40.0M);
-            _kost.VulVeldIn(0, "doelgroep", Doelgroep.Boven60);
-            _kost.VulVeldIn(0, "% Vlaamse ondersteuningspremie", 0M);
-            ((LoonKost)_kost).BerekenMaandloonPatronaalPerLijn(0); //geeft 1350M
-            ((LoonKost)_kost).BerekenDoelgroepVermindering(0); //geeft 375M
-            ((LoonKost)_kost).BerekenGemiddeldeVopPerMaand(0);
+            ((LoonKost) _kost).BerekenGemiddeldeVopPerMaand(0);
             Assert.Equal(_kost.Lijnen[0]["gemiddelde VOP per maand"], 0M);
         }
 
+        //[Fact]
+        //public void BerekenGemiddeldeVopPerMaandPerLijn_Geeft0BrutoloonNietIngevuld()
+        //{
+        //    _kost.VulVeldIn(0, "uren per week", 40.0M);
+        //    _kost.VulVeldIn(0, "doelgroep", Doelgroep.Boven60);
+        //    _kost.VulVeldIn(0, "% Vlaamse ondersteuningspremie", 0.20M);
+        //    ((LoonKost)_kost).BerekenDoelgroepVermindering(0);
+        //    ((LoonKost)_kost).BerekenMaandloonPatronaalPerLijn(0);
+        //    ((LoonKost)_kost).BerekenGemiddeldeVopPerMaand(0);
+        //    Assert.Equal(_kost.Lijnen[0]["gemiddelde VOP per maand"], 0M);
+        //}
+
+        //[Fact]
+        //public void BerekenGemiddeldeVopPerMaandPerLijn_Geeft0VopNietIngevuld()
+        //{
+        //    _kost.VulVeldIn(0, "bruto maandloon fulltime", 1000M);
+        //    _kost.VulVeldIn(0, "uren per week", 40.0M);
+        //    _kost.VulVeldIn(0, "doelgroep", Doelgroep.Boven60);
+        //    ((LoonKost)_kost).BerekenMaandloonPatronaalPerLijn(0); //geeft 1350M
+        //    ((LoonKost)_kost).BerekenDoelgroepVermindering(0); //geeft 375M
+        //    ((LoonKost)_kost).BerekenGemiddeldeVopPerMaand(0);
+        //    Assert.Equal(_kost.Lijnen[0]["gemiddelde VOP per maand"], 0M);
+        //}
+
+        //[Fact]
+        //public void BerekenGemiddeldeVopPerMaandPerLijn_Geeft0DoelgroepverminderingNietIngevuld()
+        //{
+        //    _kost.VulVeldIn(0, "bruto maandloon fulltime", 1000M);
+        //    _kost.VulVeldIn(0, "uren per week", 40.0M);
+        //    _kost.VulVeldIn(0, "% Vlaamse ondersteuningspremie", 0.20M);
+        //    ((LoonKost)_kost).BerekenMaandloonPatronaalPerLijn(0); //geeft 1350M
+        //    ((LoonKost)_kost).BerekenDoelgroepVermindering(0); //geeft 375M
+        //    ((LoonKost)_kost).BerekenGemiddeldeVopPerMaand(0);
+        //    Assert.Equal(_kost.Lijnen[0]["gemiddelde VOP per maand"], 0M);
+        //}
+
+       
         [Fact]
         public void BerekenKostPerLijn()
         {
@@ -414,6 +496,24 @@ namespace KostenBatenToolTests.Models
             Assert.Equal(Math.Round(_kost.BerekenBedragPerLijn(1),2), 7146.94M);
             Assert.Equal( Math.Round((decimal)_kost.Lijnen[1]["totale loonkost eerste jaar"], 2), 7146.94M);
 
+        }
+
+        [Fact]
+        public void BerekenBedragPerLijn_Geeft0NietsIngevuld()
+        {
+            Assert.Equal(_kost.BerekenBedragPerLijn(0), 0M);
+        }
+
+        [Fact]
+        public void BerekenTotaleLoonKost_Geeft0NietsIngevuld()
+        {
+            Assert.Equal(((LoonKost)_kost).BerekenTotaleLoonKost() ,0M);
+        }
+
+        [Fact]
+        public void BerekenResultaat_Geeft0NietsIngevuld()
+        {
+            Assert.Equal(_kost.BerekenResultaat(), 0M);
         }
 
         [Fact]

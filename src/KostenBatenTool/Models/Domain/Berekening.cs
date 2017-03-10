@@ -27,22 +27,26 @@ namespace KostenBatenTool.Models.Domain
 
         public abstract decimal BerekenBedragPerLijn(int index);
 
-        public void VoegLijnToe(int index) //Voegt nieuwe Dictionary toe op index waarvan alle strings ingevuld zijn en elk object null is
+        public void VoegLijnToe(int index) //Voegt nieuwe Dictionary toe op index waarvan alle keys ingevuld zijn en elke string null is, elke double en decimal zijn 0
         {
-            if (index == 0 || !ControleerVorigeLijnLeeg(index))
-            {
                 Lijnen.Insert(index, new Dictionary<string, object>());
                 foreach (KeyValuePair<string, Type> veld in Velden)
                 {
 
-                    Lijnen[index].Add(veld.Key, null);
+                    if (veld.Value == typeof(decimal))
+                    {
+                        Lijnen[index].Add(veld.Key, 0M);
+                    }
+                    else if (veld.Value == typeof(double))
+                    {
+                        Lijnen[index].Add(veld.Key, 0);
+                    }
+                    else
+                    {
+                        Lijnen[index].Add(veld.Key, null);
+                    }
                 }
-            }
-            else
-            {
-                throw new ArgumentException("Vorige lijn is niet ingevuld");
-            }
-
+           
         }
 
 
@@ -91,20 +95,7 @@ namespace KostenBatenTool.Models.Domain
             if (index < 0 || index >= Lijnen.Count)
                 throw new ArgumentException("Index is ongeldig!");
         }
-
-        private bool ControleerVorigeLijnLeeg(int index)
-        {
-
-            foreach (KeyValuePair<string, Object> pair in Lijnen[index - 1])
-            {
-                if (pair.Value != null)
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
-
+        
         #endregion
     }
 }
