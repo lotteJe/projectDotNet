@@ -84,9 +84,10 @@ namespace KostenBatenToolTests.Models
         }
 
         [Fact]
-        public void vulUrenIn_GooitExceptieVorigeLijnNietIngevuld()
+        public void vulUrenIn_VoegtLijnToeVorigeLijnNietIngevuld()
         {
-            Assert.Throws<ArgumentException>(() => _baat.VulVeldIn(1, "uren", 40M));
+            _baat.VulVeldIn(1, "uren", 38.5M);
+            Assert.Equal(_baat.Lijnen[1]["uren"], 38.5M);
 
         }
 
@@ -180,45 +181,13 @@ namespace KostenBatenToolTests.Models
 
         }
 
-
-        [Fact]
-        public void BerekenKostPerLijn_GooitExceptieMaandloonNietIngevuld()
-        {
-            _baat.VulVeldIn(0, "uren", 38.5M);
-            Assert.Equal(_baat.BerekenBedragPerLijn(0),0M);
-
-        }
-
-        [Fact]
-        public void BerekenKostPerLijn_GooitExceptieNietsIngevuld()
-        {
-            Assert.Throws<ArgumentException>(() => _baat.BerekenBedragPerLijn(0));
-        }
-
-        [Fact]
-        public void BerekenKostPerLijn_GooitExceptieUrenNietIngevuldTweedeLijn()
-        {
-            _baat.VulVeldIn(0, "uren", 38.5M);
-            _baat.VulVeldIn(0, "bruto maandloon fulltime", 1200M);
-            _baat.VulVeldIn(1, "bruto maandloon fulltime", 1000M);
-            Assert.Throws<ArgumentException>(() => _baat.BerekenBedragPerLijn(1));
-
-        }
-
-        [Fact]
-        public void BerekenKostPerLijn_GooitExceptieMaandloonNietIngevuldTweedeLijn()
-        {
-            _baat.VulVeldIn(0, "uren", 38.5M);
-            _baat.VulVeldIn(0, "bruto maandloon fulltime", 1200M);
-            _baat.VulVeldIn(1, "uren", 40M);
-            Assert.Throws<ArgumentException>(() => _baat.BerekenBedragPerLijn(1));
-
-        }
+      
         [Fact]
         public void BerekenBaatPerLijn_Geeft0EnkelUrenIngevuld()
         {
             _baat.VulVeldIn(0, "uren", 40M);
             Assert.Equal(_baat.BerekenBedragPerLijn(0), 0M);
+            Assert.Equal(_baat.Lijnen[0]["totale loonkost per jaar"], 0M);
         }
 
         [Fact]
