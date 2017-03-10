@@ -38,6 +38,12 @@ namespace KostenBatenToolTests.Models
         }
 
         [Fact]
+        public void AndereBesparing_ZetJaarbedragOp0()
+        {
+            Assert.Equal(_baat.Lijnen[0]["jaarbedrag"], 0M);
+        }
+
+        [Fact]
         public void VulJaarbedragIn()
         {
             _baat.VulVeldIn(0, "jaarbedrag", 1200M);
@@ -69,15 +75,17 @@ namespace KostenBatenToolTests.Models
         }
 
         [Fact]
-        public void vulJaarbedragIn_GooitExceptieIndexTeGroot()
+        public void VulJaarbedragIn_GooitExceptieIndexTeGroot()
         {
             Assert.Throws<ArgumentException>(() => _baat.VulVeldIn(2, "jaarbedrag", 1000M));
 
         }
+
         [Fact]
-        public void vulJaarbedragIn_GooitExceptieVorigeLijnNietIngevuld()
+        public void VulJaarbedragIn_VoegtLijnToeVorigeLijnNietIngevuld()
         {
-            Assert.Throws<ArgumentException>(() => _baat.VulVeldIn(1, "jaarbedrag", 1000M));
+            _baat.VulVeldIn(1, "jaarbedrag", 1200M);
+            Assert.Equal(_baat.Lijnen[1]["jaarbedrag"], 1200M);
 
         }
 
@@ -105,6 +113,14 @@ namespace KostenBatenToolTests.Models
         }
 
         [Fact]
+        public void VulTypeBesparingIn_VoegtNieuweLijnToeZetJaarbedragOp0()
+        {
+            _baat.VulVeldIn(0, "type besparing", "test0");
+            _baat.VulVeldIn(1, "type besparing", "test");
+            Assert.Equal(_baat.Lijnen[1]["jaarbedrag"], 0M);
+        }
+
+        [Fact]
         public void VulTypeBesparingIn_VoegtNieuweLijnToeVorigeNietLeeg()
         {
             _baat.VulVeldIn(0, "jaarbedrag", 1000M);
@@ -126,9 +142,10 @@ namespace KostenBatenToolTests.Models
         }
 
         [Fact]
-        public void vulTypeBesparingIn_GooitExceptieVorigeLijnNietIngevuld()
+        public void vulTypeBesparingIn_VoegtlijnToeVorigeLijnNietIngevuld()
         {
-            Assert.Throws<ArgumentException>(() => _baat.VulVeldIn(1, "type besparing", "test"));
+            _baat.VulVeldIn(1, "type besparing", "test2");
+            Assert.Equal(_baat.Lijnen[1]["type besparing"], "test2");
 
         }
 
@@ -156,24 +173,12 @@ namespace KostenBatenToolTests.Models
         }
 
         [Fact]
-        public void BerekenBaatPerLijn_Geeft0EnkelTypeIngevuld()
-        {
-            _baat.VulVeldIn(0, "type besparing", "test");
-            Assert.Equal(_baat.BerekenBedragPerLijn(0), 0M);
-        }
 
-        [Fact]
-        public void BerekenBaatPerLijn_Geeft0NietsIngevuld()
+        public void BerekenBaatPerLijn_NietsIngevuldGeeft0()
         {
             Assert.Equal(_baat.BerekenBedragPerLijn(0), 0M);
         }
-
-        [Fact]
-        public void BerekenResultaat_Geeft0NietsIngevuld()
-        {
-            Assert.Equal(_baat.BerekenResultaat(), 0M);
-
-        }
+        
 
         [Fact]
         public void BerekenResultaat()
@@ -181,6 +186,12 @@ namespace KostenBatenToolTests.Models
             _baat.VulVeldIn(0, "jaarbedrag", 1200M);
             _baat.VulVeldIn(1, "jaarbedrag", 1000M);
             Assert.Equal(_baat.BerekenResultaat(), 2200M);
+        }
+        
+        [Fact]
+        public void BerekenResultaat_NietsIngevuldGeeft0()
+        {
+            Assert.Equal(_baat.BerekenResultaat(), 0M);
         }
         #endregion
     }

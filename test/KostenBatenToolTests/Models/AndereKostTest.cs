@@ -38,6 +38,12 @@ namespace KostenBatenToolTests.Models
         }
 
         [Fact]
+        public void AndereKost_ZetBedragOp0()
+        {
+            Assert.Equal(_kost.Lijnen[0]["bedrag"], 0M);
+        }
+
+        [Fact]
         public void VulBedragIn()
         {
             _kost.VulVeldIn(0, "bedrag", 1200M);
@@ -75,9 +81,10 @@ namespace KostenBatenToolTests.Models
 
         }
         [Fact]
-        public void vulBedragIn_GooitExceptieVorigeLijnNietIngevuld()
+        public void vulBedragIn_VoegtLijnToeVorigeLijnNietIngevuld()
         {
-            Assert.Throws<ArgumentException>(() => _kost.VulVeldIn(1, "bedrag", 1000M));
+            _kost.VulVeldIn(1, "bedrag", 1200M);
+            Assert.Equal(_kost.Lijnen[1]["bedrag"], 1200M);
 
         }
 
@@ -105,6 +112,14 @@ namespace KostenBatenToolTests.Models
         }
 
         [Fact]
+        public void VulTypeIn_VoegtNieuweLijnToeZetBedragOp0()
+        {
+            _kost.VulVeldIn(0, "type", "test0");
+            _kost.VulVeldIn(1, "type", "test");
+            Assert.Equal(_kost.Lijnen[1]["bedrag"], 0M);
+        }
+
+        [Fact]
         public void VulTypeIn_VoegtNieuweLijnToeVorigeNietLeeg()
         {
             _kost.VulVeldIn(0, "bedrag", 1000M);
@@ -126,9 +141,10 @@ namespace KostenBatenToolTests.Models
         }
 
         [Fact]
-        public void vulTypeIn_GooitExceptieVorigeLijnNietIngevuld()
+        public void vulTypeIn_VoegtLijnToeVorigeLijnNietIngevuld()
         {
-            Assert.Throws<ArgumentException>(() => _kost.VulVeldIn(1, "type", "test"));
+            _kost.VulVeldIn(1, "type", "test2");
+            Assert.Equal(_kost.Lijnen[1]["type"], "test2");
 
         }
 
@@ -156,31 +172,26 @@ namespace KostenBatenToolTests.Models
         }
 
         [Fact]
-        public void BerekenKostPerLijn_Geeft0EnkelTypeIngevuld()
+
+        public void BerekenKostPerLijn_NietsIngevuldGeeft0()
         {
-            _kost.VulVeldIn(0, "type", "test");
+
             Assert.Equal(_kost.BerekenBedragPerLijn(0), 0M);
         }
 
         [Fact]
-        public void BerekenKostPerLijn_Geeft0NietsIngevuld()
-        {
-            Assert.Equal(_kost.BerekenBedragPerLijn(0), 0M);
-        }
 
-        [Fact]
-        public void BerekenResultaat_Geeft0NietsIngevuld()
-        {
-            Assert.Equal(_kost.BerekenResultaat(), 0M);
-
-        }
-
-        [Fact]
         public void BerekenResultaat()
         {
             _kost.VulVeldIn(0, "bedrag", 1200M);
             _kost.VulVeldIn(1, "bedrag", 1000M);
             Assert.Equal(_kost.BerekenResultaat(), 2200M);
+        }
+        
+        [Fact]
+        public void BerekenResultaat_NietsIngevuldGeeft0()
+        {
+            Assert.Equal(_kost.BerekenResultaat(), 0M);
         }
         #endregion
     }

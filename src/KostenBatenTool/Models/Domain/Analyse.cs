@@ -15,12 +15,13 @@ namespace KostenBatenTool.Models.Domain
         public IList<Berekening> Baten { get; set; }
         public Organisatie Organisatie { get; set; }
         public DateTime AanmaakDatum { get; private set; }
+        public int AnalyseId { get; set; }
 
         #endregion
 
         #region Constructors
 
-
+       
         public Analyse(Organisatie organisatie)
         {
             Organisatie = organisatie;

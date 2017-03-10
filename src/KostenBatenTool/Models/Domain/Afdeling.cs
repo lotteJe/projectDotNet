@@ -9,6 +9,8 @@ namespace KostenBatenTool.Models.Domain
     {
         #region Properties
         public string Naam { get; set; }
+        public int AfdelingId { get; set; }
+        public int OrganisatieId { get; set; }
         #endregion
 
         #region Constructors

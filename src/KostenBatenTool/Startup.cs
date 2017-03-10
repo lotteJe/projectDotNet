@@ -10,7 +10,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using KostenBatenTool.Data;
+using KostenBatenTool.Data.Repositories;
 using KostenBatenTool.Models;
+using KostenBatenTool.Models.Domain;
 using KostenBatenTool.Services;
 
 namespace KostenBatenTool
@@ -53,6 +55,7 @@ namespace KostenBatenTool
                 .AddDefaultTokenProviders();
             
             services.AddMvc();
+            services.AddScoped<IOrganisatieRepository, OrganisatieRepository>();
             services.AddScoped<KostenBatenInitializer>();
 
             // Add application services.
