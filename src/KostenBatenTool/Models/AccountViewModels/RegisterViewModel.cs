@@ -32,7 +32,7 @@ namespace KostenBatenTool.Models.AccountViewModels
 
         [Required(ErrorMessage = "Postcode is verplicht")]
         [Display(Name = "Postcode")]
-        [RegularExpression(@"[1-9][0-9]{3}", ErrorMessage = "Moet een getal zijn!")]
+      /*  [RegularExpression(@"[1-9][0-9]{3}", ErrorMessage = "Moet een getal zijn!")]*/
         public int Postcode { get; set; }
 
         [Required(ErrorMessage = "Gemeente is verplicht")]

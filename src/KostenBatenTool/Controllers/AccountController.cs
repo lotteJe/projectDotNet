@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Net.Mail;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -9,7 +11,11 @@ using Microsoft.Extensions.Logging;
 using KostenBatenTool.Models.AccountViewModels;
 using KostenBatenTool.Services;
 using KostenBatenTool.Models;
-
+using KostenBatenTool.Models.ManageViewModels;
+using MailKit.Net.Smtp;
+using MimeKit;
+using MailKit.Security;
+using Microsoft.ApplicationInsights.Extensibility.Implementation;
 
 namespace KostenBatenTool.Controllers
 {
@@ -21,21 +27,26 @@ namespace KostenBatenTool.Controllers
         private readonly IEmailSender _emailSender;
         private readonly ISmsSender _smsSender;
         private readonly ILogger _logger;
+        private readonly IEmailService _emailService;
+        
+
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender,
             ISmsSender smsSender,
-            ILoggerFactory loggerFactory)
+            ILoggerFactory loggerFactory,
+            IEmailService emailService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _smsSender = smsSender;
             _logger = loggerFactory.CreateLogger<AccountController>();
+            _emailService = emailService;
         }
-      
+
         public IActionResult Index()
         {
             return View();
@@ -60,17 +71,20 @@ namespace KostenBatenTool.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                // This doesn't count login failures towards account lockout
-                // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
+                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, isPersistent: false, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation(1, "User logged in.");
+                    var user = await _userManager.FindByNameAsync(model.Email);
+                    if (user.PasswordReset == false)
+                    {
+                        return RedirectToAction(nameof(ManageController.ChangePassword), "Manage");
+                    }
                     return RedirectToLocal(returnUrl);
                 }
                 if (result.RequiresTwoFactor)
                 {
-                    return RedirectToAction(nameof(SendCode), new { ReturnUrl = returnUrl, model.RememberMe });
+                    return RedirectToAction(nameof(SendCode), new { ReturnUrl = returnUrl });
                 }
                 if (result.IsLockedOut)
                 {
@@ -83,8 +97,7 @@ namespace KostenBatenTool.Controllers
                     return View(model);
                 }
             }
-
-            // If we got this far, something failed, redisplay form
+            
             return View(model);
         }
 
@@ -110,29 +123,47 @@ namespace KostenBatenTool.Controllers
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 string password = generateRandomPassword();
-              var result = await _userManager.CreateAsync(user, password);
+                var result = await _userManager.CreateAsync(user, password);
                 if (result.Succeeded)
                 {
-                    // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=532713
-                    // Send an email with this link
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
-                    await _emailSender.SendEmailAsync(model.Email, "Confirm your account",
-                        $"Please confirm your account by clicking this link: <a href='{callbackUrl}'>link</a>");
-                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    await _emailService.SendEmailAsync(model.Email, "Registratie Kairos",
+                        $"{model.Voornaam}, <br> Welkom bij Kairos! <br> Uw wachtwoord: {password} <br> Met dit wachtwoord kan u zich aanmelden.<br>" +
+                        $"U zal meteen uw wachtwoord moeten wijzigen. {password}");
+                    // await _signInManager.SignInAsync(user, isPersistent: false);
+                    user.SetPasswordReset(false);
                     _logger.LogInformation(3, "User created a new account with password.");
-                    return RedirectToLocal(returnUrl);
+                    return RedirectToLocal(nameof(Login));
                 }
                 AddErrors(result);
             }
-
-            // If we got this far, something failed, redisplay form
             return View(model);
         }
 
         private string generateRandomPassword()
         {
-            return "random";
+            string allowedLetterChars = "abcdefghijkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ";
+            string allowedNumberChars = "23456789";
+            char[] chars = new char[10];
+            Random rd = new Random();
+
+            bool useLetter = true;
+            for (int i = 0; i < 10; i++)
+            {
+                if (useLetter)
+                {
+                    chars[i] = allowedLetterChars[rd.Next(0, allowedLetterChars.Length)];
+                    useLetter = false;
+                }
+                else
+                {
+                    chars[i] = allowedNumberChars[rd.Next(0, allowedNumberChars.Length)];
+                    useLetter = true;
+                }
+
+            }
+            return new string(chars);
         }
 
         //
@@ -143,98 +174,11 @@ namespace KostenBatenTool.Controllers
         {
             await _signInManager.SignOutAsync();
             _logger.LogInformation(4, "User logged out.");
+            
             return RedirectToAction(nameof(HomeController.Index), "Home");
         }
 
-        //
-        // POST: /Account/ExternalLogin
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public IActionResult ExternalLogin(string provider, string returnUrl = null)
-        {
-            // Request a redirect to the external login provider.
-            var redirectUrl = Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl });
-            var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
-            return Challenge(properties, provider);
-        }
-
-        //
-        // GET: /Account/ExternalLoginCallback
-        [HttpGet]
-        [AllowAnonymous]
-        public async Task<IActionResult> ExternalLoginCallback(string returnUrl = null, string remoteError = null)
-        {
-            if (remoteError != null)
-            {
-                ModelState.AddModelError(string.Empty, $"Error from external provider: {remoteError}");
-                return View(nameof(Login));
-            }
-            var info = await _signInManager.GetExternalLoginInfoAsync();
-            if (info == null)
-            {
-                return RedirectToAction(nameof(Login));
-            }
-
-            // Sign in the user with this external login provider if the user already has a login.
-            var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false);
-            if (result.Succeeded)
-            {
-                _logger.LogInformation(5, "User logged in with {Name} provider.", info.LoginProvider);
-                return RedirectToLocal(returnUrl);
-            }
-            if (result.RequiresTwoFactor)
-            {
-                return RedirectToAction(nameof(SendCode), new { ReturnUrl = returnUrl });
-            }
-            if (result.IsLockedOut)
-            {
-                return View("Lockout");
-            }
-            else
-            {
-                // If the user does not have an account, then ask the user to create an account.
-                ViewData["ReturnUrl"] = returnUrl;
-                ViewData["LoginProvider"] = info.LoginProvider;
-                var email = info.Principal.FindFirstValue(ClaimTypes.Email);
-                return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = email });
-            }
-        }
-
-        //
-        // POST: /Account/ExternalLoginConfirmation
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ExternalLoginConfirmation(ExternalLoginConfirmationViewModel model, string returnUrl = null)
-        {
-            if (ModelState.IsValid)
-            {
-                // Get the information about the user from the external login provider
-                var info = await _signInManager.GetExternalLoginInfoAsync();
-                if (info == null)
-                {
-                    return View("ExternalLoginFailure");
-                }
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                var result = await _userManager.CreateAsync(user);
-                if (result.Succeeded)
-                {
-                    result = await _userManager.AddLoginAsync(user, info);
-                    if (result.Succeeded)
-                    {
-                        await _signInManager.SignInAsync(user, isPersistent: false);
-                        _logger.LogInformation(6, "User created an account using {Name} provider.", info.LoginProvider);
-                        return RedirectToLocal(returnUrl);
-                    }
-                }
-                AddErrors(result);
-            }
-
-            ViewData["ReturnUrl"] = returnUrl;
-            return View(model);
-        }
-
+       
         // GET: /Account/ConfirmEmail
         [HttpGet]
         [AllowAnonymous]
@@ -306,7 +250,7 @@ namespace KostenBatenTool.Controllers
         [AllowAnonymous]
         public IActionResult ResetPassword(string code = null)
         {
-            return code == null ? View("Error") : View();
+           return View();
         }
 
         //

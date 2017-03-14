@@ -50,7 +50,11 @@ namespace KostenBatenTool.Data
             ApplicationUser user = new ApplicationUser {UserName = email, Email = email};
             await _userManager.CreateAsync(user, "P@ssword1");
 
-            
+            string email1 = "lotte@test.be";
+            string naam = "Lotte Jespers";
+            ApplicationUser user1 = new ApplicationUser { UserName = email1, Email = email1 };
+            await _userManager.CreateAsync(user1, "test");
+
         }
 
         }
