@@ -17,6 +17,13 @@ namespace KostenBatenTool.Models
         //public string Voornaam { get; set; }
 
         public string Email { get; set; }
+        public bool PasswordReset { get; set; }
+        
+
+        public void SetPasswordReset ( bool reset)
+        {
+            PasswordReset = reset;
+        }
 
         //public string NaamOrganisatie { get; set; }
 
@@ -27,6 +34,6 @@ namespace KostenBatenTool.Models
         //public int Postcode { get; set; }
 
         //public string Gemeente { get; set; }
-       // public Organisatie Organisatie { get; set; }
+        // public Organisatie Organisatie { get; set; }
     }
 }

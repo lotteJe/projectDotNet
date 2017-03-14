@@ -228,9 +228,11 @@ namespace KostenBatenTool.Controllers
                 var result = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
                 if (result.Succeeded)
                 {
+                    user.SetPasswordReset(true);
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     _logger.LogInformation(3, "User changed their password successfully.");
-                    return RedirectToAction(nameof(Index), new { Message = ManageMessageId.ChangePasswordSuccess });
+                   
+                    return RedirectToAction(nameof(Index), "Home");
                 }
                 AddErrors(result);
                 return View(model);

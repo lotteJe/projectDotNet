@@ -523,5 +523,18 @@ img#logo {
     margin-right: 20px;
 }
 
-/* landingspagina*/
+/* ww wijzigen*/
+form.form-horizontal.wwWijzigen {
+    margin: 20px;
+}
 
+.ww {
+    text-align: left !important;
+}
+
+.tabWw {
+    background-color: transparent;
+    font-size: 30px;
+    text-transform: uppercase;
+    padding: 20px 0
+}

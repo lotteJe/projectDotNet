@@ -53,7 +53,9 @@ namespace KostenBatenTool
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
-            
+
+            services.Configure<EmailConfig>(Configuration.GetSection("Email"));
+
             services.AddMvc();
             services.AddScoped<IOrganisatieRepository, OrganisatieRepository>();
             services.AddScoped<KostenBatenInitializer>();
@@ -61,6 +63,15 @@ namespace KostenBatenTool
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
+            services.AddTransient<IEmailService, EmailService>();
+
+            services.AddIdentity<ApplicationUser, IdentityRole>(x =>
+            {
+                x.Password.RequiredLength = 6;
+                x.Password.RequireUppercase = false;
+                x.Password.RequireLowercase = false;
+                x.Password.RequireNonAlphanumeric = false;
+            }).AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

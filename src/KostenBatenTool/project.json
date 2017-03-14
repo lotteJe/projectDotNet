@@ -48,7 +48,13 @@
     "System.Net.Mail": "1.0.0-rtm-00002",
     "Microsoft.AspNetCore.Session": "1.1.0",
     "Pomelo.EntityFrameworkCore.MySql": "1.1.0",
+
+    "Microsoft.AspNetCore.Rewrite": "1.0.0",
+    "MailKit": "1.12.0",
+    "NETCore.MailKit": "1.0.1",
+
     "MongoDB.Driver": "2.4.2"
+
   },
 
   "tools": {
