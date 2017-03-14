@@ -23,19 +23,19 @@ namespace KostenBatenTool.Controllers
         }
         public IActionResult Index()
         {
-            var client = new MongoClient();
-            var database = client.GetDatabase("Kairos");
-            var collection = database.GetCollection<BsonDocument>("organisatie");
-            var document = new BsonDocument
-            {
-                {"name","MongoDb" },
-                {"info" , new BsonDocument
-                {
-                    {"x", 123 },
-                    {"y", 345 }
-                } }
-            };
-            collection.InsertOne(document);
+            //var client = new MongoClient();
+            //var database = client.GetDatabase("Kairos");
+            //var collection = database.GetCollection<BsonDocument>("organisatie");
+            //var document = new BsonDocument
+            //{
+            //    {"name","MongoDb" },
+            //    {"info" , new BsonDocument
+            //    {
+            //        {"x", 123 },
+            //        {"y", 345 }
+            //    } }
+            //};
+            //collection.InsertOne(document);
             return View();
         }
 
