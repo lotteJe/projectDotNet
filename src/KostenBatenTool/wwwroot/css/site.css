@@ -13,6 +13,7 @@ html.dash {
     -ms-background-size: cover;
     background-size: cover;
 }
+
 html.begin {
     background: url('../images/background.png') no-repeat center center fixed;
     -webkit-background-size: cover;
@@ -82,7 +83,7 @@ div#top-menu {
         right: 0;
     }
 
-        .wrap .nav-bar .nav .dropdown-menu > li > a , .uitloggen{
+        .wrap .nav-bar .nav .dropdown-menu > li > a, .uitloggen {
             font-size: 20px;
             color: black;
             background: white;
@@ -93,6 +94,8 @@ div#top-menu {
                 background: #F6F9E6;
                 text-decoration: none;
                 color: black;
+                width: 100%;
+                text-align: left;
             }
 
 .navbar-inner {
@@ -265,11 +268,10 @@ ul.nav.nav-list.accordion li i {
 
 #intro {
     font-size: 15px;
-    
     color: black;
 }
 
-  
+
 
 img#logoIntro {
     width: 70%;
@@ -280,16 +282,17 @@ img#logoIntro {
     padding: 20px 5px;
 }
 
-.panel-heading .accordion-toggle:after  {
-    font-family: 'Glyphicons Halflings';  
-    content: "\e114";    
-    float:right;        
-    color: rgba(0, 0, 0, .3);         
+.panel-heading .accordion-toggle:after {
+    font-family: 'Glyphicons Halflings';
+    content: "\e114";
+    float: right;
+    color: rgba(0, 0, 0, .3);
     font-size: 50px;
     padding-top: 80px;
 }
+
 .panel-heading .accordion-toggle.collapsed:after {
-   content: "\e080";    
+    content: "\e080";
 }
 
 
@@ -319,7 +322,6 @@ span.text-danger.field-validation-error {
 /* absolute positioning and transforms */
 
 .box-left {
-    
     position: absolute;
     top: 50%;
     left: 25%;
@@ -538,5 +540,24 @@ form.form-horizontal.wwWijzigen {
     background-color: transparent;
     font-size: 30px;
     text-transform: uppercase;
-    padding: 20px 0
+    padding: 20px 0;
+}
+
+.vergeten {
+    text-align: center;
+    margin: 100px 0;
+}
+
+.fa-times {
+    margin-top: 10px;
+    margin-left: -10px;
+}
+
+.fa-times:hover, .fa-times:focus {
+    text-decoration: none;
+    background-color: none;
+    color: black;
+}
+.kruis {
+    color: black;
 }
