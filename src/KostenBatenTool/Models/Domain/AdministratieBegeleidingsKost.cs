@@ -38,12 +38,7 @@ namespace KostenBatenTool.Models.Domain
                 *12;
             return (decimal)Lijnen[index]["jaarbedrag"];
         }
-
-        //public void ControleerVelden(int index)
-        //{
-        //    if (Lijnen[index]["bruto maandloon begeleider"] == null || Lijnen[index]["uren"] == null)
-        //        throw new ArgumentException($"Velden op rij {index} zijn niet ingevuld!");
-        //}
+        
         #endregion
     }
 }

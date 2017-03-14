@@ -22,6 +22,7 @@ namespace KostenBatenToolTests.Models
         public LoonkostSubsidieTest()
         {
             Organisatie o = new Organisatie("a", "b", "c", 1000, "d");
+            o.UrenWerkWeek = 40M;
             _analyse = new Analyse(o);
             _kost = new LoonKost(_analyse);
             _kost.VulVeldIn(0, "bruto maandloon fulltime", 1000M);
@@ -55,28 +56,34 @@ namespace KostenBatenToolTests.Models
         }
 
         [Fact]
+        public void LoonKostSubsidie_ZetTotaalOp0()
+        {
+            Assert.Equal(_baat.Lijnen[0]["Totale loonkostsubsidie"], 0M);
+        }
+
+
+        [Fact]
         public void BerekenBedragPerLijn()
         {
 
-            //juiste velden uit LoonKostTest halen
-            Assert.Equal(_kost.Lijnen[0]["Totale loonkostsubsidie"], 0M);
-            //return testen
-            //invulling veld testen
-            //Assert.Equal(_baat.Velden["Totale loonkostsubsidie"],);
+            Assert.Equal(_baat.BerekenBedragPerLijn(0), 19691.46M);
+            Assert.Equal(_baat.Lijnen[0]["Totale loonkostsubsidie"], 19691.46M);
+            
         }
-
+        
         [Fact]
         public void BerekenBedragPerLijn_GooitExceptieIndexGroterDanNul()
         {
-            
+            Assert.Throws<ArgumentException>(() => _baat.BerekenBedragPerLijn(1));
         }
 
         [Fact]
         public void BerekenResultaat()
         {
-            
-        }
+            Assert.Equal(_baat.BerekenResultaat(), 19691.46M);
 
-        #endregion
         }
+        
+        #endregion
+    }
 }

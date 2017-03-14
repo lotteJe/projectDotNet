@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html>
+<html class="dash">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -19,6 +19,7 @@
     </environment>
     @Html.ApplicationInsightsJavaScript(TelemetryConfiguration)
 </head>
+
 <body>
     <div class="wrap">
         <nav class="nav-bar" role="navigation">
@@ -34,6 +35,7 @@
                 <li class="nav-header"><a asp-area="" asp-controller="Home" asp-action="Index"><i class="fa fa-home fa-3x"></i></a></li>
                 <li class="nav-header"><a asp-area="" asp-controller="Analyse" asp-action="Nieuw"><i class="fa fa-balance-scale fa-2x"></i></a></li>
                 <li class="nav-header"><a asp-area="" asp-controller="Analyse" asp-action="Index"><i class="fa fa-archive fa-2x"></i></a></li>
+
             </ul>
         </aside>
     </div>
