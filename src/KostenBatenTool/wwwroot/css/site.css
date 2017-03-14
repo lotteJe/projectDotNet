@@ -5,8 +5,16 @@
     src: url('../font/abadi.ttf'), url('../font/abadi.ttf'), url('../font/abadi.ttf');
 }
 
-html {
-    background: url('https://static.wixstatic.com/media/192f9b_18d6d9fc02b2469a849ca2065fe28f67~mv2_d_1754_1240_s_2.jpg/v1/fill/w_1225,h_703,al_c,q_85,usm_0.66_1.00_0.01/192f9b_18d6d9fc02b2469a849ca2065fe28f67~mv2_d_1754_1240_s_2.webp') no-repeat center center fixed;
+html.dash {
+    background: url('../images/bgD.png') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    -ms-background-size: cover;
+    background-size: cover;
+}
+html.begin {
+    background: url('../images/background.png') no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -28,7 +36,7 @@ body {
     padding-right: 15px;
     background-color: rgba(255,255,255, 0.7);
     width: auto;
-    min-height: 90.5vmin;
+    min-height: 91vmin;
 }
 
 /*naam gebruiker*/
