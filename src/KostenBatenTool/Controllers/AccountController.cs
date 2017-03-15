@@ -134,7 +134,7 @@ namespace KostenBatenTool.Controllers
                     // await _signInManager.SignInAsync(user, isPersistent: false);
                     user.SetPasswordReset(false);
                     _logger.LogInformation(3, "User created a new account with password.");
-                    return RedirectToLocal(nameof(Login));
+                    return View("RegisterConfirmed");
                 }
                 AddErrors(result);
             }
