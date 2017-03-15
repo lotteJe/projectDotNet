@@ -5,10 +5,16 @@
     ViewData["Title"] = "Wachtwoord vergeten bevestiging";
 }
 
-<a asp-area="" asp-controller="Account" asp-action="Login" class="btn-default">Aanmelden</a>
-<a asp-area="" asp-controller="Account" asp-action="Register" class="btn-default">Registreren</a>
 
-<h2>Registreren gelukt!</h2>
-<p>
-    Er is een bevestigingsmail naar je email-adres verzonden.
-</p>
+<div class="jumbotron col-md-4 col-md-offset-1 box box-left" id="login">
+
+    <div class="col-md-1 col-md-offset-11">
+        <a asp-area="" asp-controller="Account" asp-action="Login" class="kruis"><span><i class="fa fa-times fa-2x" aria-hidden="true"></i> </span></a>
+    </div>
+    <div class="vergeten">
+        <h2 class="tabWw">Registreren gelukt!</h2>
+        <p>
+            Er is een bevestigingsmail naar je email-adres verzonden.
+        </p>
+    </div>
+</div>
