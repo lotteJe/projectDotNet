@@ -191,7 +191,7 @@ namespace KostenBatenToolTests.Models
         [Fact]
         public void BerekenBaatPerLijn_GooitExceptieUrenWerkweek0()
         {
-            ((MedewerkerHogerNiveauBesparing)_baat).Analyse.Organisatie.UrenWerkWeek = 0M;
+            ((MedewerkerZelfdeNiveauBesparing)_baat).Analyse.Organisatie.UrenWerkWeek = 0M;
             _baat.VulVeldIn(0, "uren", 40M);
             Assert.Throws<ArgumentException>(() => _baat.BerekenBedragPerLijn(0));
 
