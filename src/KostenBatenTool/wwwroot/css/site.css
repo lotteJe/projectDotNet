@@ -561,3 +561,8 @@ form.form-horizontal.wwWijzigen {
 .kruis {
     color: black;
 }
+
+.resultaat {
+    font-size: 100px;
+    font-weight: bold;
+}

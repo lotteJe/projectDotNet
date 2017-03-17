@@ -7,6 +7,6 @@ namespace KostenBatenTool.Services
 {
     public interface IEmailService
     {
-        Task SendEmailAsync(string email, string subject, string message);
+        Task SendEmailAsync(String vanEmail, string email, string subject, string message);
     }
 }

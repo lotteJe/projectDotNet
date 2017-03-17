@@ -20,13 +20,13 @@ namespace KostenBatenTool.Services
             this.ec = emailConfig.Value;
         }
 
-        public async Task SendEmailAsync(String email, String subject, String message)
+        public async Task SendEmailAsync(String vanEmail, String email, String subject, String message)
         {
             try
             {
                 var emailMessage = new MimeMessage();
 
-                emailMessage.From.Add(new MailboxAddress(ec.FromName, ec.FromAddress));
+                emailMessage.From.Add(new MailboxAddress(vanEmail, ec.FromAddress));
                 emailMessage.To.Add(new MailboxAddress("", email));
                 emailMessage.Subject = subject;
                 emailMessage.Body = new TextPart(TextFormat.Html) { Text = message };

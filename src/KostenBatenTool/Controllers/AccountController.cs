@@ -128,9 +128,9 @@ namespace KostenBatenTool.Controllers
                 {
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
-                    await _emailService.SendEmailAsync(model.Email, "Registratie Kairos",
+                    await _emailService.SendEmailAsync("lottejespers1@gmail.com",model.Email, "Registratie Kairos",
                         $"{model.Voornaam}, <br> Welkom bij Kairos! <br> Uw wachtwoord: {password} <br> Met dit wachtwoord kan u zich aanmelden.<br>" +
-                        $"U zal meteen uw wachtwoord moeten wijzigen. {password}");
+                        $"U zal meteen uw wachtwoord moeten wijzigen.");
                     // await _signInManager.SignInAsync(user, isPersistent: false);
                     user.SetPasswordReset(false);
                     _logger.LogInformation(3, "User created a new account with password.");
@@ -221,14 +221,13 @@ namespace KostenBatenTool.Controllers
                     // Don't reveal that the user does not exist or is not confirmed
                     return View("ForgotPasswordConfirmation");
                 }
-
                 // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=532713
                 // Send an email with this link
-                //var code = await _userManager.GeneratePasswordResetTokenAsync(user);
-                //var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
-                //await _emailSender.SendEmailAsync(model.Email, "Reset Password",
-                //   $"Please reset your password by clicking here: <a href='{callbackUrl}'>link</a>");
-                //return View("ForgotPasswordConfirmation");
+                var code = await _userManager.GeneratePasswordResetTokenAsync(user);
+                var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
+                await _emailService.SendEmailAsync("lottejespers1@gmail.com",model.Email, "Reset Password",
+                   $"Wijzig je wachtwoord door deze <a href='{callbackUrl}'>link</a>");
+                return View("ForgotPasswordConfirmation");
             }
 
             // If we got this far, something failed, redisplay form
