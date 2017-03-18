@@ -75,12 +75,12 @@ namespace KostenBatenTool.Models.Domain
 
         public decimal BerekenKostenResultaat()
         {
-            return Kosten.Select(k => k.BerekenResultaat()).Sum();
+            return Kosten.Sum(k => k.BerekenResultaat());
         }
 
         public decimal BerekenBatenResultaat()
         {
-            return Baten.Select(b => b.BerekenResultaat()).Sum();
+            return Baten.Sum(b => b.BerekenResultaat());
         }
 
 
