@@ -14,7 +14,7 @@ namespace KostenBatenTool.Models.Domain
 
         public int BerekeningId { get; set; }
         public Dictionary<string, Type> Velden { get; set; } = new Dictionary<string, Type>();
-        public IList<Dictionary<string, Object>> Lijnen { get; set; } = new List<Dictionary<string, object>>();
+        public List<List<Veld>> Lijnen { get; set; } = new List<List<Veld>>();
 
         #endregion
 
@@ -29,22 +29,22 @@ namespace KostenBatenTool.Models.Domain
 
         public void VoegLijnToe(int index) //Voegt nieuwe Dictionary toe op index waarvan alle keys ingevuld zijn en elke string null is, elke double en decimal zijn 0
         {
-                Lijnen.Insert(index, new Dictionary<string, object>());
+                Lijnen.Insert(index, new List<Veld>());
                 foreach (KeyValuePair<string, Type> veld in Velden)
                 {
 
                     if (veld.Value == typeof(decimal))
                     {
-                        Lijnen[index].Add(veld.Key, 0M);
+                        Lijnen[index].Add(new Veld(veld.Key, 0M));
                     }
                     else if (veld.Value == typeof(double))
                     {
-                        Lijnen[index].Add(veld.Key, 0);
+                        Lijnen[index].Add(new Veld(veld.Key, 0));
                     }
                     else
                     {
 
-                        Lijnen[index].Add(veld.Key, null);
+                        Lijnen[index].Add(new Veld(veld.Key, null));
                     }
                 }
            
@@ -64,9 +64,9 @@ namespace KostenBatenTool.Models.Domain
                 throw new ArgumentException("Index is ongeldig!");
             }
 
-            if (!Lijnen[index].ContainsKey(key))//als key niet bestaat exception gooien
+            if (!Lijnen[index].Any(v => v.Key.Equals(key)))//als key niet bestaat exception gooien
             {
-                throw new ArgumentException("Sleutel bestaat niet!");
+               throw new ArgumentException("Sleutel bestaat niet!");
             }
             if (waarde.GetType() == Velden[key]) // Checken of Object van juiste dataype is
             {
@@ -79,9 +79,9 @@ namespace KostenBatenTool.Models.Domain
                 {
                     throw new ArgumentException("Waarde mag tussen 0 en 1 liggen.");
                 }
-                Lijnen[index][key] = waarde;
+                //Lijnen[index].Where(v => v.Key.Equals(key)).Select(v => { v.Value = waarde; return v; });
+                Lijnen[index].First(v => v.Key.Equals(key)).Value = waarde;
                 //BerekenBedragPerLijn(index);
-
 
             }
             else // Object is van verkeerde datatype

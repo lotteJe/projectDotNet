@@ -36,8 +36,8 @@ namespace KostenBatenTool.Models.Domain
                 throw new ArgumentException("Index moet 0 zijn");
             }
 
-            Lijnen[index]["Totale loonkostsubsidie"] = Loonkost.BerekenResultaat() - Loonkost.BerekenTotaleLoonKost();
-            return (decimal) Lijnen[index]["Totale loonkostsubsidie"];
+            Lijnen[index].First(v => v.Key.Equals("Totale loonkostsubsidie")).Value = Loonkost.BerekenResultaat() - Loonkost.BerekenTotaleLoonKost();
+            return (decimal) Lijnen[index].First(v => v.Key.Equals("Totale loonkostsubsidie")).Value;
         }
         #endregion
     }

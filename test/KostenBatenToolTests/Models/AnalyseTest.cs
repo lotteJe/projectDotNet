@@ -105,8 +105,7 @@ namespace KostenBatenToolTests.Models
         {
             Mock<Berekening> kostBerekening1 = new Mock<Berekening>();
             _analyse.BerekenBedragPerLijn(kostBerekening1.Object, 1);
-
-            _ 
+            
         }
 
 

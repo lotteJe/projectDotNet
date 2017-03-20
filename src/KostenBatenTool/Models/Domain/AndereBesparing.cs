@@ -26,7 +26,7 @@ namespace KostenBatenTool.Models.Domain
         public override decimal BerekenBedragPerLijn(int index)
         {
             ControleerIndex(index);
-            return (decimal) Lijnen[index]["jaarbedrag"];
+            return (decimal) Lijnen[index].First(v => v.Key.Equals("jaarbedrag")).Value;
         }
         #endregion
     }

@@ -3,6 +3,8 @@ using KostenBatenTool.Models.Domain;
 using Xunit;
 using Moq;
 using Xunit.Sdk;
+using System.Linq;
+
 
 namespace KostenBatenToolTests.Models
 {
@@ -46,39 +48,38 @@ namespace KostenBatenToolTests.Models
         [Fact]
         public void LoonKost_MaaktJuisteLijnAan()
         {
-            Assert.True(_kost.Lijnen[0].ContainsKey("functie"));
-            Assert.True(_kost.Lijnen[0].ContainsKey("uren per week"));
-            Assert.True(_kost.Lijnen[0].ContainsKey("bruto maandloon fulltime"));
-            Assert.True(_kost.Lijnen[0].ContainsKey("doelgroep"));
-            Assert.True(_kost.Lijnen[0].ContainsKey("% Vlaamse ondersteuningspremie"));
-            Assert.True(_kost.Lijnen[0].ContainsKey("bruto loon per maand incl patronale bijdragen"));
-            Assert.True(_kost.Lijnen[0].ContainsKey("gemiddelde VOP per maand"));
-            Assert.True(_kost.Lijnen[0].ContainsKey("doelgroepvermindering per maand"));
-            Assert.True(_kost.Lijnen[0].ContainsKey("aantal maanden IBO"));
-            Assert.True(_kost.Lijnen[0].ContainsKey("totale productiviteitspremie IBO"));
-            Assert.True(_kost.Lijnen[0].ContainsKey("totale loonkost eerste jaar"));
-
+            Assert.True(_kost.Lijnen[0].Any(v => v.Key.Equals("functie")));
+            Assert.True(_kost.Lijnen[0].Any(v => v.Key.Equals("uren per week")));
+            Assert.True(_kost.Lijnen[0].Any(v => v.Key.Equals("bruto maandloon fulltime")));
+            Assert.True(_kost.Lijnen[0].Any(v => v.Key.Equals("doelgroep")));
+            Assert.True(_kost.Lijnen[0].Any(v => v.Key.Equals("% Vlaamse ondersteuningspremie")));
+            Assert.True(_kost.Lijnen[0].Any(v => v.Key.Equals("bruto loon per maand incl patronale bijdragen")));
+            Assert.True(_kost.Lijnen[0].Any(v => v.Key.Equals("doelgroepvermindering per maand")));
+            Assert.True(_kost.Lijnen[0].Any(v => v.Key.Equals("aantal maanden IBO")));
+            Assert.True(_kost.Lijnen[0].Any(v => v.Key.Equals("totale productiviteitspremie IBO")));
+            Assert.True(_kost.Lijnen[0].Any(v => v.Key.Equals("totale loonkost eerste jaar")));
+         
         }
 
         [Fact]
         public void LoonKost_ZetBedragenOp0()
         {
-            Assert.Equal(_kost.Lijnen[0]["uren per week"], 0M);
-            Assert.Equal(_kost.Lijnen[0]["bruto maandloon fulltime"], 0M);
-            Assert.Equal(_kost.Lijnen[0]["% Vlaamse ondersteuningspremie"], 0M);
-            Assert.Equal(_kost.Lijnen[0]["bruto loon per maand incl patronale bijdragen"], 0M);
-            Assert.Equal(_kost.Lijnen[0]["gemiddelde VOP per maand"], 0M);
-            Assert.Equal(_kost.Lijnen[0]["doelgroepvermindering per maand"], 0M);
-            Assert.Equal(_kost.Lijnen[0]["aantal maanden IBO"], 0M);
-            Assert.Equal(_kost.Lijnen[0]["totale productiviteitspremie IBO"], 0M);
-            Assert.Equal(_kost.Lijnen[0]["totale loonkost eerste jaar"], 0M);
+            Assert.Equal(_kost.Lijnen[0].First(v => v.Key.Equals("uren per week")).Value, 0M);
+            Assert.Equal(_kost.Lijnen[0].First(v => v.Key.Equals("bruto maandloon fulltime")).Value, 0M);
+            Assert.Equal(_kost.Lijnen[0].First(v => v.Key.Equals("% Vlaamse ondersteuningspremie")).Value, 0M);
+            Assert.Equal(_kost.Lijnen[0].First(v => v.Key.Equals("bruto loon per maand incl patronale bijdragen")).Value, 0M);
+            Assert.Equal(_kost.Lijnen[0].First(v => v.Key.Equals("gemiddelde VOP per maand")).Value, 0M);
+            Assert.Equal(_kost.Lijnen[0].First(v => v.Key.Equals("doelgroepvermindering per maand")).Value, 0M);
+            Assert.Equal(_kost.Lijnen[0].First(v => v.Key.Equals("aantal maanden IBO")).Value, 0M);
+            Assert.Equal(_kost.Lijnen[0].First(v => v.Key.Equals("totale productiviteitspremie IBO")).Value, 0M);
+            Assert.Equal(_kost.Lijnen[0].First(v => v.Key.Equals("totale loonkost eerste jaar")).Value, 0M);
         }
 
         [Fact]
         public void VulVeldInFunctie()
         {
             _kost.VulVeldIn(0, "functie", "test");
-            Assert.Equal(_kost.Lijnen[0]["functie"], "test");
+            Assert.Equal(_kost.Lijnen[0].First(v => v.Key.Equals("functie")).Value, "test");
         }
 
         [Fact]
@@ -86,7 +87,7 @@ namespace KostenBatenToolTests.Models
         {
             _kost.VulVeldIn(0, "functie", "test");
             _kost.VulVeldIn(0, "functie", "test2");
-            Assert.Equal(_kost.Lijnen[0]["functie"], "test2");
+            Assert.Equal(_kost.Lijnen[0].First(v => v.Key.Equals("functie")).Value, "test2");
         }
 
         [Fact]
@@ -107,7 +108,7 @@ namespace KostenBatenToolTests.Models
         {
             _kost.VulVeldIn(0, "functie", "test");
             _kost.VulVeldIn(1, "functie", "test2");
-            Assert.Equal(_kost.Lijnen[1]["functie"], "test2");
+            Assert.Equal(_kost.Lijnen[1].First(v => v.Key.Equals("functie")).Value, "test2");
         }
 
         [Fact]
@@ -126,7 +127,7 @@ namespace KostenBatenToolTests.Models
         public void VulVeldInUrenPerWeek()
         {
             _kost.VulVeldIn(0, "uren per week", 1.2M);
-            Assert.Equal(_kost.Lijnen[0]["uren per week"], 1.2M);
+            Assert.Equal(_kost.Lijnen[0].First(v => v.Key.Equals("uren per week")).Value, 1.2M);
         }
 
         [Fact]
@@ -153,14 +154,14 @@ namespace KostenBatenToolTests.Models
         {
             _kost.VulVeldIn(0, "uren per week", 1M);
             _kost.VulVeldIn(1, "uren per week", 1.2M);
-            Assert.Equal(_kost.Lijnen[1]["uren per week"], 1.2M);
+            Assert.Equal(_kost.Lijnen[1].First(v => v.Key.Equals("uren per week")).Value, 1.2M);
         }
 
         [Fact]
         public void VulDoelgroepIn()
         {
             _kost.VulVeldIn(0, "doelgroep", Doelgroep.Ander);
-            Assert.Equal(_kost.Lijnen[0]["doelgroep"], Doelgroep.Ander);
+            Assert.Equal(_kost.Lijnen[0].First(v => v.Key.Equals("doelgroep")).Value, Doelgroep.Ander);
         }
 
         [Fact]
@@ -168,7 +169,7 @@ namespace KostenBatenToolTests.Models
         {
             _kost.VulVeldIn(0, "uren per week", 1M);
             _kost.VulVeldIn(1, "doelgroep", Doelgroep.Ander);
-            Assert.Equal(_kost.Lijnen[1]["doelgroep"], Doelgroep.Ander);
+            Assert.Equal(_kost.Lijnen[1].First(v => v.Key.Equals("doelgroep")).Value, Doelgroep.Ander);
         }
 
 
@@ -182,7 +183,7 @@ namespace KostenBatenToolTests.Models
         public void VulPercentageIn()
         {
            _kost.VulVeldIn(0, "% Vlaamse ondersteuningspremie", 0.75M);
-            Assert.Equal(_kost.Lijnen[0]["% Vlaamse ondersteuningspremie"], 0.75M);
+            Assert.Equal(_kost.Lijnen[0].First(v => v.Key.Equals("% Vlaamse ondersteuningspremie")).Value, 0.75M);
         }
         
         [Fact]
@@ -197,7 +198,7 @@ namespace KostenBatenToolTests.Models
             _kost.VulVeldIn(0, "bruto maandloon fulltime", 1000M);
             _kost.VulVeldIn(0, "uren per week", 40.0M);
             ((LoonKost)_kost).BerekenMaandloonPatronaalPerLijn(0);
-            Assert.Equal(_kost.Lijnen[0]["bruto loon per maand incl patronale bijdragen"], 1350M);
+            Assert.Equal(_kost.Lijnen[0].First(v => v.Key.Equals("bruto loon per maand incl patronale bijdragen")).Value, 1350M);
         }
 
         [Fact]
@@ -251,7 +252,7 @@ namespace KostenBatenToolTests.Models
             _kost.VulVeldIn(0, "uren per week", 40.0M);
             _kost.VulVeldIn(0, "doelgroep", Doelgroep.Laaggeschoold);
             ((LoonKost)_kost).BerekenDoelgroepVermindering(0);
-            Assert.Equal(_kost.Lijnen[0]["doelgroepvermindering per maand"], 387.5M);
+            Assert.Equal(_kost.Lijnen[0].First(v => v.Key.Equals("doelgroepvermindering per maand")).Value, 387.5M);
         }
 
         [Fact]
@@ -261,7 +262,7 @@ namespace KostenBatenToolTests.Models
             _kost.VulVeldIn(0, "uren per week", 40.0M);
             _kost.VulVeldIn(0, "doelgroep", Doelgroep.Laaggeschoold);
             ((LoonKost)_kost).BerekenDoelgroepVermindering(0);
-            Assert.Equal(_kost.Lijnen[0]["doelgroepvermindering per maand"], 0M);
+            Assert.Equal(_kost.Lijnen[0].First(v => v.Key.Equals("doelgroepvermindering per maand")).Value, 0M);
         }
 
         [Fact]
@@ -271,7 +272,7 @@ namespace KostenBatenToolTests.Models
             _kost.VulVeldIn(0, "uren per week", 40.0M);
             _kost.VulVeldIn(0, "doelgroep", Doelgroep.Middengeschoold);
             ((LoonKost)_kost).BerekenDoelgroepVermindering(0);
-            Assert.Equal(_kost.Lijnen[0]["doelgroepvermindering per maand"], 250M); 
+            Assert.Equal(_kost.Lijnen[0].First(v => v.Key.Equals("doelgroepvermindering per maand")).Value, 250M); 
         }
 
         [Fact]
@@ -281,7 +282,7 @@ namespace KostenBatenToolTests.Models
             _kost.VulVeldIn(0, "uren per week", 40.0M);
             _kost.VulVeldIn(0, "doelgroep", Doelgroep.Middengeschoold);
             ((LoonKost)_kost).BerekenDoelgroepVermindering(0);
-            Assert.Equal(_kost.Lijnen[0]["doelgroepvermindering per maand"], 0M);
+            Assert.Equal(_kost.Lijnen[0].First(v => v.Key.Equals("doelgroepvermindering per maand")).Value, 0M);
         }
 
         [Fact]
@@ -291,7 +292,7 @@ namespace KostenBatenToolTests.Models
             _kost.VulVeldIn(0, "uren per week", 40.0M);
             _kost.VulVeldIn(0, "doelgroep", Doelgroep.Tussen55En60);
             ((LoonKost)_kost).BerekenDoelgroepVermindering(0);
-            Assert.Equal(_kost.Lijnen[0]["doelgroepvermindering per maand"], 287.5M);
+            Assert.Equal(_kost.Lijnen[0].First(v => v.Key.Equals("doelgroepvermindering per maand")).Value, 287.5M);
         }
 
         [Fact]
@@ -301,7 +302,7 @@ namespace KostenBatenToolTests.Models
             _kost.VulVeldIn(0, "uren per week", 40.0M);
             _kost.VulVeldIn(0, "doelgroep", Doelgroep.Tussen55En60);
             ((LoonKost)_kost).BerekenDoelgroepVermindering(0);
-            Assert.Equal(_kost.Lijnen[0]["doelgroepvermindering per maand"], 0M);
+            Assert.Equal(_kost.Lijnen[0].First(v => v.Key.Equals("doelgroepvermindering per maand")).Value, 0M);
         }
 
         [Fact]
@@ -311,7 +312,7 @@ namespace KostenBatenToolTests.Models
             _kost.VulVeldIn(0, "uren per week", 40.0M);
             _kost.VulVeldIn(0, "doelgroep", Doelgroep.Boven60);
             ((LoonKost)_kost).BerekenDoelgroepVermindering(0);
-            Assert.Equal(_kost.Lijnen[0]["doelgroepvermindering per maand"], 375M);
+            Assert.Equal(_kost.Lijnen[0].First(v => v.Key.Equals("doelgroepvermindering per maand")).Value, 375M);
         }
 
         [Fact]
@@ -321,7 +322,7 @@ namespace KostenBatenToolTests.Models
             _kost.VulVeldIn(0, "uren per week", 40.0M);
             _kost.VulVeldIn(0, "doelgroep", Doelgroep.Boven60);
             ((LoonKost)_kost).BerekenDoelgroepVermindering(0);
-            Assert.Equal(_kost.Lijnen[0]["doelgroepvermindering per maand"], 0M);
+            Assert.Equal(_kost.Lijnen[0].First(v => v.Key.Equals("doelgroepvermindering per maand")).Value, 0M);
         }
 
         [Fact]
@@ -331,7 +332,7 @@ namespace KostenBatenToolTests.Models
             _kost.VulVeldIn(0, "uren per week", 40.0M);
             _kost.VulVeldIn(0, "doelgroep", Doelgroep.Ander);
             ((LoonKost)_kost).BerekenDoelgroepVermindering(0);
-            Assert.Equal(_kost.Lijnen[0]["doelgroepvermindering per maand"], 0M);
+            Assert.Equal(_kost.Lijnen[0].First(v => v.Key.Equals("doelgroepvermindering per maand")).Value, 0M);
         }
 
         [Fact]
@@ -340,7 +341,7 @@ namespace KostenBatenToolTests.Models
             _kost.VulVeldIn(0, "bruto maandloon fulltime", 1000M);
             _kost.VulVeldIn(0, "uren per week", 40.0M);
             ((LoonKost)_kost).BerekenDoelgroepVermindering(0);
-            Assert.Equal(_kost.Lijnen[0]["doelgroepvermindering per maand"], 0M);
+            Assert.Equal(_kost.Lijnen[0].First(v => v.Key.Equals("doelgroepvermindering per maand")).Value, 0M);
         }
 
         [Fact]
@@ -360,7 +361,7 @@ namespace KostenBatenToolTests.Models
             _kost.VulVeldIn(0, "uren per week", 40.0M);
             _kost.VulVeldIn(0, "doelgroep", Doelgroep.Ander);
             ((LoonKost)_kost).BerekenDoelgroepVermindering(0);
-            Assert.Equal(_kost.Lijnen[0]["doelgroepvermindering per maand"], 0M);
+            Assert.Equal(_kost.Lijnen[0].First(v => v.Key.Equals("doelgroepvermindering per maand")).Value, 0M);
         }
 
         [Fact]
@@ -369,7 +370,7 @@ namespace KostenBatenToolTests.Models
             _kost.VulVeldIn(0, "bruto maandloon fulltime", 1000M);
             _kost.VulVeldIn(0, "doelgroep", Doelgroep.Ander);
             ((LoonKost)_kost).BerekenDoelgroepVermindering(0);
-            Assert.Equal(_kost.Lijnen[0]["doelgroepvermindering per maand"], 0M);
+            Assert.Equal(_kost.Lijnen[0].First(v => v.Key.Equals("doelgroepvermindering per maand")).Value, 0M);
         }
 
         [Fact]
@@ -382,14 +383,14 @@ namespace KostenBatenToolTests.Models
             ((LoonKost)_kost).BerekenMaandloonPatronaalPerLijn(0); //geeft 1350M
             ((LoonKost)_kost).BerekenDoelgroepVermindering(0); //geeft 375M
             ((LoonKost)_kost).BerekenGemiddeldeVopPerMaand(0);
-            Assert.Equal(_kost.Lijnen[0]["gemiddelde VOP per maand"], 245M);
+            Assert.Equal(_kost.Lijnen[0].First(v => v.Key.Equals("gemiddelde VOP per maand")).Value, 245M);
         }
         
         [Fact]
         public void BerekenGemiddeldeVopPerMaandPerLijn_Geeft0NietsIngevuld()
         {
             ((LoonKost) _kost).BerekenGemiddeldeVopPerMaand(0);
-            Assert.Equal(_kost.Lijnen[0]["gemiddelde VOP per maand"], 0M);
+            Assert.Equal(_kost.Lijnen[0].First(v => v.Key.Equals("gemiddelde VOP per maand")).Value, 0M);
         }
 
         //[Fact]
@@ -439,7 +440,7 @@ namespace KostenBatenToolTests.Models
             _kost.VulVeldIn(0, "aantal maanden IBO", 2M);
             _kost.VulVeldIn(0, "totale productiviteitspremie IBO",100M);
             Assert.Equal(_kost.BerekenBedragPerLijn(0), 8801.6M);
-            Assert.Equal(_kost.Lijnen[0]["totale loonkost eerste jaar"], 8801.6M);
+            Assert.Equal(_kost.Lijnen[0].First(v => v.Key.Equals("totale loonkost eerste jaar")).Value, 8801.6M);
 
         }
 
@@ -450,7 +451,7 @@ namespace KostenBatenToolTests.Models
             _kost.VulVeldIn(1, "bruto maandloon fulltime", 1200M);
             _kost.VulVeldIn(1, "uren per week", 40.0M);
             ((LoonKost)_kost).BerekenMaandloonPatronaalPerLijn(1);
-            Assert.Equal(_kost.Lijnen[1]["bruto loon per maand incl patronale bijdragen"], 1620M);
+            Assert.Equal(_kost.Lijnen[1].First(v => v.Key.Equals("bruto loon per maand incl patronale bijdragen")).Value, 1620M);
         }
 
         [Fact]
@@ -461,7 +462,7 @@ namespace KostenBatenToolTests.Models
             _kost.VulVeldIn(1, "uren per week", 40.0M);
             _kost.VulVeldIn(1, "doelgroep", Doelgroep.Laaggeschoold);
             ((LoonKost)_kost).BerekenDoelgroepVermindering(1);
-            Assert.Equal(_kost.Lijnen[1]["doelgroepvermindering per maand"], 387.5M);
+            Assert.Equal(_kost.Lijnen[1].First(v => v.Key.Equals("doelgroepvermindering per maand")).Value, 387.5M);
         }
         
         [Fact]
@@ -475,7 +476,7 @@ namespace KostenBatenToolTests.Models
             ((LoonKost)_kost).BerekenMaandloonPatronaalPerLijn(1); 
             ((LoonKost)_kost).BerekenDoelgroepVermindering(1); 
             ((LoonKost)_kost).BerekenGemiddeldeVopPerMaand(1);
-            Assert.Equal(Math.Round((decimal)_kost.Lijnen[1]["gemiddelde VOP per maand"],2), 596.33M);
+            Assert.Equal(Math.Round((decimal)_kost.Lijnen[1].First(v => v.Key.Equals("gemiddelde VOP per maand")).Value, 2), 596.33M);
         }
 
         [Fact]
@@ -494,7 +495,7 @@ namespace KostenBatenToolTests.Models
             _kost.VulVeldIn(1, "aantal maanden IBO", 3M);
             _kost.VulVeldIn(1, "totale productiviteitspremie IBO", 200M);
             Assert.Equal(Math.Round(_kost.BerekenBedragPerLijn(1),2), 7146.94M);
-            Assert.Equal( Math.Round((decimal)_kost.Lijnen[1]["totale loonkost eerste jaar"], 2), 7146.94M);
+            Assert.Equal( Math.Round((decimal)_kost.Lijnen[1].First(v => v.Key.Equals("totale loonkost eerste jaar")).Value, 2), 7146.94M);
 
         }
 
