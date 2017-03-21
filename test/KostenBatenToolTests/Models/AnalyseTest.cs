@@ -119,6 +119,7 @@ namespace KostenBatenToolTests.Models
         public void BerekenBatenResultaat()
         {
 
+
             _analyse.Baten = new List<Berekening>();
 
 

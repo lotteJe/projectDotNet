@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Net.Mail;
-using System.Security.Claims;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -11,11 +8,7 @@ using Microsoft.Extensions.Logging;
 using KostenBatenTool.Models.AccountViewModels;
 using KostenBatenTool.Services;
 using KostenBatenTool.Models;
-using KostenBatenTool.Models.ManageViewModels;
-using MailKit.Net.Smtp;
-using MimeKit;
-using MailKit.Security;
-using Microsoft.ApplicationInsights.Extensibility.Implementation;
+using KostenBatenTool.Models.Domain;
 
 namespace KostenBatenTool.Controllers
 {
@@ -24,25 +17,17 @@ namespace KostenBatenTool.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly IEmailSender _emailSender;
-        private readonly ISmsSender _smsSender;
         private readonly ILogger _logger;
         private readonly IEmailService _emailService;
-        
-
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            IEmailSender emailSender,
-            ISmsSender smsSender,
-            ILoggerFactory loggerFactory,
+           ILoggerFactory loggerFactory,
             IEmailService emailService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _emailSender = emailSender;
-            _smsSender = smsSender;
             _logger = loggerFactory.CreateLogger<AccountController>();
             _emailService = emailService;
         }
@@ -51,6 +36,26 @@ namespace KostenBatenTool.Controllers
         {
             return View();
         }
+
+        [HttpGet]
+        public IActionResult Edit()
+        {
+            // repository opvragen en arbeidsbemiddelaar meegeven naar view
+            return View(/*new EditViewModel(arbeidsbemiddelaar)*/);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(EditViewModel model, string returnUrl = null)
+        {
+            if (ModelState.IsValid)
+            {
+                /*gegevens van de arbeidsbemiddelaar aanpassen + melding van succes gewijzigd.*/
+                return RedirectToAction(nameof(HomeController.Index), "Home");
+            }
+            return View(model);
+        }
+
         //
         // GET: /Account/Login
         [HttpGet]
@@ -76,10 +81,10 @@ namespace KostenBatenTool.Controllers
                 {
                     _logger.LogInformation(1, "User logged in.");
                     var user = await _userManager.FindByNameAsync(model.Email);
-                    if (user.PasswordReset == false)
-                    {
-                        return RedirectToAction(nameof(ManageController.ChangePassword), "Manage");
-                    }
+                    //if (user.PasswordReset == false)
+                    //{
+                    //    return RedirectToAction(nameof(ManageController.ChangePassword), "Manage");
+                    //}
                     return RedirectToLocal(returnUrl);
                 }
                 if (result.RequiresTwoFactor)
@@ -97,7 +102,7 @@ namespace KostenBatenTool.Controllers
                     return View(model);
                 }
             }
-            
+
             return View(model);
         }
 
@@ -121,49 +126,26 @@ namespace KostenBatenTool.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                string password = generateRandomPassword();
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, Naam = model.Naam, Gemeente = model.Gemeente, Voornaam = model.Voornaam, Postcode = model.Postcode, Huisnummer = model.Huisnummer, Straat = model.Straat, NaamOrganisatie = model.NaamOrganisatie };
+                ArbeidsBemiddelaar arbeidsBemiddelaar = new ArbeidsBemiddelaar(model.Naam, model.Voornaam, model.Email, new Organisatie(model.NaamOrganisatie, model.Straat, model.Huisnummer, model.Postcode, model.Gemeente));
+                string password = "Lotte5";
                 var result = await _userManager.CreateAsync(user, password);
                 if (result.Succeeded)
                 {
-                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
-                    await _emailService.SendEmailAsync("lottejespers1@gmail.com",model.Email, "Registratie Kairos",
-                        $"{model.Voornaam}, <br> Welkom bij Kairos! <br> Uw wachtwoord: {password} <br> Met dit wachtwoord kan u zich aanmelden.<br>" +
-                        $"U zal meteen uw wachtwoord moeten wijzigen.");
-                    // await _signInManager.SignInAsync(user, isPersistent: false);
-                    user.SetPasswordReset(false);
+                    var code = await _userManager.GeneratePasswordResetTokenAsync(user);
+                    var callbackUrl = Url.Action(nameof(ResetPassword), "Account",
+                        new { userId = user.Id, code = code, email = model.Email }, protocol: HttpContext.Request.Scheme);
+                    await _emailService.SendEmailAsync("lottejespers1@gmail.com", model.Email, "Registratie Kairos",
+                $"Klik op de link om je registratie te bevestigen:  <a href='{callbackUrl}'>link</a>");
+
+                    // Comment out following line to prevent a new user automatically logged on.
+                    await _signInManager.SignInAsync(user, isPersistent: false);
                     _logger.LogInformation(3, "User created a new account with password.");
                     return View("RegisterConfirmed");
                 }
                 AddErrors(result);
             }
             return View(model);
-        }
-
-        private string generateRandomPassword()
-        {
-            string allowedLetterChars = "abcdefghijkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ";
-            string allowedNumberChars = "23456789";
-            char[] chars = new char[10];
-            Random rd = new Random();
-
-            bool useLetter = true;
-            for (int i = 0; i < 10; i++)
-            {
-                if (useLetter)
-                {
-                    chars[i] = allowedLetterChars[rd.Next(0, allowedLetterChars.Length)];
-                    useLetter = false;
-                }
-                else
-                {
-                    chars[i] = allowedNumberChars[rd.Next(0, allowedNumberChars.Length)];
-                    useLetter = true;
-                }
-
-            }
-            return new string(chars);
         }
 
         //
@@ -174,11 +156,11 @@ namespace KostenBatenTool.Controllers
         {
             await _signInManager.SignOutAsync();
             _logger.LogInformation(4, "User logged out.");
-            
+
             return RedirectToAction(nameof(HomeController.Index), "Home");
         }
 
-       
+
         // GET: /Account/ConfirmEmail
         [HttpGet]
         [AllowAnonymous]
@@ -216,7 +198,7 @@ namespace KostenBatenTool.Controllers
             if (ModelState.IsValid)
             {
                 var user = await _userManager.FindByNameAsync(model.Email);
-                if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
+                if (user == null)
                 {
                     // Don't reveal that the user does not exist or is not confirmed
                     return View("ForgotPasswordConfirmation");
@@ -224,8 +206,8 @@ namespace KostenBatenTool.Controllers
                 // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=532713
                 // Send an email with this link
                 var code = await _userManager.GeneratePasswordResetTokenAsync(user);
-                var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
-                await _emailService.SendEmailAsync("lottejespers1@gmail.com",model.Email, "Reset Password",
+                var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code, email = model.Email }, protocol: HttpContext.Request.Scheme);
+                await _emailService.SendEmailAsync("lottejespers1@gmail.com", model.Email, "Wachtwoord wijzigen",
                    $"Wijzig je wachtwoord door deze <a href='{callbackUrl}'>link</a>");
                 return View("ForgotPasswordConfirmation");
             }
@@ -247,9 +229,9 @@ namespace KostenBatenTool.Controllers
         // GET: /Account/ResetPassword
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult ResetPassword(string code = null)
+        public IActionResult ResetPassword(string code = null, string email = null)
         {
-           return View();
+            return View();
         }
 
         //
@@ -331,13 +313,9 @@ namespace KostenBatenTool.Controllers
             var message = "Your security code is: " + code;
             if (model.SelectedProvider == "Email")
             {
-                await _emailSender.SendEmailAsync(await _userManager.GetEmailAsync(user), "Security Code", message);
+                await _emailService.SendEmailAsync("lottejespers1@gmail.com",await _userManager.GetEmailAsync(user), "Security Code", message);
             }
-            else if (model.SelectedProvider == "Phone")
-            {
-                await _smsSender.SendSmsAsync(await _userManager.GetPhoneNumberAsync(user), message);
-            }
-
+            
             return RedirectToAction(nameof(VerifyCode), new { Provider = model.SelectedProvider, model.ReturnUrl, model.RememberMe });
         }
 
