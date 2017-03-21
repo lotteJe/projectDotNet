@@ -1,0 +1,28 @@
+﻿@model KostenBatenTool.Models.AnalyseViewModels.LoonkostViewModel
+@{
+    ViewData["Title"] = "3. Extra kosten werkkleding e.a. personeelskosten";
+}
+
+<h2>@ViewData["Title"]</h2>
+<hr />
+<h2>Welke extra kosten moet u structureel extra maken voor deze inhuur? (alleen kosten zoals werkkleding bij normale inhuur en bij reshoring alle kosten)</h2>
+<table class="table table-responsive table-striped">
+    <tr>
+        <th>Type</th>
+        <th>Bedrag</th>
+    </tr>
+    <tr>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+</table>
+
+<div class="col-md-offset-10">
+    <a id="toevoegenFunctie">+ kost toevoegen</a>
+</div>
+
+<div id="loonkostPartial" class="row">
+    <div class="col-md-11 col-md-offset-1">
+        @Html.Partial("_loonkostPartial")
+    </div>
+</div>

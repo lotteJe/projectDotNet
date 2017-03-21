@@ -1,0 +1,31 @@
+﻿@model KostenBatenTool.Models.AnalyseViewModels.LoonkostViewModel
+@{
+    ViewData["Title"] = "2. Voorbereiding start medewerker";
+}
+
+<h2>@ViewData["Title"]</h2>
+<hr />
+<h2>Welke kosten moet u ter voorbereiding maken om dit te implementeren?</h2>
+<table class="table table-responsive table-striped">
+    <tr>
+        <th>Type</th>
+        <th>Bedrag</th>
+
+    </tr>
+    <tr>
+        <td>-</td>
+        <td>-</td>
+
+    </tr>
+
+</table>
+
+<div class="col-md-offset-10">
+    <a id="toevoegenFunctie">+ kost toevoegen</a>
+</div>
+
+<div id="loonkostPartial" class="row">
+    <div class="col-md-11 col-md-offset-1">
+        @Html.Partial("_loonkostPartial")
+    </div>
+</div>

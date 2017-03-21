@@ -74,6 +74,7 @@ namespace KostenBatenTool.Controllers
                 {
                    await _emailService.SendEmailAsync(user.Result.Email,"lotje.j@hotmail.com", "Vraag via contactformulier",
                         model.Omschrijving);
+                    TempData["message"] = $"Je bericht werd succesvol verstuurd.";
                     return RedirectToAction(nameof(AnalyseController.Index), "Home");
                 }
                 

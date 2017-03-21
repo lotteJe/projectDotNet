@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using KostenBatenTool.Models;
 using KostenBatenTool.Models.ManageViewModels;
 using KostenBatenTool.Services;
+using Microsoft.CodeAnalysis.Differencing;
 
 namespace KostenBatenTool.Controllers
 {
@@ -209,7 +210,7 @@ namespace KostenBatenTool.Controllers
         [HttpGet]
         public IActionResult ChangePassword()
         {
-            return View();
+            return View("_changePasswordPartial");
         }
 
         //
@@ -228,11 +229,11 @@ namespace KostenBatenTool.Controllers
                 var result = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
                 if (result.Succeeded)
                 {
-                    user.SetPasswordReset(true);
+                   // user.SetPasswordReset(true);
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     _logger.LogInformation(3, "User changed their password successfully.");
-                   
-                    return RedirectToAction(nameof(Index), "Home");
+                    TempData["message"] = "Je wachtwoord werd succesvol gewijzigd.";
+                    return RedirectToAction(nameof(AccountController.Edit), "Account");
                 }
                 AddErrors(result);
                 return View(model);
