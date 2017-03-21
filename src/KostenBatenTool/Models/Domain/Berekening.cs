@@ -12,6 +12,7 @@ namespace KostenBatenTool.Models.Domain
     {
         #region Properties
 
+        public static int Teller = 0;
         public int BerekeningId { get; set; }
         public Dictionary<string, Type> Velden { get; set; } = new Dictionary<string, Type>();
         public List<List<Veld>> Lijnen { get; set; } = new List<List<Veld>>();
@@ -21,13 +22,18 @@ namespace KostenBatenTool.Models.Domain
 
         #region Methods
 
+        protected Berekening()
+        {
+            BerekeningId = System.Threading.Interlocked.Increment(ref Teller);
+        }
+
 
         public abstract decimal BerekenResultaat();
 
 
         public abstract decimal BerekenBedragPerLijn(int index);
 
-        public void VoegLijnToe(int index) //Voegt nieuwe Dictionary toe op index waarvan alle keys ingevuld zijn en elke string null is, elke double en decimal zijn 0
+        public void VoegLijnToe(int index) //Voegt nieuwe List toe op index waarvan alle keys ingevuld zijn en elke string null is, elke double en decimal zijn 0
         {
                 Lijnen.Insert(index, new List<Veld>());
                 foreach (KeyValuePair<string, Type> veld in Velden)
@@ -47,9 +53,7 @@ namespace KostenBatenTool.Models.Domain
                         Lijnen[index].Add(new Veld(veld.Key, null));
                     }
                 }
-           
         }
-
 
         public void VulVeldIn(int index, string key, Object waarde)
         {
@@ -88,7 +92,45 @@ namespace KostenBatenTool.Models.Domain
             {
                 throw new ArgumentException($"Waarde moet {Velden[key].ToString()} zijn!");
             }
+        }
 
+        public void Serialiseer()//oproepen in Repository
+        {
+            //omzetten van Value naar string
+            foreach (List<Veld> lijn in Lijnen)
+            {
+                foreach (Veld veld in lijn)
+                {
+                    veld.MapInternalValue();
+                }
+            }
+        }
+
+        public void Deserialiseer()
+        {
+            //omzetten naar correct type, checken bij Velden
+            foreach(List<Veld> lijn in Lijnen)
+            {
+                foreach (Veld veld in lijn)
+                {
+                    //type ophalen 
+                    if (Velden[veld.Key] == typeof(decimal))
+                    {
+                        veld.Value = Decimal.Parse(veld.InternalValue);
+                    } else if (Velden[veld.Key] == typeof(double))
+                    {
+                        veld.Value = Double.Parse(veld.InternalValue);
+                    } else if (Velden[veld.Key] == typeof(Doelgroep))
+                    {
+                        veld.Value = Enum.Parse(typeof(Doelgroep), veld.InternalValue);
+                    }
+                    else
+                    {
+                        veld.Value = veld.InternalValue;
+                    }
+                    
+                }
+            }
         }
 
         public void ControleerIndex(int index)

@@ -30,12 +30,22 @@ namespace KostenBatenTool.Data
             builder.Entity<ArbeidsBemiddelaar>(MapArbeidsBemiddelaar);
             builder.Entity<Analyse>(MapAnalyse);
             builder.Entity<Berekening>(MapBerekening);
-           }
+            builder.Entity<Veld>(MapVeld);
+            builder.Entity<BerekeningVeld>(MapBerekeningVeld);
+        }
+
+        private void MapBerekeningVeld(EntityTypeBuilder<BerekeningVeld> b)
+        {
+            b.ToTable("BerekeningVeld");
+            b.HasKey(t => t.BerekeningVeldId);
+            b.Property(t => t.BerekeningVeldId).ValueGeneratedOnAdd();
+
+        }
 
         private void MapBerekening(EntityTypeBuilder<Berekening> b)
         {
             b.ToTable("Berekening");
-            b.Property(t => t.BerekeningId).ValueGeneratedOnAdd();
+            b.HasKey(t => t.BerekeningId);
             b.Ignore(t => t.Velden);
             b.Ignore(t => t.Lijnen);
             b.HasDiscriminator<String>("Type").HasValue<AanpassingsKost>("AanpassingsKost")
@@ -58,14 +68,20 @@ namespace KostenBatenTool.Data
                 .HasValue<WerkkledijKost>("WerkkledijKost");
         }
 
+        private void MapVeld(EntityTypeBuilder<Veld> v)
+        {
+            v.ToTable("Veld");
+            v.HasKey(t => t.VeldId);
+            v.Ignore(t => t.Value);
+            v.Property(t => t.InternalValue);
+        }
+
         private void MapAnalyse(EntityTypeBuilder<Analyse> a)
         {
             a.ToTable("Analyse");
             a.Property(t => t.AnalyseId).ValueGeneratedOnAdd();
-
             a.Property(t => t.AanmaakDatum).IsRequired();
-
-            a.HasOne(t => t.Organisatie).WithMany().IsRequired().OnDelete(DeleteBehavior.Restrict);
+            a.HasOne(t => t.Organisatie).WithMany().IsRequired().OnDelete(DeleteBehavior.Restrict); 
             a.HasMany(t => t.Baten).WithOne().IsRequired().OnDelete(DeleteBehavior.Cascade);
             a.HasMany(t => t.Kosten).WithOne().IsRequired().OnDelete(DeleteBehavior.Cascade);
             }
@@ -80,7 +96,6 @@ namespace KostenBatenTool.Data
         {
             p.ToTable("Personen");
             p.Property(t => t.PersoonID).ValueGeneratedOnAdd();
-
             p.Property(t => t.Naam).IsRequired();
             p.Property(t => t.Voornaam).IsRequired();
             p.Property(t => t.Email).IsRequired();

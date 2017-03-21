@@ -11,8 +11,9 @@ namespace KostenBatenTool.Models.Domain
     {
         #region Properties
 
-        public IList<Berekening> Kosten { get; set; }
-        public IList<Berekening> Baten { get; set; }
+        
+        public List<Berekening> Kosten { get; set; }
+        public List<Berekening> Baten { get; set; }
         public Organisatie Organisatie { get; set; }
         public DateTime AanmaakDatum { get; private set; }
         public int AnalyseId { get; set; }
@@ -20,7 +21,6 @@ namespace KostenBatenTool.Models.Domain
         #endregion
 
         #region Constructors
-
        
         public Analyse(Organisatie organisatie)
         {

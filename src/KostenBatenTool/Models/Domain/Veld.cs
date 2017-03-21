@@ -8,8 +8,12 @@ namespace KostenBatenTool.Models.Domain
     public class Veld
     {
         #region Properties
+
+        public static int Teller = 0;
+        public int VeldId { get; set; }
         public string Key { get; set; }
         public Object Value { get; set; }
+        public string InternalValue { get; set; }
         #endregion
 
         #region Constructors
@@ -18,9 +22,17 @@ namespace KostenBatenTool.Models.Domain
         {
             Key = key;
             Value = value;
+            VeldId = System.Threading.Interlocked.Increment(ref Teller);
+
         }
         #endregion
 
+        #region Methods
+        public void MapInternalValue()
+        {
+            InternalValue = "" + Value;
+        }
+        #endregion
 
     }
 }
