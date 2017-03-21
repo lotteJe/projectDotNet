@@ -11,16 +11,20 @@ namespace KostenBatenTool.Models.Domain
     {
         #region Properties
 
-        public IList<Berekening> Kosten { get; set; }
-        public IList<Berekening> Baten { get; set; }
+        public List<Berekening> Kosten { get; set; }
+        public List<Berekening> Baten { get; set; }
         public Organisatie Organisatie { get; set; }
         public DateTime AanmaakDatum { get; private set; }
         public int AnalyseId { get; set; }
 
         #endregion
 
-        #region Constructors
+        #region Constructors 
 
+        protected Analyse()
+        {
+
+        }
        
         public Analyse(Organisatie organisatie)
         {
@@ -63,9 +67,21 @@ namespace KostenBatenTool.Models.Domain
             b.BerekenBedragPerLijn(index);
         }
 
-        public void VulVeldIn(Berekening b, int index, string key, Object waarde)
+        public void VulVeldIn(string berekeningNaam, int index, string key, Object waarde)
         {
-            b.VulVeldIn(index, key, waarde);
+
+            if ((Kosten.Any(k => k.GetType() == Type.GetType("KostenBatenTool.Models.Domain." + berekeningNaam))))
+            {
+                Berekening berekening =
+                    Kosten.First(k => k.GetType() == Type.GetType("KostenBatenTool.Models.Domain." + berekeningNaam));
+                berekening.VulVeldIn(index, key, waarde);
+            } else if ((Baten.Any(k => k.GetType() == Type.GetType("KostenBatenTool.Models.Domain." + berekeningNaam))))
+            {
+                Berekening berekening = Baten.First(k => k.GetType() == Type.GetType("KostenBatenTool.Models.Domain." + berekeningNaam));
+                berekening.VulVeldIn(index, key, waarde);
+            }
+            else throw new ArgumentException("Berekening bestaat niet");
+            
         }
         
         public decimal BerekenNettoResultaat()

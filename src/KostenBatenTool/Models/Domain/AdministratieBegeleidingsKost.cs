@@ -32,11 +32,12 @@ namespace KostenBatenTool.Models.Domain
         public override decimal BerekenBedragPerLijn(int index)
         {
             ControleerIndex(index);
-            Lijnen[index]["jaarbedrag"] = (((decimal) Lijnen[index]["uren"])/36) 
-                * (decimal) Lijnen[index]["bruto maandloon begeleider"] 
+            Lijnen[index].First(v => v.Key.Equals("jaarbedrag")).Value = 
+                (((decimal) Lijnen[index].First(v => v.Key.Equals("uren")).Value)/36) 
+                * (decimal) Lijnen[index].First(v => v.Key.Equals("bruto maandloon begeleider")).Value
                 * (1 + Analyse.Organisatie.PatronaleBijdrage)
-                *12;
-            return (decimal)Lijnen[index]["jaarbedrag"];
+                * 12;
+            return (decimal)Lijnen[index].First(v => v.Key.Equals("jaarbedrag")).Value;
         }
         
         #endregion

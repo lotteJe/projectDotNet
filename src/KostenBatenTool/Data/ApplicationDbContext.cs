@@ -13,8 +13,9 @@ namespace KostenBatenTool.Data
     {
         public DbSet<Organisatie> Organisaties { get; set; }
         public DbSet<Persoon> Personen { get; set; }
-        public DbSet<Berekening> Berekeningen { get; set; }
         public DbSet<Analyse> Analyses { get; set; }
+        public DbSet<BerekeningVeld> BerekeningVelden { get; set; }
+        public DbSet<Veld> Velden { get;set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -24,18 +25,28 @@ namespace KostenBatenTool.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            builder.Entity<Organisatie>(MapOrganisatie);
             builder.Entity<Afdeling>(MapAfdeling);
             builder.Entity<Persoon>(MapPersoon);
-            builder.Entity<ArbeidsBemiddelaar>(MapArbeidsBemiddelaar);
+            //builder.Entity<ArbeidsBemiddelaar>(MapArbeidsBemiddelaar);
             builder.Entity<Analyse>(MapAnalyse);
+            builder.Entity<Organisatie>(MapOrganisatie);
             builder.Entity<Berekening>(MapBerekening);
-           }
+            builder.Entity<Veld>(MapVeld);
+            builder.Entity<BerekeningVeld>(MapBerekeningVeld);
+        }
+
+        private void MapBerekeningVeld(EntityTypeBuilder<BerekeningVeld> b)
+        {
+            b.ToTable("BerekeningVeld");
+            b.HasKey(t => t.BerekeningVeldId);
+            b.Property(t => t.BerekeningVeldId).ValueGeneratedOnAdd();
+
+        }
 
         private void MapBerekening(EntityTypeBuilder<Berekening> b)
         {
             b.ToTable("Berekening");
-            b.Property(t => t.BerekeningId).ValueGeneratedOnAdd();
+            b.Property(t => t.BerekeningId);
             b.Ignore(t => t.Velden);
             b.Ignore(t => t.Lijnen);
             b.HasDiscriminator<String>("Type").HasValue<AanpassingsKost>("AanpassingsKost")
@@ -58,16 +69,22 @@ namespace KostenBatenTool.Data
                 .HasValue<WerkkledijKost>("WerkkledijKost");
         }
 
+        private void MapVeld(EntityTypeBuilder<Veld> v)
+        {
+            v.ToTable("Veld");
+            v.Property(t => t.VeldId);
+            v.Ignore(t => t.Value);
+            v.Property(t => t.InternalValue);
+        }
+
         private void MapAnalyse(EntityTypeBuilder<Analyse> a)
         {
             a.ToTable("Analyse");
             a.Property(t => t.AnalyseId).ValueGeneratedOnAdd();
-
             a.Property(t => t.AanmaakDatum).IsRequired();
-
-            a.HasOne(t => t.Organisatie).WithMany().IsRequired().OnDelete(DeleteBehavior.Restrict);
-            a.HasMany(t => t.Baten).WithOne().IsRequired().OnDelete(DeleteBehavior.Cascade);
-            a.HasMany(t => t.Kosten).WithOne().IsRequired().OnDelete(DeleteBehavior.Cascade);
+            a.HasOne(t => t.Organisatie).WithMany().IsRequired().OnDelete(DeleteBehavior.Restrict); 
+            a.HasMany(t => t.Baten).WithOne().OnDelete(DeleteBehavior.Cascade);
+            a.HasMany(t => t.Kosten).WithOne().OnDelete(DeleteBehavior.Cascade);
             }
 
         private void MapArbeidsBemiddelaar(EntityTypeBuilder<ArbeidsBemiddelaar> a)
@@ -80,7 +97,6 @@ namespace KostenBatenTool.Data
         {
             p.ToTable("Personen");
             p.Property(t => t.PersoonID).ValueGeneratedOnAdd();
-
             p.Property(t => t.Naam).IsRequired();
             p.Property(t => t.Voornaam).IsRequired();
             p.Property(t => t.Email).IsRequired();

@@ -32,20 +32,20 @@ namespace KostenBatenToolTests.Models
         [Fact]
         public void ProductiviteitsWinst_MaaktJuisteLijnAan()
         {
-            Assert.True(_baat.Lijnen[0].ContainsKey("jaarbedrag"));
+            Assert.True(_baat.Lijnen[0].Any(v => v.Key.Equals("jaarbedrag")));
         }
 
         [Fact]
         public void ProductiviteitsWinst_ZetBedragOp0()
         {
-            Assert.Equal(_baat.Lijnen[0]["jaarbedrag"], 0M);
+            Assert.Equal(_baat.Lijnen[0].First(v => v.Key.Equals("jaarbedrag")).Value, 0M);
         }
 
         [Fact]
         public void VulJaarbedragIn()
         {
             _baat.VulVeldIn(0, "jaarbedrag", 1200M);
-            Assert.Equal(_baat.Lijnen[0]["jaarbedrag"], 1200M);
+            Assert.Equal(_baat.Lijnen[0].First(v => v.Key.Equals("jaarbedrag")).Value, 1200M);
         }
 
         [Fact]
@@ -82,7 +82,7 @@ namespace KostenBatenToolTests.Models
         public void vulJaarbedragIn_VoegtLijnToeVorigeLijnNietIngevuld()
         {
             _baat.VulVeldIn(1, "jaarbedrag", 1200M);
-            Assert.Equal(_baat.Lijnen[1]["jaarbedrag"], 1200M);
+            Assert.Equal(_baat.Lijnen[1].First(v => v.Key.Equals("jaarbedrag")).Value, 1200M);
 
         }
 

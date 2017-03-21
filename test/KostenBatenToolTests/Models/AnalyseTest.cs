@@ -120,6 +120,7 @@ namespace KostenBatenToolTests.Models
         {
 
 
+
             _analyse.Baten = new List<Berekening>();
 
 
@@ -140,6 +141,7 @@ namespace KostenBatenToolTests.Models
             baatBerekening1.Verify(a => a.BerekenResultaat(), Times.Once);
             baatBerekening2.Verify(a => a.BerekenResultaat(), Times.Once);
             baatBerekening3.Verify(a => a.BerekenResultaat(), Times.Once);
+
 
         }
 

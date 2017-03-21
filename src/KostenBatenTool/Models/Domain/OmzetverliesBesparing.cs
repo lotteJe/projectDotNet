@@ -27,8 +27,9 @@ namespace KostenBatenTool.Models.Domain
         public override decimal BerekenBedragPerLijn(int index)
         {
             ControleerIndex(index);
-            Lijnen[index]["totaalbesparing"] = (decimal) Lijnen[index]["jaarbedrag omzetverlies"] * (decimal) Lijnen[index]["% besparing"];
-            return (decimal)Lijnen[index]["totaalbesparing"];
+            Lijnen[index].First(v => v.Key.Equals("totaalbesparing")).Value = (decimal) Lijnen[index].First(v => v.Key.Equals("jaarbedrag omzetverlies")).Value 
+                * (decimal) Lijnen[index].First(v => v.Key.Equals("% besparing")).Value;
+            return (decimal)Lijnen[index].First(v => v.Key.Equals("totaalbesparing")).Value;
         }
         #endregion
     }

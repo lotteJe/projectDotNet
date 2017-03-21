@@ -2,6 +2,7 @@
 using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
+using KostenBatenTool.Data.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using KostenBatenTool.Models;
@@ -21,10 +22,13 @@ namespace KostenBatenTool.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailService _emailService;
         private readonly IOrganisatieRepository _organisatieRepository;
+        private readonly AnalyseRepository _analyseRepository;
+
         public HomeController(UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager, IOrganisatieRepository organisatieRepository, IEmailService emailService)
+            SignInManager<ApplicationUser> signInManager, IOrganisatieRepository organisatieRepository, AnalyseRepository analyseRepository, IEmailService emailService)
         {
             _organisatieRepository = organisatieRepository;
+            _analyseRepository = analyseRepository;
             _userManager = userManager;
             _signInManager = signInManager;
             _emailService = emailService;
@@ -32,6 +36,16 @@ namespace KostenBatenTool.Controllers
         }
         public IActionResult Index()
         {
+            //databank testen
+            Organisatie hogent = new Organisatie("HoGent", "Arbeidstraat", "14", 9300, "Aalst");
+            Analyse analyse = new Analyse(hogent);
+            analyse.VulVeldIn("LoonKost", 1, "functie", "manager");
+            analyse.VulVeldIn("AndereKost",1, "bedrag", 200M);
+            analyse.VulVeldIn("LoonKost", 2, "uren per week", 200M);
+            analyse.VulVeldIn("ProductiviteitsWinst", 1, "jaarbedrag", 1000M);
+            _analyseRepository.Add(analyse);
+            _analyseRepository.SaveChanges();
+            Analyse a = _analyseRepository.GetAnalyse(1);
             return View();
         }
 
