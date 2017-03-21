@@ -6,14 +6,14 @@
 <hr />
 <form asp-controller="Home" asp-action="Contact" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal" id="address">
     <div class="row">
-        <div class="col-md-10 col-md-offset-1 ">
+        <div class="col-md-6 col-md-offset-3 ">
             <label for="onderwerp" class="control-label">Onderwerp</label>
             <input asp-for="Onderwerp" id="onderwerp" type="text" class="form-control" name="onderwerp">
             <span asp-validation-for="Onderwerp" class="text-danger"></span>
         </div>
     </div>
     <div class="row">
-        <div class="col-md-10 col-md-offset-1">
+        <div class="col-md-6 col-md-offset-3">
             <label for="omschrijving" class="control-label">Omschrijving</label>
             <textarea asp-for="Omschrijving" id="omschrijving" type="text" class="form-control" name="omschrijving"></textarea>
             <span asp-validation-for="Omschrijving" class="text-danger"></span>
@@ -21,8 +21,8 @@
     </div>
     <div class="row">
         <div class="form-group">
-            <div class="col-md-offset-9">
-                <button type="submit" class="btn btn-default knop">Annuleer</button>
+            <div class="col-md-offset-7">
+                <button type="button" class="btn btn-default knop">Annuleer</button>
                 <button type="submit" class="btn btn-default knop">Verzend</button>
             </div>
         </div>

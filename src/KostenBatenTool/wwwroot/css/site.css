@@ -257,6 +257,23 @@ ul.nav.nav-list.accordion li i {
     text-align: right;
 }
 
+.P {
+    margin-right: 15px;
+}
+
+#show-change, #toevoegenFunctie {
+    color: #3c4042;
+    font-size: 16px;
+    text-decoration: underline;
+    vertical-align: bottom;
+    margin-right: 15px;
+}
+#show-change:hover , #toevoegenFunctie:hover{
+    cursor: pointer;
+    color:  #78A208
+}
+
+
 #ww {
     text-align: right;
 }
@@ -306,7 +323,11 @@ img#logoIntro {
 }
 
 label.control-label {
-    font-size: 16px;
+    font-size: 20px;
+}
+
+.form-control {
+    font-size: 18px;
 }
 
 span.text-danger.field-validation-error {
@@ -400,7 +421,7 @@ hr {
 }
 
 /* partial werkgevers */
-#partial, #kostenpartial, #batenpartial {
+#partial, #kostenpartial, #batenpartial, #changePartial, #loonkostPartial {
     display: none;
 }
 
@@ -565,4 +586,14 @@ form.form-horizontal.wwWijzigen {
 .resultaat {
     font-size: 100px;
     font-weight: bold;
+}
+
+.functie {
+    margin: 25px;
+}
+.functie  .row {
+    margin-top: 30px;
+}
+.functie label {
+    font-size: 18px;
 }

@@ -12,28 +12,22 @@ namespace KostenBatenTool.Models
     // Add profile data for application users by adding properties to the ApplicationUser class
     public class ApplicationUser : IdentityUser
     {
-        //public string Naam { get; set; }
+        public string Naam { get; set; }
 
-        //public string Voornaam { get; set; }
+        public string Voornaam { get; set; }
 
         public string Email { get; set; }
-        public bool PasswordReset { get; set; }
         
 
-        public void SetPasswordReset ( bool reset)
-        {
-            PasswordReset = reset;
-        }
+        public string NaamOrganisatie { get; set; }
 
-        //public string NaamOrganisatie { get; set; }
+        public string Straat { get; set; }
 
-        //public string Straat { get; set; }
+        public string Huisnummer { get; set; }
 
-        //public string Huisnummer { get; set; }
+        public int Postcode { get; set; }
 
-        //public int Postcode { get; set; }
-
-        //public string Gemeente { get; set; }
-        // public Organisatie Organisatie { get; set; }
+        public string Gemeente { get; set; }
+        //public Organisatie Organisatie { get; set; }
     }
 }

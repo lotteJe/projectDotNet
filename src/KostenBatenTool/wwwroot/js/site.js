@@ -46,6 +46,12 @@ function fillInAddress() {
     var e = document.getElementById("route");
     e.id = "autocomplete";
 }
+$("#autocomplete").keydown(function (event) {
+    if (event.keyCode === 13) {
+        event.preventDefault();
+        return false;
+    }
+});
 
 /* active link nav*/
 $(function () {
@@ -92,3 +98,26 @@ $('#show-kosten').click(function () {
     $('#show-baten').removeClass("active");
     $('#show-kosten').addClass("active");
 });
+
+
+/* laad partial change password */
+
+$('#show-change').click(function () {
+    $('#changePartial').show();
+});
+$('#changed').click(function () {
+    $('#changePartial').hide();
+});
+$('#nochange').click(function () {
+    $('#changePartial').hide();
+});
+
+/*kostenpartial */
+
+$('#toevoegenFunctie').click(function () {
+    $('#loonkostPartial').show();
+});
+ $('#loonkostnochange').click(function () {
+    $('#loonkostPartial').hide();
+});
+

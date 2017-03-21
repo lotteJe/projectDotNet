@@ -40,10 +40,18 @@
         </aside>
     </div>
     <div class="container body-content">
+        @if (TempData["message"] != null)
+        {
+            <div class="alert alert-success">@TempData["message"]</div>
+        }
+        @if (TempData["error"] != null)
+        {
+            <div class="alert alert-warning">@TempData["error"]</div>
+        }
         @RenderBody()
 
         <span><a asp-area="" asp-controller="Home" asp-action="Contact"><i class="fa fa-envelope-o fa-2x" id="contact" aria-hidden="true"></i></a></span>
-        <!--   <footer>
+        <!-- <footer>
             <p>&copy; 2017 - KostenBatenTool</p>
         </footer>-->
     </div>

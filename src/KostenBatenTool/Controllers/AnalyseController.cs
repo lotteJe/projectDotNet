@@ -51,7 +51,7 @@ namespace KostenBatenTool.Controllers
             {
                 try
                 {
-                    Organisatie o = new Organisatie(model.Naam, model.Straat, model.Huisnummer,model.Postcode, model.Gemeente);
+                    Organisatie o = new Organisatie(model.Naam, model.Straat, model.Huisnummer, model.Postcode, model.Gemeente);
                     _organisatieRepository.Add(o);
                     _organisatieRepository.SaveChanges();
                     return RedirectToAction(nameof(Overzicht));
@@ -69,6 +69,34 @@ namespace KostenBatenTool.Controllers
         public IActionResult Overzicht()
         {
             return View();
+        }
+
+        [HttpGet]
+        public IActionResult K1()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> K1(LoonkostViewModel model, string returnUrl = null)
+        {
+            ViewData["ReturnUrl"] = returnUrl;
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                   // LoonKost kost = new LoonKost();
+                   // kost.Lijnen = model.Functie;
+
+                        return RedirectToAction(nameof(Overzicht));
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
+            }
+            return View(model);
         }
     }
 }
