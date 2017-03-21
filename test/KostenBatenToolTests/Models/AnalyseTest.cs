@@ -15,8 +15,6 @@ namespace KostenBatenToolTests.Models
         private Analyse _analyse;
         private Organisatie o;
 
-        IList<Berekening> _mockKostBerekeningen;
-        IList<Berekening> _mockBaatBerekeningen;
 
 
         public AnalyseTest()
@@ -24,6 +22,7 @@ namespace KostenBatenToolTests.Models
             o = new Organisatie("a", "b", "c", 1000, "d");
             o.UrenWerkWeek = 40M;
             _analyse = new Analyse(o);
+                       
         }
          
         #region Tests
@@ -54,11 +53,75 @@ namespace KostenBatenToolTests.Models
         }
 
         [Fact]
-        public void GeefTotaalBedragPerBerekeningBaat()
+        public void GeefTotaalBedragPerBerekening()
+        {
+            Mock<Berekening> b = new Mock<Berekening>();
+            b.Setup(t => t.BerekenResultaat()).Returns(500M);
+            Assert.Equal(_analyse.GeefTotaalBedragPerBerekening(b.Object), 500M);
+            b.Verify(t => t.BerekenResultaat(), Times.Once);
+        }
+
+        [Fact]
+        public void BerekenBedragPerLijnKost()
+        {
+            Mock<Berekening> kostBerekening1 = new Mock<Berekening>();
+            _analyse.BerekenBedragPerLijn(kostBerekening1.Object, 1);
+            kostBerekening1.Verify(k => k.BerekenBedragPerLijn(1), Times.Once);
+        }
+
+        [Fact]
+        public void VulVeldInKost()
+        {
+            Mock<Berekening> kostBerekening1 = new Mock<Berekening>();
+            _analyse.VulVeldIn(kostBerekening1.Object, 0, "totaalbedrag","test");
+            kostBerekening1.Verify(k => k.VulVeldIn(0,"totaalbedrag","test"), Times.Once);
+        }
+        [Fact]
+        public void BerekenNettoResultaat()
+        {
+            //Mock<Analyse> analyse = new Mock<Analyse>();
+            //analyse.Setup(a => a.BerekenBatenResultaat()).Returns(9999M);
+            //analyse.Setup(a => a.BerekenKostenResultaat()).Returns(5000M);
+
+            //Assert.Equal(analyse.Object.BerekenNettoResultaat(), 4999M);
+
+            //analyse.Verify(a => a.BerekenBatenResultaat(), Times.Once);
+            //analyse.Verify(a => a.BerekenKostenResultaat(), Times.Once);
+        }
+
+        [Fact]
+        public void BerekenKostenResultaat()
         {
             
-            _mockBaatBerekeningen = new List<Berekening>();
-            _analyse.Baten = new List<Berekening>(); 
+            _analyse.Kosten = new List<Berekening>();
+
+
+            Mock<Berekening> kostBerekening1 = new Mock<Berekening>();
+            kostBerekening1.Setup(k => k.BerekenResultaat()).Returns(1000M);
+
+            Mock<Berekening> kostBerekening2 = new Mock<Berekening>();
+            kostBerekening2.Setup(k => k.BerekenResultaat()).Returns(500M);
+
+            Mock<Berekening> kostBerekening3 = new Mock<Berekening>();
+            kostBerekening3.Setup(k => k.BerekenResultaat()).Returns(250M);
+
+            _analyse.Kosten.Add(kostBerekening1.Object);
+            _analyse.Kosten.Add(kostBerekening2.Object);
+            _analyse.Kosten.Add(kostBerekening3.Object);
+
+            Assert.Equal(_analyse.BerekenKostenResultaat(), 1750M);
+            kostBerekening1.Verify(a => a.BerekenResultaat(), Times.Once);
+            kostBerekening2.Verify(a => a.BerekenResultaat(), Times.Once);
+            kostBerekening3.Verify(a => a.BerekenResultaat(), Times.Once);
+        }
+
+        [Fact]
+        public void BerekenBatenResultaat()
+        {
+
+
+            _analyse.Baten = new List<Berekening>();
+
 
             Mock<Berekening> baatBerekening1 = new Mock<Berekening>();
             baatBerekening1.Setup(b => b.BerekenResultaat()).Returns(1000M);
@@ -69,44 +132,15 @@ namespace KostenBatenToolTests.Models
             Mock<Berekening> baatBerekening3 = new Mock<Berekening>();
             baatBerekening3.Setup(b => b.BerekenResultaat()).Returns(2500M);
 
-            _mockBaatBerekeningen.Add(baatBerekening1.Object);
-            _mockBaatBerekeningen.Add(baatBerekening2.Object);
-            _mockBaatBerekeningen.Add(baatBerekening3.Object);
+            _analyse.Baten.Add(baatBerekening1.Object);
+            _analyse.Baten.Add(baatBerekening2.Object);
+            _analyse.Baten.Add(baatBerekening3.Object);
 
-            Assert.Equal(_mockBaatBerekeningen[0].BerekenResultaat(), 1000M);
-            Assert.Equal(_mockBaatBerekeningen[1].BerekenResultaat(), 5000M);
-            Assert.Equal(_mockBaatBerekeningen[2].BerekenResultaat(), 2500M);
-        }
+            Assert.Equal(_analyse.BerekenBatenResultaat(), 8500M);
+            baatBerekening1.Verify(a => a.BerekenResultaat(), Times.Once);
+            baatBerekening2.Verify(a => a.BerekenResultaat(), Times.Once);
+            baatBerekening3.Verify(a => a.BerekenResultaat(), Times.Once);
 
-        public void GeefTotaalBedragPerBerekeningKost()
-        {
-            _mockKostBerekeningen = new List<Berekening>();
-            _analyse.Kosten = new List<Berekening>();
-            Mock<Berekening> kostBerekening1 = new Mock<Berekening>();
-            kostBerekening1.Setup(k => k.BerekenResultaat()).Returns(1000M);
-
-            Mock<Berekening> kostBerekening2 = new Mock<Berekening>();
-            kostBerekening2.Setup(k => k.BerekenResultaat()).Returns(500M);
-
-            Mock<Berekening> kostBerekening3 = new Mock<Berekening>();
-            kostBerekening3.Setup(k => k.BerekenResultaat()).Returns(250M);
-
-            _mockKostBerekeningen.Add(kostBerekening1.Object);
-            _mockKostBerekeningen.Add(kostBerekening2.Object);
-            _mockKostBerekeningen.Add(kostBerekening3.Object);
-
-            Assert.Equal(_mockKostBerekeningen[0].BerekenResultaat(), 1000M);
-            Assert.Equal(_mockKostBerekeningen[1].BerekenResultaat(), 500M);
-            Assert.Equal(_mockKostBerekeningen[2].BerekenResultaat(), 250M);
-
-        }
-
-        public void BerekenBedragPerLijn()
-        {
-            Mock<Berekening> kostBerekening1 = new Mock<Berekening>();
-            _analyse.BerekenBedragPerLijn(kostBerekening1.Object, 1);
-
-             
         }
 
 
