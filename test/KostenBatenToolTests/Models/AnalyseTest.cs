@@ -72,9 +72,8 @@ namespace KostenBatenToolTests.Models
         [Fact]
         public void VulVeldInKost()
         {
-            Mock<Berekening> kostBerekening1 = new Mock<Berekening>();
-            _analyse.VulVeldIn(kostBerekening1.Object, 0, "totaalbedrag","test");
-            kostBerekening1.Verify(k => k.VulVeldIn(0,"totaalbedrag","test"), Times.Once);
+            _analyse.VulVeldIn("AndereKost", 0, "bedrag",100M);
+            Assert.Equal(_analyse.Kosten.First(k => k is AndereKost).Lijnen[0].First(l => l.Key == "bedrag").Value, 100M);
         }
         [Fact]
         public void BerekenNettoResultaat()
