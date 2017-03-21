@@ -18,6 +18,10 @@ namespace KostenBatenTool.Models.Domain
 
         #region Constructors
 
+        protected Veld()
+        {
+            
+        }
         public Veld(string key, Object value)
         {
             Key = key;
@@ -27,12 +31,6 @@ namespace KostenBatenTool.Models.Domain
         }
         #endregion
 
-        #region Methods
-        public void MapInternalValue()
-        {
-            InternalValue = "" + Value;
-        }
-        #endregion
-
+       
     }
 }

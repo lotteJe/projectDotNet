@@ -15,6 +15,11 @@ namespace KostenBatenTool.Data
         #endregion
 
         #region Constructors
+
+        protected BerekeningVeld()
+        {
+            
+        }
         public BerekeningVeld(int berekeningId, int lijnId, int veldId)
         {
             BerekeningId = berekeningId;

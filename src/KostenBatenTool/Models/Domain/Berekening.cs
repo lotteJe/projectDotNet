@@ -101,7 +101,14 @@ namespace KostenBatenTool.Models.Domain
             {
                 foreach (Veld veld in lijn)
                 {
-                    veld.MapInternalValue();
+                    if (Velden[veld.Key] == typeof(Doelgroep) && veld.Value != null)
+                    {
+                        veld.InternalValue = Enum.GetName(typeof(Doelgroep), veld.Value);
+                    }
+                    else
+                    {
+                        veld.InternalValue = "" + veld.Value;
+                    }
                 }
             }
         }
@@ -122,7 +129,15 @@ namespace KostenBatenTool.Models.Domain
                         veld.Value = Double.Parse(veld.InternalValue);
                     } else if (Velden[veld.Key] == typeof(Doelgroep))
                     {
-                        veld.Value = Enum.Parse(typeof(Doelgroep), veld.InternalValue);
+                        if (veld.InternalValue != "")
+                        {
+                            veld.Value = Enum.Parse(typeof(Doelgroep), veld.InternalValue);
+                        }
+                        else
+                        {
+                            veld.Value = null;
+                        }
+                            
                     }
                     else
                     {

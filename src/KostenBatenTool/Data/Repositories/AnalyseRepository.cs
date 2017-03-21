@@ -14,9 +14,18 @@ namespace KostenBatenTool.Data.Repositories
         private readonly DbSet<Veld> _velden;
         private readonly ApplicationDbContext _dbContext;
 
+
+        public AnalyseRepository(ApplicationDbContext dbContext)
+        {
+            _analyses = dbContext.Analyses;
+            _berekeningVelden = dbContext.BerekeningVelden;
+            _velden = dbContext.Velden;
+            _dbContext = dbContext;
+        }
+
+
         public void Add(Analyse analyse)
         {
-            
             foreach (Berekening kost in analyse.Kosten)
             {
                 //conversie van velden
@@ -31,6 +40,21 @@ namespace KostenBatenTool.Data.Repositories
                     }
                 }
             }
+            foreach (Berekening baat in analyse.Baten)
+            {
+                //conversie van velden
+                baat.Serialiseer();
+                //conversie naar BerekeningVeld
+                foreach (List<Veld> lijn in baat.Lijnen)
+                {
+                    foreach (Veld veld in lijn)
+                    {
+                        _berekeningVelden.Add(new BerekeningVeld(baat.BerekeningId, baat.Lijnen.IndexOf(lijn), veld.VeldId));
+                        _velden.Add(veld);
+                    }
+                }
+            }
+
             _analyses.Add(analyse);
         }
 
@@ -43,6 +67,25 @@ namespace KostenBatenTool.Data.Repositories
                 List<BerekeningVeld> berekenVelden = _berekeningVelden.Where(b => b.BerekeningId == berekening.BerekeningId).ToList();
                 List<List<Veld>> lijnen = new List<List<Veld>>();
                 for (int i = 0; i  < berekenVelden.Max(b => b.LijnId); i++)
+                {
+                    List<BerekeningVeld> berekeningVeldLijn = berekenVelden.Where(b => b.LijnId == i).ToList();
+                    List<Veld> lijn = new List<Veld>();
+                    foreach (BerekeningVeld berekeningVeld in berekeningVeldLijn)
+                    {
+                        Veld veld = _velden.FirstOrDefault(v => v.VeldId == berekeningVeld.VeldId);
+                        lijn.Add(veld);
+                    }
+                    lijnen.Add(lijn);
+                }
+                berekening.Lijnen = lijnen;
+                //Deserialiseren
+                berekening.Deserialiseer();
+            }
+            foreach (Berekening berekening in analyse.Baten)
+            {
+                List<BerekeningVeld> berekenVelden = _berekeningVelden.Where(b => b.BerekeningId == berekening.BerekeningId).ToList();
+                List<List<Veld>> lijnen = new List<List<Veld>>();
+                for (int i = 0; i < berekenVelden.Max(b => b.LijnId); i++)
                 {
                     List<BerekeningVeld> berekeningVeldLijn = berekenVelden.Where(b => b.LijnId == i).ToList();
                     List<Veld> lijn = new List<Veld>();
