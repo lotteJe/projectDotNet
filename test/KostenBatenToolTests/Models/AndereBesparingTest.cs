@@ -25,8 +25,8 @@ namespace KostenBatenToolTests.Models
         [Fact]
         public void AndereBesparing_MaaktJuisteVeldenAan()
         {
-            Assert.Equal(_baat.Velden["type besparing"], typeof(string));
-            Assert.Equal(_baat.Velden["jaarbedrag"], typeof(decimal));
+            Assert.Equal(_baat.Velden.Find(v => v.Key.Equals("type besparing")).Value, typeof(string));
+            Assert.Equal(_baat.Velden.Find(v => v.Key.Equals("jaarbedrag")).Value, typeof(decimal));
 
         }
 

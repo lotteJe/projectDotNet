@@ -21,7 +21,7 @@ namespace KostenBatenTool.Models.Domain
         public LoonkostSubsidie(LoonKost loonkost)
         {
             Loonkost = loonkost;
-            Velden.Add("Totale loonkostsubsidie", typeof(decimal));
+            Velden.Add(new Veld("Totale loonkostsubsidie", typeof(decimal)));
             VoegLijnToe(0);
         }
         #endregion

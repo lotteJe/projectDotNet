@@ -11,7 +11,7 @@ namespace KostenBatenTool.Models.Domain
 
         public ProductiviteitsWinst()
         {
-            Velden.Add("jaarbedrag", typeof(decimal));
+            Velden.Add(new Veld("jaarbedrag", typeof(decimal)));
             VoegLijnToe(0);
         }
         #endregion

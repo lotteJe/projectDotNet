@@ -10,9 +10,9 @@ namespace KostenBatenTool.Models.Domain
         #region Constructors 
         public LogistiekeBesparing()
         {
-            Velden.Add("transportkosten jaarbedrag", typeof(decimal));
-            Velden.Add("logistieke kosten jaarbedrag", typeof(decimal));
-            Velden.Add("totaalbedrag", typeof(decimal));
+            Velden.Add(new Veld("transportkosten jaarbedrag", typeof(decimal)));
+            Velden.Add(new Veld("logistieke kosten jaarbedrag", typeof(decimal)));
+            Velden.Add(new Veld("totaalbedrag", typeof(decimal)));
             VoegLijnToe(0);
         }
         #endregion

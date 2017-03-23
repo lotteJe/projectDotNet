@@ -16,9 +16,9 @@ namespace KostenBatenTool.Models.Domain
         public MedewerkerZelfdeNiveauBesparing(Analyse analyse)
         {
             Analyse = analyse;
-            Velden.Add("uren", typeof(decimal));
-            Velden.Add("bruto maandloon fulltime", typeof(decimal));
-            Velden.Add("totale loonkost per jaar", typeof(decimal));
+            Velden.Add(new Veld("uren", typeof(decimal)));
+            Velden.Add(new Veld("bruto maandloon fulltime", typeof(decimal)));
+            Velden.Add(new Veld("totale loonkost per jaar", typeof(decimal)));
             VoegLijnToe(0);
         }
         #endregion

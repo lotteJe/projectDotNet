@@ -46,7 +46,7 @@ namespace KostenBatenToolTests.Models
         [Fact]
         public void LoonKostSubsidie_MaaktJuisteVeldenAan()
         {
-            Assert.Equal(_baat.Velden["Totale loonkostsubsidie"], typeof(decimal));
+            Assert.Equal(_baat.Velden.Find(v => v.Key.Equals("Totale loonkostsubsidie")).Value, typeof(decimal));
         }
 
         [Fact]

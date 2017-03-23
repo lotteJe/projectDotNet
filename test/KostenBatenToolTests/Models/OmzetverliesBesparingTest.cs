@@ -26,9 +26,9 @@ namespace KostenBatenToolTests.Models
         [Fact]
         public void OmzetverliesBesparing_MaaktJuisteVeldenAan()
         {
-            Assert.Equal(_baat.Velden["jaarbedrag omzetverlies"], typeof(decimal));
-            Assert.Equal(_baat.Velden["% besparing"], typeof(decimal));
-            Assert.Equal(_baat.Velden["totaalbesparing"], typeof(decimal));
+            Assert.Equal(_baat.Velden.Find(v => v.Key.Equals("jaarbedrag omzetverlies")).Value, typeof(decimal));
+            Assert.Equal(_baat.Velden.Find(v => v.Key.Equals("% besparing")).Value, typeof(decimal));
+            Assert.Equal(_baat.Velden.Find(v => v.Key.Equals("totaalbesparing")).Value, typeof(decimal));
             
         }
 

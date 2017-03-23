@@ -31,9 +31,9 @@ namespace KostenBatenToolTests.Models
         [Fact]
         public void AdministratieBegeleidingsKost_MaaktJuisteVeldenAan()
         {
-            Assert.Equal(_kost.Velden["uren"], typeof(decimal));
-            Assert.Equal(_kost.Velden["bruto maandloon begeleider"], typeof(decimal));
-            Assert.Equal(_kost.Velden["jaarbedrag"], typeof(decimal));
+            Assert.Equal(_kost.Velden.Find(v => v.Key.Equals("uren")).Value, typeof(decimal));
+            Assert.Equal(_kost.Velden.Find(v => v.Key.Equals("bruto maandloon begeleider")).Value, typeof(decimal));
+            Assert.Equal(_kost.Velden.Find(v => v.Key.Equals("jaarbedrag")).Value, typeof(decimal));
             
         }
 

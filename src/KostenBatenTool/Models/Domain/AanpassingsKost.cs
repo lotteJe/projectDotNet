@@ -10,8 +10,8 @@ namespace KostenBatenTool.Models.Domain
         #region Constructors
         public AanpassingsKost()
         {
-            Velden.Add("type", typeof(String));
-            Velden.Add("bedrag", typeof(decimal));
+            Velden.Add(new Veld("type", typeof(String)));
+            Velden.Add(new Veld("bedrag", typeof(decimal)));
             VoegLijnToe(0);
         }
         #endregion

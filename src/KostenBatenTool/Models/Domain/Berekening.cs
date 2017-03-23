@@ -14,7 +14,7 @@ namespace KostenBatenTool.Models.Domain
 
         public static int Teller = 0;
         public int BerekeningId { get; set; }
-        public Dictionary<string, Type> Velden { get; set; } = new Dictionary<string, Type>();
+        public List<Veld> Velden { get; set; } = new List<Veld>();
         public List<List<Veld>> Lijnen { get; set; } = new List<List<Veld>>();
 
         #endregion
@@ -36,7 +36,7 @@ namespace KostenBatenTool.Models.Domain
         public void VoegLijnToe(int index) //Voegt nieuwe List toe op index waarvan alle keys ingevuld zijn en elke string null is, elke double en decimal zijn 0
         {
                 Lijnen.Insert(index, new List<Veld>());
-                foreach (KeyValuePair<string, Type> veld in Velden)
+                foreach (Veld veld in Velden)
                 {
 
                     if (veld.Value == typeof(decimal))
@@ -72,10 +72,10 @@ namespace KostenBatenTool.Models.Domain
             {
                throw new ArgumentException("Sleutel bestaat niet!");
             }
-            if (waarde.GetType() == Velden[key]) // Checken of Object van juiste dataype is
+            if (waarde.GetType() == Velden.Find(v => v.Key == key).Value) // Checken of Object van juiste dataype is
             {
-                if ((Velden[key] == typeof(decimal) && (decimal)waarde < 0) || //checken of waarde geen negatief getal is
-                    (Velden[key] == typeof(double) && (double)waarde < 0))
+                if ((Velden.Find(v => v.Key == key).Value == typeof(decimal) && (decimal)waarde < 0) || //checken of waarde geen negatief getal is
+                    (Velden.Find(v => v.Key == key).Value == typeof(double) && (double)waarde < 0))
                 {
                     throw new ArgumentException("Waarde mag niet negatief zijn");
                 }
@@ -90,7 +90,7 @@ namespace KostenBatenTool.Models.Domain
             }
             else // Object is van verkeerde datatype
             {
-                throw new ArgumentException($"Waarde moet {Velden[key].ToString()} zijn!");
+                throw new ArgumentException($"Waarde moet {Velden.Find(v=>v.Key == key).Value.ToString()} zijn!");
             }
         }
 
@@ -101,7 +101,7 @@ namespace KostenBatenTool.Models.Domain
             {
                 foreach (Veld veld in lijn)
                 {
-                    if (Velden[veld.Key] == typeof(Doelgroep) && veld.Value != null)
+                    if (Velden.Find(v => v.Key == veld.Key).Value == typeof(Doelgroep) && veld.Value != null)
                     {
                         veld.InternalValue = Enum.GetName(typeof(Doelgroep), veld.Value);
                     }
@@ -121,13 +121,13 @@ namespace KostenBatenTool.Models.Domain
                 foreach (Veld veld in lijn)
                 {
                     //type ophalen 
-                    if (Velden[veld.Key] == typeof(decimal))
+                    if (Velden.Find(v => v.Key == veld.Key).Value == typeof(decimal))
                     {
                         veld.Value = Decimal.Parse(veld.InternalValue);
-                    } else if (Velden[veld.Key] == typeof(double))
+                    } else if (Velden.Find(v => v.Key == veld.Key).Value == typeof(double))
                     {
                         veld.Value = Double.Parse(veld.InternalValue);
-                    } else if (Velden[veld.Key] == typeof(Doelgroep))
+                    } else if (Velden.Find(v => v.Key == veld.Key).Value == typeof(Doelgroep))
                     {
                         if (veld.InternalValue != "")
                         {
