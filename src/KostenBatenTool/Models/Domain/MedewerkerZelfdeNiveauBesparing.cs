@@ -12,7 +12,7 @@ namespace KostenBatenTool.Models.Domain
         #endregion
 
         #region Constructors
-
+        protected MedewerkerZelfdeNiveauBesparing() { }
         public MedewerkerZelfdeNiveauBesparing(Analyse analyse)
         {
             Analyse = analyse;

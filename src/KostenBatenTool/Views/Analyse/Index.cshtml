@@ -1,4 +1,4 @@
-﻿@*@model IEnumerable<KostenBatenTool.Models.Domain.Analyse>*@
+﻿@model KostenBatenTool.Models.Domain.Analyse
 @{
     ViewData["Title"] = "Archief";
 }
@@ -24,7 +24,7 @@
                 <td>12/3/2016</td>
                 <td>11:00</td>
                 <td>Demallit</td>
-                <td>Aalst</td>
+                <td>@Model.Organisatie.Gemeente</td>
                 <td style="color: red">-1.965</td>
                 <td style="color: red">2360</td>
                 <td style="color: green">236</td>

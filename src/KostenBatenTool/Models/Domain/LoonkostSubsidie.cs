@@ -14,6 +14,10 @@ namespace KostenBatenTool.Models.Domain
 
         #region Constructors
 
+        protected LoonkostSubsidie()
+        {
+            
+        }
         public LoonkostSubsidie(LoonKost loonkost)
         {
             Loonkost = loonkost;

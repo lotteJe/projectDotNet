@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using KostenBatenTool.Models.Domain;
 
-namespace KostenBatenToolTests.Models
+namespace KostenBatenTool.Models.Domain
 {
     public class MedewerkerHogerNiveauBesparing : Berekening
     {
@@ -14,6 +14,10 @@ namespace KostenBatenToolTests.Models
 
         #region Constructors
 
+        protected MedewerkerHogerNiveauBesparing()
+        {
+            
+        }
         public MedewerkerHogerNiveauBesparing(Analyse analyse)
         {
             Analyse = analyse;

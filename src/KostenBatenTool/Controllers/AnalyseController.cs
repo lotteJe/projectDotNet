@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using KostenBatenTool.Models.AnalyseViewModels;
 using KostenBatenTool.Models.Domain;
 using Microsoft.AspNetCore.Mvc;
+using KostenBatenTool.Data.Repositories;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -13,18 +14,22 @@ namespace KostenBatenTool.Controllers
     public class AnalyseController : Controller
     {
         private readonly IOrganisatieRepository _organisatieRepository;
-        //private readonly IAnalyseRepository _analyseRepository;
-        public AnalyseController(/*IAnalyseRepository analyseRepository*/ IOrganisatieRepository organisatieRepository)
+        private readonly IAnalyseRepository _analyseRepository;
+        public AnalyseController(IAnalyseRepository analyseRepository, IOrganisatieRepository organisatieRepository)
         {
             _organisatieRepository = organisatieRepository;
-            //_analyseRepository = analyseRepository;
+            _analyseRepository = analyseRepository;
         }
 
         // GET: /<controller>/
         public IActionResult Index()
         {
-            //IEnumerable<Analyse> analyses = _analyseRepository.geAll();
-            return View( /*analyses*/);
+            Organisatie hogent = new Organisatie("UGent", "Arbeidstraat", "14", 9300, "Dendermonde");
+            Analyse analyse = new Analyse(hogent);
+            _analyseRepository.Add(analyse);
+            _analyseRepository.SaveChanges();
+            Analyse analyse2 = _analyseRepository.GetAnalyse(1);
+            return View( analyse2);
         }
         public IActionResult Nieuw()
         {

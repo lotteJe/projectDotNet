@@ -15,6 +15,10 @@ namespace KostenBatenTool.Models.Domain
 
         #region Constructors
 
+        protected LoonKost()
+        {
+            
+        }
         public LoonKost(Analyse analyse)
         {
             Analyse = analyse;

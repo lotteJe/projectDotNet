@@ -58,7 +58,7 @@ namespace KostenBatenTool
 
             services.AddMvc();
             services.AddScoped<IOrganisatieRepository, OrganisatieRepository>();
-            services.AddScoped<AnalyseRepository>();
+            services.AddScoped<IAnalyseRepository, AnalyseRepository>();
             services.AddScoped<KostenBatenInitializer>();
 
             // Add application services.
@@ -109,7 +109,7 @@ namespace KostenBatenTool
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
-            kostenBatenInitializer.InitializeData().Wait();
+            kostenBatenInitializer.InitializeData();
         }
     }
 }

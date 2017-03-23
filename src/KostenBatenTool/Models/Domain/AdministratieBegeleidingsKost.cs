@@ -13,6 +13,12 @@ namespace KostenBatenTool.Models.Domain
         #endregion
 
         #region Constructors
+
+        protected AdministratieBegeleidingsKost()
+        {
+            
+        }
+
         public AdministratieBegeleidingsKost(Analyse analyse)
         {
             Analyse = analyse;

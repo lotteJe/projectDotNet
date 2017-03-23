@@ -1,4 +1,5 @@
-﻿@{
+﻿@model KostenBatenTool.Models.Domain.Analyse
+@{
     ViewData["Title"] = "Home";
 }
 
@@ -19,7 +20,7 @@
                     <td>Resultaat</td>
                 </tr>
                 <tr>
-                    <td>Aalst</td>
+                    <td>@Model.Organisatie.Gemeente</td>
                     <td>1/12/2016</td>
                     <td style="color: red">-1.695</td>
                 </tr>

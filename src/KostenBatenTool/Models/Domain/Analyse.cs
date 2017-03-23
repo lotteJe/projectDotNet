@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using KostenBatenToolTests.Models;
+
 
 
 namespace KostenBatenTool.Models.Domain
@@ -23,7 +23,27 @@ namespace KostenBatenTool.Models.Domain
 
         protected Analyse()
         {
+            //Kosten = new List<Berekening>();
+            //Baten = new List<Berekening>();
+            //Kosten.Add(new LoonKost(this));
+            //Kosten.Add(new VoorbereidingsKost());
+            //Kosten.Add(new WerkkledijKost());
+            //Kosten.Add(new AanpassingsKost());
+            //Kosten.Add(new OpleidingsKost());
+            //Kosten.Add(new AdministratieBegeleidingsKost(this));
+            //Kosten.Add(new AndereKost());
 
+            //Baten.Add(new LoonkostSubsidie((LoonKost)Kosten.First(k => k is LoonKost)));
+            //Baten.Add(new AanpassingsSubsidie());
+            //Baten.Add(new MedewerkerZelfdeNiveauBesparing(this));
+            //Baten.Add(new MedewerkerHogerNiveauBesparing(this));
+            //Baten.Add(new UitzendkrachtenBesparing());
+            //Baten.Add(new OmzetverliesBesparing());
+            //Baten.Add(new ProductiviteitsWinst());
+            //Baten.Add(new OverurenBesparing());
+            //Baten.Add(new OutsourcingBesparing());
+            //Baten.Add(new LogistiekeBesparing());
+            //Baten.Add(new AndereBesparing());
         }
        
         public Analyse(Organisatie organisatie)
