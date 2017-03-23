@@ -96,7 +96,7 @@ namespace KostenBatenTool.Models.Domain
 
         public void Serialiseer()//oproepen in Repository
         {
-            //omzetten van Value naar string
+            //omzetten van Value naar string in Lijnen
             foreach (List<Veld> lijn in Lijnen)
             {
                 foreach (Veld veld in lijn)
@@ -111,12 +111,14 @@ namespace KostenBatenTool.Models.Domain
                     }
                 }
             }
+
         }
 
         public void Deserialiseer()
         {
+           
             //omzetten naar correct type, checken bij Velden
-            foreach(List<Veld> lijn in Lijnen)
+            foreach (List<Veld> lijn in Lijnen)
             {
                 foreach (Veld veld in lijn)
                 {

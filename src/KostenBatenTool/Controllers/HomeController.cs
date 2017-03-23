@@ -37,12 +37,12 @@ namespace KostenBatenTool.Controllers
         public IActionResult Index()
         {
             //databank testen
-            Organisatie hogent = new Organisatie("HoGent", "Arbeidstraat", "14", 9300, "Gent");
+            Organisatie hogent = new Organisatie("HoGent", "Arbeidstraat", "14", 9300, "dendermonde");
             Analyse analyse = new Analyse(hogent);
-            analyse.VulVeldIn("LoonKost", 1, "functie", "manager");
-            analyse.VulVeldIn("AndereKost",1, "bedrag", 200M);
-            analyse.VulVeldIn("LoonKost", 2, "uren per week", 200M);
-            analyse.VulVeldIn("ProductiviteitsWinst", 1, "jaarbedrag", 1000M);
+            //analyse.VulVeldIn("LoonKost", 1, "functie", "manager");
+            //analyse.VulVeldIn("AndereKost",1, "bedrag", 200M);
+            //analyse.VulVeldIn("LoonKost", 2, "uren per week", 200M);
+            //analyse.VulVeldIn("ProductiviteitsWinst", 1, "jaarbedrag", 1000M);
             _analyseRepository.Add(analyse);
             _analyseRepository.SaveChanges();
             Analyse a = _analyseRepository.GetAnalyse(1);

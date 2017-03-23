@@ -24,6 +24,7 @@ namespace KostenBatenTool.Controllers
         // GET: /<controller>/
         public IActionResult Index()
         {
+            //databank testen
             Organisatie hogent = new Organisatie("UGent", "Arbeidstraat", "14", 9300, "Dendermonde");
             Analyse analyse = new Analyse(hogent);
             _analyseRepository.Add(analyse);

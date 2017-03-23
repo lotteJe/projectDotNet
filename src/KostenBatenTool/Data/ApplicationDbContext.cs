@@ -46,7 +46,7 @@ namespace KostenBatenTool.Data
         {
             b.ToTable("Berekening");
             b.Property(t => t.BerekeningId);
-            b.Ignore(t => t.Velden);
+            b.HasMany(t => t.Velden).WithOne().OnDelete(DeleteBehavior.Cascade);
             b.Ignore(t => t.Lijnen);
             b.HasDiscriminator<String>("Type").HasValue<AanpassingsKost>("AanpassingsKost")
                 .HasValue<AanpassingsSubsidie>("AanpassingsSubsidie")
