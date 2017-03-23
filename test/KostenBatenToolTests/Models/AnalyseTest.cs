@@ -53,23 +53,6 @@ namespace KostenBatenToolTests.Models
         }
 
         [Fact]
-        public void GeefTotaalBedragPerBerekening()
-        {
-            Mock<Berekening> b = new Mock<Berekening>();
-            b.Setup(t => t.BerekenResultaat()).Returns(500M);
-            Assert.Equal(_analyse.GeefTotaalBedragPerBerekening(b.Object), 500M);
-            b.Verify(t => t.BerekenResultaat(), Times.Once);
-        }
-
-        [Fact]
-        public void BerekenBedragPerLijnKost()
-        {
-            Mock<Berekening> kostBerekening1 = new Mock<Berekening>();
-            _analyse.BerekenBedragPerLijn(kostBerekening1.Object, 1);
-            kostBerekening1.Verify(k => k.BerekenBedragPerLijn(1), Times.Once);
-        }
-
-        [Fact]
         public void VulVeldInKost()
         {
             _analyse.VulVeldIn("AndereKost", 0, "bedrag",100M);
@@ -93,8 +76,6 @@ namespace KostenBatenToolTests.Models
         {
             
             _analyse.Kosten = new List<Berekening>();
-
-
             Mock<Berekening> kostBerekening1 = new Mock<Berekening>();
             kostBerekening1.Setup(k => k.BerekenResultaat()).Returns(1000M);
 
@@ -117,12 +98,9 @@ namespace KostenBatenToolTests.Models
         [Fact]
         public void BerekenBatenResultaat()
         {
-
-
-
+            
             _analyse.Baten = new List<Berekening>();
-
-
+            
             Mock<Berekening> baatBerekening1 = new Mock<Berekening>();
             baatBerekening1.Setup(b => b.BerekenResultaat()).Returns(1000M);
 

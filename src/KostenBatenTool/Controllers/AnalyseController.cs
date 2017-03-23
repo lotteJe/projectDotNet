@@ -24,8 +24,8 @@ namespace KostenBatenTool.Controllers
         // GET: /<controller>/
         public IActionResult Index()
         {
-            Analyse analyse = _analyseRepository.GetBy(2);
-            return View( analyse);
+            IEnumerable<Analyse> a = _analyseRepository.GetAll();
+            return View( a);
         }
         public IActionResult Nieuw()
         {
@@ -53,8 +53,9 @@ namespace KostenBatenTool.Controllers
                 try
                 {
                     Organisatie o = new Organisatie(model.Naam, model.Straat, model.Huisnummer, model.Postcode, model.Gemeente);
-                    _organisatieRepository.Add(o);
-                    _organisatieRepository.SaveChanges();
+                    Analyse a = new Analyse(o);
+                    _analyseRepository.Add(a);
+                    _analyseRepository.SaveChanges();
                     return RedirectToAction(nameof(Overzicht));
                 }
                 catch (Exception e)
@@ -77,6 +78,7 @@ namespace KostenBatenTool.Controllers
         {
             return View();
         }
+
 
         [HttpPost]
         public async Task<IActionResult> K1(LoonkostViewModel model, string returnUrl = null)

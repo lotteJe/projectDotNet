@@ -81,6 +81,7 @@ namespace KostenBatenTool.Data
             a.ToTable("Analyse");
             a.Property(t => t.AnalyseId).ValueGeneratedOnAdd();
             a.Property(t => t.AanmaakDatum).IsRequired();
+            a.Property(t => t.Resultaat);
             a.HasOne(t => t.Organisatie).WithMany().IsRequired().OnDelete(DeleteBehavior.Restrict); 
             a.HasMany(t => t.Baten).WithOne().OnDelete(DeleteBehavior.Cascade);
             a.HasMany(t => t.Kosten).WithOne().OnDelete(DeleteBehavior.Cascade);

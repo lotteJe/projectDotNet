@@ -1,4 +1,5 @@
 ﻿
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
@@ -36,7 +37,7 @@ namespace KostenBatenTool.Controllers
         }
         public IActionResult Index()
         {
-            Analyse a = _analyseRepository.GetBy(1);
+            IEnumerable<Analyse> a = _analyseRepository.GetAll();
             return View(a);
         }
 

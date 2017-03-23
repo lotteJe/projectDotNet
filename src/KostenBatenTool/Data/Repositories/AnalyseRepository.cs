@@ -106,7 +106,7 @@ namespace KostenBatenTool.Data.Repositories
 
         public IEnumerable<Analyse> GetAll()
         {
-            return null;
+           return _analyses.Include(a => a.Organisatie).ToList();
         }
 
         public void Delete(Analyse analyse)

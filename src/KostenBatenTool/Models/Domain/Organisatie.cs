@@ -21,7 +21,7 @@ namespace KostenBatenTool.Models.Domain
         public string Huisnummer { get; set; }
         public int Postcode { get; set; }
         public string Gemeente { get; set; }
-        public decimal UrenWerkWeek { get; set; } = 0M;
+        public decimal UrenWerkWeek { get; set; } = 38M;
         public int OrganisatieId { get; set; }
 
         public decimal PatronaleBijdrage

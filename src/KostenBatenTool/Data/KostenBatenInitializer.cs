@@ -45,12 +45,22 @@ namespace KostenBatenTool.Data
                 
                 Organisatie hogent = new Organisatie("HoGent", "Arbeidstraat", "14", 9300, "Aalst");
                 Analyse analyseHogent = new Analyse(hogent);
-                //analyse.VulVeldIn("LoonKost", 1, "functie", "manager");
-                //analyse.VulVeldIn("AndereKost",1, "bedrag", 200M);
-                //analyse.VulVeldIn("LoonKost", 2, "uren per week", 200M);
-                //analyse.VulVeldIn("ProductiviteitsWinst", 1, "jaarbedrag", 1000M);
+                analyseHogent.VulVeldIn("LoonKost", 0, "functie", "manager");
+                analyseHogent.VulVeldIn("LoonKost", 0, "bruto maandloon fulltime", 1000M);
+                analyseHogent.VulVeldIn("LoonKost", 0, "uren per week", 40.0M);
+                analyseHogent.VulVeldIn("LoonKost", 1, "bruto maandloon fulltime", 1200M);
+                analyseHogent.VulVeldIn("LoonKost", 1, "uren per week", 40.0M);
+                analyseHogent.VulVeldIn("AndereKost",1, "bedrag", 200M);
+                analyseHogent.VulVeldIn("ProductiviteitsWinst", 1, "jaarbedrag", 1000M);
                 Organisatie ugent = new Organisatie("UGent", "Krijgslaan", "114", 9000, "Gent");
                 Analyse analyseUgent = new Analyse(ugent);
+                analyseUgent.VulVeldIn("LoonKost", 0, "functie", "docent");
+                analyseUgent.VulVeldIn("LoonKost", 0, "bruto maandloon fulltime", 2000M);
+                analyseUgent.VulVeldIn("LoonKost", 0, "uren per week", 40.0M);
+                analyseUgent.VulVeldIn("LoonKost", 1, "bruto maandloon fulltime", 2200M);
+                analyseUgent.VulVeldIn("LoonKost", 1, "uren per week", 40.0M);
+                analyseUgent.VulVeldIn("AndereKost", 1, "bedrag", 100M);
+                analyseUgent.VulVeldIn("ProductiviteitsWinst", 1, "jaarbedrag", 1000M);
                 AnalyseRepository a = new AnalyseRepository(_dbContext);
                 a.Add(analyseHogent);
                 a.Add(analyseUgent);
