@@ -7,8 +7,10 @@ namespace KostenBatenTool.Models.Domain
 {
     public interface IAnalyseRepository
     {
+        Analyse GetBy(int analyseId);
+        IEnumerable<Analyse> GetAll();
         void Add(Analyse analyse);
-        Analyse GetAnalyse(int analyseId);
+        void Delete(Analyse analyse);
         void SaveChanges();
     }
 }

@@ -59,10 +59,10 @@ namespace KostenBatenTool.Data.Repositories
             _analyses.Add(analyse);
         }
 
-        public Analyse GetAnalyse(int analyseId)
+        public Analyse GetBy(int analyseId)
         {
             //conversie van BerekeningVeld
-            Analyse analyse = _analyses.Include(a => a.Organisatie).Include(a => a.Baten).Include(a => a.Kosten).FirstOrDefault(a => a.AnalyseId == analyseId);
+            Analyse analyse = _analyses.Include(a => a.Organisatie).Include("Baten.Velden").Include("Kosten.Velden").FirstOrDefault(a => a.AnalyseId == analyseId);
             foreach (Berekening berekening in analyse.Kosten)
             {
                 List<BerekeningVeld> berekenVelden = _berekeningVelden.Where(b => b.BerekeningId == berekening.BerekeningId).ToList();
@@ -102,6 +102,16 @@ namespace KostenBatenTool.Data.Repositories
                 berekening.Deserialiseer();
             }
             return analyse;
+        }
+
+        public IEnumerable<Analyse> GetAll()
+        {
+            return null;
+        }
+
+        public void Delete(Analyse analyse)
+        {
+            
         }
         public void SaveChanges()
         {
