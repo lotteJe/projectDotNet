@@ -14,17 +14,17 @@ namespace KostenBatenTool.Controllers
     public class AnalyseController : Controller
     {
         private readonly IOrganisatieRepository _organisatieRepository;
-        private readonly IAnalyseRepository _analyseRepository;
-        public AnalyseController(IAnalyseRepository analyseRepository, IOrganisatieRepository organisatieRepository)
+        private readonly IArbeidsBemiddelaarRepository _arbeidsBemiddelaarRepository;
+        public AnalyseController(IArbeidsBemiddelaarRepository arbeidsBemiddelaarRepository, IOrganisatieRepository organisatieRepository)
         {
             _organisatieRepository = organisatieRepository;
-            _analyseRepository = analyseRepository;
+            _arbeidsBemiddelaarRepository = arbeidsBemiddelaarRepository;
         }
 
         // GET: /<controller>/
         public IActionResult Index()
         {
-            IEnumerable<Analyse> a = _analyseRepository.GetAll();
+            IEnumerable<Analyse> a = _arbeidsBemiddelaarRepository.GetAllAnalyses("sharonvanhove1@gmail.com");
             return View( a);
         }
         public IActionResult Nieuw()
@@ -53,9 +53,11 @@ namespace KostenBatenTool.Controllers
                 try
                 {
                     Organisatie o = new Organisatie(model.Naam, model.Straat, model.Huisnummer, model.Postcode, model.Gemeente);
-                    Analyse a = new Analyse(o);
-                    _analyseRepository.Add(a);
-                    _analyseRepository.SaveChanges();
+                    ArbeidsBemiddelaar a = _arbeidsBemiddelaarRepository.GetBy("sharonvanhove1@gmail.com");
+                    Analyse analyse = new Analyse(o);
+                    a.VoegNieuweAnalyseToe(analyse);
+                   _arbeidsBemiddelaarRepository.SerialiseerVelden(analyse);
+                   _arbeidsBemiddelaarRepository.SaveChanges();
                     return RedirectToAction(nameof(Overzicht));
                 }
                 catch (Exception e)

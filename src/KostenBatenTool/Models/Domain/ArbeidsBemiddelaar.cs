@@ -16,6 +16,12 @@ namespace KostenBatenTool.Models.Domain
         #endregion
         
         #region Constructors
+
+        public ArbeidsBemiddelaar()
+        {
+            
+        }
+
         public ArbeidsBemiddelaar(string naam, string voornaam, string email, Organisatie organisatie):base(naam, voornaam, email)
         {
 
@@ -26,34 +32,10 @@ namespace KostenBatenTool.Models.Domain
 
         #region Methods
 
-        public void MaakNieuweAnalyse(Organisatie organisatie)
+        public void VoegNieuweAnalyseToe(Analyse analyse)
         {
-            Analyse nieuweAnalyse = new Analyse(organisatie);
-            Analyses.Add(nieuweAnalyse);
+            Analyses.Add(analyse);
         }
-
-        public IEnumerable<Organisatie> GeefAlleOrganisaties()
-        {
-            return Analyses.Select(a => a.Organisatie);
-        }
-
-        public IEnumerable<Analyse> SorteerAnalysesOpOrganisatie()
-        {
-            return Analyses.OrderBy(a => a.Organisatie.Naam);
-        }
-
-        public IEnumerable<Analyse> ZoekInAnalyes(String zoekterm)
-        {
-            IEnumerable<Analyse> analyses = Analyses.Where(a => a.Organisatie.Naam.Contains(zoekterm)
-            || a.Organisatie.Gemeente.Contains(zoekterm)).ToList();
-
-            if (!analyses.Any())
-                throw new InvalidOperationException("Geen resultaten gevonden.");
-            return Analyses;
-        }
-
-       
-
         #endregion
 
     }

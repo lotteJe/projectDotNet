@@ -7,25 +7,47 @@ using Microsoft.EntityFrameworkCore;
 
 namespace KostenBatenTool.Data.Repositories
 {
-    public class AnalyseRepository : IAnalyseRepository
+    public class ArbeidsBemiddelaarRepository : IArbeidsBemiddelaarRepository
     {
-        private readonly DbSet<Analyse> _analyses;
+        private readonly DbSet<ArbeidsBemiddelaar> _arbeidsBemiddelaars;
         private readonly DbSet<BerekeningVeld> _berekeningVelden;
         private readonly DbSet<Veld> _velden;
         private readonly ApplicationDbContext _dbContext;
 
-
-        public AnalyseRepository(ApplicationDbContext dbContext)
+        public ArbeidsBemiddelaarRepository(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
-            _analyses = dbContext.Analyses;
+            _arbeidsBemiddelaars = _dbContext.ArbeidsBemiddelaars;
             _berekeningVelden = dbContext.BerekeningVelden;
             _velden = dbContext.Velden;
-            
         }
 
+        public ArbeidsBemiddelaar GetBy(string emailadres)
+        {
+            return _arbeidsBemiddelaars.Include(a => a.EigenOrganisatie).Include(a => a.Analyses).FirstOrDefault(a => a.Email.Equals(emailadres));
+        }
 
-        public void Add(Analyse analyse)
+        public void Add(ArbeidsBemiddelaar arbeidsBemiddelaar)
+        {
+            _arbeidsBemiddelaars.Add(arbeidsBemiddelaar);
+        }
+
+        public void Delete(ArbeidsBemiddelaar arbeidsBemiddelaar)
+        {
+            _arbeidsBemiddelaars.Remove(arbeidsBemiddelaar);
+        }
+
+        public void SaveChanges()
+        {
+            _dbContext.SaveChanges();
+        }
+
+        public IEnumerable<Analyse> GetAllAnalyses(string emailadres)
+        {
+            return _arbeidsBemiddelaars.Include("Analyses.Organisatie").First(a => a.Email.Equals(emailadres)).Analyses;
+        }
+
+        public void SerialiseerVelden(Analyse analyse)
         {
             foreach (Berekening kost in analyse.Kosten)
             {
@@ -55,19 +77,46 @@ namespace KostenBatenTool.Data.Repositories
                     }
                 }
             }
-
-            _analyses.Add(analyse);
         }
 
-        public Analyse GetBy(int analyseId)
+        public void VerwijderVelden(Analyse analyse)
         {
-            //conversie van BerekeningVeld
-            Analyse analyse = _analyses.Include(a => a.Organisatie).Include("Baten.Velden").Include("Kosten.Velden").FirstOrDefault(a => a.AnalyseId == analyseId);
+            foreach (Berekening kost in analyse.Kosten)
+            {
+                foreach (List<Veld> lijn in kost.Lijnen)
+                {
+                    foreach (Veld veld in lijn)
+                    {
+
+                        _berekeningVelden.Remove(new BerekeningVeld(kost.BerekeningId, kost.Lijnen.IndexOf(lijn), veld.VeldId));
+                        _velden.Remove(veld);
+                    }
+                }
+            }
+            foreach (Berekening baat in analyse.Baten)
+            {
+
+                foreach (List<Veld> lijn in baat.Lijnen)
+                {
+                    foreach (Veld veld in lijn)
+                    {
+                        _berekeningVelden.Remove(new BerekeningVeld(baat.BerekeningId, baat.Lijnen.IndexOf(lijn), veld.VeldId));
+                        _velden.Remove(veld);
+                    }
+                }
+            }
+        }
+
+        public Analyse GetAnalyse(string email, int id)
+        {
+            //Ophalen
+            Analyse analyse = _arbeidsBemiddelaars.Include("Analyses.Organisatie").Include("Baten.Velden").Include("Kosten.Velden").First(a => a.Email.Equals(email)).Analyses.FirstOrDefault(a => a.AnalyseId == id);
+            //Deserialiseren
             foreach (Berekening berekening in analyse.Kosten)
             {
                 List<BerekeningVeld> berekenVelden = _berekeningVelden.Where(b => b.BerekeningId == berekening.BerekeningId).ToList();
                 List<List<Veld>> lijnen = new List<List<Veld>>();
-                for (int i = 0; i  < berekenVelden.Max(b => b.LijnId); i++)
+                for (int i = 0; i < berekenVelden.Max(b => b.LijnId); i++)
                 {
                     List<BerekeningVeld> berekeningVeldLijn = berekenVelden.Where(b => b.LijnId == i).ToList();
                     List<Veld> lijn = new List<Veld>();
@@ -103,45 +152,6 @@ namespace KostenBatenTool.Data.Repositories
             }
             return analyse;
         }
-
-        public IEnumerable<Analyse> GetAll()
-        {
-           return _analyses.Include(a => a.Organisatie).ToList();
-        }
-
-        public void Delete(Analyse analyse)
-        {
-            foreach (Berekening kost in analyse.Kosten)
-            {
-               foreach (List<Veld> lijn in kost.Lijnen)
-                {
-                    foreach (Veld veld in lijn)
-                    {
-
-                        _berekeningVelden.Remove(new BerekeningVeld(kost.BerekeningId, kost.Lijnen.IndexOf(lijn), veld.VeldId));
-                        _velden.Remove(veld);
-                    }
-                }
-            }
-            foreach (Berekening baat in analyse.Baten)
-            {
-               
-                foreach (List<Veld> lijn in baat.Lijnen)
-                {
-                    foreach (Veld veld in lijn)
-                    {
-                        _berekeningVelden.Remove(new BerekeningVeld(baat.BerekeningId, baat.Lijnen.IndexOf(lijn), veld.VeldId));
-                        _velden.Remove(veld);
-                    }
-                }
-            }
-
-            _analyses.Remove(analyse);
-
-        }
-        public void SaveChanges()
-        {
-            _dbContext.SaveChanges();
-        }
     }
 }
+
