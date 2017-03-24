@@ -15,7 +15,7 @@ namespace KostenBatenTool.Data
         public DbSet<Analyse> Analyses { get; set; }
         public DbSet<BerekeningVeld> BerekeningVelden { get; set; }
         public DbSet<Veld> Velden { get;set; }
-
+        public DbSet<ArbeidsBemiddelaar> ArbeidsBemiddelaars { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
@@ -26,7 +26,7 @@ namespace KostenBatenTool.Data
             base.OnModelCreating(builder);
             builder.Entity<Afdeling>(MapAfdeling);
             builder.Entity<Persoon>(MapPersoon);
-            //builder.Entity<ArbeidsBemiddelaar>(MapArbeidsBemiddelaar);
+            builder.Entity<ArbeidsBemiddelaar>(MapArbeidsBemiddelaar);
             builder.Entity<Analyse>(MapAnalyse);
             builder.Entity<Organisatie>(MapOrganisatie);
             builder.Entity<Berekening>(MapBerekening);
@@ -90,7 +90,7 @@ namespace KostenBatenTool.Data
         private void MapArbeidsBemiddelaar(EntityTypeBuilder<ArbeidsBemiddelaar> a)
         {
             a.HasOne(t => t.EigenOrganisatie).WithMany().IsRequired().OnDelete(DeleteBehavior.Restrict);
-            a.HasMany(t => t.Analyses).WithOne().IsRequired().OnDelete(DeleteBehavior.Restrict);
+            a.HasMany(t => t.Analyses).WithOne().OnDelete(DeleteBehavior.Restrict);
         }
 
         private void MapPersoon(EntityTypeBuilder<Persoon> p)

@@ -23,13 +23,13 @@ namespace KostenBatenTool.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailService _emailService;
         private readonly IOrganisatieRepository _organisatieRepository;
-        private readonly IAnalyseRepository _analyseRepository;
+        private readonly IArbeidsBemiddelaarRepository _arbeidsBemiddelaarRepository;
 
         public HomeController(UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager, IOrganisatieRepository organisatieRepository, IAnalyseRepository analyseRepository, IEmailService emailService)
+            SignInManager<ApplicationUser> signInManager, IOrganisatieRepository organisatieRepository, IArbeidsBemiddelaarRepository arbeidsBemiddelaarRepository, IEmailService emailService)
         {
             _organisatieRepository = organisatieRepository;
-            _analyseRepository = analyseRepository;
+            _arbeidsBemiddelaarRepository = arbeidsBemiddelaarRepository;
             _userManager = userManager;
             _signInManager = signInManager;
             _emailService = emailService;
@@ -37,7 +37,7 @@ namespace KostenBatenTool.Controllers
         }
         public IActionResult Index()
         {
-            IEnumerable<Analyse> a = _analyseRepository.GetAll();
+            IEnumerable<Analyse> a = _arbeidsBemiddelaarRepository.GetAllAnalyses("sharonvanhove1@gmail.com");
             return View(a);
         }
 

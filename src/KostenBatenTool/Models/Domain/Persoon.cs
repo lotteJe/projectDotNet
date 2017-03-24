@@ -17,6 +17,7 @@ namespace KostenBatenTool.Models.Domain
         #endregion
 
         #region Constructors
+        protected Persoon() { }
         protected Persoon(string naam, string voornaam, string email)
         {
             Naam = naam;
