@@ -1,4 +1,7 @@
-﻿@{
+﻿@using System.Threading.Tasks
+@using KostenBatenTool.Models.Domain
+@model IEnumerable<KostenBatenTool.Models.Domain.Analyse>
+@{
     ViewData["Title"] = "Home";
 }
 
@@ -6,11 +9,11 @@
 <hr />
 
 <div class="container-fluid">
-    @for (int i = 0; i < 4; i++)
+    @foreach(Analyse analyse in @Model)
     {
     <div class="col-md-4 col-sm-6 analyseDetail animated fadeIn">
         <img src="images/demallit.png" alt="colruytLogo" id="logo" />
-        <a>De Mallit</a>
+        <a>@analyse.Organisatie.Naam</a>
         <div>
             <table class="table table-responsive">
                 <tr>
@@ -19,18 +22,18 @@
                     <td>Resultaat</td>
                 </tr>
                 <tr>
-                    <td>Aalst</td>
-                    <td>1/12/2016</td>
-                    <td style="color: red">-1.695</td>
+                    <td>@analyse.Organisatie.Gemeente</td>
+                    <td>@(analyse.AanmaakDatum.Date.ToString("d") ?? "-")</td>
+                    <td style="color: red">@($"{analyse.Resultaat:N2} €")</td>
                 </tr>
             </table>
         </div>
         <div class="progress">
             <div class="progress-bar progress-bar-danger" role="progressbar" style="width: 70%">
-                2360
+                @($"{analyse.KostenResultaat:N2} €")
             </div>
             <div class="progress-bar progress-bar-success" role="progressbar" style="width: 30%">
-                236
+                @($"{analyse.BatenResultaat:N2} €")
             </div>
         </div>
     </div>

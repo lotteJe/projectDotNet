@@ -58,7 +58,7 @@ namespace KostenBatenTool
 
             services.AddMvc();
             services.AddScoped<IOrganisatieRepository, OrganisatieRepository>();
-            services.AddScoped<AnalyseRepository>();
+            services.AddScoped<IAnalyseRepository, AnalyseRepository>();
             services.AddScoped<KostenBatenInitializer>();
 
             // Add application services.

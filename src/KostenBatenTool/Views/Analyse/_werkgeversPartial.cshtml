@@ -15,8 +15,8 @@
             <td>@item.Naam</td>
             <td>@item.Postcode</td>
             <td>@item.Gemeente</td>
-            <td>@item.UrenWerkWeek</td>
-            <td>@item.PatronaleBijdrage</td>
+            <td>@($"{item.UrenWerkWeek:N2}")</td>
+            <td>@($"{item.PatronaleBijdrage*100:N2} %")</td>
         </tr>
 
     }

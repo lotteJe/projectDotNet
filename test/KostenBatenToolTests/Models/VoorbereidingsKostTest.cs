@@ -25,8 +25,8 @@ namespace KostenBatenToolTests.Models
         [Fact]
         public void VoorbereidingsKost_MaaktJuisteVeldenAan()
         {
-            Assert.Equal(_kost.Velden["type"], typeof(string));
-            Assert.Equal(_kost.Velden["bedrag"], typeof(decimal));
+            Assert.Equal(_kost.Velden.Find(v => v.Key.Equals("type")).Value, typeof(string));
+            Assert.Equal(_kost.Velden.Find(v => v.Key.Equals("bedrag")).Value, typeof(decimal));
 
         }
 

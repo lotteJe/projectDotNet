@@ -25,8 +25,8 @@ namespace KostenBatenToolTests.Models
         [Fact]
         public void OutsourcingBesparing_MaaktJuisteVeldenAan()
         {
-            Assert.Equal(_baat.Velden["beschrijving"], typeof(string));
-            Assert.Equal(_baat.Velden["jaarbedrag"], typeof(decimal));
+            Assert.Equal(_baat.Velden.Find(v => v.Key.Equals("beschrijving")).Value, typeof(string));
+            Assert.Equal(_baat.Velden.Find(v => v.Key.Equals("jaarbedrag")).Value, typeof(decimal));
 
         }
 

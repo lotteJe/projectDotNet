@@ -31,17 +31,17 @@ namespace KostenBatenToolTests.Models
         [Fact]
         public void LoonKost_MaaktJuisteVeldenAan()
         {
-            Assert.Equal(_kost.Velden["functie"], typeof(string));
-            Assert.Equal(_kost.Velden["uren per week"], typeof(decimal));
-            Assert.Equal(_kost.Velden["bruto maandloon fulltime"], typeof(decimal));
-            Assert.Equal(_kost.Velden["doelgroep"], typeof(Doelgroep));
-            Assert.Equal(_kost.Velden["% Vlaamse ondersteuningspremie"], typeof(decimal));
-            Assert.Equal(_kost.Velden["bruto loon per maand incl patronale bijdragen"], typeof(decimal));
-            Assert.Equal(_kost.Velden["gemiddelde VOP per maand"], typeof(decimal));
-            Assert.Equal(_kost.Velden["doelgroepvermindering per maand"], typeof(decimal));
-            Assert.Equal(_kost.Velden["aantal maanden IBO"], typeof(decimal));
-            Assert.Equal(_kost.Velden["totale productiviteitspremie IBO"], typeof(decimal));
-            Assert.Equal(_kost.Velden["totale loonkost eerste jaar"], typeof(decimal));
+            Assert.Equal(_kost.Velden.Find(v => v.Key.Equals("functie")).Value, typeof(string));
+            Assert.Equal(_kost.Velden.Find(v => v.Key.Equals("uren per week")).Value, typeof(decimal));
+            Assert.Equal(_kost.Velden.Find(v => v.Key.Equals("bruto maandloon fulltime")).Value, typeof(decimal));
+            Assert.Equal(_kost.Velden.Find(v => v.Key.Equals("doelgroep")).Value, typeof(Doelgroep));
+            Assert.Equal(_kost.Velden.Find(v => v.Key.Equals("% Vlaamse ondersteuningspremie")).Value, typeof(decimal));
+            Assert.Equal(_kost.Velden.Find(v => v.Key.Equals("bruto loon per maand incl patronale bijdragen")).Value, typeof(decimal));
+            Assert.Equal(_kost.Velden.Find(v => v.Key.Equals("gemiddelde VOP per maand")).Value, typeof(decimal));
+            Assert.Equal(_kost.Velden.Find(v => v.Key.Equals("doelgroepvermindering per maand")).Value, typeof(decimal));
+            Assert.Equal(_kost.Velden.Find(v => v.Key.Equals("aantal maanden IBO")).Value, typeof(decimal));
+            Assert.Equal(_kost.Velden.Find(v => v.Key.Equals("totale productiviteitspremie IBO")).Value, typeof(decimal));
+            Assert.Equal(_kost.Velden.Find(v => v.Key.Equals("totale loonkost eerste jaar")).Value, typeof(decimal));
 
         }
 

@@ -31,9 +31,9 @@ namespace KostenBatenToolTests.Models
         [Fact]
         public void MedewerkerZelfdeNiveauBesparing_MaaktJuisteVeldenAan()
         {
-            Assert.Equal(_baat.Velden["uren"], typeof(decimal));
-            Assert.Equal(_baat.Velden["bruto maandloon fulltime"], typeof(decimal));
-            Assert.Equal(_baat.Velden["totale loonkost per jaar"], typeof(decimal));
+            Assert.Equal(_baat.Velden.Find(v => v.Key.Equals("uren")).Value, typeof(decimal));
+            Assert.Equal(_baat.Velden.Find(v => v.Key.Equals("bruto maandloon fulltime")).Value, typeof(decimal));
+            Assert.Equal(_baat.Velden.Find(v => v.Key.Equals("totale loonkost per jaar")).Value, typeof(decimal));
 
         }
 

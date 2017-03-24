@@ -15,20 +15,24 @@ namespace KostenBatenTool.Models.Domain
 
         #region Constructors
 
+        protected LoonKost()
+        {
+            
+        }
         public LoonKost(Analyse analyse)
         {
             Analyse = analyse;
-            Velden.Add("functie", typeof(string));
-            Velden.Add("uren per week", typeof(decimal));
-            Velden.Add("bruto maandloon fulltime", typeof(decimal));
-            Velden.Add("doelgroep", typeof(Doelgroep));
-            Velden.Add("% Vlaamse ondersteuningspremie", typeof(decimal));
-            Velden.Add("bruto loon per maand incl patronale bijdragen", typeof(decimal));
-            Velden.Add("gemiddelde VOP per maand", typeof(decimal));
-            Velden.Add("doelgroepvermindering per maand", typeof(decimal));
-            Velden.Add("aantal maanden IBO", typeof(decimal));
-            Velden.Add("totale productiviteitspremie IBO", typeof(decimal));
-            Velden.Add("totale loonkost eerste jaar", typeof(decimal));
+            Velden.Add(new Veld("functie", typeof(string)));
+            Velden.Add(new Veld("uren per week", typeof(decimal)));
+            Velden.Add(new Veld("bruto maandloon fulltime", typeof(decimal)));
+            Velden.Add(new Veld("doelgroep", typeof(Doelgroep)));
+            Velden.Add(new Veld("% Vlaamse ondersteuningspremie", typeof(decimal)));
+            Velden.Add(new Veld("bruto loon per maand incl patronale bijdragen", typeof(decimal)));
+            Velden.Add(new Veld("gemiddelde VOP per maand", typeof(decimal)));
+            Velden.Add(new Veld("doelgroepvermindering per maand", typeof(decimal)));
+            Velden.Add(new Veld("aantal maanden IBO", typeof(decimal)));
+            Velden.Add(new Veld("totale productiviteitspremie IBO", typeof(decimal)));
+            Velden.Add(new Veld("totale loonkost eerste jaar", typeof(decimal)));
 
             VoegLijnToe(0);
         }

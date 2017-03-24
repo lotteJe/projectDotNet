@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using KostenBatenToolTests.Models;
+
 
 
 namespace KostenBatenTool.Models.Domain
@@ -16,14 +16,16 @@ namespace KostenBatenTool.Models.Domain
         public Organisatie Organisatie { get; set; }
         public DateTime AanmaakDatum { get; private set; }
         public int AnalyseId { get; set; }
-
+        public decimal Resultaat { get; set; } = 0M;
+        public decimal KostenResultaat { get; set; } = 0M;
+        public decimal BatenResultaat { get; set; } = 0M;
         #endregion
 
         #region Constructors 
 
         protected Analyse()
         {
-
+            
         }
        
         public Analyse(Organisatie organisatie)
@@ -57,16 +59,6 @@ namespace KostenBatenTool.Models.Domain
 
         #region Methods
 
-        public decimal GeefTotaalBedragPerBerekening(Berekening berekening)
-        {
-            return berekening.BerekenResultaat();
-        }
-
-        public void BerekenBedragPerLijn(Berekening b, int index)
-        {
-            b.BerekenBedragPerLijn(index);
-        }
-
         public void VulVeldIn(string berekeningNaam, int index, string key, Object waarde)
         {
 
@@ -81,22 +73,25 @@ namespace KostenBatenTool.Models.Domain
                 berekening.VulVeldIn(index, key, waarde);
             }
             else throw new ArgumentException("Berekening bestaat niet");
-            
+            BerekenNettoResultaat();
         }
         
         public decimal BerekenNettoResultaat()
         {
-            return BerekenBatenResultaat() - BerekenKostenResultaat();
+            Resultaat = BerekenBatenResultaat() - BerekenKostenResultaat();
+            return Resultaat;
         }
 
         public decimal BerekenKostenResultaat()
         {
-            return Kosten.Sum(k => k.BerekenResultaat());
+            KostenResultaat = Kosten.Sum(k => k.BerekenResultaat());
+            return KostenResultaat;
         }
 
         public decimal BerekenBatenResultaat()
         {
-            return Baten.Sum(b => b.BerekenResultaat());
+            BatenResultaat = Baten.Sum(b => b.BerekenResultaat());
+            return BatenResultaat;
         }
 
 
@@ -104,4 +99,6 @@ namespace KostenBatenTool.Models.Domain
         #endregion
     }
 }
+
+
 

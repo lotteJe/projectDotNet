@@ -11,8 +11,8 @@ namespace KostenBatenTool.Models.Domain
 
         public AndereBesparing()
         {
-            Velden.Add("type besparing", typeof(string));
-            Velden.Add("jaarbedrag", typeof(decimal));
+            Velden.Add(new Veld("type besparing", typeof(string)));
+            Velden.Add(new Veld("jaarbedrag", typeof(decimal)));
             VoegLijnToe(0);
         }
         #endregion

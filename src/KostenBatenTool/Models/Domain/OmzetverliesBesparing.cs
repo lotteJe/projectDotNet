@@ -11,9 +11,9 @@ namespace KostenBatenTool.Models.Domain
 
         public OmzetverliesBesparing()
         {
-            Velden.Add("jaarbedrag omzetverlies", typeof(decimal));
-            Velden.Add("% besparing", typeof(decimal));
-            Velden.Add("totaalbesparing", typeof(decimal));
+            Velden.Add(new Veld("jaarbedrag omzetverlies", typeof(decimal)));
+            Velden.Add(new Veld("% besparing", typeof(decimal)));
+            Velden.Add(new Veld("totaalbesparing", typeof(decimal)));
             VoegLijnToe(0);
         }
         #endregion

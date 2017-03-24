@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace KostenBatenTool.Data.Repositories
 {
-    public class AnalyseRepository
+    public class AnalyseRepository : IAnalyseRepository
     {
         private readonly DbSet<Analyse> _analyses;
         private readonly DbSet<BerekeningVeld> _berekeningVelden;
@@ -17,10 +17,11 @@ namespace KostenBatenTool.Data.Repositories
 
         public AnalyseRepository(ApplicationDbContext dbContext)
         {
+            _dbContext = dbContext;
             _analyses = dbContext.Analyses;
             _berekeningVelden = dbContext.BerekeningVelden;
             _velden = dbContext.Velden;
-            _dbContext = dbContext;
+            
         }
 
 
@@ -58,10 +59,10 @@ namespace KostenBatenTool.Data.Repositories
             _analyses.Add(analyse);
         }
 
-        public Analyse GetAnalyse(int analyseId)
+        public Analyse GetBy(int analyseId)
         {
             //conversie van BerekeningVeld
-            Analyse analyse = _analyses.FirstOrDefault(a => a.AnalyseId == analyseId);
+            Analyse analyse = _analyses.Include(a => a.Organisatie).Include("Baten.Velden").Include("Kosten.Velden").FirstOrDefault(a => a.AnalyseId == analyseId);
             foreach (Berekening berekening in analyse.Kosten)
             {
                 List<BerekeningVeld> berekenVelden = _berekeningVelden.Where(b => b.BerekeningId == berekening.BerekeningId).ToList();
@@ -101,6 +102,16 @@ namespace KostenBatenTool.Data.Repositories
                 berekening.Deserialiseer();
             }
             return analyse;
+        }
+
+        public IEnumerable<Analyse> GetAll()
+        {
+           return _analyses.Include(a => a.Organisatie).ToList();
+        }
+
+        public void Delete(Analyse analyse)
+        {
+            
         }
         public void SaveChanges()
         {

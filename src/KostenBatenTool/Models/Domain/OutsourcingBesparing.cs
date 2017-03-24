@@ -10,8 +10,8 @@ namespace KostenBatenTool.Models.Domain
         #region Constructors
         public OutsourcingBesparing()
         {
-            Velden.Add("beschrijving", typeof(string));
-            Velden.Add("jaarbedrag", typeof(decimal));
+            Velden.Add(new Veld("beschrijving", typeof(string)));
+            Velden.Add(new Veld("jaarbedrag", typeof(decimal)));
             VoegLijnToe(0);
         }
         #endregion
