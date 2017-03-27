@@ -32,7 +32,7 @@
                     <i class="fa fa fa-download animated fadeInDown " aria-hidden="true"></i>
                     <i class="fa fa-paper-plane animated fadeInDown" aria-hidden="true"></i>
                     <i class="fa fa-print animated fadeInDown" aria-hidden="true"></i>
-                    <i class="fa fa-trash animated fadeInDown" aria-hidden="true"></i>
+                    <a asp-controller="Analyse" asp-action="Delete" asp-route-id="@analyse.AnalyseId"><i class="fa fa-trash animated fadeInDown" aria-hidden="true"></i></a>
                 </td>
             </tr>
         }
