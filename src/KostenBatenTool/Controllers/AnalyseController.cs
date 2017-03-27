@@ -103,5 +103,15 @@ namespace KostenBatenTool.Controllers
             }
             return View(model);
         }
+
+        public IActionResult Delete(int id)
+        {
+            Analyse analyse = _arbeidsBemiddelaarRepository.GetAnalyse("sharonvanhove1@gmail.com", id);
+            
+            _arbeidsBemiddelaarRepository.GetBy("sharonvanhove1@gmail.com").Analyses.Remove(analyse);
+            _arbeidsBemiddelaarRepository.VerwijderVelden(analyse);
+            _arbeidsBemiddelaarRepository.SaveChanges();
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

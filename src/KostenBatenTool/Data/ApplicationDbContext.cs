@@ -16,6 +16,7 @@ namespace KostenBatenTool.Data
         public DbSet<BerekeningVeld> BerekeningVelden { get; set; }
         public DbSet<Veld> Velden { get;set; }
         public DbSet<ArbeidsBemiddelaar> ArbeidsBemiddelaars { get; set; }
+        public DbSet<Berekening> Berekeningen { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {

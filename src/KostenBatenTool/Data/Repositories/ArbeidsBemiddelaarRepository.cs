@@ -12,6 +12,7 @@ namespace KostenBatenTool.Data.Repositories
         private readonly DbSet<ArbeidsBemiddelaar> _arbeidsBemiddelaars;
         private readonly DbSet<BerekeningVeld> _berekeningVelden;
         private readonly DbSet<Veld> _velden;
+        private readonly DbSet<Analyse> _analyses;
         private readonly ApplicationDbContext _dbContext;
 
         public ArbeidsBemiddelaarRepository(ApplicationDbContext dbContext)
@@ -20,6 +21,7 @@ namespace KostenBatenTool.Data.Repositories
             _arbeidsBemiddelaars = _dbContext.ArbeidsBemiddelaars;
             _berekeningVelden = dbContext.BerekeningVelden;
             _velden = dbContext.Velden;
+            _analyses = dbContext.Analyses;
         }
 
         public ArbeidsBemiddelaar GetBy(string emailadres)
@@ -81,18 +83,6 @@ namespace KostenBatenTool.Data.Repositories
 
         public void VerwijderVelden(Analyse analyse)
         {
-            foreach (Berekening kost in analyse.Kosten)
-            {
-                foreach (List<Veld> lijn in kost.Lijnen)
-                {
-                    foreach (Veld veld in lijn)
-                    {
-
-                        _berekeningVelden.Remove(new BerekeningVeld(kost.BerekeningId, kost.Lijnen.IndexOf(lijn), veld.VeldId));
-                        _velden.Remove(veld);
-                    }
-                }
-            }
             foreach (Berekening baat in analyse.Baten)
             {
 
@@ -100,17 +90,36 @@ namespace KostenBatenTool.Data.Repositories
                 {
                     foreach (Veld veld in lijn)
                     {
-                        _berekeningVelden.Remove(new BerekeningVeld(baat.BerekeningId, baat.Lijnen.IndexOf(lijn), veld.VeldId));
+                        _berekeningVelden.Remove(_berekeningVelden.First(b => b.BerekeningId == baat.BerekeningId && b.LijnId == baat.Lijnen.IndexOf(lijn) && b.VeldId == veld.VeldId));
                         _velden.Remove(veld);
                     }
                 }
+               
             }
+            foreach (Berekening kost in analyse.Kosten)
+            {
+                foreach (List<Veld> lijn in kost.Lijnen)
+                {
+                    foreach (Veld veld in lijn)
+                    {
+
+                        _berekeningVelden.Remove(_berekeningVelden.First(b => b.BerekeningId == kost.BerekeningId && b.LijnId == kost.Lijnen.IndexOf(lijn) && b.VeldId == veld.VeldId));
+                        _velden.Remove(veld);
+                    }
+                }
+                
+            }
+            //fout op loonkostsubsidie verwijderen
+            _dbContext.Berekeningen.Remove(analyse.Baten.First(k => k.GetType() == Type.GetType("KostenBatenTool.Models.Domain.LoonkostSubsidie")));
+            analyse.Baten.Remove(analyse.Baten.First(k => k.GetType() == Type.GetType("KostenBatenTool.Models.Domain.LoonkostSubsidie")));
+            _dbContext.SaveChanges();
+            _analyses.Remove(analyse);
         }
 
         public Analyse GetAnalyse(string email, int id)
         {
             //Ophalen
-            Analyse analyse = _arbeidsBemiddelaars.Include("Analyses.Organisatie").Include("Baten.Velden").Include("Kosten.Velden").First(a => a.Email.Equals(email)).Analyses.FirstOrDefault(a => a.AnalyseId == id);
+            Analyse analyse = _arbeidsBemiddelaars.Include("Analyses.Organisatie").Include("Analyses.Baten.Velden").Include("Analyses.Kosten.Velden").First(a => a.Email.Equals(email)).Analyses.FirstOrDefault(a => a.AnalyseId == id);
             //Deserialiseren
             foreach (Berekening berekening in analyse.Kosten)
             {
@@ -154,4 +163,6 @@ namespace KostenBatenTool.Data.Repositories
         }
     }
 }
+
+
 
