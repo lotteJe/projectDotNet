@@ -1,0 +1,34 @@
+﻿@model KostenBatenTool.Models.AnalyseViewModels.AanpassingsKostViewModel
+@{
+    ViewData["Title"] = "4. Extra kosten voor aanpassingen werkomgeving/aangepast gereedschap";
+}
+
+<h2>@ViewData["Title"]</h2>
+<hr />
+<h2>Welke kosten moet u structureel jaarlijks extra maken voor deze inhuur? (vul hier de gereedschapskosten ed in)</h2>
+<table class="table table-responsive table-striped">
+    <tr>
+        <th>Type</th>
+        <th>Bedrag</th>
+    </tr>
+
+    @*@foreach (var item in Model)
+    {
+
+        <tr>
+            <td>@item.Type</td>
+            <td>@item.Bedrag</td>
+
+        </tr>
+    }*@
+    </table>
+
+    <div class="col-md-offset-10">
+        <a id="toevoegenFunctie">+ kost toevoegen</a>
+    </div>
+
+    <div id="loonkostPartial" class="row">
+        <div class="col-md-11 col-md-offset-1">
+            @Html.Partial("_aanpassingsKostPartial")
+        </div>
+    </div>

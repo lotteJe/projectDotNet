@@ -1,4 +1,4 @@
-﻿@model KostenBatenTool.Models.AnalyseViewModels.LoonkostViewModel
+﻿@model KostenBatenTool.Models.AnalyseViewModels.AdministratieBegeleidingsKostViewModel
 @{
     ViewData["Title"] = "6. Extra kosten administratie en begeleiding";
 }
@@ -8,13 +8,20 @@
 <h2>Hoeveel uren spendeert u jaarlijks aan extra administratie en interne begeleiding? </h2>
 <table class="table table-responsive table-striped">
     <tr>
-        <th>Type</th>
-        <th>Bedrag</th>
+        <th>Uren</th>
+        <th>Bruto maandloon begeleider</th>
+        <th>Jaarbedrag</th>
     </tr>
-    <tr>
-        <td>-</td>
-        <td>-</td>
-    </tr>
+
+    @*@foreach (var item in Model)
+        {
+
+            <tr>
+                <td>@item.Uren</td>
+                <td>@item.Maandloon</td>
+                <td>@item.Jaarbedrag</td>
+            </tr>
+        }*@
 </table>
 
 <div class="col-md-offset-10">
@@ -23,6 +30,6 @@
 
 <div id="loonkostPartial" class="row">
     <div class="col-md-11 col-md-offset-1">
-        @Html.Partial("_loonkostPartial")
+        @Html.Partial("_administratieBegeleidingsKostPartial")
     </div>
 </div>

@@ -16,15 +16,16 @@
         <th>Aantal maanden IBO</th>
         <th>Totale productiviteitspremie IBO</th>
     </tr>
-    <tr>
-        <td>-</td>
-        <td>-</td>
-        <td>-</td>
-        <td>-</td>
-        <td>-</td>
-        <td>-</td>
-        <td>-</td>
-    </tr>
+    @foreach (var item in Model)
+        {
+
+            <tr>
+                <td>@item.Functie</td>
+                <td>@item.Bedrag</td>
+                <td>@item.</td>
+
+            </tr>
+        }
 
 </table>
 

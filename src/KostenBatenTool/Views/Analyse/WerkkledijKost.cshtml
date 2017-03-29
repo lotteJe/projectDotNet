@@ -1,4 +1,5 @@
-﻿@model KostenBatenTool.Models.AnalyseViewModels.LoonkostViewModel
+﻿
+@model KostenBatenTool.Models.AnalyseViewModels.WerkkledijKostViewModel
 @{
     ViewData["Title"] = "3. Extra kosten werkkleding e.a. personeelskosten";
 }
@@ -11,10 +12,16 @@
         <th>Type</th>
         <th>Bedrag</th>
     </tr>
-    <tr>
-        <td>-</td>
-        <td>-</td>
-    </tr>
+
+    @*@foreach (var item in Model)
+        {
+
+            <tr>
+                <td>@item.Type</td>
+                <td>@item.Bedrag</td>
+
+            </tr>
+        }*@
 </table>
 
 <div class="col-md-offset-10">
@@ -23,6 +30,6 @@
 
 <div id="loonkostPartial" class="row">
     <div class="col-md-11 col-md-offset-1">
-        @Html.Partial("_loonkostPartial")
+        @Html.Partial("_werkkledijKostPartial")
     </div>
 </div>

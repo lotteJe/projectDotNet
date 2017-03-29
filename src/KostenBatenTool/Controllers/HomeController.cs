@@ -11,8 +11,6 @@ using KostenBatenTool.Models.AccountViewModels;
 using KostenBatenTool.Models.Domain;
 using KostenBatenTool.Services;
 using Microsoft.AspNetCore.Identity;
-using MongoDB.Driver;
-using MongoDB.Bson;
 
 namespace KostenBatenTool.Controllers
 {
