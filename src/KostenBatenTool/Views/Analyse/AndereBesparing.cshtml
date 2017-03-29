@@ -1,0 +1,32 @@
+﻿@model KostenBatenTool.Models.AnalyseViewModels.AndereBesparingViewModel
+@{
+    ViewData["Title"] = "11. Andere besparingen";
+}
+
+<h2>@ViewData["Title"]</h2>
+<hr />
+<h2>Aan welke besparingen kan er nog meer gedacht worden? Vul de bedragen in per jaar.</h2>
+<table class="table table-responsive table-striped">
+    <tr>
+        <th>Type besparing</th>
+        <th>Jaarbedrag</th>
+    </tr>
+    @*@foreach (var item in Model)
+        {
+
+            <tr>
+                <td>@item.Beschrijving</td>
+                <td>@item.Jaarbedrag</td>
+            </tr>
+        }*@
+</table>
+
+<div class="col-md-offset-10">
+    <a id="toevoegenFunctie">+ baat toevoegen</a>
+</div>
+
+<div id="loonkostPartial" class="row">
+    <div class="col-md-11 col-md-offset-1">
+        @Html.Partial("_andereBesparingPartial")
+    </div>
+</div>

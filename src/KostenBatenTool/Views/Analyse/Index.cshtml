@@ -19,7 +19,7 @@
             <th>Baten</th>
             <th></th>
         </tr>
-       @foreach (Analyse analyse in @Model)
+       @foreach (Analyse analyse in Model)
        {
             <tr>
                 <td>@(analyse.AanmaakDatum.Date.ToString("d") ?? "-")</td>

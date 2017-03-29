@@ -1,0 +1,31 @@
+﻿@model KostenBatenTool.Models.AnalyseViewModels.OmzetverliesBesparingViewModel
+@{
+    ViewData["Title"] = "6. Inperking omzetverlies";
+}
+
+<h2>@ViewData["Title"]</h2>
+<hr />
+<h2>Hoeveel omzet mist u doordat u personeel tekort komt?</h2>
+<form asp-controller="Analyse" asp-action="OmzetverliesBesparing" method="post" class="form-horizontal">
+
+    <div class="row">
+        <label asp-for="Omzetverlies" class="col-md-2 control-label ww">Jaarbedrag omzetverlies</label>
+        <div class="col-md-3">
+            <input asp-for="Omzetverlies" class="form-control" />
+            <span asp-validation-for="Omzetverlies" class="text-danger"></span>
+        </div>
+        <label asp-for="Besparing" class="col-md-2 control-label ww">% besparing</label>
+        <div class="col-md-3">
+            <input asp-for="Besparing" class="form-control" />
+            <span asp-validation-for="Besparing" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-10" id="aanmelden">
+            <button type="button" class="btn btn-default knop" id="loonkostnochange">Annuleren</button>
+            <button type="submit" class="btn btn-default knop" id="">Toevoegen</button>
+        </div>
+    </div>
+</form>
+
+

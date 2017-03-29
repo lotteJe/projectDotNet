@@ -1,0 +1,34 @@
+﻿@model KostenBatenTool.Models.AnalyseViewModels.UitzendkrachtenBesparingViewModel
+@{
+    ViewData["Title"] = "5. Besparing (extra) uitzendkrachten";
+}
+
+<h2>@ViewData["Title"]</h2>
+<hr />
+<h2>Welke besparing denkt u te kunnen maken op uitzendkrachten?</h2>
+<table class="table table-responsive table-striped">
+    <tr>
+        <th>Beschrijving</th>
+        <th>JaarBedrag</th>
+       
+    </tr>
+    @*@foreach (var item in Model)
+        {
+
+            <tr>
+                <td>@item.Beschrijving</td>
+                <td>@item.Jaarbedrag</td>
+                
+            </tr>
+        }*@
+</table>
+
+<div class="col-md-offset-10">
+    <a id="toevoegenFunctie">+ baat toevoegen</a>
+</div>
+
+<div id="loonkostPartial" class="row">
+    <div class="col-md-11 col-md-offset-1">
+        @Html.Partial("_uitzendkrachtenBesparingPartial")
+    </div>
+</div>

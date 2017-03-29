@@ -6,14 +6,9 @@ using KostenBatenTool.Models.Domain;
 
 namespace KostenBatenTool.Models.AnalyseViewModels
 {
-    public class LoonkostViewModel
+    public class LoonkostSubsidieViewModel
     {
-        public LoonkostViewModel()
-        {
-            
-        }
         public int Id { get; set; }
-        public int LijnId { get; set; }
         public string Functie { get; set; }
         public string UrenPerWeek { get; set; }
         public decimal BrutoMaandloon { get; set; }

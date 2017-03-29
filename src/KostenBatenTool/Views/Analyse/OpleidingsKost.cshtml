@@ -1,20 +1,26 @@
-﻿@model KostenBatenTool.Models.AnalyseViewModels.LoonkostViewModel
+﻿@model KostenBatenTool.Models.AnalyseViewModels.OpleidingsKostViewModel
 @{
     ViewData["Title"] = "5. Extra kosten opleiding";
 }
 
 <h2>@ViewData["Title"]</h2>
 <hr />
-<h2>Welke opleidingskosten moeten er gemaakt worden om de nieuwe krachten op het gewenste niveau te krijgen?</h2>
+<h2>Welke opleidingskosten moeten er gemaakt worden om de nieuwe kraachten op het gewenste niveau te krijgen?</h2>
 <table class="table table-responsive table-striped">
     <tr>
         <th>Type</th>
         <th>Bedrag</th>
     </tr>
-    <tr>
-        <td>-</td>
-        <td>-</td>
-    </tr>
+
+    @*@foreach (var item in Model)
+        {
+
+            <tr>
+                <td>@item.Type</td>
+                <td>@item.Bedrag</td>
+
+            </tr>
+        }*@
 </table>
 
 <div class="col-md-offset-10">
@@ -23,6 +29,6 @@
 
 <div id="loonkostPartial" class="row">
     <div class="col-md-11 col-md-offset-1">
-        @Html.Partial("_loonkostPartial")
+        @Html.Partial("_opleidingsKostPartial")
     </div>
 </div>

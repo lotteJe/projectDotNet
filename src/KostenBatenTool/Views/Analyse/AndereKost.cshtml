@@ -1,6 +1,6 @@
-﻿@model KostenBatenTool.Models.AnalyseViewModels.LoonkostViewModel
+﻿@model KostenBatenTool.Models.AnalyseViewModels.AndereKostViewModel
 @{
-    ViewData["Title"] = "1. Totale loonkostsubsidies (VOP, IBO en doelgroepvermindering)";
+    ViewData["Title"] = "7. Andere kosten";
 }
 
 <h2>@ViewData["Title"]</h2>
@@ -11,10 +11,16 @@
         <th>Type</th>
         <th>Bedrag</th>
     </tr>
-    <tr>
-        <td>-</td>
-        <td>-</td>
-    </tr>
+
+    @*@foreach (var item in Model)
+        {
+
+            <tr>
+                <td>@item.Type</td>
+                <td>@item.Bedrag</td>
+
+            </tr>
+        }*@
 </table>
 
 <div class="col-md-offset-10">
@@ -23,6 +29,6 @@
 
 <div id="loonkostPartial" class="row">
     <div class="col-md-11 col-md-offset-1">
-        @Html.Partial("_loonkostPartial")
+        @Html.Partial("_andereKostPartial")
     </div>
 </div>
