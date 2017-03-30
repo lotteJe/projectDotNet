@@ -19,22 +19,25 @@
             <th>Baten</th>
             <th></th>
         </tr>
-       @foreach (Analyse analyse in Model)
-       {
-            <tr>
-                <td>@(analyse.AanmaakDatum.Date.ToString("d") ?? "-")</td>
-                <td>@analyse.Organisatie.Naam</td>
-                <td>@analyse.Organisatie.Gemeente</td>
-                <td style="color: red">@($"{analyse.Resultaat:N2} €")</td>
-                <td style="color: red">@($"{analyse.KostenResultaat:N2} €")</td>
-                <td style="color: green">@($"{analyse.Resultaat:N2} €")</td>
-                <td>
-                    <i class="fa fa fa-download animated fadeInDown " aria-hidden="true"></i>
-                    <i class="fa fa-paper-plane animated fadeInDown" aria-hidden="true"></i>
-                    <i class="fa fa-print animated fadeInDown" aria-hidden="true"></i>
-                    <a asp-controller="Analyse" asp-action="Delete" asp-route-id="@analyse.AnalyseId"><i class="fa fa-trash animated fadeInDown" aria-hidden="true"></i></a>
-                </td>
-            </tr>
+        @if (Model != null)
+        {
+            foreach (Analyse analyse in Model)
+             {
+                 <tr>
+                     <td>@(analyse.AanmaakDatum.Date.ToString("d") ?? "-")</td>
+                     <td>@analyse.Organisatie.Naam</td>
+                     <td>@analyse.Organisatie.Gemeente</td>
+                     <td style="color: red">@($"{analyse.Resultaat:N2} €")</td>
+                     <td style="color: red">@($"{analyse.KostenResultaat:N2} €")</td>
+                     <td style="color: green">@($"{analyse.Resultaat:N2} €")</td>
+                     <td>
+                         <i class="fa fa fa-download animated fadeInDown " aria-hidden="true"></i>
+                         <i class="fa fa-paper-plane animated fadeInDown" aria-hidden="true"></i>
+                         <i class="fa fa-print animated fadeInDown" aria-hidden="true"></i>
+                         <a asp-controller="Analyse" asp-action="Delete" asp-route-id="@analyse.AnalyseId"><i class="fa fa-trash animated fadeInDown" aria-hidden="true"></i></a>
+                     </td>
+                 </tr>
+             }
         }
        
     </table>

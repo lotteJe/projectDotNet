@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -6,6 +7,8 @@ using KostenBatenTool.Models.AnalyseViewModels;
 using KostenBatenTool.Models.Domain;
 using Microsoft.AspNetCore.Mvc;
 using KostenBatenTool.Data.Repositories;
+using KostenBatenTool.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace KostenBatenTool.Controllers
 {
@@ -13,18 +16,22 @@ namespace KostenBatenTool.Controllers
     {
         private readonly IOrganisatieRepository _organisatieRepository;
         private readonly IArbeidsBemiddelaarRepository _arbeidsBemiddelaarRepository;
+        private readonly UserManager<ApplicationUser> _userManager;
 
         public AnalyseController(IArbeidsBemiddelaarRepository arbeidsBemiddelaarRepository,
-            IOrganisatieRepository organisatieRepository)
+            IOrganisatieRepository organisatieRepository, UserManager<ApplicationUser> userManager)
         {
             _organisatieRepository = organisatieRepository;
             _arbeidsBemiddelaarRepository = arbeidsBemiddelaarRepository;
+            _userManager = userManager;
         }
 
         // GET: /<controller>/
         public IActionResult Index()
         {
-            IEnumerable<Analyse> a = _arbeidsBemiddelaarRepository.GetAllAnalyses("sharonvanhove1@gmail.com");
+            var user = GetCurrentUserAsync();
+            string email = user.Result.Email;
+           IEnumerable<Analyse> a = _arbeidsBemiddelaarRepository.GetAllAnalyses(email);
             return View(a);
         }
 
@@ -55,7 +62,9 @@ namespace KostenBatenTool.Controllers
                 {
                     Organisatie o = new Organisatie(model.Naam, model.Straat, model.Huisnummer, model.Postcode,
                         model.Gemeente);
-                    ArbeidsBemiddelaar a = _arbeidsBemiddelaarRepository.GetBy("sharonvanhove1@gmail.com");
+                    var user = GetCurrentUserAsync();
+                    string email = user.Result.Email;
+                    ArbeidsBemiddelaar a = _arbeidsBemiddelaarRepository.GetBy(email);
                     Analyse analyse = new Analyse(o);
                     a.VoegNieuweAnalyseToe(analyse);
                     _arbeidsBemiddelaarRepository.SerialiseerVelden(analyse);
@@ -109,9 +118,11 @@ namespace KostenBatenTool.Controllers
 
         public IActionResult Delete(int id)
         {
-            Analyse analyse = _arbeidsBemiddelaarRepository.GetAnalyse("sharonvanhove1@gmail.com", id);
+            var user = GetCurrentUserAsync();
+            string email = user.Result.Email;
+            Analyse analyse = _arbeidsBemiddelaarRepository.GetAnalyse(email, id);
 
-            _arbeidsBemiddelaarRepository.GetBy("sharonvanhove1@gmail.com").Analyses.Remove(analyse);
+            _arbeidsBemiddelaarRepository.GetBy(email).Analyses.Remove(analyse);
             _arbeidsBemiddelaarRepository.VerwijderVelden(analyse);
             _arbeidsBemiddelaarRepository.SaveChanges();
             return RedirectToAction(nameof(Index));
@@ -567,6 +578,10 @@ namespace KostenBatenTool.Controllers
                 }
             }
             return View(model);
+        }
+        private Task<ApplicationUser> GetCurrentUserAsync()
+        {
+            return _userManager.GetUserAsync(HttpContext.User);
         }
     }
 
