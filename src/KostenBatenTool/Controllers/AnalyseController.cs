@@ -14,14 +14,12 @@ namespace KostenBatenTool.Controllers
 {
     public class AnalyseController : Controller
     {
-        private readonly IOrganisatieRepository _organisatieRepository;
+        
         private readonly IArbeidsBemiddelaarRepository _arbeidsBemiddelaarRepository;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public AnalyseController(IArbeidsBemiddelaarRepository arbeidsBemiddelaarRepository,
-            IOrganisatieRepository organisatieRepository, UserManager<ApplicationUser> userManager)
+        public AnalyseController(IArbeidsBemiddelaarRepository arbeidsBemiddelaarRepository, UserManager<ApplicationUser> userManager)
         {
-            _organisatieRepository = organisatieRepository;
             _arbeidsBemiddelaarRepository = arbeidsBemiddelaarRepository;
             _userManager = userManager;
         }
@@ -31,19 +29,26 @@ namespace KostenBatenTool.Controllers
         {
             var user = GetCurrentUserAsync();
             string email = user.Result.Email;
-           IEnumerable<Analyse> a = _arbeidsBemiddelaarRepository.GetAllAnalyses(email);
+            IEnumerable<Analyse> a = _arbeidsBemiddelaarRepository.GetAllAnalyses(email);
             return View(a);
         }
 
         public IActionResult Nieuw()
         {
-            IEnumerable<Organisatie> organisaties = _organisatieRepository.GetAll();
-            return View(organisaties);
+            var user = GetCurrentUserAsync();
+            string email = user.Result.Email;
+            
+                IEnumerable<Organisatie> organisaties = _arbeidsBemiddelaarRepository.GetOrganisaties(email);
+                return View(organisaties);
+            
+            
         }
 
         public IActionResult PartialWerkgevers()
         {
-            IEnumerable<Organisatie> organisaties = _organisatieRepository.GetAll();
+            var user = GetCurrentUserAsync();
+            string email = user.Result.Email;
+            IEnumerable<Organisatie> organisaties = _arbeidsBemiddelaarRepository.GetOrganisaties(email);
             return PartialView("_werkgeversPartial", organisaties);
         }
 
@@ -62,6 +67,9 @@ namespace KostenBatenTool.Controllers
                 {
                     Organisatie o = new Organisatie(model.Naam, model.Straat, model.Huisnummer, model.Postcode,
                         model.Gemeente);
+                    o.UrenWerkWeek = model.Werkuren;
+                    o.PatronaleBijdrage = model.Bijdrage/100;
+                    o.Afdeling = model.Afdeling;
                     var user = GetCurrentUserAsync();
                     string email = user.Result.Email;
                     ArbeidsBemiddelaar a = _arbeidsBemiddelaarRepository.GetBy(email);

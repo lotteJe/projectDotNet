@@ -25,7 +25,7 @@ namespace KostenBatenTool.Models
 
         public string Huisnummer { get; set; }
 
-        public int Postcode { get; set; }
+        public string Postcode { get; set; }
 
         public string Gemeente { get; set; }
         //public Organisatie Organisatie { get; set; }

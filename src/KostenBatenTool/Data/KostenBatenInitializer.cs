@@ -27,14 +27,14 @@ namespace KostenBatenTool.Data
             if (_dbContext.Database.EnsureCreated())
             {
 
-                await InitializeUsers();
+                //await InitializeUsers();
 
 
-                Organisatie colruyt = new Organisatie("colruyt","eiklaan","23",1600,"SPL");
-                Organisatie delhaize = new Organisatie("delhaize", "beukenlaan", "3", 9000, "Gent");
-                Organisatie[] organisaties = new Organisatie[] {colruyt,delhaize};
-                _dbContext.Organisaties.AddRange(organisaties);
-                _dbContext.SaveChanges();
+                //Organisatie colruyt = new Organisatie("colruyt","eiklaan","23",1600,"SPL");
+                //Organisatie delhaize = new Organisatie("delhaize", "beukenlaan", "3", 9000, "Gent");
+                //Organisatie[] organisaties = new Organisatie[] {colruyt,delhaize};
+                //_dbContext.Organisaties.AddRange(organisaties);
+                //_dbContext.SaveChanges();
 
                 Persoon persoon1 = new Contactpersoon("jespers","lotte","lotte@hotmail.com");
                 _dbContext.Personen.Add(persoon1);
