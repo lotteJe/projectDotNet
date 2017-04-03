@@ -15,11 +15,11 @@ namespace KostenBatenTool.Models.Domain
         #region Properties
 
         public Contactpersoon Contactpersoon { get; set; }
-        public IEnumerable<Afdeling> Afdelingen { get; set; }
+        public string Afdeling { get; set; }
         public string Naam { get; set; }
         public string Straat { get; set; }
         public string Huisnummer { get; set; }
-        public int Postcode { get; set; }
+        public string Postcode { get; set; }
         public string Gemeente { get; set; }
         public decimal UrenWerkWeek { get; set; } = 38M;
         public int OrganisatieId { get; set; }
@@ -53,7 +53,7 @@ namespace KostenBatenTool.Models.Domain
         #region Constructors
 
        
-        public Organisatie(string naam, string straat, string huisnummer, int postcode, string gemeente)
+        public Organisatie(string naam, string straat, string huisnummer, string postcode, string gemeente)
         {
             Naam = naam;
             Straat = straat;

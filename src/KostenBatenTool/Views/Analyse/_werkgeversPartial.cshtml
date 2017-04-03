@@ -1,23 +1,37 @@
 ﻿@model IEnumerable<KostenBatenTool.Models.Domain.Organisatie>
 <table class="table table-responsive table-striped werkgevers">
-    <tr>
-        <th>Werkgever</th>
-        <th>Postcode</th>
-        <th>Gemeente</th>
-        <th>Werkuren per week</th>
-        <th>Patronale bijdrage</th>
-    </tr>
+    
 
-    @foreach (var item in Model)
+    @if (Model != null)
     {
-
-        <tr onclick="window.document.location = 'Werkgever';">
-            <td>@item.Naam</td>
-            <td>@item.Postcode</td>
-            <td>@item.Gemeente</td>
-            <td>@($"{item.UrenWerkWeek:N2}")</td>
-            <td>@($"{item.PatronaleBijdrage*100:N2} %")</td>
+        <tr>
+            <th>Werkgever</th>
+            <th>Afdeling</th>
+            <th>Postcode</th>
+            <th>Gemeente</th>
+            <th>Werkuren per week</th>
+            <th>Patronale bijdrage</th>
         </tr>
+        foreach (var item in Model)
+        {
 
+            <tr onclick="window.document.location = 'Werkgever';">
+                <td>@item.Naam</td>
+                @if(item.Afdeling != null){
+                    <td>@item.Afdeling</td>
+                } else {
+                    <td>-</td>
+                }
+               
+                <td>@item.Postcode</td>
+                <td>@item.Gemeente</td>
+                <td>@($"{item.UrenWerkWeek:N2}")</td>
+                <td>@($"{item.PatronaleBijdrage*100:N2} %")</td>
+            </tr>
+        }
+    }
+    else
+    {
+        <p>Er zijn nog geen analyses aangemaakt.</p>
     }
 </table>

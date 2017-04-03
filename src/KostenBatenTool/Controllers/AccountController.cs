@@ -19,17 +19,19 @@ namespace KostenBatenTool.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger _logger;
         private readonly IEmailService _emailService;
+        private readonly IArbeidsBemiddelaarRepository _arbeidsBemiddelaarRepository;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
            ILoggerFactory loggerFactory,
-            IEmailService emailService)
+            IEmailService emailService, IArbeidsBemiddelaarRepository arbeidsBemiddelaarRepository)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = loggerFactory.CreateLogger<AccountController>();
             _emailService = emailService;
+            _arbeidsBemiddelaarRepository = arbeidsBemiddelaarRepository;
         }
 
         public IActionResult Index()
@@ -128,6 +130,7 @@ namespace KostenBatenTool.Controllers
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email, Naam = model.Naam, Gemeente = model.Gemeente, Voornaam = model.Voornaam, Postcode = model.Postcode, Huisnummer = model.Huisnummer, Straat = model.Straat, NaamOrganisatie = model.NaamOrganisatie };
                 ArbeidsBemiddelaar arbeidsBemiddelaar = new ArbeidsBemiddelaar(model.Naam, model.Voornaam, model.Email, new Organisatie(model.NaamOrganisatie, model.Straat, model.Huisnummer, model.Postcode, model.Gemeente));
+                _arbeidsBemiddelaarRepository.Add(arbeidsBemiddelaar);
                 string password = "Lotte5";
                 var result = await _userManager.CreateAsync(user, password);
                 if (result.Succeeded)

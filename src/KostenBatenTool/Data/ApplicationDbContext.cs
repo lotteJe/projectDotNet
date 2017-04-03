@@ -25,7 +25,6 @@ namespace KostenBatenTool.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            builder.Entity<Afdeling>(MapAfdeling);
             builder.Entity<Persoon>(MapPersoon);
             builder.Entity<ArbeidsBemiddelaar>(MapArbeidsBemiddelaar);
             builder.Entity<Analyse>(MapAnalyse);
@@ -108,14 +107,7 @@ namespace KostenBatenTool.Data
                 .HasValue<ArbeidsBemiddelaar>("Arbeidsbemiddelaar");
         }
         
-        private void MapAfdeling(EntityTypeBuilder<Afdeling> a)
-        {
-            a.ToTable("Afdeling");
-            a.Property(t => t.AfdelingId).ValueGeneratedOnAdd();
-            a.HasKey(t => new { t.AfdelingId, t.OrganisatieId });
-
-            a.Property(t => t.Naam).IsRequired();
-        }
+       
 
         private static void MapOrganisatie(EntityTypeBuilder<Organisatie> o)
         {
@@ -129,8 +121,7 @@ namespace KostenBatenTool.Data
             o.Property(t => t.Gemeente).IsRequired();
             o.Property(t => t.UrenWerkWeek).IsRequired();
             o.Property(t => t.PatronaleBijdrage).IsRequired();
-
-            o.HasMany(t => t.Afdelingen).WithOne().IsRequired(false).OnDelete(DeleteBehavior.Cascade);
+            o.Property(t => t.Afdeling).IsRequired(false);
             o.HasOne(t => t.Contactpersoon).WithMany().IsRequired(false).OnDelete(DeleteBehavior.Restrict);
         }
     }

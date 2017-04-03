@@ -15,7 +15,7 @@ namespace KostenBatenToolTests.Models
         #region Constructors
         public OrganisatieTest()
         {
-            _organisatie = new Organisatie("naam","straat", "1a", 1000, "gemeente");
+            _organisatie = new Organisatie("naam","straat", "1a", "1000", "gemeente");
         }
         #endregion
 
@@ -26,7 +26,7 @@ namespace KostenBatenToolTests.Models
             Assert.Equal(_organisatie.Naam, "naam");
             Assert.Equal(_organisatie.Straat, "straat");
             Assert.Equal(_organisatie.Huisnummer, "1a");
-            Assert.Equal(_organisatie.Postcode, 1000);
+            Assert.Equal(_organisatie.Postcode, "1000");
             Assert.Equal(_organisatie.Gemeente, "gemeente");
         }
         [Fact]

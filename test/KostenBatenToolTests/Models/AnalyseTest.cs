@@ -19,7 +19,7 @@ namespace KostenBatenToolTests.Models
 
         public AnalyseTest()
         {
-            o = new Organisatie("a", "b", "c", 1000, "d");
+            o = new Organisatie("a", "b", "c", "1000", "d");
             o.UrenWerkWeek = 40M;
             _analyse = new Analyse(o);
                        

@@ -19,7 +19,7 @@ namespace KostenBatenToolTests.Models
         #region Constructors
         public LoonKostTest()
         {
-            _organisatie = new Organisatie("a", "b", "c", 1000, "d");
+            _organisatie = new Organisatie("a", "b", "c", "1000", "d");
             _organisatie.UrenWerkWeek = 40.0M;
             _organisatie.PatronaleBijdrage = 0.35M;
             _analyse = new Analyse(_organisatie);

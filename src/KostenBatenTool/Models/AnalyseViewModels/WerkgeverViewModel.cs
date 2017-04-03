@@ -24,7 +24,7 @@ namespace KostenBatenTool.Models.AnalyseViewModels
         [Required(ErrorMessage = "Postcode is verplicht")]
         [Display(Name = "Postcode")]
         [RegularExpression(@"[1-9][0-9]{3}", ErrorMessage = "Moet een getal zijn, mag maximum 1 letter bevatten!")]
-        public int Postcode { get; set; }
+        public string Postcode { get; set; }
 
         [Required(ErrorMessage = "Gemeente is verplicht")]
         [Display(Name = "Gemeente")]

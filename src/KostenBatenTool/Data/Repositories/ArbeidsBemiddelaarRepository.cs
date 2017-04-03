@@ -13,6 +13,7 @@ namespace KostenBatenTool.Data.Repositories
         private readonly DbSet<BerekeningVeld> _berekeningVelden;
         private readonly DbSet<Veld> _velden;
         private readonly DbSet<Analyse> _analyses;
+        private readonly DbSet<Organisatie> _organisaties;
         private readonly ApplicationDbContext _dbContext;
 
         public ArbeidsBemiddelaarRepository(ApplicationDbContext dbContext)
@@ -22,6 +23,7 @@ namespace KostenBatenTool.Data.Repositories
             _berekeningVelden = dbContext.BerekeningVelden;
             _velden = dbContext.Velden;
             _analyses = dbContext.Analyses;
+            _organisaties = dbContext.Organisaties;
         }
 
         public ArbeidsBemiddelaar GetBy(string emailadres)
@@ -44,8 +46,28 @@ namespace KostenBatenTool.Data.Repositories
             _dbContext.SaveChanges();
         }
 
+        public Organisatie GetOrganisatie(string emailadres, int id)
+        {
+            return _arbeidsBemiddelaars.Include("Analyses.Organisatie").First(a => a.Email.Equals(emailadres)).Analyses.Select(a => a.Organisatie).First(o => o.OrganisatieId == id);
+        }
+
+        public IEnumerable<Organisatie> GetOrganisaties(string emailadres)
+        {
+            if (!_arbeidsBemiddelaars.Include(a =>a.Analyses).First(a => a.Email.Equals(emailadres)).Analyses.Any())
+            {
+                return null;
+            } 
+            return
+                _arbeidsBemiddelaars.Include("Analyses.Organisatie").First(a => a.Email.Equals(emailadres)).Analyses.Select(a => a.Organisatie).ToList();
+        }
+
+
         public IEnumerable<Analyse> GetAllAnalyses(string emailadres)
         {
+            if (!_arbeidsBemiddelaars.Include(a => a.Analyses).First(a => a.Email.Equals(emailadres)).Analyses.Any())
+            {
+                return null;
+            }
             return _arbeidsBemiddelaars.Include("Analyses.Organisatie").First(a => a.Email.Equals(emailadres)).Analyses;
         }
 

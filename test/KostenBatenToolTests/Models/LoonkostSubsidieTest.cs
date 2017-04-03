@@ -21,7 +21,7 @@ namespace KostenBatenToolTests.Models
 
         public LoonkostSubsidieTest()
         {
-            Organisatie o = new Organisatie("a", "b", "c", 1000, "d");
+            Organisatie o = new Organisatie("a", "b", "c", "1000", "d");
             o.UrenWerkWeek = 40M;
             _analyse = new Analyse(o);
             _kost = new LoonKost(_analyse);

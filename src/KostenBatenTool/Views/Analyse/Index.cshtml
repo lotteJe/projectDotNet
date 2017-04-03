@@ -10,32 +10,49 @@
 
 <div class="container-fluid">
     <table class="table table-responsive archief table-striped">
-        <tr>
-            <th>Datum</th>
-            <th>Werkgever</th>
-            <th>Gemeente</th>
-            <th>Resultaat</th>
-            <th>Kosten</th>
-            <th>Baten</th>
-            <th></th>
-        </tr>
-       @foreach (Analyse analyse in Model)
-       {
+       
+        @if (Model != null)
+        {
             <tr>
-                <td>@(analyse.AanmaakDatum.Date.ToString("d") ?? "-")</td>
-                <td>@analyse.Organisatie.Naam</td>
-                <td>@analyse.Organisatie.Gemeente</td>
-                <td style="color: ">@($"€ {analyse.Resultaat:N2}")</td>
-                <td style="color: red">@($"€ {analyse.KostenResultaat:N2}")</td>
-                <td style="color: green">@($"€ {analyse.Resultaat:N2}")</td>
-                <td>
-                    <a asp-controller="Analyse" asp-action="" asp-route-id="@analyse.AnalyseId"> <i class="fa fa fa-download animated fadeInDown " aria-hidden="true"></i></a>
+
+                <th>Datum</th>
+                <th>Werkgever</th>
+                <th>Afdeling</th>
+                <th>Gemeente</th>
+                <th>Resultaat</th>
+                <th>Kosten</th>
+                <th>Baten</th>
+                <th></th>
+
+            </tr>
+            foreach (Analyse analyse in Model)
+            {
+                <tr>
+                    <td>@(analyse.AanmaakDatum.Date.ToString("d") ?? "-")</td>
+                    <td>@analyse.Organisatie.Naam</td>
+                    @if(analyse.Organisatie.Afdeling == null){
+                        <td>-</td>
+                    }else{
+                        <td>@analyse.Organisatie.Afdeling</td>
+                    }
+                    
+                    <td>@analyse.Organisatie.Gemeente</td>
+                    <td style="color: red">@($"{analyse.Resultaat:N2} €")</td>
+                    <td style="color: red">@($"{analyse.KostenResultaat:N2} €")</td>
+                    <td style="color: green">@($"{analyse.Resultaat:N2} €")</td>
+                    <td>
+                       <a asp-controller="Analyse" asp-action="" asp-route-id="@analyse.AnalyseId"> <i class="fa fa fa-download animated fadeInDown " aria-hidden="true"></i></a>
                     <a asp-controller="Analyse" asp-action="" asp-route-id="@analyse.AnalyseId"><i class="fa fa-paper-plane animated fadeInDown" aria-hidden="true"></i></a>
                     <a asp-controller="Analyse" asp-action="" asp-route-id="@analyse.AnalyseId"> <i class="fa fa-print animated fadeInDown" aria-hidden="true"></i></a>
                     <a asp-controller="Analyse" asp-action="Delete" asp-route-id="@analyse.AnalyseId"><i class="fa fa-trash animated fadeInDown" aria-hidden="true"></i></a>
-                </td>
-            </tr>
+                 </td>
+                </tr>
+            }
         }
-       
+        else
+        {
+            <p>Er zijn nog geen analyses aangemaakt.</p>
+        }
+
     </table>
 </div>

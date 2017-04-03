@@ -35,7 +35,10 @@ namespace KostenBatenTool.Controllers
         }
         public IActionResult Index()
         {
-            IEnumerable<Analyse> a = _arbeidsBemiddelaarRepository.GetAllAnalyses("sharonvanhove1@gmail.com");
+
+            var user = GetCurrentUserAsync();
+            string email = user.Result.Email;
+            IEnumerable<Analyse> a = _arbeidsBemiddelaarRepository.GetAllAnalyses(email);
             return View(a);
         }
 
@@ -77,7 +80,10 @@ namespace KostenBatenTool.Controllers
             return View();
         }
 
-
+        private Task<ApplicationUser> GetCurrentUserAsync()
+        {
+            return _userManager.GetUserAsync(HttpContext.User);
+        }
 
     }
 }
