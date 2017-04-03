@@ -6,7 +6,7 @@
 }
 
 html.dash {
-    background: url('../images/bgD.png') no-repeat center center fixed;
+    background: url('../images/bg.png') no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -29,13 +29,14 @@ body {
     background-color: transparent;
     font-family: 'abadi' !important;
     font-size: 20px;
+    color: dimgray;
 }
 
 .body-content {
     margin-left: 120px;
-    padding-left: 10px;
-    padding-right: 15px;
-    background-color: rgba(255,255,255, 0.7);
+    padding-left: 30px;
+    padding-right: 30px;
+    background-color: rgba(255,255,255, 0.74);
     width: auto;
     min-height: 91vmin;
 }
@@ -47,8 +48,8 @@ a.dropdown-toggle {
 
     a.dropdown-toggle:hover,
     a.dropdown-toggle:focus {
-        background: rgba(255,255,255, 0.7);
-        color: black;
+        background: rgba(255,255,255, 0.74);
+        color: dimgray;
     }
 
 
@@ -85,7 +86,7 @@ div#top-menu {
 
         .wrap .nav-bar .nav .dropdown-menu > li > a, .uitloggen {
             font-size: 20px;
-            color: black;
+            color: dimgray;
             background: white;
             padding: 8px;
         }
@@ -93,7 +94,7 @@ div#top-menu {
             .wrap .nav-bar .nav .dropdown-menu > li > a:hover, .uitloggen:hover {
                 background: #F6F9E6;
                 text-decoration: none;
-                color: black;
+                color: dimgray;
                 width: 100%;
                 text-align: left;
             }
@@ -181,11 +182,11 @@ ul.nav.nav-list.accordion li i {
 }
 
 .nav > li > a:hover, .nav > li > a:focus, .active {
-    background-color: #e4ecb7;
+    background-color: rgba(255,255,255, 0.74);
 }
 
     .wrap ul.accordion li a:hover i, .active a i.fa {
-        color: #78A208 !important;
+        color: #9CCD0B !important;
     }
 
 
@@ -201,18 +202,18 @@ ul.nav.nav-list.accordion li i {
     font-size: 30px;
     text-transform: uppercase;
     padding: 20px;
-    border-bottom: 1px solid #3c4042;
+    border-bottom: 1px solid #9CCD0B;
     margin-bottom: 20px;
 }
 
     .tab:first-of-type {
-        border-right: 1px solid #3c4042;
+        border-right: 1px solid #9CCD0B;
         border-bottom-right-radius: 10px;
     }
 
     .tab:nth-of-type(2) {
         border-bottom-left-radius: 10px;
-        border-left: 1px solid #3c4042;
+        border-left: 1px solid #9CCD0B;
     }
 
     .tab:hover, .tab:focus {
@@ -247,7 +248,7 @@ ul.nav.nav-list.accordion li i {
 
 .knop {
     color: #ffffff;
-    background: #3c4042;
+    background: #9CCD0B;
     font-size: 16px;
     text-transform: uppercase;
     margin-top: 15px;
@@ -262,16 +263,16 @@ ul.nav.nav-list.accordion li i {
 }
 
 #show-change, #toevoegenFunctie {
-    color: #3c4042;
+    color: dimgray;
     font-size: 16px;
     text-decoration: underline;
     vertical-align: bottom;
-    margin-right: 15px;
 }
-#show-change:hover , #toevoegenFunctie:hover{
-    cursor: pointer;
-    color:  #78A208
-}
+
+    #show-change:hover, #toevoegenFunctie:hover {
+        cursor: pointer;
+        color: #9CCD0B;
+    }
 
 
 #ww {
@@ -279,13 +280,13 @@ ul.nav.nav-list.accordion li i {
 }
 
     #ww a {
-        color: #3b4041;
+        color: dimgray;
         font-size: 15px;
     }
 
 #intro {
     font-size: 15px;
-    color: black;
+    color: dimgray;
 }
 
 
@@ -387,12 +388,15 @@ hr {
     margin-top: 15px;
 }
 
-    .archief td > i {
+    .archief td > a i {
         display: none;
+        text-decoration: none;
     }
 
-    .archief tr:hover td > i {
+    .archief tr:hover td > a i {
         display: inline;
+        color: #3b4041;
+         text-decoration: none;  
     }
 
     .archief td:nth-of-type(1),
@@ -439,7 +443,7 @@ hr {
 .werkgeverTabs a {
     border: 5px solid transparent;
     background-clip: padding-box;
-    background-color: #78A208;
+    background-color: #9CCD0B;
     color: white;
     text-align: center;
     padding: 20px;
@@ -465,7 +469,7 @@ hr {
 }
 
     .overzichtTabs a {
-        background-color: #78A208;
+        background-color: #9CCD0B;
         color: #fff;
         cursor: pointer;
         padding: 8px;
@@ -539,12 +543,21 @@ hr {
     text-align: right;
 }
 
-h2 {
-    font-size: 25px;
+h1 {
+    font-size: 22px;
 }
 
+h2 {
+    font-size: 20px;
+    padding-left: 20px;
+    margin-bottom: 25px;
+    
+}
+hr {
+    color: dimgray;
+}
 img#logo {
-    width: 40px;
+   // width: 40px;
     margin-right: 20px;
 }
 
@@ -574,13 +587,17 @@ form.form-horizontal.wwWijzigen {
     margin-left: -10px;
 }
 
-.fa-times:hover, .fa-times:focus {
-    text-decoration: none;
-    background-color: none;
-    color: black;
-}
+    .fa-times:hover, .fa-times:focus {
+        text-decoration: none;
+        background-color: none;
+        color: dimgray;
+    }
+    a:hover {
+          text-decoration: none;
+    }
+
 .kruis {
-    color: black;
+    color: dimgray;
 }
 
 .resultaat {
@@ -591,9 +608,76 @@ form.form-horizontal.wwWijzigen {
 .functie {
     margin: 25px;
 }
-.functie  .row {
-    margin-top: 30px;
+
+    .functie .row {
+        margin-top: 30px;
+    }
+
+    .functie label {
+        font-size: 18px;
+    }
+
+/* partials kosten en baten Type Bedrag*/
+.typeTable {
+    table-layout: fixed;
 }
-.functie label {
+
+.functies {
+    background-color: #ffffff;
+    margin-top: 10px;
+    width: 100%;
+    table-layout: fixed;
     font-size: 18px;
+    border-radius: 6px;
+}
+
+    .functies th {
+        background-color: #9CCD0B;
+        color: white;
+        font-weight: unset;
+        text-align: center;
+    }
+
+    .functies td {
+        background-color: #ffffff;
+        border: 1px solid #e4ecb7 !important;
+    }
+
+.fa-plus {
+    margin-top: 20px;
+    color: #9CCD0B;
+    text-align: right;
+}
+
+.rotate {
+    -moz-transition: all 0.5s linear;
+    -webkit-transition: all 0.5s linear;
+    transition: all 0.5s linear;
+}
+
+    .rotate.down {
+        -moz-transform: rotate(45deg);
+        -webkit-transform: rotate(45deg);
+        transform: rotate(45deg);
+    }
+
+.overzicht td a {
+    width: 100%;
+    display: block;
+    text-decoration: none;
+    color: #3b4041;
+}
+.overzicht td:nth-of-type(2):hover, .overzicht td:nth-of-type(5):hover  {
+    background-color: #9CCD0B;
+}
+.overzicht td:hover a {
+    color: white;
+}
+.overzicht td a:hover {
+    text-decoration: none;
+}
+
+.type {
+    text-align: left;
+    padding-left: 150px;
 }

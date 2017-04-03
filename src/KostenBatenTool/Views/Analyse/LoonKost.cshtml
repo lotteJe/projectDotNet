@@ -3,38 +3,56 @@
     ViewData["Title"] = "1. Loonkosten medewerkers met grote afstand tot arbeidsmarkt";
 }
 
-<h2>@ViewData["Title"]</h2>
+<h1>@ViewData["Title"]</h1>
 <hr />
-<h2>Welke functie zet u in?</h2>
-<table class="table table-responsive table-striped">
-    <tr>
-        <th>Functie</th>
-        <th>Aantal uren per week</th>
-        <th>bruto maandloon</th>
-        <th>Doelgroep</th>
-        <th>Vlaamse ondersteuningspremie</th>
-        <th>Aantal maanden IBO</th>
-        <th>Totale productiviteitspremie IBO</th>
-    </tr>
-    @foreach (var item in Model)
-        {
+<div class="row">
+    <h2 class="col-md-6">Welke functie zet u in?</h2>
 
-            <tr>
-                <td>@item.Functie</td>
-                <td>@item.Bedrag</td>
-                <td>@item.</td>
-
-            </tr>
-        }
-
-</table>
-
-<div class="col-md-offset-10">
-    <a id="toevoegenFunctie">+ functie toevoegen</a>
+    <a id="toevoegenFunctie" class="col-md-offset-5"><i class="fa fa-plus fa-2x  rotate" aria-hidden="true"></i></a>
 </div>
-
-<div id="loonkostPartial" class="row">
+<div id="partial" class="row">
     <div class="col-md-11 col-md-offset-1">
         @Html.Partial("_loonkostPartial")
     </div>
 </div>
+<div class="col-md-12">
+    <table class="table table-responsive table-bordered functies">
+        <tr>
+            <th>Functie</th>
+            <th>Aantal uren per week</th>
+            <th>Bruto maandloon</th>
+            <th>Doelgroep</th>
+            <th>Vlaamse ondersteuningspremie</th>
+            <th>Aantal maanden IBO</th>
+            <th>Totale productiviteitspremie IBO</th>
+        </tr>
+        @for (int i = 0; i < 1; i++)
+        {
+            <tr>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+            </tr>
+        }
+        @*@foreach (var item in Model)
+            {
+
+                <tr>
+                    <td>@item.Functie</td>
+                    <td>@item.Bedrag</td>
+                    <td>@item.</td>
+
+                </tr>
+            }*@
+
+    </table>
+</div>
+@*<script>
+    window.location.hash = "no-back-button";
+    window.location.hash = "Again-No-back-button";//again because google chrome don't insert first hash into history
+    window.onhashchange = function () { window.location.hash = "no-back-button"; }
+</script>*@
