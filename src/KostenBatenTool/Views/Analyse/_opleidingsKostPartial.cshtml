@@ -4,20 +4,22 @@
     <form asp-controller="Analyse" asp-action="OpleidingsKost" method="post" class="form-horizontal">
 
         <div class="row">
-            <label asp-for="Type" class="col-md-2 control-label ww">Type</label>
-            <div class="col-md-3">
-                <input asp-for="Type" class="form-control" />
-                <span asp-validation-for="Type" class="text-danger"></span>
-            </div>
-            <label asp-for="Type" class="col-md-2 control-label ww">Bedrag</label>
-            <div class="col-md-3">
+            <label asp-for="Type" class="col-md-4 col-md-offset-2 ww">Type</label>
+            <div class="col-md-4">
                 <input asp-for="Type" class="form-control" />
                 <span asp-validation-for="Type" class="text-danger"></span>
             </div>
         </div>
+        <div class="row">
+            <label asp-for="Bedrag" class="col-md-4  col-md-offset-2 control-label ww">Bedrag</label>
+            <div class="col-md-4">
+                <input asp-for="Bedrag" class="form-control" />
+                <span asp-validation-for="Bedrag" class="text-danger"></span>
+            </div>
+        </div>
         <div class="form-group">
-            <div class="col-md-10" id="aanmelden">
-                <button type="button" class="btn btn-default knop" id="loonkostnochange">Annuleren</button>
+            <div class="col-md-12" id="aanmelden">
+                @*<button type="button" class="btn btn-default knop" id="loonkostnochange">Annuleren</button>*@
                 <button type="submit" class="btn btn-default knop" id="">Toevoegen</button>
             </div>
         </div>

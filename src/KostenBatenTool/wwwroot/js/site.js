@@ -114,10 +114,22 @@ $('#nochange').click(function () {
 
 /*kostenpartial */
 
-$('#toevoegenFunctie').click(function () {
-    $('#loonkostPartial').show();
-});
- $('#loonkostnochange').click(function () {
-    $('#loonkostPartial').hide();
-});
+//$('#toevoegenFunctie').click(function () {
+//    $('#loonkostPartial').show();
+//});
+// $('#loonkostnochange').click(function () {
+//    $('#loonkostPartial').hide();
+//});
 
+ $("#toevoegenFunctie").click(function () {
+     $("#partial").slideToggle();
+ });
+ $(".rotate").click(function () {
+     $(this).toggleClass("down");
+     var elements = document.getElementsByTagName("input");
+     for (var ii = 0; ii < elements.length; ii++) {
+         if (elements[ii].type == "text") {
+             elements[ii].value = "";
+         }
+     }
+ })

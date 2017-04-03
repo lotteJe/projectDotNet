@@ -3,32 +3,39 @@
     ViewData["Title"] = "3. Besparing reguliere medewerker op hetzelfde niveau";
 }
 
-<h2>@ViewData["Title"]</h2>
+<h1>@ViewData["Title"]</h1>
 <hr />
-<h2>Vul hier de lonen op hetzelfde niveau in die mogelijk vervangen worden, met het geschatte aantal uren dat per week weggehaald wordt.</h2>
-<table class="table table-responsive table-striped">
-    <tr>
-        <th>Uren</th>
-        <th>Bruto maandloon fulltime</th>
-        <th>Totale loonkost per jaar</th>
-    </tr>
-    @*@foreach (var item in Model)
-        {
-
-            <tr>
-                <td>@item.Uren</td>
-                <td>@item.Maandloon</td>
-                <td>@item.Loonkost
-            </tr>
-        }*@
-</table>
-
-<div class="col-md-offset-10">
-    <a id="toevoegenFunctie">+ baat toevoegen</a>
+<div class="row">
+    <h2 class="col-md-7">Vul hier de lonen op hetzelfde niveau in die mogelijk vervangen worden, met het geschatte aantal uren dat per week weggehaald wordt.</h2>
+    <a id="toevoegenFunctie" class="col-md-offset-4"><i class="fa fa-plus fa-2x  rotate" aria-hidden="true"></i></a>
 </div>
-
-<div id="loonkostPartial" class="row">
-    <div class="col-md-11 col-md-offset-1">
+<div id="partial" class="row">
+    <div class="col-md-6 col-md-offset-3">
         @Html.Partial("_medewerkerZelfdeNiveauBesparingPartial")
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <table class="table table-responsive table-striped functies">
+            <tr>
+                <th>Uren</th>
+                <th>Bruto maandloon fulltime</th>
+                <th>Totale loonkost per jaar</th>
+            </tr>
+            <tr>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+            </tr>
+            @*@foreach (var item in Model)
+                {
+
+                    <tr>
+                        <td>@item.Uren</td>
+                        <td>@item.Maandloon</td>
+                        <td>@item.Loonkost
+                    </tr>
+                }*@
+        </table>
     </div>
 </div>

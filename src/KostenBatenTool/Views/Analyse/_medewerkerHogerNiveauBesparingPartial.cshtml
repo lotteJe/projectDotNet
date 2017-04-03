@@ -4,30 +4,30 @@
     <form asp-controller="Analyse" asp-action="MedewerkerHogerNiveauBesparing" method="post" class="form-horizontal">
 
         <div class="row">
-            <label asp-for="Uren" class="col-md-2 control-label ww">Uren</label>
-            <div class="col-md-3">
+            <label asp-for="Uren" class="col-md-4 col-md-offset-2 ww">Uren</label>
+            <div class="col-md-4">
                 <input asp-for="Uren" class="form-control" />
                 <span asp-validation-for="Uren" class="text-danger"></span>
             </div>
-            <label asp-for="Maandloon" class="col-md-2 control-label ww">Bruto maandloon fulltime</label>
-            <div class="col-md-3">
+        </div>
+        <div class="row">
+            <label asp-for="Maandloon" class="col-md-4  col-md-offset-2 control-label ww">Bruto maandloon fulltime</label>
+            <div class="col-md-4">
                 <input asp-for="Maandloon" class="form-control" />
                 <span asp-validation-for="Maandloon" class="text-danger"></span>
             </div>
-        </div>
-        <div class="row">
-            <label asp-for="Bedrag" class="col-md-2 control-label ww">Totale loonkost per jaar</label>
-            <div class="col-md-3">
+        </div><div class="row">
+            <label asp-for="Bedrag" class="col-md-4  col-md-offset-2 control-label ww">Totale loonkost per jaar</label>
+            <div class="col-md-4">
                 <input asp-for="Bedrag" class="form-control" />
                 <span asp-validation-for="Bedrag" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
-            <div class="col-md-10" id="aanmelden">
-                <button type="button" class="btn btn-default knop" id="loonkostnochange">Annuleren</button>
+            <div class="col-md-12" id="aanmelden">
+                @*<button type="button" class="btn btn-default knop" id="loonkostnochange">Annuleren</button>*@
                 <button type="submit" class="btn btn-default knop" id="">Toevoegen</button>
             </div>
         </div>
-
     </form>
 </div>
