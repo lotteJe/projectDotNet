@@ -4,12 +4,18 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
-
+@{
+    ApplicationUser user = await UserManager.GetUserAsync(User);
+    if (user != null)
+    {
+        ViewData["naam"] = user.Voornaam + " " + user.Naam;
+    }
+}
 <form asp-area="" asp-controller="Account" asp-action="LogOff" method="post" id="logoutForm" class="navbar-right">
     <ul class="nav navbar-nav">
         <li class="nav-header">
         <li class="dropdown movable">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">@UserManager.GetUserName(User) <span class="caret"></span></a>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">@ViewData["naam"] <span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
                 <li><a asp-area="" asp-controller="Account" asp-action="Edit"><span class="fa fa-user"></span> Mijn profiel</a></li>
                 <li class="divider"></li>

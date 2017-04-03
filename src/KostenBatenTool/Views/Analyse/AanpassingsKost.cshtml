@@ -3,32 +3,38 @@
     ViewData["Title"] = "4. Extra kosten voor aanpassingen werkomgeving/aangepast gereedschap";
 }
 
-<h2>@ViewData["Title"]</h2>
+<h1>@ViewData["Title"]</h1>
 <hr />
-<h2>Welke kosten moet u structureel jaarlijks extra maken voor deze inhuur? (vul hier de gereedschapskosten ed in)</h2>
-<table class="table table-responsive table-striped">
-    <tr>
-        <th>Type</th>
-        <th>Bedrag</th>
-    </tr>
 
-    @*@foreach (var item in Model)
-    {
-
-        <tr>
-            <td>@item.Type</td>
-            <td>@item.Bedrag</td>
-
-        </tr>
-    }*@
-    </table>
-
-    <div class="col-md-offset-10">
-        <a id="toevoegenFunctie">+ kost toevoegen</a>
+<div class="row">
+    <h2 class="col-md-7">Welke kosten moet u structureel jaarlijks extra maken voor deze inhuur? (vul hier de gereedschapskosten ed in)</h2>
+    <a id="toevoegenFunctie" class="col-md-offset-4"><i class="fa fa-plus fa-2x  rotate" aria-hidden="true"></i></a>
+</div>
+<div id="partial" class="row">
+    <div class="col-md-6 col-md-offset-3">
+        @Html.Partial("_aanpassingsKostPartial")
     </div>
+</div>
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <table class="table table-responsive table-striped functies">
+            <tr>
+                <th>Type</th>
+                <th>Bedrag</th>
+            </tr>
+            <tr>
+                <td>-</td>
+                <td>-</td>
+            </tr>
+            @*@foreach (var item in Model)
+                {
 
-    <div id="loonkostPartial" class="row">
-        <div class="col-md-11 col-md-offset-1">
-            @Html.Partial("_aanpassingsKostPartial")
-        </div>
+                    <tr>
+                        <td>@item.Type</td>
+                        <td>@item.Bedrag</td>
+
+                    </tr>
+                }*@
+        </table>
     </div>
+</div>

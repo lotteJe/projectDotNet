@@ -142,7 +142,7 @@ namespace KostenBatenTool.Controllers
                 $"Klik op de link om je registratie te bevestigen:  <a href='{callbackUrl}'>link</a>");
 
                     // Comment out following line to prevent a new user automatically logged on.
-                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    //await _signInManager.SignInAsync(user, isPersistent: false);
                     _logger.LogInformation(3, "User created a new account with password.");
                     return View("RegisterConfirmed");
                 }

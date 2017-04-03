@@ -5,7 +5,7 @@
     ViewData["Title"] = "Archief";
 }
 
-<h2>@ViewData["Title"]</h2>
+<h1>@ViewData["Title"]</h1>
 <hr />
 
 <div class="container-fluid">
@@ -14,6 +14,7 @@
         @if (Model != null)
         {
             <tr>
+
                 <th>Datum</th>
                 <th>Werkgever</th>
                 <th>Afdeling</th>
@@ -22,6 +23,7 @@
                 <th>Kosten</th>
                 <th>Baten</th>
                 <th></th>
+
             </tr>
             foreach (Analyse analyse in Model)
             {
@@ -39,11 +41,11 @@
                     <td style="color: red">@($"{analyse.KostenResultaat:N2} €")</td>
                     <td style="color: green">@($"{analyse.Resultaat:N2} €")</td>
                     <td>
-                        <i class="fa fa fa-download animated fadeInDown " aria-hidden="true"></i>
-                        <i class="fa fa-paper-plane animated fadeInDown" aria-hidden="true"></i>
-                        <i class="fa fa-print animated fadeInDown" aria-hidden="true"></i>
-                        <a asp-controller="Analyse" asp-action="Delete" asp-route-id="@analyse.AnalyseId"><i class="fa fa-trash animated fadeInDown" aria-hidden="true"></i></a>
-                    </td>
+                       <a asp-controller="Analyse" asp-action="" asp-route-id="@analyse.AnalyseId"> <i class="fa fa fa-download animated fadeInDown " aria-hidden="true"></i></a>
+                    <a asp-controller="Analyse" asp-action="" asp-route-id="@analyse.AnalyseId"><i class="fa fa-paper-plane animated fadeInDown" aria-hidden="true"></i></a>
+                    <a asp-controller="Analyse" asp-action="" asp-route-id="@analyse.AnalyseId"> <i class="fa fa-print animated fadeInDown" aria-hidden="true"></i></a>
+                    <a asp-controller="Analyse" asp-action="Delete" asp-route-id="@analyse.AnalyseId"><i class="fa fa-trash animated fadeInDown" aria-hidden="true"></i></a>
+                 </td>
                 </tr>
             }
         }
