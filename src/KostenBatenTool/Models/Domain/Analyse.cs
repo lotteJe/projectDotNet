@@ -81,11 +81,17 @@ namespace KostenBatenTool.Models.Domain
             if ((Kosten.Any(k => k.GetType() == Type.GetType("KostenBatenTool.Models.Domain." + berekeningNaam))))
             {
                 return Kosten.First(k => k.GetType() == Type.GetType("KostenBatenTool.Models.Domain." + berekeningNaam));
-                
+
             }
             if ((Baten.Any(k => k.GetType() == Type.GetType("KostenBatenTool.Models.Domain." + berekeningNaam))))
             {
                 return Baten.First(k => k.GetType() == Type.GetType("KostenBatenTool.Models.Domain." + berekeningNaam));
+
+
+            }
+            throw new ArgumentException("Berekening bestaat niet");
+
+        }
                 
             }
             throw new ArgumentException("Berekening bestaat niet");

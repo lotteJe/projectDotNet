@@ -20,13 +20,11 @@ namespace KostenBatenTool.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailService _emailService;
-        private readonly IOrganisatieRepository _organisatieRepository;
         private readonly IArbeidsBemiddelaarRepository _arbeidsBemiddelaarRepository;
 
         public HomeController(UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager, IOrganisatieRepository organisatieRepository, IArbeidsBemiddelaarRepository arbeidsBemiddelaarRepository, IEmailService emailService)
+            SignInManager<ApplicationUser> signInManager, IArbeidsBemiddelaarRepository arbeidsBemiddelaarRepository, IEmailService emailService)
         {
-            _organisatieRepository = organisatieRepository;
             _arbeidsBemiddelaarRepository = arbeidsBemiddelaarRepository;
             _userManager = userManager;
             _signInManager = signInManager;

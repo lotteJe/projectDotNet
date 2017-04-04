@@ -1,6 +1,6 @@
 ﻿@model KostenBatenTool.Models.Domain.Analyse
 @{
-    ViewData["Title"] = "Dreamland";
+    ViewData["Title"] = Model.Organisatie.Naam+ ", " + Model.Organisatie.Gemeente ;
 }
 <div class="row">
     <h1 class="col-md-8">@ViewData["Title"] <i class="fa fa-pencil" aria-hidden="true"></i></h1>

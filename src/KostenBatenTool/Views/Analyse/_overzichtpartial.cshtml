@@ -1,4 +1,5 @@
-﻿<table class="table overzicht">
+﻿@model KostenBatenTool.Models.Domain.Analyse
+<table class="table overzicht">
     <tr>
         <th>BATEN</th>
         <th></th>
@@ -12,7 +13,7 @@
         <td>totale loonkostsubsidies</td>
         <td></td>
         <td></td>
-        <td><a asp-area="" asp-controller="Analyse" asp-action="LoonKost" asp-route-id="">loonkosten medewerkers met grote afstand tot arbeidsmarkt</a></td>
+        <td><a asp-area="" asp-controller="Analyse" asp-action="LoonKost" asp-route-id="@Model.AnalyseId">loonkosten medewerkers met grote afstand tot arbeidsmarkt</a></td>
         <td>1</td>
     </tr>
 
