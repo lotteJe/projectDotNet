@@ -75,7 +75,22 @@ namespace KostenBatenTool.Models.Domain
             else throw new ArgumentException("Berekening bestaat niet");
             BerekenNettoResultaat();
         }
-        
+
+        public Berekening GetBerekening(string berekeningNaam)
+        {
+            if ((Kosten.Any(k => k.GetType() == Type.GetType("KostenBatenTool.Models.Domain." + berekeningNaam))))
+            {
+                return Kosten.First(k => k.GetType() == Type.GetType("KostenBatenTool.Models.Domain." + berekeningNaam));
+
+            }
+            if ((Baten.Any(k => k.GetType() == Type.GetType("KostenBatenTool.Models.Domain." + berekeningNaam))))
+            {
+                return Baten.First(k => k.GetType() == Type.GetType("KostenBatenTool.Models.Domain." + berekeningNaam));
+
+            }
+            throw new ArgumentException("Berekening bestaat niet");
+
+        }
         public decimal BerekenNettoResultaat()
         {
             Resultaat = BerekenBatenResultaat() - BerekenKostenResultaat();

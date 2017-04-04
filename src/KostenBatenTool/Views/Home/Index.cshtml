@@ -15,7 +15,7 @@
         {
             <div class="col-md-4 col-sm-6 analyseDetail animated fadeIn">
                 <img src="images/demallit.png" alt="colruytLogo" id="logo"/>
-                <a>@analyse.Organisatie.Naam</a>
+                <a asp-controller="Analyse" asp-action="Overzicht" asp-route-id="@analyse.AnalyseId">@analyse.Organisatie.Naam</a>
                 <div>
                     <table class="table table-responsive">
                         <tr>
