@@ -25,8 +25,8 @@ namespace KostenBatenTool.Models.Domain
         public override decimal BerekenBedragPerLijn(int index)
         {
             ControleerIndex(index);
-            Lijnen[index].First(v => v.Key.Equals("totaalbedrag")).Value = (decimal) Lijnen[index].First(v => v.Key.Equals("transportkosten jaarbedrag")).Value + (decimal) Lijnen[index].First(v=> v.Key.Equals("logistieke kosten jaarbedrag")).Value;
-            return (decimal) Lijnen[index].First(v => v.Key.Equals("totaalbedrag")).Value;
+            Lijnen[index].VeldenWaarden.First(v => v.Key.Equals("totaalbedrag")).Value = (decimal) Lijnen[index].VeldenWaarden.First(v => v.Key.Equals("transportkosten jaarbedrag")).Value + (decimal) Lijnen[index].VeldenWaarden.First(v=> v.Key.Equals("logistieke kosten jaarbedrag")).Value;
+            return (decimal) Lijnen[index].VeldenWaarden.First(v => v.Key.Equals("totaalbedrag")).Value;
         }
         #endregion
     }

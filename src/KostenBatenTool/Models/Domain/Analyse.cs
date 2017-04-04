@@ -92,14 +92,7 @@ namespace KostenBatenTool.Models.Domain
             throw new ArgumentException("Berekening bestaat niet");
 
         }
-                
-            }
-            throw new ArgumentException("Berekening bestaat niet");
-            
-        }
-
         
-
 
         public decimal BerekenNettoResultaat()
         {

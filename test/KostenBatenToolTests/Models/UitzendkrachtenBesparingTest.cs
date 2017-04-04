@@ -33,21 +33,21 @@ namespace KostenBatenToolTests.Models
         [Fact]
         public void UitzendkrachtenBesparing_MaaktJuisteLijnAan()
         {
-            Assert.True(_baat.Lijnen[0].Any(v => v.Key.Equals("beschrijving")));
-            Assert.True(_baat.Lijnen[0].Any(v => v.Key.Equals("jaarbedrag")));
+            Assert.True(_baat.Lijnen[0].VeldenWaarden.Any(v => v.Key.Equals("beschrijving")));
+            Assert.True(_baat.Lijnen[0].VeldenWaarden.Any(v => v.Key.Equals("jaarbedrag")));
         }
 
         [Fact]
         public void UitzendkrachtenBesparing_ZetBedragOp0()
         {
-            Assert.Equal(_baat.Lijnen[0].First(v => v.Key.Equals("jaarbedrag")).Value, 0M);
+            Assert.Equal(_baat.Lijnen[0].VeldenWaarden.First(v => v.Key.Equals("jaarbedrag")).Value, 0M);
         }
 
         [Fact]
         public void VulJaarbedragIn()
         {
             _baat.VulVeldIn(0, "jaarbedrag", 1200M);
-            Assert.Equal(_baat.Lijnen[0].First(v => v.Key.Equals("jaarbedrag")).Value, 1200M);
+            Assert.Equal(_baat.Lijnen[0].VeldenWaarden.First(v => v.Key.Equals("jaarbedrag")).Value, 1200M);
         }
 
         [Fact]
@@ -84,7 +84,7 @@ namespace KostenBatenToolTests.Models
         public void vulJaarbedragIn_VoegtLijnToeVorigeLijnNietIngevuld()
         {
             _baat.VulVeldIn(1, "jaarbedrag", 1200M);
-            Assert.Equal(_baat.Lijnen[1].First(v => v.Key.Equals("jaarbedrag")).Value, 1200M);
+            Assert.Equal(_baat.Lijnen[1].VeldenWaarden.First(v => v.Key.Equals("jaarbedrag")).Value, 1200M);
 
         }
 
@@ -93,14 +93,14 @@ namespace KostenBatenToolTests.Models
         {
             _baat.VulVeldIn(0, "jaarbedrag", 1000M);
             _baat.VulVeldIn(1, "jaarbedrag", 1200M);
-            Assert.Equal(_baat.Lijnen[1].First(v => v.Key.Equals("jaarbedrag")).Value, 1200M);
+            Assert.Equal(_baat.Lijnen[1].VeldenWaarden.First(v => v.Key.Equals("jaarbedrag")).Value, 1200M);
         }
 
         [Fact]
         public void VulBeschrijvingIn()
         {
             _baat.VulVeldIn(0, "beschrijving", "test");
-            Assert.Equal(_baat.Lijnen[0].First(v => v.Key.Equals("beschrijving")).Value, "test");
+            Assert.Equal(_baat.Lijnen[0].VeldenWaarden.First(v => v.Key.Equals("beschrijving")).Value, "test");
         }
 
         [Fact]
@@ -108,7 +108,7 @@ namespace KostenBatenToolTests.Models
         {
             _baat.VulVeldIn(0, "beschrijving", "test0");
             _baat.VulVeldIn(1, "beschrijving", "test");
-            Assert.Equal(_baat.Lijnen[1].First(v => v.Key.Equals("beschrijving")).Value, "test");
+            Assert.Equal(_baat.Lijnen[1].VeldenWaarden.First(v => v.Key.Equals("beschrijving")).Value, "test");
         }
 
         [Fact]
@@ -116,7 +116,7 @@ namespace KostenBatenToolTests.Models
         {
             _baat.VulVeldIn(0, "jaarbedrag", 1000M);
             _baat.VulVeldIn(1, "beschrijving", "test");
-            Assert.Equal(_baat.Lijnen[1].First(v => v.Key.Equals("beschrijving")).Value, "test");
+            Assert.Equal(_baat.Lijnen[1].VeldenWaarden.First(v => v.Key.Equals("beschrijving")).Value, "test");
         }
 
         [Fact]
@@ -138,7 +138,7 @@ namespace KostenBatenToolTests.Models
         {
             _baat.VulVeldIn(0, "beschrijving", "test");
             _baat.VulVeldIn(0, "beschrijving", "test2");
-            Assert.Equal(_baat.Lijnen[0].First(v => v.Key.Equals("beschrijving")).Value, "test2");
+            Assert.Equal(_baat.Lijnen[0].VeldenWaarden.First(v => v.Key.Equals("beschrijving")).Value, "test2");
         }
 
         [Fact]
