@@ -87,10 +87,20 @@ namespace KostenBatenTool.Models.Domain
             {
                 return Baten.First(k => k.GetType() == Type.GetType("KostenBatenTool.Models.Domain." + berekeningNaam));
 
+
             }
             throw new ArgumentException("Berekening bestaat niet");
 
         }
+                
+            }
+            throw new ArgumentException("Berekening bestaat niet");
+            
+        }
+
+        
+
+
         public decimal BerekenNettoResultaat()
         {
             Resultaat = BerekenBatenResultaat() - BerekenKostenResultaat();

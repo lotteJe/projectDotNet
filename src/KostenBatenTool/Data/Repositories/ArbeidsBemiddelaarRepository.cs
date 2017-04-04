@@ -13,7 +13,6 @@ namespace KostenBatenTool.Data.Repositories
         private readonly DbSet<BerekeningVeld> _berekeningVelden;
         private readonly DbSet<Veld> _velden;
         private readonly DbSet<Analyse> _analyses;
-        private readonly DbSet<Organisatie> _organisaties;
         private readonly ApplicationDbContext _dbContext;
 
         public ArbeidsBemiddelaarRepository(ApplicationDbContext dbContext)
@@ -23,7 +22,6 @@ namespace KostenBatenTool.Data.Repositories
             _berekeningVelden = dbContext.BerekeningVelden;
             _velden = dbContext.Velden;
             _analyses = dbContext.Analyses;
-            _organisaties = dbContext.Organisaties;
         }
 
         public ArbeidsBemiddelaar GetBy(string emailadres)
@@ -147,7 +145,7 @@ namespace KostenBatenTool.Data.Repositories
             {
                 List<BerekeningVeld> berekenVelden = _berekeningVelden.Where(b => b.BerekeningId == berekening.BerekeningId).ToList();
                 List<List<Veld>> lijnen = new List<List<Veld>>();
-                for (int i = 0; i < berekenVelden.Max(b => b.LijnId); i++)
+                for (int i = 0; i <= berekenVelden.Max(b => b.LijnId); i++)
                 {
                     List<BerekeningVeld> berekeningVeldLijn = berekenVelden.Where(b => b.LijnId == i).ToList();
                     List<Veld> lijn = new List<Veld>();
@@ -166,7 +164,7 @@ namespace KostenBatenTool.Data.Repositories
             {
                 List<BerekeningVeld> berekenVelden = _berekeningVelden.Where(b => b.BerekeningId == berekening.BerekeningId).ToList();
                 List<List<Veld>> lijnen = new List<List<Veld>>();
-                for (int i = 0; i < berekenVelden.Max(b => b.LijnId); i++)
+                for (int i = 0; i <= berekenVelden.Max(b => b.LijnId); i++)
                 {
                     List<BerekeningVeld> berekeningVeldLijn = berekenVelden.Where(b => b.LijnId == i).ToList();
                     List<Veld> lijn = new List<Veld>();

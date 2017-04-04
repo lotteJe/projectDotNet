@@ -33,7 +33,6 @@ namespace KostenBatenTool.Controllers
         }
         public IActionResult Index()
         {
-
             var user = GetCurrentUserAsync();
             string email = user.Result.Email;
             IEnumerable<Analyse> a = _arbeidsBemiddelaarRepository.GetAllAnalyses(email);
