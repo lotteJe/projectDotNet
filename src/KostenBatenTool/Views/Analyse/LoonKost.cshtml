@@ -27,10 +27,10 @@
             <th>Aantal maanden IBO</th>
             <th>Totale productiviteitspremie IBO</th>
         </tr>
-        @foreach (List<Veld> lijn in Model.Lijnen)
+        @foreach (Lijn lijn in Model.Lijnen)
         {
             <tr>
-                @foreach (Veld veld in lijn)
+                @foreach (Veld veld in lijn.VeldenWaarden)
                 {
                     <td>@veld.Value</td>
                 }
