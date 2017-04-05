@@ -17,7 +17,11 @@ namespace KostenBatenToolTests.Models
         #region Constructors
         public OmzetverliesBesparingTest()
         {
-            _baat = new OmzetverliesBesparing();
+            Organisatie o = new Organisatie("a", "b", "c", "1000", "d");
+            o.UrenWerkWeek = 40.0M;
+            o.PatronaleBijdrage = 0.35M;
+            Analyse a = new Analyse(o);
+            _baat = new OmzetverliesBesparing(a);
         }
         #endregion
 

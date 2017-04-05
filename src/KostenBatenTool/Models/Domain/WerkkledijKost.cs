@@ -8,7 +8,8 @@ namespace KostenBatenTool.Models.Domain
     public class WerkkledijKost : Berekening
     {
         #region Constructors
-        public WerkkledijKost()
+        protected WerkkledijKost() { }
+        public WerkkledijKost(Analyse analyse)
         {
             Velden.Add(new Veld("type", typeof(String)));
             Velden.Add(new Veld("bedrag", typeof(decimal)));

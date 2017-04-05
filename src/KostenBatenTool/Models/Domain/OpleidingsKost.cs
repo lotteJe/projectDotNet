@@ -8,7 +8,8 @@ namespace KostenBatenTool.Models.Domain
     public class OpleidingsKost : Berekening
     {
         #region Constructors
-        public OpleidingsKost()
+        protected OpleidingsKost() { }
+        public OpleidingsKost(Analyse analyse)
         {
             Velden.Add(new Veld("type", typeof(String)));
             Velden.Add(new Veld("bedrag", typeof(decimal)));

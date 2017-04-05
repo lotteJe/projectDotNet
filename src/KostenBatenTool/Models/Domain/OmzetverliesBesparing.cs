@@ -8,8 +8,8 @@ namespace KostenBatenTool.Models.Domain
     public class OmzetverliesBesparing : Berekening
     {
         #region Constructors
-
-        public OmzetverliesBesparing()
+        protected OmzetverliesBesparing() { }
+        public OmzetverliesBesparing(Analyse analyse)
         {
             Velden.Add(new Veld("jaarbedrag omzetverlies", typeof(decimal)));
             Velden.Add(new Veld("% besparing", typeof(decimal)));

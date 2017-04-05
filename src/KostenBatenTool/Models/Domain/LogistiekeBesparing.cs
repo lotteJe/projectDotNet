@@ -8,7 +8,9 @@ namespace KostenBatenTool.Models.Domain
     public class LogistiekeBesparing : Berekening
     {
         #region Constructors 
-        public LogistiekeBesparing()
+        protected LogistiekeBesparing() { }
+
+        public LogistiekeBesparing(Analyse analyse)
         {
             Velden.Add(new Veld("transportkosten jaarbedrag", typeof(decimal)));
             Velden.Add(new Veld("logistieke kosten jaarbedrag", typeof(decimal)));

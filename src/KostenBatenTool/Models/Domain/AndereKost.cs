@@ -8,7 +8,8 @@ namespace KostenBatenTool.Models.Domain
     public class AndereKost : Berekening
     {
         #region Constructors
-        public AndereKost()
+        protected AndereKost() { }
+        public AndereKost(Analyse analyse)
         {
             Velden.Add(new Veld("type", typeof(String)));
             Velden.Add(new Veld("bedrag", typeof(decimal)));

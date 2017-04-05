@@ -10,14 +10,12 @@ namespace KostenBatenTool.Data.Repositories
     public class ArbeidsBemiddelaarRepository : IArbeidsBemiddelaarRepository
     {
         private readonly DbSet<ArbeidsBemiddelaar> _arbeidsBemiddelaars;
-               private readonly DbSet<Analyse> _analyses;
         private readonly ApplicationDbContext _dbContext;
 
         public ArbeidsBemiddelaarRepository(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
             _arbeidsBemiddelaars = _dbContext.ArbeidsBemiddelaars;
-            _analyses = dbContext.Analyses;
         }
 
         public ArbeidsBemiddelaar GetBy(string emailadres)
@@ -74,12 +72,13 @@ namespace KostenBatenTool.Data.Repositories
         public Analyse GetAnalyse(string email, int id)
         {
             //Ophalen
-            Analyse analyse = _arbeidsBemiddelaars.Include("Analyses.Organisatie").Include("Analyses.Baten.Velden").Include("Analyses.Kosten.Velden").Include("Analyses.Kosten.Lijnen.VeldenWaarden").Include("Analyses.Kosten.Lijnen.VeldenDefinitie").Include("Analyses.Baten.Lijnen.VeldenWaarden").Include("Analyses.Baten.Lijnen.VeldenDefinitie").First(a => a.Email.Equals(email)).Analyses.FirstOrDefault(a => a.AnalyseId == id);
+            Analyse analyse = _arbeidsBemiddelaars.Include("Analyses.Organisatie").Include("Analyses.Baten.Velden").Include("Analyses.Kosten.Velden").Include("Analyses.Kosten.Lijnen.VeldenDefinitie").Include("Analyses.Kosten.Lijnen.VeldenWaarden").Include("Analyses.Baten.Lijnen.VeldenDefinitie").Include("Analyses.Baten.Lijnen.VeldenWaarden").First(a => a.Email.Equals(email)).Analyses.FirstOrDefault(a => a.AnalyseId == id);
             //Deserialiseren
             analyse.Kosten.ForEach(k => k.Deserialiseer());
             analyse.Baten.ForEach(b => b.Deserialiseer());
             return analyse;
         }
+        
     }
 }
 

@@ -8,8 +8,9 @@ namespace KostenBatenTool.Models.Domain
     public class AndereBesparing : Berekening
     {
         #region Constructors
+        protected AndereBesparing() { }
 
-        public AndereBesparing()
+        public AndereBesparing(Analyse analyse)
         {
             Velden.Add(new Veld("type besparing", typeof(string)));
             Velden.Add(new Veld("jaarbedrag", typeof(decimal)));

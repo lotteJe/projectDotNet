@@ -8,7 +8,8 @@ namespace KostenBatenTool.Models.Domain
     public class OverurenBesparing : Berekening
     {
         #region Constructors
-        public OverurenBesparing()
+        protected OverurenBesparing() { }
+        public OverurenBesparing(Analyse analyse)
         {
             Velden.Add(new Veld("jaarbedrag", typeof(decimal)));
             VoegLijnToe(0);

@@ -8,8 +8,9 @@ namespace KostenBatenTool.Models.Domain
     public class ProductiviteitsWinst : Berekening
     {
         #region Constructors
+        protected ProductiviteitsWinst() { }
 
-        public ProductiviteitsWinst()
+        public ProductiviteitsWinst(Analyse analyse)
         {
             Velden.Add(new Veld("jaarbedrag", typeof(decimal)));
             VoegLijnToe(0);

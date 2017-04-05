@@ -40,10 +40,14 @@ namespace KostenBatenTool.Models.Domain
                 {
                     VeldenWaarden.Add(new Veld(veld.Key, 0));
                 }
-                else
+                else if (veld.Value == typeof(Doelgroep))
                 {
 
-                    VeldenWaarden.Add(new Veld(veld.Key, null));
+                    VeldenWaarden.Add(new Veld(veld.Key, Doelgroep.Ander));
+                }
+                else
+                {
+                    VeldenWaarden.Add(new Veld(veld.Key, "test"));
                 }
             }
         }
@@ -89,10 +93,19 @@ namespace KostenBatenTool.Models.Domain
                     veld.InternalValue = "" + veld.Value;
                 }
             }
+            foreach (Veld veld in VeldenDefinitie)
+            {
+                veld.InternalValue = veld.Value.ToString();
+            }
         }
 
         public void Deserialiseer()
         {
+            VeldenDefinitie.RemoveAll(a => a.InternalValue == null);
+            foreach (Veld veld in VeldenDefinitie)
+            {
+                veld.Value = Type.GetType(veld.InternalValue);
+            }
             foreach (Veld veld in VeldenWaarden)
             {
                 //type ophalen 
@@ -120,8 +133,8 @@ namespace KostenBatenTool.Models.Domain
                 {
                     veld.Value = veld.InternalValue;
                 }
-
             }
+            
         }
         #endregion
 

@@ -8,8 +8,9 @@ namespace KostenBatenTool.Models.Domain
     public class AanpassingsSubsidie : Berekening
     {
         #region Constructors
+        protected AanpassingsSubsidie() { }
 
-        public AanpassingsSubsidie()
+        public AanpassingsSubsidie(Analyse analyse)
         {
             Velden.Add(new Veld("jaarbedrag", typeof(decimal)));
             VoegLijnToe(0);

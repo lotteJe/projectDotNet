@@ -8,7 +8,8 @@ namespace KostenBatenTool.Models.Domain
     public class OutsourcingBesparing : Berekening
     {
         #region Constructors
-        public OutsourcingBesparing()
+        protected OutsourcingBesparing() { }
+        public OutsourcingBesparing(Analyse analyse)
         {
             Velden.Add(new Veld("beschrijving", typeof(string)));
             Velden.Add(new Veld("jaarbedrag", typeof(decimal)));

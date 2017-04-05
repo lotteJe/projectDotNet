@@ -16,7 +16,11 @@ namespace KostenBatenToolTests.Models
         #region Constructors
         public AanpassingsKostTest()
         {
-            _kost = new AanpassingsKost();
+            Organisatie o = new Organisatie("a", "b", "c", "1000", "d");
+            o.UrenWerkWeek = 40.0M;
+            o.PatronaleBijdrage = 0.35M;
+            Analyse a = new Analyse(o);
+            _kost = new AanpassingsKost(a);
         }
         #endregion
 

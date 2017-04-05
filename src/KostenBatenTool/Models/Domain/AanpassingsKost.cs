@@ -8,7 +8,12 @@ namespace KostenBatenTool.Models.Domain
     public class AanpassingsKost : Berekening
     {
         #region Constructors
-        public AanpassingsKost()
+
+        protected AanpassingsKost()
+        {
+            
+        }
+        public AanpassingsKost(Analyse analyse)
         {
             Velden.Add(new Veld("type", typeof(String)));
             Velden.Add(new Veld("bedrag", typeof(decimal)));
