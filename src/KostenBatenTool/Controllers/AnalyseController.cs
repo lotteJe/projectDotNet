@@ -97,11 +97,7 @@ namespace KostenBatenTool.Controllers
         [HttpGet]
         public IActionResult LoonKost(int id)
         {
-            Organisatie o = new Organisatie("test","eik","23","1600","spl");
-            Analyse a = new Analyse(o);
-            a.VulVeldIn("LoonKost",0,"functie", "test");
-            a.VulVeldIn("LoonKost", 1, "functie", "test");
-            //  Analyse a = GetAnalyse(id);
+            Analyse a = GetAnalyse(id);
             LoonKost loonkost = (LoonKost)a.GetBerekening("LoonKost");
             return View(loonkost);
         }
