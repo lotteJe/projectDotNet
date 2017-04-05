@@ -19,7 +19,7 @@ namespace KostenBatenToolTests.Models
 
         public AnalyseTest()
         {
-            o = new Organisatie("a", "b", "c", 1000, "d");
+            o = new Organisatie("a", "b", "c", "1000", "d");
             o.UrenWerkWeek = 40M;
             _analyse = new Analyse(o);
                        
@@ -56,7 +56,7 @@ namespace KostenBatenToolTests.Models
         public void VulVeldInKost()
         {
             _analyse.VulVeldIn("AndereKost", 0, "bedrag",100M);
-            Assert.Equal(_analyse.Kosten.First(k => k is AndereKost).Lijnen[0].First(l => l.Key == "bedrag").Value, 100M);
+            Assert.Equal(_analyse.Kosten.First(k => k is AndereKost).Lijnen[0].VeldenWaarden.First(l => l.Key == "bedrag").Value, 100M);
         }
         [Fact]
         public void BerekenNettoResultaat()

@@ -37,7 +37,6 @@ namespace KostenBatenTool.Controllers
         {
             var user = GetCurrentUserAsync();
             string email = user.Result.Email;
-
             IEnumerable<Organisatie> organisaties = _arbeidsBemiddelaarRepository.GetOrganisaties(email);
             return View(organisaties);
 
@@ -92,7 +91,7 @@ namespace KostenBatenTool.Controllers
         [HttpGet]
         public IActionResult Overzicht(int id)
         {
-            return View(GetAnalyse(id));
+            return View(GetAnalyse(2));
         }
 
         [HttpGet]
@@ -132,9 +131,7 @@ namespace KostenBatenTool.Controllers
             var user = GetCurrentUserAsync();
             string email = user.Result.Email;
             Analyse analyse = _arbeidsBemiddelaarRepository.GetAnalyse(email, id);
-
             _arbeidsBemiddelaarRepository.GetBy(email).Analyses.Remove(analyse);
-            _arbeidsBemiddelaarRepository.VerwijderVelden(analyse);
             _arbeidsBemiddelaarRepository.SaveChanges();
             return RedirectToAction(nameof(Index));
         }

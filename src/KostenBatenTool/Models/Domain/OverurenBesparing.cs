@@ -8,7 +8,8 @@ namespace KostenBatenTool.Models.Domain
     public class OverurenBesparing : Berekening
     {
         #region Constructors
-        public OverurenBesparing()
+        protected OverurenBesparing() { }
+        public OverurenBesparing(Analyse analyse)
         {
             Velden.Add(new Veld("jaarbedrag", typeof(decimal)));
             VoegLijnToe(0);
@@ -24,7 +25,7 @@ namespace KostenBatenTool.Models.Domain
         public override decimal BerekenBedragPerLijn(int index)
         {
             ControleerIndex(index);
-            return (decimal)Lijnen[index].First(v => v.Key.Equals("jaarbedrag")).Value;
+            return (decimal)Lijnen[index].VeldenWaarden.First(v => v.Key.Equals("jaarbedrag")).Value;
         }
         #endregion
     }

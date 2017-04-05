@@ -42,14 +42,14 @@ namespace KostenBatenTool.Models.Domain
                 }
                 else
                 {
-                    Lijnen[index].First(v => v.Key.Equals("totale loonkost per jaar")).Value = ((decimal) Lijnen[index].First(v => v.Key.Equals("uren")).Value/
+                    Lijnen[index].VeldenWaarden.First(v => v.Key.Equals("totale loonkost per jaar")).Value = ((decimal) Lijnen[index].VeldenWaarden.First(v => v.Key.Equals("uren")).Value/
                                                                  Analyse.Organisatie.UrenWerkWeek)
-                                                                *(decimal) Lijnen[index].First(v => v.Key.Equals("bruto maandloon fulltime")).Value
+                                                                *(decimal) Lijnen[index].VeldenWaarden.First(v => v.Key.Equals("bruto maandloon fulltime")).Value
                                                                 *(1 + Analyse.Organisatie.PatronaleBijdrage)* 13.92M;
                 }
             
 
-            return (decimal) Lijnen[index].First(v => v.Key.Equals("totale loonkost per jaar")).Value;
+            return (decimal) Lijnen[index].VeldenWaarden.First(v => v.Key.Equals("totale loonkost per jaar")).Value;
         }
         #endregion
     }

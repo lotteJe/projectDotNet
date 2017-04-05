@@ -8,8 +8,8 @@ namespace KostenBatenTool.Models.Domain
     public class OmzetverliesBesparing : Berekening
     {
         #region Constructors
-
-        public OmzetverliesBesparing()
+        protected OmzetverliesBesparing() { }
+        public OmzetverliesBesparing(Analyse analyse)
         {
             Velden.Add(new Veld("jaarbedrag omzetverlies", typeof(decimal)));
             Velden.Add(new Veld("% besparing", typeof(decimal)));
@@ -27,9 +27,9 @@ namespace KostenBatenTool.Models.Domain
         public override decimal BerekenBedragPerLijn(int index)
         {
             ControleerIndex(index);
-            Lijnen[index].First(v => v.Key.Equals("totaalbesparing")).Value = (decimal) Lijnen[index].First(v => v.Key.Equals("jaarbedrag omzetverlies")).Value 
-                * (decimal) Lijnen[index].First(v => v.Key.Equals("% besparing")).Value;
-            return (decimal)Lijnen[index].First(v => v.Key.Equals("totaalbesparing")).Value;
+            Lijnen[index].VeldenWaarden.First(v => v.Key.Equals("totaalbesparing")).Value = (decimal) Lijnen[index].VeldenWaarden.First(v => v.Key.Equals("jaarbedrag omzetverlies")).Value 
+                * (decimal) Lijnen[index].VeldenWaarden.First(v => v.Key.Equals("% besparing")).Value;
+            return (decimal)Lijnen[index].VeldenWaarden.First(v => v.Key.Equals("totaalbesparing")).Value;
         }
         #endregion
     }

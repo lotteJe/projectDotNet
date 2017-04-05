@@ -16,7 +16,11 @@ namespace KostenBatenToolTests.Models
         #region Constructors
         public AanpassingsSubsidieTest()
         {
-            _baat = new AanpassingsSubsidie();
+            Organisatie o = new Organisatie("a", "b", "c", "1000", "d");
+            o.UrenWerkWeek = 40.0M;
+            o.PatronaleBijdrage = 0.35M;
+            Analyse a = new Analyse(o);
+            _baat = new AanpassingsSubsidie(a);
         }
         #endregion
 
@@ -32,21 +36,21 @@ namespace KostenBatenToolTests.Models
         [Fact]
         public void AanpassingsSubsidie_MaaktJuisteLijnAan()
         {
-            Assert.True(_baat.Lijnen[0].Any(v => v.Key.Equals("jaarbedrag")));
+            Assert.True(_baat.Lijnen[0].VeldenWaarden.Any(v => v.Key.Equals("jaarbedrag")));
             
         }
 
         [Fact]
         public void AanpassingsSubsidie_ZetJaarbedragOp0()
         {
-            Assert.Equal(_baat.Lijnen[0].First(v => v.Key.Equals("jaarbedrag")).Value, 0M);
+            Assert.Equal(_baat.Lijnen[0].VeldenWaarden.First(v => v.Key.Equals("jaarbedrag")).Value, 0M);
         }
 
         [Fact]
         public void VulJaarbedragIn()
         {
             _baat.VulVeldIn(0, "jaarbedrag", 1200M);
-            Assert.Equal(_baat.Lijnen[0].First(v => v.Key.Equals("jaarbedrag")).Value, 1200M);
+            Assert.Equal(_baat.Lijnen[0].VeldenWaarden.First(v => v.Key.Equals("jaarbedrag")).Value, 1200M);
         }
 
         [Fact]

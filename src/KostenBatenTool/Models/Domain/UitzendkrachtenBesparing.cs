@@ -8,8 +8,8 @@ namespace KostenBatenTool.Models.Domain
     public class UitzendkrachtenBesparing : Berekening
     {
         #region Constructors
-
-        public UitzendkrachtenBesparing()
+        protected UitzendkrachtenBesparing() { }
+        public UitzendkrachtenBesparing(Analyse analyse)
         {
             Velden.Add(new Veld("beschrijving", typeof(string)));
             Velden.Add(new Veld("jaarbedrag", typeof(decimal)));
@@ -26,7 +26,7 @@ namespace KostenBatenTool.Models.Domain
         public override decimal BerekenBedragPerLijn(int index)
         {
             ControleerIndex(index);
-            return (decimal)Lijnen[index].First(v => v.Key.Equals("jaarbedrag")).Value;
+            return (decimal)Lijnen[index].VeldenWaarden.First(v => v.Key.Equals("jaarbedrag")).Value;
         }
         #endregion
     }

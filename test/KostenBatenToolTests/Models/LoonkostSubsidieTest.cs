@@ -21,7 +21,7 @@ namespace KostenBatenToolTests.Models
 
         public LoonkostSubsidieTest()
         {
-            Organisatie o = new Organisatie("a", "b", "c", 1000, "d");
+            Organisatie o = new Organisatie("a", "b", "c", "1000", "d");
             o.UrenWerkWeek = 40M;
             _analyse = new Analyse(o);
             _kost = new LoonKost(_analyse);
@@ -52,13 +52,13 @@ namespace KostenBatenToolTests.Models
         [Fact]
         public void LoonKostSubsidie_MaaktJuisteLijnAan()
         {
-            Assert.True(_baat.Lijnen[0].Any(v => v.Key.Equals("Totale loonkostsubsidie")));
+            Assert.True(_baat.Lijnen[0].VeldenWaarden.Any(v => v.Key.Equals("Totale loonkostsubsidie")));
         }
 
         [Fact]
         public void LoonKostSubsidie_ZetTotaalOp0()
         {
-            Assert.Equal(_baat.Lijnen[0].First(v => v.Key.Equals("Totale loonkostsubsidie")).Value, 0M);
+            Assert.Equal(_baat.Lijnen[0].VeldenWaarden.First(v => v.Key.Equals("Totale loonkostsubsidie")).Value, 0M);
         }
 
 
@@ -67,7 +67,7 @@ namespace KostenBatenToolTests.Models
         {
 
             Assert.Equal(_baat.BerekenBedragPerLijn(0), 19691.46M);
-            Assert.Equal(_baat.Lijnen[0].First(v => v.Key.Equals("Totale loonkostsubsidie")).Value, 19691.46M);
+            Assert.Equal(_baat.Lijnen[0].VeldenWaarden.First(v => v.Key.Equals("Totale loonkostsubsidie")).Value, 19691.46M);
             
         }
         

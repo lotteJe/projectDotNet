@@ -8,7 +8,8 @@ namespace KostenBatenTool.Models.Domain
     public class WerkkledijKost : Berekening
     {
         #region Constructors
-        public WerkkledijKost()
+        protected WerkkledijKost() { }
+        public WerkkledijKost(Analyse analyse)
         {
             Velden.Add(new Veld("type", typeof(String)));
             Velden.Add(new Veld("bedrag", typeof(decimal)));
@@ -25,7 +26,7 @@ namespace KostenBatenTool.Models.Domain
         public override decimal BerekenBedragPerLijn(int index)
         {
             ControleerIndex(index);
-            return (decimal)Lijnen[index].First(v => v.Key.Equals("bedrag")).Value;
+            return (decimal)Lijnen[index].VeldenWaarden.First(v => v.Key.Equals("bedrag")).Value;
         } 
         #endregion
     }

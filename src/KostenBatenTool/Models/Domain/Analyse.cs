@@ -35,24 +35,24 @@ namespace KostenBatenTool.Models.Domain
             Kosten = new List<Berekening>();
             Baten = new List<Berekening>();
             Kosten.Add(new LoonKost(this));
-            Kosten.Add(new VoorbereidingsKost());
-            Kosten.Add(new WerkkledijKost());
-            Kosten.Add(new AanpassingsKost());
-            Kosten.Add(new OpleidingsKost());
+            Kosten.Add(new VoorbereidingsKost(this));
+            Kosten.Add(new WerkkledijKost(this));
+            Kosten.Add(new AanpassingsKost(this));
+            Kosten.Add(new OpleidingsKost(this));
             Kosten.Add(new AdministratieBegeleidingsKost(this));
-            Kosten.Add(new AndereKost());
+            Kosten.Add(new AndereKost(this));
 
             Baten.Add(new LoonkostSubsidie((LoonKost) Kosten.First(k => k is LoonKost)));
-            Baten.Add(new AanpassingsSubsidie());
+            Baten.Add(new AanpassingsSubsidie(this));
             Baten.Add(new MedewerkerZelfdeNiveauBesparing(this));
             Baten.Add(new MedewerkerHogerNiveauBesparing(this));
-            Baten.Add(new UitzendkrachtenBesparing());
-            Baten.Add(new OmzetverliesBesparing());
-            Baten.Add(new ProductiviteitsWinst());
-            Baten.Add(new OverurenBesparing());
-            Baten.Add(new OutsourcingBesparing());
-            Baten.Add(new LogistiekeBesparing());
-            Baten.Add(new AndereBesparing());
+            Baten.Add(new UitzendkrachtenBesparing(this));
+            Baten.Add(new OmzetverliesBesparing(this));
+            Baten.Add(new ProductiviteitsWinst(this));
+            Baten.Add(new OverurenBesparing(this));
+            Baten.Add(new OutsourcingBesparing(this));
+            Baten.Add(new LogistiekeBesparing(this));
+            Baten.Add(new AndereBesparing(this));
         }
 
         #endregion
@@ -92,14 +92,7 @@ namespace KostenBatenTool.Models.Domain
             throw new ArgumentException("Berekening bestaat niet");
 
         }
-                
-            }
-            throw new ArgumentException("Berekening bestaat niet");
-            
-        }
-
         
-
 
         public decimal BerekenNettoResultaat()
         {

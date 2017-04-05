@@ -16,7 +16,11 @@ namespace KostenBatenToolTests.Models
         #region Constructors
         public AanpassingsKostTest()
         {
-            _kost = new AanpassingsKost();
+            Organisatie o = new Organisatie("a", "b", "c", "1000", "d");
+            o.UrenWerkWeek = 40.0M;
+            o.PatronaleBijdrage = 0.35M;
+            Analyse a = new Analyse(o);
+            _kost = new AanpassingsKost(a);
         }
         #endregion
 
@@ -33,21 +37,21 @@ namespace KostenBatenToolTests.Models
         [Fact]
         public void AanpassingsKost_MaaktJuisteLijnAan()
         {
-            Assert.True(_kost.Lijnen[0].Any(v => v.Key.Equals("type")));
-            Assert.True(_kost.Lijnen[0].Any(v => v.Key.Equals("bedrag")));
+            Assert.True(_kost.Lijnen[0].VeldenWaarden.Any(v => v.Key.Equals("type")));
+            Assert.True(_kost.Lijnen[0].VeldenWaarden.Any(v => v.Key.Equals("bedrag")));
         }
 
         [Fact]
         public void AanpassingsKost_ZetBedragOp0()
         {
-            Assert.Equal(_kost.Lijnen[0].First(v => v.Key.Equals("bedrag")).Value, 0M);
+            Assert.Equal(_kost.Lijnen[0].VeldenWaarden.First(v => v.Key.Equals("bedrag")).Value, 0M);
         }
 
         [Fact]
         public void VulBedragIn()
         {
             _kost.VulVeldIn(0, "bedrag", 1200M);
-            Assert.Equal(_kost.Lijnen[0].First(v => v.Key.Equals("bedrag")).Value, 1200M);
+            Assert.Equal(_kost.Lijnen[0].VeldenWaarden.First(v => v.Key.Equals("bedrag")).Value, 1200M);
         }
 
         [Fact]
@@ -86,21 +90,21 @@ namespace KostenBatenToolTests.Models
         {
             _kost.VulVeldIn(0, "bedrag", 1000M);
             _kost.VulVeldIn(1, "bedrag", 1200M);
-            Assert.Equal(_kost.Lijnen[1].First(v => v.Key.Equals("bedrag")).Value, 1200M);
+            Assert.Equal(_kost.Lijnen[1].VeldenWaarden.First(v => v.Key.Equals("bedrag")).Value, 1200M);
         }
 
         [Fact]
         public void vulBedragIn_VoegtNieuweLijnToeVorigeLijnNietIngevuld()
         {
             _kost.VulVeldIn(1, "bedrag", 1200M);
-            Assert.Equal(_kost.Lijnen[1].First(v => v.Key.Equals("bedrag")).Value, 1200M);
+            Assert.Equal(_kost.Lijnen[1].VeldenWaarden.First(v => v.Key.Equals("bedrag")).Value, 1200M);
         }
 
         [Fact]
         public void VulTypeIn()
         {
             _kost.VulVeldIn(0, "type", "test");
-            Assert.Equal(_kost.Lijnen[0].First(v => v.Key.Equals("type")).Value, "test");
+            Assert.Equal(_kost.Lijnen[0].VeldenWaarden.First(v => v.Key.Equals("type")).Value, "test");
         }
 
         [Fact]
@@ -108,7 +112,7 @@ namespace KostenBatenToolTests.Models
         {
             _kost.VulVeldIn(0, "type", "test0");
             _kost.VulVeldIn(1, "type", "test");
-            Assert.Equal(_kost.Lijnen[1].First(v => v.Key.Equals("type")).Value, "test");
+            Assert.Equal(_kost.Lijnen[1].VeldenWaarden.First(v => v.Key.Equals("type")).Value, "test");
         }
 
         [Fact]
@@ -116,14 +120,14 @@ namespace KostenBatenToolTests.Models
         {
             _kost.VulVeldIn(0, "type", "test0");
             _kost.VulVeldIn(1, "type", "test");
-            Assert.Equal(_kost.Lijnen[1].First(v => v.Key.Equals("bedrag")).Value, 0M);
+            Assert.Equal(_kost.Lijnen[1].VeldenWaarden.First(v => v.Key.Equals("bedrag")).Value, 0M);
         }
 
         [Fact]
         public void VulTypeIn_VoegtNieuweLijnToeVorigelijnNietIngevuld()
         {
             _kost.VulVeldIn(1, "type", "test");
-            Assert.Equal(_kost.Lijnen[1].First(v => v.Key.Equals("type")).Value, "test");
+            Assert.Equal(_kost.Lijnen[1].VeldenWaarden.First(v => v.Key.Equals("type")).Value, "test");
         }
 
         [Fact]
@@ -145,7 +149,7 @@ namespace KostenBatenToolTests.Models
         {
             _kost.VulVeldIn(0, "type", "test");
             _kost.VulVeldIn(0, "type", "test2");
-            Assert.Equal(_kost.Lijnen[0].First(v => v.Key.Equals("type")).Value, "test2");
+            Assert.Equal(_kost.Lijnen[0].VeldenWaarden.First(v => v.Key.Equals("type")).Value, "test2");
         }
 
         [Fact]
