@@ -81,7 +81,7 @@ namespace KostenBatenToolTests.Models
         public void BerekenResultaat()
         {
             Assert.Equal(_baat.BerekenResultaat(), 19691.46M);
-
+            Assert.Equal(_baat.Resultaat, 19691.46M);
         }
         
         #endregion

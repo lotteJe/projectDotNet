@@ -30,7 +30,8 @@ namespace KostenBatenTool.Models.Domain
         #region Methods
         public override decimal BerekenResultaat()
         {
-            return BerekenBedragPerLijn(0);
+            Resultaat = BerekenBedragPerLijn(0);
+            return Resultaat;
         }
 
         public override decimal BerekenBedragPerLijn(int index)

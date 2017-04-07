@@ -231,6 +231,7 @@ namespace KostenBatenToolTests.Models
             _baat.VulVeldIn(1, "uren", 40M);
             _baat.VulVeldIn(1, "bruto maandloon fulltime", 1000M);
             Assert.Equal(_baat.BerekenResultaat(), 40496.76M);
+            Assert.Equal(_baat.Resultaat, 40496.76M);
         }
         #endregion
     }
