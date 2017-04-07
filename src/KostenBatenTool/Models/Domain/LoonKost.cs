@@ -51,7 +51,8 @@ namespace KostenBatenTool.Models.Domain
 
         public override decimal BerekenResultaat()
         {
-            return Enumerable.Range(0, Lijnen.Count).ToList().Select(x => BerekenMaandloonPatronaalPerLijn(x)).ToList().Sum()*12;
+            Resultaat = Enumerable.Range(0, Lijnen.Count).ToList().Select(x => BerekenMaandloonPatronaalPerLijn(x)).ToList().Sum()*12;
+            return Resultaat;
         }
 
         public override decimal BerekenBedragPerLijn(int index)

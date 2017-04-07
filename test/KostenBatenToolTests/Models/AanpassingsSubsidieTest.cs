@@ -103,6 +103,7 @@ namespace KostenBatenToolTests.Models
         {
             _baat.VulVeldIn(0, "jaarbedrag", 1200M);
             Assert.Equal(_baat.BerekenResultaat(), 1200);
+            Assert.Equal(_baat.Resultaat, 1200M);
         }
         
         [Fact]

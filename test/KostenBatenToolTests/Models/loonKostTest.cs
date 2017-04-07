@@ -543,6 +543,7 @@ namespace KostenBatenToolTests.Models
             _kost.VulVeldIn(1, "bruto maandloon fulltime", 1200M);
             _kost.VulVeldIn(1, "uren per week", 40.0M);
             Assert.Equal(_kost.BerekenResultaat(), 35640M);
+            Assert.Equal(_kost.Resultaat, 35640M);
         }
 
         #endregion

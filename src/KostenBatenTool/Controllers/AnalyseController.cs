@@ -91,7 +91,7 @@ namespace KostenBatenTool.Controllers
         [HttpGet]
         public IActionResult Overzicht(int id)
         {
-            return View(GetAnalyse(2));
+            return View(GetAnalyse(id));
         }
 
         [HttpGet]

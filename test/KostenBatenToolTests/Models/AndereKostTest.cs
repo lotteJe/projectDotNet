@@ -189,6 +189,7 @@ namespace KostenBatenToolTests.Models
             _kost.VulVeldIn(0, "bedrag", 1200M);
             _kost.VulVeldIn(1, "bedrag", 1000M);
             Assert.Equal(_kost.BerekenResultaat(), 2200M);
+            Assert.Equal(_kost.Resultaat, 2200M);
         }
         
         [Fact]

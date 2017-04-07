@@ -237,6 +237,7 @@ namespace KostenBatenToolTests.Models
             _kost.VulVeldIn(1, "uren", 40M);
             _kost.VulVeldIn(1, "bruto maandloon begeleider", 1000M);
             Assert.Equal(_kost.BerekenResultaat(), 38790M);
+            Assert.Equal(_kost.Resultaat, 38790M);
         }
 
         [Fact]

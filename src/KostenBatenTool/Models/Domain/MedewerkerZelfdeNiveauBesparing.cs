@@ -27,7 +27,8 @@ namespace KostenBatenTool.Models.Domain
         #region Methods
         public override decimal BerekenResultaat()
         {
-            return Enumerable.Range(0, Lijnen.Count).ToList().Select(x => BerekenBedragPerLijn(x)).ToList().Sum();
+            Resultaat = Enumerable.Range(0, Lijnen.Count).ToList().Select(x => BerekenBedragPerLijn(x)).ToList().Sum();
+            return Resultaat;
 
         }
 

@@ -124,7 +124,8 @@ namespace KostenBatenToolTests.Models
         {
             _baat.VulVeldIn(0, "jaarbedrag omzetverlies", 1200M);
             _baat.VulVeldIn(0, "% besparing", 0.01M);
-            Assert.Equal(_baat.BerekenResultaat(), 12);
+            Assert.Equal(_baat.BerekenResultaat(), 12M);
+            Assert.Equal(_baat.Resultaat, 12M);
         }
 
         [Fact]
