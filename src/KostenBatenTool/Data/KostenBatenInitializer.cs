@@ -26,7 +26,6 @@ namespace KostenBatenTool.Data
             //_dbContext.Database.EnsureDeleted();
             if (_dbContext.Database.EnsureCreated())
             {
-
                 //await InitializeUsers();
 
 
