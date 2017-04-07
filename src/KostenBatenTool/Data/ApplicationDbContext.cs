@@ -13,8 +13,6 @@ namespace KostenBatenTool.Data
         public DbSet<Organisatie> Organisaties { get; set; }
         public DbSet<Persoon> Personen { get; set; }
         public DbSet<Analyse> Analyses { get; set; }
-        public DbSet<BerekeningVeld> BerekeningVelden { get; set; }
-        public DbSet<Veld> Velden { get;set; }
         public DbSet<ArbeidsBemiddelaar> ArbeidsBemiddelaars { get; set; }
         public DbSet<Berekening> Berekeningen { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
@@ -31,23 +29,25 @@ namespace KostenBatenTool.Data
             builder.Entity<Organisatie>(MapOrganisatie);
             builder.Entity<Berekening>(MapBerekening);
             builder.Entity<Veld>(MapVeld);
-            builder.Entity<BerekeningVeld>(MapBerekeningVeld);
+            builder.Entity<Lijn>(MapLijn);
         }
 
-        private void MapBerekeningVeld(EntityTypeBuilder<BerekeningVeld> b)
+        private void MapLijn(EntityTypeBuilder<Lijn> b)
         {
-            b.ToTable("BerekeningVeld");
-            b.HasKey(t => t.BerekeningVeldId);
-            b.Property(t => t.BerekeningVeldId).ValueGeneratedOnAdd();
-
+            b.ToTable("Lijn");
+            b.HasKey(t => t.LijnId);
+            b.Property(t => t.LijnId).ValueGeneratedOnAdd();
+            b.HasMany(t => t.VeldenDefinitie).WithOne().OnDelete(DeleteBehavior.Cascade);
+            b.HasMany(t => t.VeldenWaarden).WithOne().OnDelete(DeleteBehavior.Cascade);
         }
 
         private void MapBerekening(EntityTypeBuilder<Berekening> b)
         {
             b.ToTable("Berekening");
             b.Property(t => t.BerekeningId);
+            b.Property(t => t.Resultaat);
             b.HasMany(t => t.Velden).WithOne().OnDelete(DeleteBehavior.Cascade);
-            b.Ignore(t => t.Lijnen);
+            b.HasMany(t => t.Lijnen).WithOne().OnDelete(DeleteBehavior.Cascade);
             b.HasDiscriminator<String>("Type").HasValue<AanpassingsKost>("AanpassingsKost")
                 .HasValue<AanpassingsSubsidie>("AanpassingsSubsidie")
                 .HasValue<AdministratieBegeleidingsKost>("AdministratieBegeleidingsKost")
@@ -106,14 +106,10 @@ namespace KostenBatenTool.Data
                 .HasValue<Administrator>("Administrator")
                 .HasValue<ArbeidsBemiddelaar>("Arbeidsbemiddelaar");
         }
-        
-       
-
         private static void MapOrganisatie(EntityTypeBuilder<Organisatie> o)
         {
             o.ToTable("Organisatie");
             o.Property(t => t.OrganisatieId).ValueGeneratedOnAdd();
-
             o.Property(t => t.Naam).IsRequired();
             o.Property(t => t.Straat).IsRequired();
             o.Property(t => t.Huisnummer).IsRequired();

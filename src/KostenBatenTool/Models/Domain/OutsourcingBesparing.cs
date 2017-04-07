@@ -8,7 +8,8 @@ namespace KostenBatenTool.Models.Domain
     public class OutsourcingBesparing : Berekening
     {
         #region Constructors
-        public OutsourcingBesparing()
+        protected OutsourcingBesparing() { }
+        public OutsourcingBesparing(Analyse analyse)
         {
             Velden.Add(new Veld("beschrijving", typeof(string)));
             Velden.Add(new Veld("jaarbedrag", typeof(decimal)));
@@ -18,13 +19,14 @@ namespace KostenBatenTool.Models.Domain
         #region Methods
         public override decimal BerekenResultaat()
         {
-            return Enumerable.Range(0, Lijnen.Count).ToList().Select(x => BerekenBedragPerLijn(x)).ToList().Sum();
+            Resultaat = Enumerable.Range(0, Lijnen.Count).ToList().Select(x => BerekenBedragPerLijn(x)).ToList().Sum();
+            return Resultaat;
         }
 
         public override decimal BerekenBedragPerLijn(int index)
         {
             ControleerIndex(index);
-            return (decimal)Lijnen[index].First(v => v.Key.Equals("jaarbedrag")).Value;
+            return (decimal)Lijnen[index].VeldenWaarden.First(v => v.Key.Equals("jaarbedrag")).Value;
         }
         #endregion
     }

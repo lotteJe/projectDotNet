@@ -56,7 +56,7 @@ namespace KostenBatenToolTests.Models
         public void VulVeldInKost()
         {
             _analyse.VulVeldIn("AndereKost", 0, "bedrag",100M);
-            Assert.Equal(_analyse.Kosten.First(k => k is AndereKost).Lijnen[0].First(l => l.Key == "bedrag").Value, 100M);
+            Assert.Equal(_analyse.Kosten.First(k => k is AndereKost).Lijnen[0].VeldenWaarden.First(l => l.Key == "bedrag").Value, 100M);
         }
         [Fact]
         public void BerekenNettoResultaat()

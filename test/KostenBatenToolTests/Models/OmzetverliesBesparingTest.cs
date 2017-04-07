@@ -17,7 +17,11 @@ namespace KostenBatenToolTests.Models
         #region Constructors
         public OmzetverliesBesparingTest()
         {
-            _baat = new OmzetverliesBesparing();
+            Organisatie o = new Organisatie("a", "b", "c", "1000", "d");
+            o.UrenWerkWeek = 40.0M;
+            o.PatronaleBijdrage = 0.35M;
+            Analyse a = new Analyse(o);
+            _baat = new OmzetverliesBesparing(a);
         }
         #endregion
 
@@ -35,24 +39,24 @@ namespace KostenBatenToolTests.Models
         [Fact]
         public void OmzetverliesBesparing_MaaktJuisteLijnAan()
         {
-            Assert.True(_baat.Lijnen[0].Any(v => v.Key.Equals("jaarbedrag omzetverlies")));
-            Assert.True(_baat.Lijnen[0].Any(v => v.Key.Equals("% besparing"))); 
-            Assert.True(_baat.Lijnen[0].Any(v => v.Key.Equals("totaalbesparing"))); 
+            Assert.True(_baat.Lijnen[0].VeldenWaarden.Any(v => v.Key.Equals("jaarbedrag omzetverlies")));
+            Assert.True(_baat.Lijnen[0].VeldenWaarden.Any(v => v.Key.Equals("% besparing"))); 
+            Assert.True(_baat.Lijnen[0].VeldenWaarden.Any(v => v.Key.Equals("totaalbesparing"))); 
         }
 
         [Fact]
         public void OmzetverliesBesparing_ZetBedragOp0()
         {
-            Assert.Equal(_baat.Lijnen[0].First(v => v.Key.Equals("jaarbedrag omzetverlies")).Value, 0M);
-            Assert.Equal(_baat.Lijnen[0].First(v => v.Key.Equals("% besparing")).Value, 0M);
-            Assert.Equal(_baat.Lijnen[0].First(v => v.Key.Equals("totaalbesparing")).Value, 0M);
+            Assert.Equal(_baat.Lijnen[0].VeldenWaarden.First(v => v.Key.Equals("jaarbedrag omzetverlies")).Value, 0M);
+            Assert.Equal(_baat.Lijnen[0].VeldenWaarden.First(v => v.Key.Equals("% besparing")).Value, 0M);
+            Assert.Equal(_baat.Lijnen[0].VeldenWaarden.First(v => v.Key.Equals("totaalbesparing")).Value, 0M);
         }
 
         [Fact]
         public void VulJaarbedragIn()
         {
             _baat.VulVeldIn(0, "jaarbedrag omzetverlies", 1200M);
-            Assert.Equal(_baat.Lijnen[0].First(v => v.Key.Equals("jaarbedrag omzetverlies")).Value, 1200M);
+            Assert.Equal(_baat.Lijnen[0].VeldenWaarden.First(v => v.Key.Equals("jaarbedrag omzetverlies")).Value, 1200M);
         }
 
         [Fact]
@@ -89,14 +93,14 @@ namespace KostenBatenToolTests.Models
         public void vulJaarbedragIn_VoegtLijnToeVorigeLijnNietIngevuld()
         {
             _baat.VulVeldIn(1, "jaarbedrag omzetverlies", 1200M);
-            Assert.Equal(_baat.Lijnen[1].First(v => v.Key.Equals("jaarbedrag omzetverlies")).Value, 1200M);
+            Assert.Equal(_baat.Lijnen[1].VeldenWaarden.First(v => v.Key.Equals("jaarbedrag omzetverlies")).Value, 1200M);
         }
 
         [Fact]
         public void VulPercentageIn()
         {
             _baat.VulVeldIn(0, "% besparing", 0.75M);
-            Assert.Equal(_baat.Lijnen[0].First(v => v.Key.Equals("% besparing")).Value, 0.75M);
+            Assert.Equal(_baat.Lijnen[0].VeldenWaarden.First(v => v.Key.Equals("% besparing")).Value, 0.75M);
         }
 
         [Fact]
@@ -111,7 +115,7 @@ namespace KostenBatenToolTests.Models
             _baat.VulVeldIn(0, "jaarbedrag omzetverlies", 1200M);
             _baat.VulVeldIn(0, "% besparing", 0.01M);
             Assert.Equal(_baat.BerekenBedragPerLijn(0), 12M);
-            Assert.Equal(_baat.Lijnen[0].First(v => v.Key.Equals("totaalbesparing")).Value, 12M);
+            Assert.Equal(_baat.Lijnen[0].VeldenWaarden.First(v => v.Key.Equals("totaalbesparing")).Value, 12M);
         }
 
 
@@ -120,7 +124,8 @@ namespace KostenBatenToolTests.Models
         {
             _baat.VulVeldIn(0, "jaarbedrag omzetverlies", 1200M);
             _baat.VulVeldIn(0, "% besparing", 0.01M);
-            Assert.Equal(_baat.BerekenResultaat(), 12);
+            Assert.Equal(_baat.BerekenResultaat(), 12M);
+            Assert.Equal(_baat.Resultaat, 12M);
         }
 
         [Fact]

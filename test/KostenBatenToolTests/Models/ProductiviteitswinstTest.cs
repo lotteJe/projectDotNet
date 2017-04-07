@@ -16,7 +16,11 @@ namespace KostenBatenToolTests.Models
         #region Constructors
         public ProductiviteitsWinstTest()
         {
-            _baat = new ProductiviteitsWinst();
+            Organisatie o = new Organisatie("a", "b", "c", "1000", "d");
+            o.UrenWerkWeek = 40.0M;
+            o.PatronaleBijdrage = 0.35M;
+            Analyse a = new Analyse(o);
+            _baat = new ProductiviteitsWinst(a);
         }
         #endregion
 
@@ -32,20 +36,20 @@ namespace KostenBatenToolTests.Models
         [Fact]
         public void ProductiviteitsWinst_MaaktJuisteLijnAan()
         {
-            Assert.True(_baat.Lijnen[0].Any(v => v.Key.Equals("jaarbedrag")));
+            Assert.True(_baat.Lijnen[0].VeldenWaarden.Any(v => v.Key.Equals("jaarbedrag")));
         }
 
         [Fact]
         public void ProductiviteitsWinst_ZetBedragOp0()
         {
-            Assert.Equal(_baat.Lijnen[0].First(v => v.Key.Equals("jaarbedrag")).Value, 0M);
+            Assert.Equal(_baat.Lijnen[0].VeldenWaarden.First(v => v.Key.Equals("jaarbedrag")).Value, 0M);
         }
 
         [Fact]
         public void VulJaarbedragIn()
         {
             _baat.VulVeldIn(0, "jaarbedrag", 1200M);
-            Assert.Equal(_baat.Lijnen[0].First(v => v.Key.Equals("jaarbedrag")).Value, 1200M);
+            Assert.Equal(_baat.Lijnen[0].VeldenWaarden.First(v => v.Key.Equals("jaarbedrag")).Value, 1200M);
         }
 
         [Fact]
@@ -82,7 +86,7 @@ namespace KostenBatenToolTests.Models
         public void vulJaarbedragIn_VoegtLijnToeVorigeLijnNietIngevuld()
         {
             _baat.VulVeldIn(1, "jaarbedrag", 1200M);
-            Assert.Equal(_baat.Lijnen[1].First(v => v.Key.Equals("jaarbedrag")).Value, 1200M);
+            Assert.Equal(_baat.Lijnen[1].VeldenWaarden.First(v => v.Key.Equals("jaarbedrag")).Value, 1200M);
 
         }
 
@@ -99,6 +103,7 @@ namespace KostenBatenToolTests.Models
         {
             _baat.VulVeldIn(0, "jaarbedrag", 1200M);
             Assert.Equal(_baat.BerekenResultaat(), 1200);
+            Assert.Equal(_baat.Resultaat, 1200M);
         }
 
         [Fact]

@@ -30,7 +30,8 @@ namespace KostenBatenTool.Models.Domain
         #region Methods
         public override decimal BerekenResultaat()
         {
-            return BerekenBedragPerLijn(0);
+            Resultaat = BerekenBedragPerLijn(0);
+            return Resultaat;
         }
 
         public override decimal BerekenBedragPerLijn(int index)
@@ -40,8 +41,8 @@ namespace KostenBatenTool.Models.Domain
                 throw new ArgumentException("Index moet 0 zijn");
             }
 
-            Lijnen[index].First(v => v.Key.Equals("Totale loonkostsubsidie")).Value = Loonkost.BerekenResultaat() - Loonkost.BerekenTotaleLoonKost();
-            return (decimal) Lijnen[index].First(v => v.Key.Equals("Totale loonkostsubsidie")).Value;
+            Lijnen[index].VeldenWaarden.First(v => v.Key.Equals("Totale loonkostsubsidie")).Value = Loonkost.BerekenResultaat() - Loonkost.BerekenTotaleLoonKost();
+            return (decimal) Lijnen[index].VeldenWaarden.First(v => v.Key.Equals("Totale loonkostsubsidie")).Value;
         }
         #endregion
     }

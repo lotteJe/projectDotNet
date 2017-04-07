@@ -11,12 +11,10 @@ namespace KostenBatenTool.Models.Domain
     public abstract class Berekening
     {
         #region Properties
-
-        public static int Teller = 0;
         public int BerekeningId { get; set; }
         public List<Veld> Velden { get; set; } = new List<Veld>();
-        public List<List<Veld>> Lijnen { get; set; } = new List<List<Veld>>();
-
+        public List<Lijn> Lijnen { get; set; } = new List<Lijn>();
+        public decimal Resultaat { get; set; } = 0M;
         #endregion
 
 
@@ -24,10 +22,8 @@ namespace KostenBatenTool.Models.Domain
 
         protected Berekening()
         {
-            BerekeningId = System.Threading.Interlocked.Increment(ref Teller);
+
         }
-
-
         public abstract decimal BerekenResultaat();
 
 
@@ -35,29 +31,14 @@ namespace KostenBatenTool.Models.Domain
 
         public void VoegLijnToe(int index) //Voegt nieuwe List toe op index waarvan alle keys ingevuld zijn en elke string null is, elke double en decimal zijn 0
         {
-                Lijnen.Insert(index, new List<Veld>());
-                foreach (Veld veld in Velden)
-                {
-
-                    if (veld.Value == typeof(decimal))
-                    {
-                        Lijnen[index].Add(new Veld(veld.Key, 0M));
-                    }
-                    else if (veld.Value == typeof(double))
-                    {
-                        Lijnen[index].Add(new Veld(veld.Key, 0));
-                    }
-                    else
-                    {
-
-                        Lijnen[index].Add(new Veld(veld.Key, null));
-                    }
-                }
+            Lijnen.Insert(index, new Lijn(Velden));
+            Lijnen[index].VoegLijnToe();
+                
         }
 
         public void VulVeldIn(int index, string key, Object waarde)
         {
-
+            
             if (index == Lijnen.Count) //Als Lijn nog niet bestaat, ze toevoegen
             {
                 VoegLijnToe(index);
@@ -68,86 +49,21 @@ namespace KostenBatenTool.Models.Domain
                 throw new ArgumentException("Index is ongeldig!");
             }
 
-            if (!Lijnen[index].Any(v => v.Key.Equals(key)))//als key niet bestaat exception gooien
-            {
-               throw new ArgumentException("Sleutel bestaat niet!");
-            }
-            if (waarde.GetType() == Velden.Find(v => v.Key == key).Value) // Checken of Object van juiste dataype is
-            {
-                if ((Velden.Find(v => v.Key == key).Value == typeof(decimal) && (decimal)waarde < 0) || //checken of waarde geen negatief getal is
-                    (Velden.Find(v => v.Key == key).Value == typeof(double) && (double)waarde < 0))
-                {
-                    throw new ArgumentException("Waarde mag niet negatief zijn");
-                }
-                if (key.Contains("%") && (decimal)waarde > 1)
-                {
-                    throw new ArgumentException("Waarde mag tussen 0 en 1 liggen.");
-                }
-                //Lijnen[index].Where(v => v.Key.Equals(key)).Select(v => { v.Value = waarde; return v; });
-                Lijnen[index].First(v => v.Key.Equals(key)).Value = waarde;
-                //BerekenBedragPerLijn(index);
-
-            }
-            else // Object is van verkeerde datatype
-            {
-                throw new ArgumentException($"Waarde moet {Velden.Find(v=>v.Key == key).Value.ToString()} zijn!");
-            }
+            Lijnen[index].VulVeldIn(key, waarde);
+            
         }
 
         public void Serialiseer()//oproepen in Repository
         {
             //omzetten van Value naar string in Lijnen
-            foreach (List<Veld> lijn in Lijnen)
-            {
-                foreach (Veld veld in lijn)
-                {
-                    if (Velden.Find(v => v.Key == veld.Key).Value == typeof(Doelgroep) && veld.Value != null)
-                    {
-                        veld.InternalValue = Enum.GetName(typeof(Doelgroep), veld.Value);
-                    }
-                    else
-                    {
-                        veld.InternalValue = "" + veld.Value;
-                    }
-                }
-            }
+            Lijnen.ForEach(l => l.Serialiseer());
 
         }
 
         public void Deserialiseer()
         {
-           
             //omzetten naar correct type, checken bij Velden
-            foreach (List<Veld> lijn in Lijnen)
-            {
-                foreach (Veld veld in lijn)
-                {
-                    //type ophalen 
-                    if (Velden.Find(v => v.Key == veld.Key).Value == typeof(decimal))
-                    {
-                        veld.Value = Decimal.Parse(veld.InternalValue);
-                    } else if (Velden.Find(v => v.Key == veld.Key).Value == typeof(double))
-                    {
-                        veld.Value = Double.Parse(veld.InternalValue);
-                    } else if (Velden.Find(v => v.Key == veld.Key).Value == typeof(Doelgroep))
-                    {
-                        if (veld.InternalValue != "")
-                        {
-                            veld.Value = Enum.Parse(typeof(Doelgroep), veld.InternalValue);
-                        }
-                        else
-                        {
-                            veld.Value = null;
-                        }
-                            
-                    }
-                    else
-                    {
-                        veld.Value = veld.InternalValue;
-                    }
-                    
-                }
-            }
+            Lijnen.ForEach(l => l.Deserialiseer());
         }
 
         public void ControleerIndex(int index)

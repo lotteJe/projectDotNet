@@ -14,7 +14,7 @@ namespace KostenBatenTool.Controllers
 {
     public class AnalyseController : Controller
     {
-        
+
         private readonly IArbeidsBemiddelaarRepository _arbeidsBemiddelaarRepository;
         private readonly UserManager<ApplicationUser> _userManager;
 
@@ -37,11 +37,10 @@ namespace KostenBatenTool.Controllers
         {
             var user = GetCurrentUserAsync();
             string email = user.Result.Email;
-            
-                IEnumerable<Organisatie> organisaties = _arbeidsBemiddelaarRepository.GetOrganisaties(email);
-                return View(organisaties);
-            
-            
+            IEnumerable<Organisatie> organisaties = _arbeidsBemiddelaarRepository.GetOrganisaties(email);
+            return View(organisaties);
+
+
         }
 
         public IActionResult PartialWerkgevers()
@@ -68,7 +67,7 @@ namespace KostenBatenTool.Controllers
                     Organisatie o = new Organisatie(model.Naam, model.Straat, model.Huisnummer, model.Postcode,
                         model.Gemeente);
                     o.UrenWerkWeek = model.Werkuren;
-                    o.PatronaleBijdrage = model.Bijdrage/100;
+                    o.PatronaleBijdrage = model.Bijdrage / 100;
                     o.Afdeling = model.Afdeling;
                     var user = GetCurrentUserAsync();
                     string email = user.Result.Email;
@@ -90,18 +89,17 @@ namespace KostenBatenTool.Controllers
         }
 
         [HttpGet]
-        public IActionResult Overzicht()
+        public IActionResult Overzicht(int id)
         {
-            return View();
+            return View(GetAnalyse(id));
         }
 
         [HttpGet]
-        public IActionResult LoonKost()
+        public IActionResult LoonKost(int id)
         {
-            // alle kosten tonen in tabel die er al zijn
-            
-
-            return View();
+            Analyse a = GetAnalyse(id);
+            LoonKost loonkost = (LoonKost)a.GetBerekening("LoonKost");
+            return View(loonkost);
         }
 
 
@@ -112,7 +110,7 @@ namespace KostenBatenTool.Controllers
             if (ModelState.IsValid)
             {
                 try
-                {    
+                {
                     return RedirectToAction(nameof(Overzicht));
                 }
                 catch (Exception e)
@@ -129,9 +127,7 @@ namespace KostenBatenTool.Controllers
             var user = GetCurrentUserAsync();
             string email = user.Result.Email;
             Analyse analyse = _arbeidsBemiddelaarRepository.GetAnalyse(email, id);
-
             _arbeidsBemiddelaarRepository.GetBy(email).Analyses.Remove(analyse);
-            _arbeidsBemiddelaarRepository.VerwijderVelden(analyse);
             _arbeidsBemiddelaarRepository.SaveChanges();
             return RedirectToAction(nameof(Index));
         }
@@ -140,7 +136,7 @@ namespace KostenBatenTool.Controllers
         [HttpGet]
         public IActionResult AanpassingsKost()
         {
-           return View();
+            return View();
         }
 
 
@@ -153,7 +149,7 @@ namespace KostenBatenTool.Controllers
                 try
                 {
                     // die ene kost toevoegen vanuit de partial
-                 
+
                     return RedirectToAction(nameof(Overzicht));
                 }
                 catch (Exception e)
@@ -222,7 +218,7 @@ namespace KostenBatenTool.Controllers
         [HttpGet]
         public IActionResult AndereBesparing()
         {
-           return View();
+            return View();
         }
 
 
@@ -381,7 +377,7 @@ namespace KostenBatenTool.Controllers
         [HttpGet]
         public IActionResult OmzetverliesBesparing()
         {
-           return View();
+            return View();
         }
 
 
@@ -433,7 +429,7 @@ namespace KostenBatenTool.Controllers
         [HttpGet]
         public IActionResult OutsourcingBesparing()
         {
-         return View();
+            return View();
         }
 
 
@@ -590,6 +586,13 @@ namespace KostenBatenTool.Controllers
         private Task<ApplicationUser> GetCurrentUserAsync()
         {
             return _userManager.GetUserAsync(HttpContext.User);
+        }
+
+        private Analyse GetAnalyse(int id)
+        {
+            var user = GetCurrentUserAsync();
+            string email = user.Result.Email;
+            return _arbeidsBemiddelaarRepository.GetAnalyse(email, id);
         }
     }
 

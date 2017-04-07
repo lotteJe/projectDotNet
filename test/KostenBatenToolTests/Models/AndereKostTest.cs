@@ -16,7 +16,11 @@ namespace KostenBatenToolTests.Models
         #region Constructors
         public AndereKostTest()
         {
-            _kost = new AndereKost();
+            Organisatie o = new Organisatie("a", "b", "c", "1000", "d");
+            o.UrenWerkWeek = 40.0M;
+            o.PatronaleBijdrage = 0.35M;
+            Analyse a = new Analyse(o);
+            _kost = new AndereKost(a);
         }
         #endregion
 
@@ -33,21 +37,21 @@ namespace KostenBatenToolTests.Models
         [Fact]
         public void AndereKost_MaaktJuisteLijnAan()
         {
-            Assert.True(_kost.Lijnen[0].Any(v => v.Key.Equals("type")));
-            Assert.True(_kost.Lijnen[0].Any(v => v.Key.Equals("bedrag")));
+            Assert.True(_kost.Lijnen[0].VeldenWaarden.Any(v => v.Key.Equals("type")));
+            Assert.True(_kost.Lijnen[0].VeldenWaarden.Any(v => v.Key.Equals("bedrag")));
         }
 
         [Fact]
         public void AndereKost_ZetBedragOp0()
         {
-            Assert.Equal(_kost.Lijnen[0].First(v => v.Key.Equals("bedrag")).Value, 0M);
+            Assert.Equal(_kost.Lijnen[0].VeldenWaarden.First(v => v.Key.Equals("bedrag")).Value, 0M);
         }
 
         [Fact]
         public void VulBedragIn()
         {
             _kost.VulVeldIn(0, "bedrag", 1200M);
-            Assert.Equal(_kost.Lijnen[0].First(v => v.Key.Equals("bedrag")).Value, 1200M);
+            Assert.Equal(_kost.Lijnen[0].VeldenWaarden.First(v => v.Key.Equals("bedrag")).Value, 1200M);
         }
 
         [Fact]
@@ -84,7 +88,7 @@ namespace KostenBatenToolTests.Models
         public void vulBedragIn_VoegtLijnToeVorigeLijnNietIngevuld()
         {
             _kost.VulVeldIn(1, "bedrag", 1200M);
-            Assert.Equal(_kost.Lijnen[1].First(v => v.Key.Equals("bedrag")).Value, 1200M);
+            Assert.Equal(_kost.Lijnen[1].VeldenWaarden.First(v => v.Key.Equals("bedrag")).Value, 1200M);
 
         }
 
@@ -93,14 +97,14 @@ namespace KostenBatenToolTests.Models
         {
             _kost.VulVeldIn(0, "bedrag", 1000M);
             _kost.VulVeldIn(1, "bedrag", 1200M);
-            Assert.Equal(_kost.Lijnen[1].First(v => v.Key.Equals("bedrag")).Value, 1200M);
+            Assert.Equal(_kost.Lijnen[1].VeldenWaarden.First(v => v.Key.Equals("bedrag")).Value, 1200M);
         }
 
         [Fact]
         public void VulTypeIn()
         {
             _kost.VulVeldIn(0, "type", "test");
-            Assert.Equal(_kost.Lijnen[0].First(v => v.Key.Equals("type")).Value, "test");
+            Assert.Equal(_kost.Lijnen[0].VeldenWaarden.First(v => v.Key.Equals("type")).Value, "test");
         }
 
         [Fact]
@@ -108,7 +112,7 @@ namespace KostenBatenToolTests.Models
         {
             _kost.VulVeldIn(0, "type", "test0");
             _kost.VulVeldIn(1, "type", "test");
-            Assert.Equal(_kost.Lijnen[1].First(v => v.Key.Equals("type")).Value, "test");
+            Assert.Equal(_kost.Lijnen[1].VeldenWaarden.First(v => v.Key.Equals("type")).Value, "test");
         }
 
         [Fact]
@@ -116,7 +120,7 @@ namespace KostenBatenToolTests.Models
         {
             _kost.VulVeldIn(0, "type", "test0");
             _kost.VulVeldIn(1, "type", "test");
-            Assert.Equal(_kost.Lijnen[1].First(v => v.Key.Equals("bedrag")).Value, 0M);
+            Assert.Equal(_kost.Lijnen[1].VeldenWaarden.First(v => v.Key.Equals("bedrag")).Value, 0M);
         }
 
         [Fact]
@@ -124,7 +128,7 @@ namespace KostenBatenToolTests.Models
         {
             _kost.VulVeldIn(0, "bedrag", 1000M);
             _kost.VulVeldIn(1, "type", "test");
-            Assert.Equal(_kost.Lijnen[1].First(v => v.Key.Equals("type")).Value, "test");
+            Assert.Equal(_kost.Lijnen[1].VeldenWaarden.First(v => v.Key.Equals("type")).Value, "test");
         }
 
         [Fact]
@@ -144,7 +148,7 @@ namespace KostenBatenToolTests.Models
         public void vulTypeIn_VoegtLijnToeVorigeLijnNietIngevuld()
         {
             _kost.VulVeldIn(1, "type", "test2");
-            Assert.Equal(_kost.Lijnen[1].First(v => v.Key.Equals("type")).Value, "test2");
+            Assert.Equal(_kost.Lijnen[1].VeldenWaarden.First(v => v.Key.Equals("type")).Value, "test2");
 
         }
 
@@ -153,7 +157,7 @@ namespace KostenBatenToolTests.Models
         {
             _kost.VulVeldIn(0, "type", "test");
             _kost.VulVeldIn(0, "type", "test2");
-            Assert.Equal(_kost.Lijnen[0].First(v => v.Key.Equals("type")).Value, "test2");
+            Assert.Equal(_kost.Lijnen[0].VeldenWaarden.First(v => v.Key.Equals("type")).Value, "test2");
         }
 
         [Fact]
@@ -185,6 +189,7 @@ namespace KostenBatenToolTests.Models
             _kost.VulVeldIn(0, "bedrag", 1200M);
             _kost.VulVeldIn(1, "bedrag", 1000M);
             Assert.Equal(_kost.BerekenResultaat(), 2200M);
+            Assert.Equal(_kost.Resultaat, 2200M);
         }
         
         [Fact]

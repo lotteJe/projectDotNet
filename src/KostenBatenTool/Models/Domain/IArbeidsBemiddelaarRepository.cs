@@ -13,7 +13,6 @@ namespace KostenBatenTool.Models.Domain
         void Delete(ArbeidsBemiddelaar arbeidsBemiddelaar);
         IEnumerable<Analyse> GetAllAnalyses(string email);
         void SaveChanges();
-        void VerwijderVelden(Analyse analyse);
         void SerialiseerVelden(Analyse analyse);
         Analyse GetAnalyse(string email, int id);
         IEnumerable<Organisatie> GetOrganisaties(string email);

@@ -52,13 +52,13 @@ namespace KostenBatenToolTests.Models
         [Fact]
         public void LoonKostSubsidie_MaaktJuisteLijnAan()
         {
-            Assert.True(_baat.Lijnen[0].Any(v => v.Key.Equals("Totale loonkostsubsidie")));
+            Assert.True(_baat.Lijnen[0].VeldenWaarden.Any(v => v.Key.Equals("Totale loonkostsubsidie")));
         }
 
         [Fact]
         public void LoonKostSubsidie_ZetTotaalOp0()
         {
-            Assert.Equal(_baat.Lijnen[0].First(v => v.Key.Equals("Totale loonkostsubsidie")).Value, 0M);
+            Assert.Equal(_baat.Lijnen[0].VeldenWaarden.First(v => v.Key.Equals("Totale loonkostsubsidie")).Value, 0M);
         }
 
 
@@ -67,7 +67,7 @@ namespace KostenBatenToolTests.Models
         {
 
             Assert.Equal(_baat.BerekenBedragPerLijn(0), 19691.46M);
-            Assert.Equal(_baat.Lijnen[0].First(v => v.Key.Equals("Totale loonkostsubsidie")).Value, 19691.46M);
+            Assert.Equal(_baat.Lijnen[0].VeldenWaarden.First(v => v.Key.Equals("Totale loonkostsubsidie")).Value, 19691.46M);
             
         }
         
@@ -81,7 +81,7 @@ namespace KostenBatenToolTests.Models
         public void BerekenResultaat()
         {
             Assert.Equal(_baat.BerekenResultaat(), 19691.46M);
-
+            Assert.Equal(_baat.Resultaat, 19691.46M);
         }
         
         #endregion

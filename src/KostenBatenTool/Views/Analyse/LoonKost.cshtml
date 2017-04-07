@@ -1,4 +1,5 @@
-﻿@model KostenBatenTool.Models.AnalyseViewModels.LoonkostViewModel
+﻿@using KostenBatenTool.Models.Domain
+@model KostenBatenTool.Models.Domain.LoonKost
 @{
     ViewData["Title"] = "1. Loonkosten medewerkers met grote afstand tot arbeidsmarkt";
 }
@@ -26,33 +27,21 @@
             <th>Aantal maanden IBO</th>
             <th>Totale productiviteitspremie IBO</th>
         </tr>
-        @for (int i = 0; i < 1; i++)
+        @foreach (Lijn lijn in Model.Lijnen)
         {
             <tr>
-                <td>-</td>
-                <td>-</td>
-                <td>-</td>
-                <td>-</td>
-                <td>-</td>
-                <td>-</td>
-                <td>-</td>
+                @foreach (Veld veld in lijn.VeldenWaarden)
+                {
+                    <td>@veld.Value</td>
+                }
             </tr>
         }
-        @*@foreach (var item in Model)
-            {
 
-                <tr>
-                    <td>@item.Functie</td>
-                    <td>@item.Bedrag</td>
-                    <td>@item.</td>
-
-                </tr>
-            }*@
 
     </table>
 </div>
 @*<script>
-    window.location.hash = "no-back-button";
-    window.location.hash = "Again-No-back-button";//again because google chrome don't insert first hash into history
-    window.onhashchange = function () { window.location.hash = "no-back-button"; }
-</script>*@
+        window.location.hash = "no-back-button";
+        window.location.hash = "Again-No-back-button";//again because google chrome don't insert first hash into history
+        window.onhashchange = function () { window.location.hash = "no-back-button"; }
+    </script>*@

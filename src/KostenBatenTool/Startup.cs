@@ -57,7 +57,6 @@ namespace KostenBatenTool
             services.Configure<EmailConfig>(Configuration.GetSection("Email"));
 
             services.AddMvc();
-            services.AddScoped<IOrganisatieRepository, OrganisatieRepository>();
             services.AddScoped<IArbeidsBemiddelaarRepository, ArbeidsBemiddelaarRepository>();
             services.AddScoped<KostenBatenInitializer>();
 

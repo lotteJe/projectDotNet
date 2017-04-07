@@ -8,8 +8,9 @@ namespace KostenBatenTool.Models.Domain
     public class AanpassingsSubsidie : Berekening
     {
         #region Constructors
+        protected AanpassingsSubsidie() { }
 
-        public AanpassingsSubsidie()
+        public AanpassingsSubsidie(Analyse analyse)
         {
             Velden.Add(new Veld("jaarbedrag", typeof(decimal)));
             VoegLijnToe(0);
@@ -19,13 +20,14 @@ namespace KostenBatenTool.Models.Domain
         #region Methods
         public override decimal BerekenResultaat()
         {
-           return BerekenBedragPerLijn(0);
+            Resultaat = BerekenBedragPerLijn(0);
+            return Resultaat;
         }
 
         public override decimal BerekenBedragPerLijn(int index)
         {
             ControleerIndex(index);
-            return (decimal)Lijnen[index].First(v => v.Key.Equals("jaarbedrag")).Value; 
+            return (decimal)Lijnen[index].VeldenWaarden.First(v => v.Key.Equals("jaarbedrag")).Value; 
         }
         #endregion
     }
