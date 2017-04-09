@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<KostenBatenTool.Models.Domain.Organisatie>
 <table class="table table-responsive table-striped werkgevers">
-    
+
 
     @if (Model != null)
     {
@@ -15,23 +15,28 @@
         foreach (var item in Model)
         {
 
-            <tr onclick="window.document.location = 'Werkgever';">
+            <tr onclick="location.href = '@(Url.Action("Overzicht","Analyse"))'">
                 <td>@item.Naam</td>
-                @if(item.Afdeling != null){
+                @if (item.Afdeling != null)
+                {
                     <td>@item.Afdeling</td>
-                } else {
+                }
+                else
+                {
                     <td>-</td>
                 }
-               
+
                 <td>@item.Postcode</td>
                 <td>@item.Gemeente</td>
                 <td>@($"{item.UrenWerkWeek:N2}")</td>
-                <td>@($"{item.PatronaleBijdrage*100:N2} %")</td>
+                <td>@($"{item.PatronaleBijdrage * 100:N2} %")</td>
             </tr>
         }
     }
     else
     {
-        <p>Er zijn nog geen analyses aangemaakt.</p>
+        <div>
+            <p class="col-md-8 col-md-offset-1">Er zijn nog geen werkgevers aangemaakt.</p>
+        </div>
     }
 </table>

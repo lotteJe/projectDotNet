@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -9,6 +10,7 @@ using KostenBatenTool.Models.AccountViewModels;
 using KostenBatenTool.Services;
 using KostenBatenTool.Models;
 using KostenBatenTool.Models.Domain;
+using KostenBatenTool.Models.ManageViewModels;
 
 namespace KostenBatenTool.Controllers
 {
@@ -42,8 +44,10 @@ namespace KostenBatenTool.Controllers
         [HttpGet]
         public IActionResult Edit()
         {
-            // repository opvragen en arbeidsbemiddelaar meegeven naar view
-            return View(/*new EditViewModel(arbeidsbemiddelaar)*/);
+            var user = GetCurrentUserAsync();
+            string email = user.Result.Email;
+            ArbeidsBemiddelaar a = _arbeidsBemiddelaarRepository.GetBy(email);
+            return View(new EditViewModel(a, new ChangePasswordViewModel()));
         }
 
         [HttpPost]
@@ -52,7 +56,19 @@ namespace KostenBatenTool.Controllers
         {
             if (ModelState.IsValid)
             {
-                /*gegevens van de arbeidsbemiddelaar aanpassen + melding van succes gewijzigd.*/
+                var user = GetCurrentUserAsync();
+                string email = user.Result.Email;
+                ArbeidsBemiddelaar a = _arbeidsBemiddelaarRepository.GetBy(email);
+                a.Naam = model.Naam;
+                a.Voornaam = model.Voornaam;
+                a.Email = model.Email;
+                a.EigenOrganisatie.Naam = model.NaamOrganisatie;
+                a.EigenOrganisatie.Straat = model.Straat;
+                a.EigenOrganisatie.Huisnummer = model.Huisnummer;
+                a.EigenOrganisatie.Postcode = model.Postcode;
+                a.EigenOrganisatie.Gemeente = model.Gemeente;
+                _arbeidsBemiddelaarRepository.SaveChanges();
+                TempData["message"] = "Je gegevens werden succesvol gewijzigd.";
                 return RedirectToAction(nameof(HomeController.Index), "Home");
             }
             return View(model);
@@ -131,8 +147,7 @@ namespace KostenBatenTool.Controllers
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email, Naam = model.Naam, Gemeente = model.Gemeente, Voornaam = model.Voornaam, Postcode = model.Postcode, Huisnummer = model.Huisnummer, Straat = model.Straat, NaamOrganisatie = model.NaamOrganisatie };
                 ArbeidsBemiddelaar arbeidsBemiddelaar = new ArbeidsBemiddelaar(model.Naam, model.Voornaam, model.Email, new Organisatie(model.NaamOrganisatie, model.Straat, model.Huisnummer, model.Postcode, model.Gemeente));
                 _arbeidsBemiddelaarRepository.Add(arbeidsBemiddelaar);
-                string password = "Lotte5";
-                var result = await _userManager.CreateAsync(user, password);
+                var result = await _userManager.CreateAsync(user, generateRandomPassword());
                 if (result.Succeeded)
                 {
                     var code = await _userManager.GeneratePasswordResetTokenAsync(user);
@@ -149,6 +164,30 @@ namespace KostenBatenTool.Controllers
                 AddErrors(result);
             }
             return View(model);
+        }
+        private string generateRandomPassword()
+        {
+            string allowedLetterChars = "abcdefghijkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ";
+            string allowedNumberChars = "23456789";
+            char[] chars = new char[10];
+            Random rd = new Random();
+
+            bool useLetter = true;
+            for (int i = 0; i < 10; i++)
+            {
+                if (useLetter)
+                {
+                    chars[i] = allowedLetterChars[rd.Next(0, allowedLetterChars.Length)];
+                    useLetter = false;
+                }
+                else
+                {
+                    chars[i] = allowedNumberChars[rd.Next(0, allowedNumberChars.Length)];
+                    useLetter = true;
+                }
+
+            }
+            return new string(chars);
         }
 
         //

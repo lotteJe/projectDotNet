@@ -19,56 +19,56 @@
 
     <tr>
         <td>2</td>
-        <td><a asp-area="" asp-controller="Analyse" asp-action="AanpassingsSubsidie" asp-route-id="">tegemoetkoming in kosten voor aanpassingen werkomgeving/gereedschap</a></td>
+        <td><a asp-area="" asp-controller="Analyse" asp-action="AanpassingsSubsidie" asp-route-id="@Model.AnalyseId">tegemoetkoming in kosten voor aanpassingen werkomgeving/gereedschap</a></td>
         <td></td>
         <td></td>
-        <td><a asp-area="" asp-controller="Analyse" asp-action="VoorbereidingsKost" asp-route-id="">kost overname werk door maatwerkbedrijf via enclave of onderaanneming</a></td>
+        <td><a asp-area="" asp-controller="Analyse" asp-action="VoorbereidingsKost" asp-route-id="@Model.AnalyseId">kost overname werk door maatwerkbedrijf via enclave of onderaanneming</a></td>
         <td>2</td>
     </tr>
     <tr>
         <td>3</td>
-        <td><a asp-area="" asp-controller="Analyse" asp-action="MedewerkerZelfdeNiveauBesparing" asp-route-id="">besparing reguliere medewerker op hetzelfde niveau</a></td>
+        <td><a asp-area="" asp-controller="Analyse" asp-action="MedewerkerZelfdeNiveauBesparing" asp-route-id="@Model.AnalyseId">besparing reguliere medewerker op hetzelfde niveau</a></td>
         <td></td>
         <td></td>
-        <td><a asp-area="" asp-controller="Analyse" asp-action="WerkkledijKost" asp-route-id="">extra kosten werkkledij en andere personeelskosten</a></td>
+        <td><a asp-area="" asp-controller="Analyse" asp-action="WerkkledijKost" asp-route-id="@Model.AnalyseId">extra kosten werkkledij en andere personeelskosten</a></td>
         <td>3</td>
     </tr>
 
     <tr>
         <td>4</td>
-        <td><a asp-area="" asp-controller="Analyse" asp-action="MedewerkerHogerNiveauBesparing" asp-route-id="">besparing reguliere medewerker op hoger niveau</a></td>
+        <td><a asp-area="" asp-controller="Analyse" asp-action="MedewerkerHogerNiveauBesparing" asp-route-id="@Model.AnalyseId">besparing reguliere medewerker op hoger niveau</a></td>
         <td></td>
         <td></td>
-        <td><a asp-area="" asp-controller="Analyse" asp-action="AanpassingsKost" asp-route-id="">extra kosten voor aanpassing werkomgeving/gereedschap</a></td>
+        <td><a asp-area="" asp-controller="Analyse" asp-action="AanpassingsKost" asp-route-id="@Model.AnalyseId">extra kosten voor aanpassing werkomgeving/gereedschap</a></td>
         <td>4</td>
     </tr>
     <tr>
         <td>5</td>
-        <td><a asp-area="" asp-controller="Analyse" asp-action="UitzendkrachtenBesparing" asp-route-id="">besparing extra uitzendkracht</a></td>
+        <td><a asp-area="" asp-controller="Analyse" asp-action="UitzendkrachtenBesparing" asp-route-id="@Model.AnalyseId">besparing extra uitzendkracht</a></td>
         <td></td>
         <td></td>
-        <td><a asp-area="" asp-controller="Analyse" asp-action="OpleidingsKost" asp-route-id="">extra kosten opleiding</a></td>
+        <td><a asp-area="" asp-controller="Analyse" asp-action="OpleidingsKost" asp-route-id="@Model.AnalyseId">extra kosten opleiding</a></td>
         <td>5</td>
     </tr>
     <tr>
         <td>6</td>
-        <td><a asp-area="" asp-controller="Analyse" asp-action="OmzetverliesBesparing" asp-route-id="">inperking omzetverlies</a></td>
+        <td><a asp-area="" asp-controller="Analyse" asp-action="OmzetverliesBesparing" asp-route-id="@Model.AnalyseId">inperking omzetverlies</a></td>
         <td></td>
         <td></td>
-        <td><a asp-area="" asp-controller="Analyse" asp-action="AdministratieBegeleidingsKost" asp-route-id="">extra kosten administratie en begeleiding</a></td>
+        <td><a asp-area="" asp-controller="Analyse" asp-action="AdministratieBegeleidingsKost" asp-route-id="@Model.AnalyseId">extra kosten administratie en begeleiding</a></td>
         <td>6</td>
     </tr>
     <tr>
         <td>7</td>
-        <td><a asp-area="" asp-controller="Analyse" asp-action="ProductiviteitsWinst" asp-route-id="">productiviteitswinst</a></td>
+        <td><a asp-area="" asp-controller="Analyse" asp-action="ProductiviteitsWinst" asp-route-id="@Model.AnalyseId">productiviteitswinst</a></td>
         <td></td>
         <td></td>
-        <td><a asp-area="" asp-controller="Analyse" asp-action="AndereKost" asp-route-id="">andere kosten</a></td>
+        <td><a asp-area="" asp-controller="Analyse" asp-action="AndereKost" asp-route-id="@Model.AnalyseId">andere kosten</a></td>
         <td>7</td>
     </tr>
     <tr>
         <td>8</td>
-        <td><a asp-area="" asp-controller="Analyse" asp-action="OverurenBesparing" asp-route-id="">besparing op overuren</a></td>
+        <td><a asp-area="" asp-controller="Analyse" asp-action="OverurenBesparing" asp-route-id="@Model.AnalyseId">besparing op overuren</a></td>
         <td></td>
         <td></td>
         <td></td>
@@ -76,7 +76,7 @@
     </tr>
     <tr>
         <td>9</td>
-        <td><a asp-area="" asp-controller="Analyse" asp-action="OutsourcingBesparing" asp-route-id="">besparing op outsourcing</a></td>
+        <td><a asp-area="" asp-controller="Analyse" asp-action="OutsourcingBesparing" asp-route-id="@Model.AnalyseId">besparing op outsourcing</a></td>
         <td></td>
         <td></td>
         <td></td>
@@ -84,7 +84,7 @@
     </tr>
     <tr>
         <td>10</td>
-        <td><a asp-area="" asp-controller="Analyse" asp-action="LogistiekeBesparing" asp-route-id="">logistieke besparing</a></td>
+        <td><a asp-area="" asp-controller="Analyse" asp-action="LogistiekeBesparing" asp-route-id="@Model.AnalyseId">logistieke besparing</a></td>
         <td></td>
         <td></td>
         <td></td>
@@ -92,7 +92,7 @@
     </tr>
     <tr>
         <td>11</td>
-        <td><a asp-area="" asp-controller="Analyse" asp-action="AndereBesparing" asp-route-id="">andere besparingen</a></td>
+        <td><a asp-area="" asp-controller="Analyse" asp-action="AndereBesparing" asp-route-id="@Model.AnalyseId">andere besparingen</a></td>
         <td></td>
         <td></td>
         <td></td>

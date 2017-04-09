@@ -1,22 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using KostenBatenTool.Models.Domain;
+using KostenBatenTool.Models.ManageViewModels;
 
 namespace KostenBatenTool.Models.AccountViewModels
 {
     public class EditViewModel
     {
-        //public EditViewModel(Arbeidsbemiddelaar user)
-        //{
-        //    Naam = user.Naam;
-        //    Voornaam = user.Voornaam;
-        //    Email = user.Email;
-        //    NaamOrganisatie = user.NaamOrganisatie;
-        //    Straat = user.Straat;
-        //    Huisnummer = user.Huisnummer;
-        //    Postcode = user.Postcode;
-        //    Gemeente = user.Gemeente;
-        //}
-
-        [Required(ErrorMessage = "Naam is verplicht")]
+       [Required(ErrorMessage = "Naam is verplicht")]
         [Display(Name = "Naam")]
         public string Naam { get; set; }
 
@@ -45,11 +35,37 @@ namespace KostenBatenTool.Models.AccountViewModels
         [Required(ErrorMessage = "Postcode is verplicht")]
         [Display(Name = "Postcode")]
         /*  [RegularExpression(@"[1-9][0-9]{3}", ErrorMessage = "Moet een getal zijn!")]*/
-        public int Postcode { get; set; }
+        public string Postcode { get; set; }
 
         [Required(ErrorMessage = "Gemeente is verplicht")]
         [Display(Name = "Gemeente")]
         public string Gemeente { get; set; }
+
+        public ChangePasswordViewModel cpvm { get; set; }
+    
+
+        public EditViewModel()
+        {
+
+        }
+
+        public EditViewModel(ChangePasswordViewModel cpvm) : this()
+        {
+            this.cpvm = cpvm;
+
+        }
+        public EditViewModel(ArbeidsBemiddelaar a, ChangePasswordViewModel cpvm) : this()
+        {
+            Naam = a.Naam;
+            Voornaam = a.Voornaam;
+            Email = a.Email;
+            NaamOrganisatie = a.EigenOrganisatie.Naam;
+            Straat = a.EigenOrganisatie.Straat;
+            Huisnummer = a.EigenOrganisatie.Huisnummer;
+            Postcode = a.EigenOrganisatie.Postcode;
+            Gemeente = a.EigenOrganisatie.Gemeente;
+            this.cpvm = cpvm;
+        }
     }
 }
 

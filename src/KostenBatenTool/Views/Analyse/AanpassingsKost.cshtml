@@ -10,13 +10,8 @@
     <h2 class="col-md-7">Welke kosten moet u structureel jaarlijks extra maken voor deze inhuur? (vul hier de gereedschapskosten ed in)</h2>
     <a id="toevoegenFunctie" class="col-md-offset-4"><i class="fa fa-plus fa-2x  rotate" aria-hidden="true"></i></a>
 </div>
-<div id="partial" class="row">
-    <div class="col-md-6 col-md-offset-3">
-        @Html.Partial("_aanpassingsKostPartial")
-    </div>
-</div>
 <div class="row">
-    <div class="col-md-6 col-md-offset-3">
+    <div class="col-md-6 ">
         <table class="table table-responsive table-striped functies">
             <tr>
                 <th>Type</th>
@@ -36,5 +31,9 @@
                     </tr>
                 }*@
         </table>
+    </div>
+    <div id="partial" class="col-md-6">
+        @Html.Partial("_aanpassingsKostPartial")
+
     </div>
 </div>
