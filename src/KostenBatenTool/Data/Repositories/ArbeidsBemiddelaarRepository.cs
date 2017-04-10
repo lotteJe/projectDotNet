@@ -40,7 +40,7 @@ namespace KostenBatenTool.Data.Repositories
 
         public Organisatie GetOrganisatie(string emailadres, int id)
         {
-            return _arbeidsBemiddelaars.Include("Analyses.Organisatie").First(a => a.Email.Equals(emailadres)).Analyses.Select(a => a.Organisatie).First(o => o.OrganisatieId == id);
+            return _arbeidsBemiddelaars.Include("Analyses.Organisatie").First(a => a.Email.Equals(emailadres)).Analyses.Select(a => a.Organisatie).FirstOrDefault(o => o.OrganisatieId == id);
         }
 
         public IEnumerable<Organisatie> GetOrganisaties(string emailadres)

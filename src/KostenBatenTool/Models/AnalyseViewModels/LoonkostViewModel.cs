@@ -8,11 +8,6 @@ namespace KostenBatenTool.Models.AnalyseViewModels
 {
     public class LoonkostViewModel
     {
-        public LoonkostViewModel()
-        {
-            
-        }
-        public int Id { get; set; }
         public int LijnId { get; set; }
         public string Functie { get; set; }
         public string UrenPerWeek { get; set; }
@@ -21,7 +16,18 @@ namespace KostenBatenTool.Models.AnalyseViewModels
         public string Vop { get; set; }
         public string AantalMaanden { get; set; }
         public decimal Ibo { get; set; }
+        public int AnalyseId { get; set; }
+        public IEnumerable<LoonkostLijnViewModel> Lijnen { get; set; }
 
-       
+        public LoonkostViewModel()
+        {
+
+        }
+        public LoonkostViewModel(LoonKost loonkost, int analyseId) : this()
+        {
+            AnalyseId = analyseId;
+            Lijnen = loonkost.Lijnen.Select(lijn => new LoonkostLijnViewModel(lijn)).ToList();
+            LijnId = loonkost.Lijnen.Max(l => l.LijnId) + 1;
+        }
     }
 }

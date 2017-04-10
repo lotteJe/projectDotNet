@@ -29,12 +29,12 @@ namespace KostenBatenTool.Models.AccountViewModels
 
         [Required(ErrorMessage = "Huisnummer is verplicht")]
         [Display(Name = "Huisnummer")]
-        [RegularExpression(@"\d{1,4}[[:alpha:]]{0,1}", ErrorMessage = "Moet een getal zijn, mag maximum 1 letter bevatten!")]
+        [RegularExpression(@"[1-9][0-9]*[a-zA-Z]", ErrorMessage = "Moet een getal zijn, mag maximum 1 letter bevatten!")]
         public string Huisnummer { get; set; }
 
         [Required(ErrorMessage = "Postcode is verplicht")]
         [Display(Name = "Postcode")]
-        /*  [RegularExpression(@"[1-9][0-9]{3}", ErrorMessage = "Moet een getal zijn!")]*/
+        [RegularExpression(@"[1-9][0-9]{3}", ErrorMessage = "Moet een getal tussen 1000 en 9999 zijn!")]
         public string Postcode { get; set; }
 
         [Required(ErrorMessage = "Gemeente is verplicht")]
@@ -54,7 +54,7 @@ namespace KostenBatenTool.Models.AccountViewModels
             this.cpvm = cpvm;
 
         }
-        public EditViewModel(ArbeidsBemiddelaar a, ChangePasswordViewModel cpvm) : this()
+        public EditViewModel(ArbeidsBemiddelaar a, ChangePasswordViewModel cpvm) : this(cpvm)
         {
             Naam = a.Naam;
             Voornaam = a.Voornaam;
@@ -64,7 +64,6 @@ namespace KostenBatenTool.Models.AccountViewModels
             Huisnummer = a.EigenOrganisatie.Huisnummer;
             Postcode = a.EigenOrganisatie.Postcode;
             Gemeente = a.EigenOrganisatie.Gemeente;
-            this.cpvm = cpvm;
         }
     }
 }

@@ -44,15 +44,13 @@ namespace KostenBatenTool.Controllers
         [HttpGet]
         public IActionResult Edit()
         {
-            var user = GetCurrentUserAsync();
-            string email = user.Result.Email;
-            ArbeidsBemiddelaar a = _arbeidsBemiddelaarRepository.GetBy(email);
+            ArbeidsBemiddelaar a = _arbeidsBemiddelaarRepository.GetBy(User.Identity.Name);
             return View(new EditViewModel(a, new ChangePasswordViewModel()));
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(EditViewModel model, string returnUrl = null)
+        public IActionResult Edit(EditViewModel model, string returnUrl = null)
         {
             if (ModelState.IsValid)
             {

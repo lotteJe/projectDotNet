@@ -10,7 +10,7 @@ namespace KostenBatenTool.Models.Domain
         #region Properties
         public int VeldId { get; set; }
         public string Key { get; set; }
-        public Object Value { get; set; }
+        public object Value { get; set; }
         public string InternalValue { get; set; }
         #endregion
 

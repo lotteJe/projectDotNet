@@ -51,13 +51,16 @@ namespace KostenBatenTool.Controllers
             return PartialView("_werkgeversPartial", organisaties);
         }
 
-        public IActionResult Werkgever()
+        public IActionResult Werkgever(int id = -1)
         {
-            return View();
+            Organisatie o = _arbeidsBemiddelaarRepository.GetOrganisatie(User.Identity.Name, id);
+            WerkgeverViewModel model = o == null ? new WerkgeverViewModel() : new WerkgeverViewModel(o);
+            
+            return View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Werkgever(WerkgeverViewModel model, string returnUrl = null)
+        public IActionResult Werkgever(WerkgeverViewModel model, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
@@ -87,7 +90,7 @@ namespace KostenBatenTool.Controllers
             }
             return View(model);
         }
-       
+
         [HttpGet]
         public IActionResult Overzicht(int id)
         {
@@ -99,19 +102,26 @@ namespace KostenBatenTool.Controllers
         {
             Analyse a = GetAnalyse(id);
             LoonKost loonkost = (LoonKost)a.GetBerekening("LoonKost");
-            return View(loonkost);
+            return View(new LoonkostViewModel(loonkost, a.AnalyseId));
         }
 
 
         [HttpPost]
-        public async Task<IActionResult> LoonKost(LoonkostViewModel model, string returnUrl = null)
+        public IActionResult LoonKost(LoonkostViewModel model, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
                 try
                 {
-                    return RedirectToAction(nameof(Overzicht));
+                    var user = GetCurrentUserAsync();
+                    string email = user.Result.Email;
+                    ArbeidsBemiddelaar ab = _arbeidsBemiddelaarRepository.GetBy(email);
+                    Analyse analyse = ab.Analyses.First(a => a.AnalyseId == model.AnalyseId);
+                    analyse.VulVeldIn("LoonKost", model.LijnId, "functie", model.Functie);
+                    _arbeidsBemiddelaarRepository.SerialiseerVelden(analyse);
+                    _arbeidsBemiddelaarRepository.SaveChanges();
+                    return RedirectToAction(nameof(LoonKost), analyse.AnalyseId);
                 }
                 catch (Exception e)
                 {

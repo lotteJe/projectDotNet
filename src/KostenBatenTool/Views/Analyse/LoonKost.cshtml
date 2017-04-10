@@ -1,5 +1,6 @@
-﻿@using KostenBatenTool.Models.Domain
-@model KostenBatenTool.Models.Domain.LoonKost
+﻿@using KostenBatenTool.Models.AnalyseViewModels
+@using KostenBatenTool.Models.Domain
+@model KostenBatenTool.Models.AnalyseViewModels.LoonkostViewModel
 @{
     ViewData["Title"] = "1. Loonkosten medewerkers met grote afstand tot arbeidsmarkt";
 }
@@ -11,14 +12,71 @@
 
     <a id="toevoegenFunctie" class="col-md-offset-5"><i class="fa fa-plus fa-2x  rotate" aria-hidden="true"></i></a>
 </div>
-<div id="partial" class="row">
+<div id="" class="row">
     <div class="col-md-11 col-md-offset-1">
-        @Html.Partial("_loonkostPartial")
+        @*@Html.Partial("_loonkostPartial", Model)*@
+        <div class="functie">
+            <form asp-controller="Analyse" asp-action="LoonKost" method="post" class="form-horizontal">
+                <input type="hidden" asp-for="AnalyseId" />
+                <div class="row">
+                    <label asp-for="Functie" class="col-md-2 control-label ww">Functie</label>
+                    <div class="col-md-3">
+                        <input asp-for="Functie" class="form-control"/>
+                        <span asp-validation-for="Functie" class="text-danger"></span>
+                    </div>
+                    <label asp-for="Vop" class="col-md-2 control-label ww">Vlaamse ondersteuningspremie</label>
+                    <div class="col-md-3">
+                        <input asp-for="Vop" class="form-control"/>
+                        <span asp-validation-for="Vop" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <label asp-for="UrenPerWeek" class="col-md-2 control-label ww">Uren per week</label>
+                    <div class="col-md-3">
+                        <input asp-for="UrenPerWeek" class="form-control"/>
+                        <span asp-validation-for="UrenPerWeek" class="text-danger"></span>
+                    </div>
+
+                    <label asp-for="AantalMaanden" class="col-md-2 control-label ww">Aantal maanden IBO</label>
+                    <div class="col-md-3">
+                        <input asp-for="AantalMaanden" class="form-control"/>
+                        <span asp-validation-for="AantalMaanden" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <label asp-for="BrutoMaandloon" class="col-md-2 control-label ww">Bruto maandloon</label>
+                    <div class="col-md-3">
+                        <input asp-for="BrutoMaandloon" class="form-control"/>
+                        <span asp-validation-for="BrutoMaandloon" class="text-danger"></span>
+                    </div>
+                    <label asp-for="Ibo" class="col-md-2 control-label ww">Totale productiviteitspremie</label>
+                    <div class="col-md-3">
+                        <input asp-for="Ibo" class="form-control"/>
+                        <span asp-validation-for="Ibo" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <label asp-for="Doelgroep" class="col-md-2 control-label ww">Doelgroep</label>
+                    <div class="col-md-3">
+                        <input asp-for="Doelgroep" class="form-control"/>
+                        <span asp-validation-for="Doelgroep" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-10" id="aanmelden">
+                        <button type="submit" class="btn btn-default knop" id="">Toevoegen</button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
     </div>
 </div>
 <div class="col-md-12">
     <table class="table table-responsive table-bordered functies">
+        
         <tr>
+            
             <th>Functie</th>
             <th>Aantal uren per week</th>
             <th>Bruto maandloon</th>
@@ -27,13 +85,16 @@
             <th>Aantal maanden IBO</th>
             <th>Totale productiviteitspremie IBO</th>
         </tr>
-        @foreach (Lijn lijn in Model.Lijnen)
+        @foreach (LoonkostLijnViewModel lijn in Model.Lijnen)
         {
             <tr>
-                @foreach (Veld veld in lijn.VeldenWaarden)
-                {
-                    <td>@veld.Value</td>
-                }
+                <td>@lijn.Functie</td>
+                <td>@lijn.UrenPerWeek</td>
+                <td>@lijn.BrutoMaandloon</td>
+                <td>@lijn.Doelgroep</td>
+                <td>@lijn.Vop</td>
+                <td>@lijn.AantalMaanden</td>
+                <td>@lijn.Ibo</td>
             </tr>
         }
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using KostenBatenTool.Models.Domain;
 
 namespace KostenBatenTool.Models.AnalyseViewModels
 {
@@ -42,6 +43,24 @@ namespace KostenBatenTool.Models.AnalyseViewModels
 
         [Display(Name = "Afdeling")]
         public string Afdeling { get; set; }
+
+        public WerkgeverViewModel()
+        {
+            Werkuren = 38;
+            Bijdrage = 35;
+        }
+
+        public WerkgeverViewModel(Organisatie o)
+        {
+            Werkuren = o.UrenWerkWeek;
+            Bijdrage = o.PatronaleBijdrage;
+            Afdeling = o.Afdeling;
+            Gemeente = o.Gemeente;
+            Postcode = o.Postcode;
+            Huisnummer = o.Huisnummer;
+            Straat = o.Straat;
+            Naam = o.Naam;
+        }
 
     }
 }
