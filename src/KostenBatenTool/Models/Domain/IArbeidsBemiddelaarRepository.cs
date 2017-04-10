@@ -15,6 +15,7 @@ namespace KostenBatenTool.Models.Domain
         void SaveChanges();
         void SerialiseerVelden(Analyse analyse);
         Analyse GetAnalyse(string email, int id);
+        Analyse GetLaatsteAnalyse(string email);
         IEnumerable<Organisatie> GetOrganisaties(string email);
         Organisatie GetOrganisatie(string email, int id);
     }

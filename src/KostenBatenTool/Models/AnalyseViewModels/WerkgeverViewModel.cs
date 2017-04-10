@@ -42,6 +42,7 @@ namespace KostenBatenTool.Models.AnalyseViewModels
 
         [Display(Name = "Afdeling")]
         public string Afdeling { get; set; }
+
     }
 }
 

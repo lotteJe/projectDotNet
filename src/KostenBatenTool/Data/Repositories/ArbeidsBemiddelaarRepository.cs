@@ -78,6 +78,16 @@ namespace KostenBatenTool.Data.Repositories
             analyse.Baten.ForEach(b => b.Deserialiseer());
             return analyse;
         }
+
+        public Analyse GetLaatsteAnalyse(string email)
+        {
+            //Ophalen
+            Analyse analyse = _arbeidsBemiddelaars.Include("Analyses.Organisatie").Include("Analyses.Baten.Velden").Include("Analyses.Kosten.Velden").Include("Analyses.Kosten.Lijnen.VeldenDefinitie").Include("Analyses.Kosten.Lijnen.VeldenWaarden").Include("Analyses.Baten.Lijnen.VeldenDefinitie").Include("Analyses.Baten.Lijnen.VeldenWaarden").First(a => a.Email.Equals(email)).Analyses.OrderBy(a => a.AanmaakDatum).Last();
+            //Deserialiseren
+            analyse.Kosten.ForEach(k => k.Deserialiseer());
+            analyse.Baten.ForEach(b => b.Deserialiseer());
+            return analyse;
+        }
         
     }
 }
