@@ -18,6 +18,10 @@ function initAutocomplete() {
         /** @type {!HTMLInputElement} */(document.getElementById('autocomplete')),
         { types: ['geocode'] });
 
+    /*enkel belgië en nederland */
+    autocomplete.setComponentRestrictions(
+            { 'country': ['be', 'nl'] });
+
     // When the user selects an address from the dropdown, populate the address
     // fields in the form.
     autocomplete.addListener('place_changed', fillInAddress);

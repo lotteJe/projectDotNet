@@ -10,13 +10,9 @@
     <h2 class="col-md-7">Welke besparing denkt u te kunnen maken op uitzendkrachten?</h2>
     <a id="toevoegenFunctie" class="col-md-offset-4"><i class="fa fa-plus fa-2x  rotate" aria-hidden="true"></i></a>
 </div>
-<div id="partial" class="row">
-    <div class="col-md-6 col-md-offset-3">
-        @Html.Partial("_uitzendkrachtenBesparingPartial")
-    </div>
-</div>
+
 <div class="row">
-    <div class="col-md-6 col-md-offset-3">
+    <div class="col-md-6 ">
         <table class="table table-responsive table-striped functies">
             <tr>
                 <th>Beschrijving</th>
@@ -26,19 +22,20 @@
             <tr>
                 <td>-</td>
                 <td>-</td>
-               
+
             </tr>
             @*@foreach (var item in Model)
-                {
+        {
 
-                    <tr>
-                        <td>@item.Beschrijving</td>
-                        <td>@item.Jaarbedrag</td>
+            <tr>
+                <td>@item.Beschrijving</td>
+                <td>@item.Jaarbedrag</td>
 
-                    </tr>
-                }*@
+            </tr>
+        }*@
         </table>
     </div>
+    <div id="partial" class="col-md-6">
+        @Html.Partial("_uitzendkrachtenBesparingPartial")
+    </div>
 </div>
-
-

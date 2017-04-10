@@ -9,12 +9,8 @@
     <h2 class="col-md-7">Aan welke kosten kan nog meer worden gedacht?</h2>
     <a id="toevoegenFunctie" class="col-md-offset-4"><i class="fa fa-plus fa-2x  rotate" aria-hidden="true"></i></a>
 </div>
-<div id="partial" class="row">
-    <div class="col-md-6 col-md-offset-3">
-        @Html.Partial("_andereKostPartial")
-    </div>
-</div><div class="row">
-    <div class="col-md-6 col-md-offset-3">
+<div class="row">
+    <div class="col-md-6 ">
         <table class="table table-responsive table-striped functies">
             <tr>
                 <th>Type</th>
@@ -34,6 +30,8 @@
                     </tr>
                 }*@
         </table>
-
+    </div>
+    <div id="partial" class="col-md-6">
+        @Html.Partial("_andereKostPartial")
     </div>
 </div>
