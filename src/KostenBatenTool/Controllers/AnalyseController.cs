@@ -87,11 +87,11 @@ namespace KostenBatenTool.Controllers
             }
             return View(model);
         }
-
+       
         [HttpGet]
         public IActionResult Overzicht(int id)
         {
-            return View(GetAnalyse(1));
+            return View(GetAnalyse(id));
         }
 
         [HttpGet]
@@ -592,6 +592,10 @@ namespace KostenBatenTool.Controllers
         {
             var user = GetCurrentUserAsync();
             string email = user.Result.Email;
+            if (id == 0)
+            {
+                return _arbeidsBemiddelaarRepository.GetLaatsteAnalyse(email);
+            }
             return _arbeidsBemiddelaarRepository.GetAnalyse(email, id);
         }
     }
