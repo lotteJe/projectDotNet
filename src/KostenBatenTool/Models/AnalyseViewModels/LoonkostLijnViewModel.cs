@@ -10,27 +10,27 @@ namespace KostenBatenTool.Models.AnalyseViewModels
     {
         public int LijnId { get; set; }
         public string Functie { get; set; }
-        public string UrenPerWeek { get; set; }
+        public decimal UrenPerWeek { get; set; }
         public decimal BrutoMaandloon { get; set; }
-        public string Doelgroep { get; set; }
-        public string Vop { get; set; }
-        public string AantalMaanden { get; set; }
+        public Doelgroep Doelgroep { get; set; }
+        public decimal Vop { get; set; }
+        public decimal AantalMaanden { get; set; }
         public decimal Ibo { get; set; }
 
         public LoonkostLijnViewModel(Lijn lijn)
         {
             LijnId = lijn.LijnId;
             Functie = lijn.VeldenWaarden.FirstOrDefault(v => v.Key.Equals("functie")).Value.ToString();
-            UrenPerWeek = lijn.VeldenWaarden.FirstOrDefault(v => v.Key.Equals("uren per week")).Value.ToString();
+            UrenPerWeek = (decimal)lijn.VeldenWaarden.FirstOrDefault(v => v.Key.Equals("uren per week")).Value;
             BrutoMaandloon =
-                Convert.ToDecimal(lijn.VeldenWaarden.FirstOrDefault(v => v.Key.Equals("bruto maandloon fulltime")).Value);
-            Doelgroep = lijn.VeldenWaarden.FirstOrDefault(v => v.Key.Equals("doelgroep")).Value.ToString();
+                (decimal)lijn.VeldenWaarden.FirstOrDefault(v => v.Key.Equals("bruto maandloon fulltime")).Value;
+            Doelgroep = (Doelgroep) lijn.VeldenWaarden.FirstOrDefault(v => v.Key.Equals("doelgroep")).Value;
             Vop =
-                lijn.VeldenWaarden.FirstOrDefault(v => v.Key.Equals("% Vlaamse ondersteuningspremie")).Value.ToString();
-            AantalMaanden = lijn.VeldenWaarden.FirstOrDefault(v => v.Key.Equals("aantal maanden IBO")).Value.ToString();
+                (decimal)lijn.VeldenWaarden.FirstOrDefault(v => v.Key.Equals("% Vlaamse ondersteuningspremie")).Value;
+            AantalMaanden = (decimal)lijn.VeldenWaarden.FirstOrDefault(v => v.Key.Equals("aantal maanden IBO")).Value;
             Ibo =
-                Convert.ToDecimal(
-                    lijn.VeldenWaarden.FirstOrDefault(v => v.Key.Equals("totale productiviteitspremie IBO")).Value);
+               (decimal)
+                    lijn.VeldenWaarden.FirstOrDefault(v => v.Key.Equals("totale productiviteitspremie IBO")).Value;
         }
     }
 }

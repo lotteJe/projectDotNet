@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using KostenBatenTool.Models.AnalyseViewModels;
 using KostenBatenTool.Models.Domain;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,6 +22,18 @@ namespace KostenBatenTool.Data.Repositories
         public ArbeidsBemiddelaar GetBy(string emailadres)
         {
             return _arbeidsBemiddelaars.Include(a => a.EigenOrganisatie).Include(a => a.Analyses).FirstOrDefault(a => a.Email.Equals(emailadres));
+        }
+
+        public ArbeidsBemiddelaar GetArbeidsBemiddelaarVolledig(string email)
+        {
+            ArbeidsBemiddelaar ab = _arbeidsBemiddelaars.Include("Analyses.Organisatie").Include("Analyses.Baten.Velden").Include("Analyses.Kosten.Velden").Include("Analyses.Kosten.Lijnen.VeldenDefinitie").Include("Analyses.Kosten.Lijnen.VeldenWaarden").Include("Analyses.Baten.Lijnen.VeldenDefinitie").Include("Analyses.Baten.Lijnen.VeldenWaarden").First(a => a.Email.Equals(email));
+            foreach (Analyse analyse in ab.Analyses)
+            {
+                analyse.Kosten.ForEach(k => k.Deserialiseer());
+                analyse.Baten.ForEach(b => b.Deserialiseer());
+                ((LoonkostSubsidie)analyse.Baten.First(b => b.GetType() == Type.GetType("KostenBatenTool.Models.Domain.LoonkostSubsidie"))).Loonkost = (LoonKost)analyse.Kosten.First(k => k.GetType() == Type.GetType("KostenBatenTool.Models.Domain.LoonKost"));
+            }
+            return ab;
         }
 
         public void Add(ArbeidsBemiddelaar arbeidsBemiddelaar)

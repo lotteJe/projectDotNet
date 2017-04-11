@@ -10,11 +10,11 @@ namespace KostenBatenTool.Models.AnalyseViewModels
     {
         public int LijnId { get; set; }
         public string Functie { get; set; }
-        public string UrenPerWeek { get; set; }
+        public decimal UrenPerWeek { get; set; }
         public decimal BrutoMaandloon { get; set; }
-        public string Doelgroep { get; set; }
-        public string Vop { get; set; }
-        public string AantalMaanden { get; set; }
+        public Doelgroep Doelgroep { get; set; }
+        public decimal Vop { get; set; }
+        public decimal AantalMaanden { get; set; }
         public decimal Ibo { get; set; }
         public int AnalyseId { get; set; }
         public IEnumerable<LoonkostLijnViewModel> Lijnen { get; set; }
