@@ -116,9 +116,11 @@ namespace KostenBatenTool.Controllers
                 {
                     var user = GetCurrentUserAsync();
                     string email = user.Result.Email;
-                    ArbeidsBemiddelaar ab = _arbeidsBemiddelaarRepository.GetBy(email);
+                    ArbeidsBemiddelaar ab = _arbeidsBemiddelaarRepository.GetArbeidsBemiddelaarVolledig(email);
                     Analyse analyse = ab.Analyses.First(a => a.AnalyseId == model.AnalyseId);
                     analyse.VulVeldIn("LoonKost", model.LijnId, "functie", model.Functie);
+                    analyse.VulVeldIn("LoonKost", model.LijnId, "uren per week", model.UrenPerWeek);
+                    analyse.VulVeldIn("LoonKost", model.LijnId, "bruto maandloon fulltime", model.BrutoMaandloon );
                     _arbeidsBemiddelaarRepository.SerialiseerVelden(analyse);
                     _arbeidsBemiddelaarRepository.SaveChanges();
                     return RedirectToAction(nameof(LoonKost), analyse.AnalyseId);

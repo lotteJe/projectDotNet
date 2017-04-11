@@ -9,6 +9,7 @@ namespace KostenBatenTool.Models.Domain
     {
 
         ArbeidsBemiddelaar GetBy(string emailadres);
+        ArbeidsBemiddelaar GetArbeidsBemiddelaarVolledig(string email);
         void Add(ArbeidsBemiddelaar arbeidsBemiddelaar);
         void Delete(ArbeidsBemiddelaar arbeidsBemiddelaar);
         IEnumerable<Analyse> GetAllAnalyses(string email);
