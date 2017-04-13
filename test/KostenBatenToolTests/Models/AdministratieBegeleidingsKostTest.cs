@@ -31,33 +31,33 @@ namespace KostenBatenToolTests.Models
         [Fact]
         public void AdministratieBegeleidingsKost_MaaktJuisteVeldenAan()
         {
-            Assert.Equal(_kost.Velden.Find(v => v.Key.Equals("uren")).Value, typeof(decimal));
-            Assert.Equal(_kost.Velden.Find(v => v.Key.Equals("bruto maandloon begeleider")).Value, typeof(decimal));
-            Assert.Equal(_kost.Velden.Find(v => v.Key.Equals("jaarbedrag")).Value, typeof(decimal));
+            Assert.Equal(_kost.Velden.Find(v => v.VeldKey.Equals("uren")).Value, typeof(decimal));
+            Assert.Equal(_kost.Velden.Find(v => v.VeldKey.Equals("bruto maandloon begeleider")).Value, typeof(decimal));
+            Assert.Equal(_kost.Velden.Find(v => v.VeldKey.Equals("jaarbedrag")).Value, typeof(decimal));
             
         }
 
         [Fact]
         public void AdministratieBegeleidingsKost_MaaktJuisteLijnAan()
         {
-            Assert.True(_kost.Lijnen[0].VeldenWaarden.Any(v => v.Key.Equals("uren")));
-            Assert.True(_kost.Lijnen[0].VeldenWaarden.Any(v => v.Key.Equals("bruto maandloon begeleider")));
-            Assert.True(_kost.Lijnen[0].VeldenWaarden.Any(v => v.Key.Equals("jaarbedrag")));
+            Assert.True(_kost.Lijnen[0].VeldenWaarden.Any(v => v.VeldKey.Equals("uren")));
+            Assert.True(_kost.Lijnen[0].VeldenWaarden.Any(v => v.VeldKey.Equals("bruto maandloon begeleider")));
+            Assert.True(_kost.Lijnen[0].VeldenWaarden.Any(v => v.VeldKey.Equals("jaarbedrag")));
         }
 
         [Fact]
         public void AanpassingsKost_ZetGetallenOp0()
         {
-            Assert.Equal(_kost.Lijnen[0].VeldenWaarden.First(v => v.Key.Equals("uren")).Value, 0M);
-            Assert.Equal(_kost.Lijnen[0].VeldenWaarden.First(v => v.Key.Equals("bruto maandloon begeleider")).Value, 0M);
-            Assert.Equal(_kost.Lijnen[0].VeldenWaarden.First(v => v.Key.Equals("jaarbedrag")).Value, 0M);
+            Assert.Equal(_kost.Lijnen[0].VeldenWaarden.First(v => v.VeldKey.Equals("uren")).Value, 0M);
+            Assert.Equal(_kost.Lijnen[0].VeldenWaarden.First(v => v.VeldKey.Equals("bruto maandloon begeleider")).Value, 0M);
+            Assert.Equal(_kost.Lijnen[0].VeldenWaarden.First(v => v.VeldKey.Equals("jaarbedrag")).Value, 0M);
         }
 
         [Fact]
         public void VulUrenIn()
         {
             _kost.VulVeldIn(0, "uren", 38M);
-            Assert.Equal(_kost.Lijnen[0].VeldenWaarden.First(v => v.Key.Equals("uren")).Value, 38M);
+            Assert.Equal(_kost.Lijnen[0].VeldenWaarden.First(v => v.VeldKey.Equals("uren")).Value, 38M);
         }
 
         [Fact]
@@ -95,7 +95,7 @@ namespace KostenBatenToolTests.Models
         public void vulUrenIn_VoegtNieuweLijnToeVorigeLijnNietIngevuld()
         {
             _kost.VulVeldIn(1, "uren", 38.5M);
-            Assert.Equal(_kost.Lijnen[1].VeldenWaarden.First(v => v.Key.Equals("uren")).Value, 38.5M);
+            Assert.Equal(_kost.Lijnen[1].VeldenWaarden.First(v => v.VeldKey.Equals("uren")).Value, 38.5M);
 
         }
 
@@ -104,7 +104,7 @@ namespace KostenBatenToolTests.Models
         {
             _kost.VulVeldIn(0, "uren", 40M);
             _kost.VulVeldIn(1, "uren", 38.5M);
-            Assert.Equal(_kost.Lijnen[1].VeldenWaarden.First(v => v.Key.Equals("uren")).Value, 38.5M);
+            Assert.Equal(_kost.Lijnen[1].VeldenWaarden.First(v => v.VeldKey.Equals("uren")).Value, 38.5M);
         }
 
         [Fact]
@@ -112,15 +112,15 @@ namespace KostenBatenToolTests.Models
         {
             _kost.VulVeldIn(0, "uren", 40M);
             _kost.VulVeldIn(1, "uren", 38.5M);
-            Assert.Equal(_kost.Lijnen[1].VeldenWaarden.First(v => v.Key.Equals("bruto maandloon begeleider")).Value, 0M);
-            Assert.Equal(_kost.Lijnen[1].VeldenWaarden.First(v => v.Key.Equals("jaarbedrag")).Value, 0M);
+            Assert.Equal(_kost.Lijnen[1].VeldenWaarden.First(v => v.VeldKey.Equals("bruto maandloon begeleider")).Value, 0M);
+            Assert.Equal(_kost.Lijnen[1].VeldenWaarden.First(v => v.VeldKey.Equals("jaarbedrag")).Value, 0M);
         }
 
         [Fact]
         public void VulMaandloonIn()
         {
             _kost.VulVeldIn(0, "bruto maandloon begeleider", 1200M);
-            Assert.Equal(_kost.Lijnen[0].VeldenWaarden.First(v => v.Key.Equals("bruto maandloon begeleider")).Value, 1200M);
+            Assert.Equal(_kost.Lijnen[0].VeldenWaarden.First(v => v.VeldKey.Equals("bruto maandloon begeleider")).Value, 1200M);
         }
 
         [Fact]
@@ -128,7 +128,7 @@ namespace KostenBatenToolTests.Models
         {
             _kost.VulVeldIn(0, "bruto maandloon begeleider", 1000M);
             _kost.VulVeldIn(1, "bruto maandloon begeleider", 1200M);
-            Assert.Equal(_kost.Lijnen[1].VeldenWaarden.First(v => v.Key.Equals("bruto maandloon begeleider")).Value, 1200M);
+            Assert.Equal(_kost.Lijnen[1].VeldenWaarden.First(v => v.VeldKey.Equals("bruto maandloon begeleider")).Value, 1200M);
         }
 
         [Fact]
@@ -149,7 +149,7 @@ namespace KostenBatenToolTests.Models
         public void vulMaandloonInIn_VoegtNieuweLijnToeVorigeLijnNietIngevuld()
         {
             _kost.VulVeldIn(1, "bruto maandloon begeleider", 1000M);
-            Assert.Equal(_kost.Lijnen[1].VeldenWaarden.First(v => v.Key.Equals("bruto maandloon begeleider")).Value, 1000M);
+            Assert.Equal(_kost.Lijnen[1].VeldenWaarden.First(v => v.VeldKey.Equals("bruto maandloon begeleider")).Value, 1000M);
 
         }
 
@@ -158,7 +158,7 @@ namespace KostenBatenToolTests.Models
         {
             _kost.VulVeldIn(0,"bruto maandloon begeleider", 1200M);
             _kost.VulVeldIn(0, "bruto maandloon begeleider", 1000M);
-            Assert.Equal(_kost.Lijnen[0].VeldenWaarden.First(v => v.Key.Equals("bruto maandloon begeleider")).Value, 1000M);
+            Assert.Equal(_kost.Lijnen[0].VeldenWaarden.First(v => v.VeldKey.Equals("bruto maandloon begeleider")).Value, 1000M);
         }
 
         
@@ -169,7 +169,7 @@ namespace KostenBatenToolTests.Models
             _kost.VulVeldIn(0, "uren", 38.5M);
             _kost.VulVeldIn(0, "bruto maandloon begeleider", 1200M);
             Assert.Equal(_kost.BerekenBedragPerLijn(0), 20790M);
-            Assert.Equal(_kost.Lijnen[0].VeldenWaarden.First(v => v.Key.Equals("jaarbedrag")).Value, 20790M);
+            Assert.Equal(_kost.Lijnen[0].VeldenWaarden.First(v => v.VeldKey.Equals("jaarbedrag")).Value, 20790M);
         }
 
         [Fact]
@@ -180,7 +180,7 @@ namespace KostenBatenToolTests.Models
             _kost.VulVeldIn(1, "uren", 40M);
             _kost.VulVeldIn(1, "bruto maandloon begeleider", 1000M);
             Assert.Equal(_kost.BerekenBedragPerLijn(1), 18000M);
-            Assert.Equal(_kost.Lijnen[1].VeldenWaarden.First(v => v.Key.Equals("jaarbedrag")).Value, 18000M);
+            Assert.Equal(_kost.Lijnen[1].VeldenWaarden.First(v => v.VeldKey.Equals("jaarbedrag")).Value, 18000M);
         }
 
         [Fact]
@@ -188,7 +188,7 @@ namespace KostenBatenToolTests.Models
         {
             _kost.VulVeldIn(0, "bruto maandloon begeleider", 1200M);
             Assert.Equal(_kost.BerekenBedragPerLijn(0), 0);
-            Assert.Equal(_kost.Lijnen[0].VeldenWaarden.First(v => v.Key.Equals("jaarbedrag")).Value, 0M);
+            Assert.Equal(_kost.Lijnen[0].VeldenWaarden.First(v => v.VeldKey.Equals("jaarbedrag")).Value, 0M);
         }
 
         [Fact]
@@ -196,7 +196,7 @@ namespace KostenBatenToolTests.Models
         {
             _kost.VulVeldIn(0, "uren", 38.5M);
             Assert.Equal(_kost.BerekenBedragPerLijn(0), 0);
-            Assert.Equal(_kost.Lijnen[0].VeldenWaarden.First(v => v.Key.Equals("jaarbedrag")).Value, 0M);
+            Assert.Equal(_kost.Lijnen[0].VeldenWaarden.First(v => v.VeldKey.Equals("jaarbedrag")).Value, 0M);
 
         }
 
@@ -204,7 +204,7 @@ namespace KostenBatenToolTests.Models
         public void BerekenKostPerLijn_Geeft0NietsIngevuld()
         {
             Assert.Equal(_kost.BerekenBedragPerLijn(0), 0);
-            Assert.Equal(_kost.Lijnen[0].VeldenWaarden.First(v => v.Key.Equals("jaarbedrag")).Value, 0M);
+            Assert.Equal(_kost.Lijnen[0].VeldenWaarden.First(v => v.VeldKey.Equals("jaarbedrag")).Value, 0M);
         }
 
         [Fact]
@@ -214,7 +214,7 @@ namespace KostenBatenToolTests.Models
             _kost.VulVeldIn(0, "bruto maandloon begeleider", 1200M);
             _kost.VulVeldIn(1, "bruto maandloon begeleider", 1000M);
             Assert.Equal(_kost.BerekenBedragPerLijn(1), 0);
-            Assert.Equal(_kost.Lijnen[1].VeldenWaarden.First(v => v.Key.Equals("jaarbedrag")).Value, 0M);
+            Assert.Equal(_kost.Lijnen[1].VeldenWaarden.First(v => v.VeldKey.Equals("jaarbedrag")).Value, 0M);
 
         }
 
@@ -225,7 +225,7 @@ namespace KostenBatenToolTests.Models
             _kost.VulVeldIn(0, "bruto maandloon begeleider", 1200M);
             _kost.VulVeldIn(1, "uren", 40M);
             Assert.Equal(_kost.BerekenBedragPerLijn(1),0);
-            Assert.Equal(_kost.Lijnen[1].VeldenWaarden.First(v => v.Key.Equals("jaarbedrag")).Value, 0M);
+            Assert.Equal(_kost.Lijnen[1].VeldenWaarden.First(v => v.VeldKey.Equals("jaarbedrag")).Value, 0M);
 
         }
 

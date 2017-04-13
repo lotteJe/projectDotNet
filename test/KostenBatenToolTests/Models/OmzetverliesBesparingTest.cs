@@ -30,33 +30,33 @@ namespace KostenBatenToolTests.Models
         [Fact]
         public void OmzetverliesBesparing_MaaktJuisteVeldenAan()
         {
-            Assert.Equal(_baat.Velden.Find(v => v.Key.Equals("jaarbedrag omzetverlies")).Value, typeof(decimal));
-            Assert.Equal(_baat.Velden.Find(v => v.Key.Equals("% besparing")).Value, typeof(decimal));
-            Assert.Equal(_baat.Velden.Find(v => v.Key.Equals("totaalbesparing")).Value, typeof(decimal));
+            Assert.Equal(_baat.Velden.Find(v => v.VeldKey.Equals("jaarbedrag omzetverlies")).Value, typeof(decimal));
+            Assert.Equal(_baat.Velden.Find(v => v.VeldKey.Equals("% besparing")).Value, typeof(decimal));
+            Assert.Equal(_baat.Velden.Find(v => v.VeldKey.Equals("totaalbesparing")).Value, typeof(decimal));
             
         }
 
         [Fact]
         public void OmzetverliesBesparing_MaaktJuisteLijnAan()
         {
-            Assert.True(_baat.Lijnen[0].VeldenWaarden.Any(v => v.Key.Equals("jaarbedrag omzetverlies")));
-            Assert.True(_baat.Lijnen[0].VeldenWaarden.Any(v => v.Key.Equals("% besparing"))); 
-            Assert.True(_baat.Lijnen[0].VeldenWaarden.Any(v => v.Key.Equals("totaalbesparing"))); 
+            Assert.True(_baat.Lijnen[0].VeldenWaarden.Any(v => v.VeldKey.Equals("jaarbedrag omzetverlies")));
+            Assert.True(_baat.Lijnen[0].VeldenWaarden.Any(v => v.VeldKey.Equals("% besparing"))); 
+            Assert.True(_baat.Lijnen[0].VeldenWaarden.Any(v => v.VeldKey.Equals("totaalbesparing"))); 
         }
 
         [Fact]
         public void OmzetverliesBesparing_ZetBedragOp0()
         {
-            Assert.Equal(_baat.Lijnen[0].VeldenWaarden.First(v => v.Key.Equals("jaarbedrag omzetverlies")).Value, 0M);
-            Assert.Equal(_baat.Lijnen[0].VeldenWaarden.First(v => v.Key.Equals("% besparing")).Value, 0M);
-            Assert.Equal(_baat.Lijnen[0].VeldenWaarden.First(v => v.Key.Equals("totaalbesparing")).Value, 0M);
+            Assert.Equal(_baat.Lijnen[0].VeldenWaarden.First(v => v.VeldKey.Equals("jaarbedrag omzetverlies")).Value, 0M);
+            Assert.Equal(_baat.Lijnen[0].VeldenWaarden.First(v => v.VeldKey.Equals("% besparing")).Value, 0M);
+            Assert.Equal(_baat.Lijnen[0].VeldenWaarden.First(v => v.VeldKey.Equals("totaalbesparing")).Value, 0M);
         }
 
         [Fact]
         public void VulJaarbedragIn()
         {
             _baat.VulVeldIn(0, "jaarbedrag omzetverlies", 1200M);
-            Assert.Equal(_baat.Lijnen[0].VeldenWaarden.First(v => v.Key.Equals("jaarbedrag omzetverlies")).Value, 1200M);
+            Assert.Equal(_baat.Lijnen[0].VeldenWaarden.First(v => v.VeldKey.Equals("jaarbedrag omzetverlies")).Value, 1200M);
         }
 
         [Fact]
@@ -93,14 +93,14 @@ namespace KostenBatenToolTests.Models
         public void vulJaarbedragIn_VoegtLijnToeVorigeLijnNietIngevuld()
         {
             _baat.VulVeldIn(1, "jaarbedrag omzetverlies", 1200M);
-            Assert.Equal(_baat.Lijnen[1].VeldenWaarden.First(v => v.Key.Equals("jaarbedrag omzetverlies")).Value, 1200M);
+            Assert.Equal(_baat.Lijnen[1].VeldenWaarden.First(v => v.VeldKey.Equals("jaarbedrag omzetverlies")).Value, 1200M);
         }
 
         [Fact]
         public void VulPercentageIn()
         {
             _baat.VulVeldIn(0, "% besparing", 0.75M);
-            Assert.Equal(_baat.Lijnen[0].VeldenWaarden.First(v => v.Key.Equals("% besparing")).Value, 0.75M);
+            Assert.Equal(_baat.Lijnen[0].VeldenWaarden.First(v => v.VeldKey.Equals("% besparing")).Value, 0.75M);
         }
 
         [Fact]
@@ -115,7 +115,7 @@ namespace KostenBatenToolTests.Models
             _baat.VulVeldIn(0, "jaarbedrag omzetverlies", 1200M);
             _baat.VulVeldIn(0, "% besparing", 0.01M);
             Assert.Equal(_baat.BerekenBedragPerLijn(0), 12M);
-            Assert.Equal(_baat.Lijnen[0].VeldenWaarden.First(v => v.Key.Equals("totaalbesparing")).Value, 12M);
+            Assert.Equal(_baat.Lijnen[0].VeldenWaarden.First(v => v.VeldKey.Equals("totaalbesparing")).Value, 12M);
         }
 
 

@@ -46,19 +46,19 @@ namespace KostenBatenToolTests.Models
         [Fact]
         public void LoonKostSubsidie_MaaktJuisteVeldenAan()
         {
-            Assert.Equal(_baat.Velden.Find(v => v.Key.Equals("Totale loonkostsubsidie")).Value, typeof(decimal));
+            Assert.Equal(_baat.Velden.Find(v => v.VeldKey.Equals("Totale loonkostsubsidie")).Value, typeof(decimal));
         }
 
         [Fact]
         public void LoonKostSubsidie_MaaktJuisteLijnAan()
         {
-            Assert.True(_baat.Lijnen[0].VeldenWaarden.Any(v => v.Key.Equals("Totale loonkostsubsidie")));
+            Assert.True(_baat.Lijnen[0].VeldenWaarden.Any(v => v.VeldKey.Equals("Totale loonkostsubsidie")));
         }
 
         [Fact]
         public void LoonKostSubsidie_ZetTotaalOp0()
         {
-            Assert.Equal(_baat.Lijnen[0].VeldenWaarden.First(v => v.Key.Equals("Totale loonkostsubsidie")).Value, 0M);
+            Assert.Equal(_baat.Lijnen[0].VeldenWaarden.First(v => v.VeldKey.Equals("Totale loonkostsubsidie")).Value, 0M);
         }
 
 
@@ -67,7 +67,7 @@ namespace KostenBatenToolTests.Models
         {
 
             Assert.Equal(_baat.BerekenBedragPerLijn(0), 19691.46M);
-            Assert.Equal(_baat.Lijnen[0].VeldenWaarden.First(v => v.Key.Equals("Totale loonkostsubsidie")).Value, 19691.46M);
+            Assert.Equal(_baat.Lijnen[0].VeldenWaarden.First(v => v.VeldKey.Equals("Totale loonkostsubsidie")).Value, 19691.46M);
             
         }
         
