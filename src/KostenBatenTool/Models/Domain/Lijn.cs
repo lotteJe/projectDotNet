@@ -34,34 +34,34 @@ namespace KostenBatenTool.Models.Domain
 
                 if (veld.Value == typeof(decimal))
                 {
-                    VeldenWaarden.Add(new Veld(veld.Key, 0M));
+                    VeldenWaarden.Add(new Veld(veld.VeldKey, 0M));
                 }
                 else if (veld.Value == typeof(double))
                 {
-                    VeldenWaarden.Add(new Veld(veld.Key, 0));
+                    VeldenWaarden.Add(new Veld(veld.VeldKey, 0));
                 }
                 else if (veld.Value == typeof(Doelgroep))
                 {
 
-                    VeldenWaarden.Add(new Veld(veld.Key, Doelgroep.Ander));
+                    VeldenWaarden.Add(new Veld(veld.VeldKey, Doelgroep.Ander));
                 }
                 else
                 {
-                    VeldenWaarden.Add(new Veld(veld.Key, "test"));
+                    VeldenWaarden.Add(new Veld(veld.VeldKey, "test"));
                 }
             }
         }
 
         public void VulVeldIn(string key, Object waarde)
         {
-            if (!VeldenWaarden.Any(v => v.Key.Equals(key)))//als key niet bestaat exception gooien
+            if (!VeldenWaarden.Any(v => v.VeldKey.Equals(key)))//als key niet bestaat exception gooien
             {
                 throw new ArgumentException("Sleutel bestaat niet!");
             }
-            if (waarde.GetType() == VeldenDefinitie.Find(v => v.Key == key).Value) // Checken of Object van juiste dataype is
+            if (waarde.GetType() == VeldenDefinitie.Find(v => v.VeldKey == key).Value) // Checken of Object van juiste dataype is
             {
-                if ((VeldenDefinitie.Find(v => v.Key == key).Value == typeof(decimal) && (decimal)waarde < 0) || //checken of waarde geen negatief getal is
-                    (VeldenDefinitie.Find(v => v.Key == key).Value == typeof(double) && (double)waarde < 0))
+                if ((VeldenDefinitie.Find(v => v.VeldKey == key).Value == typeof(decimal) && (decimal)waarde < 0) || //checken of waarde geen negatief getal is
+                    (VeldenDefinitie.Find(v => v.VeldKey == key).Value == typeof(double) && (double)waarde < 0))
                 {
                     throw new ArgumentException("Waarde mag niet negatief zijn");
                 }
@@ -70,13 +70,13 @@ namespace KostenBatenTool.Models.Domain
                     throw new ArgumentException("Waarde mag tussen 0 en 1 liggen.");
                 }
                 //Lijnen[index].Where(v => v.Key.Equals(key)).Select(v => { v.Value = waarde; return v; });
-                VeldenWaarden.First(v => v.Key.Equals(key)).Value = waarde;
+                VeldenWaarden.First(v => v.VeldKey.Equals(key)).Value = waarde;
                 //BerekenBedragPerLijn(index);
 
             }
             else // Object is van verkeerde datatype
             {
-                throw new ArgumentException($"Waarde moet {VeldenDefinitie.Find(v => v.Key == key).Value.ToString()} zijn!");
+                throw new ArgumentException($"Waarde moet {VeldenDefinitie.Find(v => v.VeldKey == key).Value.ToString()} zijn!");
             }
         }
 
@@ -84,7 +84,7 @@ namespace KostenBatenTool.Models.Domain
         {
             foreach (Veld veld in VeldenWaarden)
             {
-                if (VeldenDefinitie.Find(v => v.Key == veld.Key).Value == typeof(Doelgroep) && veld.Value != null)
+                if (VeldenDefinitie.Find(v => v.VeldKey == veld.VeldKey).Value == typeof(Doelgroep) && veld.Value != null)
                 {
                     veld.InternalValue = Enum.GetName(typeof(Doelgroep), veld.Value);
                 }
@@ -109,15 +109,15 @@ namespace KostenBatenTool.Models.Domain
             foreach (Veld veld in VeldenWaarden)
             {
                 //type ophalen 
-                if (VeldenDefinitie.Find(v => v.Key == veld.Key).Value == typeof(decimal))
+                if (VeldenDefinitie.Find(v => v.VeldKey == veld.VeldKey).Value == typeof(decimal))
                 {
                     veld.Value = Decimal.Parse(veld.InternalValue);
                 }
-                else if (VeldenDefinitie.Find(v => v.Key == veld.Key).Value == typeof(double))
+                else if (VeldenDefinitie.Find(v => v.VeldKey == veld.VeldKey).Value == typeof(double))
                 {
                     veld.Value = Double.Parse(veld.InternalValue);
                 }
-                else if (VeldenDefinitie.Find(v => v.Key == veld.Key).Value == typeof(Doelgroep))
+                else if (VeldenDefinitie.Find(v => v.VeldKey == veld.VeldKey).Value == typeof(Doelgroep))
                 {
                     if (veld.InternalValue != "")
                     {

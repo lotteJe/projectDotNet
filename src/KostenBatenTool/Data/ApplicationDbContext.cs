@@ -72,6 +72,7 @@ namespace KostenBatenTool.Data
         {
             v.ToTable("Veld");
             v.Property(t => t.VeldId);
+            v.Property(t => t.VeldKey);
             v.Ignore(t => t.Value);
             v.Property(t => t.InternalValue);
         }

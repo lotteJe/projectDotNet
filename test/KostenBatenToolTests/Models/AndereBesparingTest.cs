@@ -29,29 +29,29 @@ namespace KostenBatenToolTests.Models
         [Fact]
         public void AndereBesparing_MaaktJuisteVeldenAan()
         {
-            Assert.Equal(_baat.Velden.Find(v => v.Key.Equals("type besparing")).Value, typeof(string));
-            Assert.Equal(_baat.Velden.Find(v => v.Key.Equals("jaarbedrag")).Value, typeof(decimal));
+            Assert.Equal(_baat.Velden.Find(v => v.VeldKey.Equals("type besparing")).Value, typeof(string));
+            Assert.Equal(_baat.Velden.Find(v => v.VeldKey.Equals("jaarbedrag")).Value, typeof(decimal));
 
         }
 
         [Fact]
         public void AndereBesparing_MaaktJuisteLijnAan()
         {
-            Assert.True(_baat.Lijnen[0].VeldenWaarden.Any(v => v.Key.Equals("type besparing")));
-            Assert.True(_baat.Lijnen[0].VeldenWaarden.Any(v => v.Key.Equals("jaarbedrag")));
+            Assert.True(_baat.Lijnen[0].VeldenWaarden.Any(v => v.VeldKey.Equals("type besparing")));
+            Assert.True(_baat.Lijnen[0].VeldenWaarden.Any(v => v.VeldKey.Equals("jaarbedrag")));
         }
 
         [Fact]
         public void AndereBesparing_ZetJaarbedragOp0()
         {
-            Assert.Equal(_baat.Lijnen[0].VeldenWaarden.First(v => v.Key.Equals("jaarbedrag")).Value, 0M);
+            Assert.Equal(_baat.Lijnen[0].VeldenWaarden.First(v => v.VeldKey.Equals("jaarbedrag")).Value, 0M);
         }
 
         [Fact]
         public void VulJaarbedragIn()
         {
             _baat.VulVeldIn(0, "jaarbedrag", 1200M);
-            Assert.Equal(_baat.Lijnen[0].VeldenWaarden.First(v => v.Key.Equals("jaarbedrag")).Value, 1200M);
+            Assert.Equal(_baat.Lijnen[0].VeldenWaarden.First(v => v.VeldKey.Equals("jaarbedrag")).Value, 1200M);
         }
 
         [Fact]
@@ -89,7 +89,7 @@ namespace KostenBatenToolTests.Models
         public void VulJaarbedragIn_VoegtLijnToeVorigeLijnNietIngevuld()
         {
             _baat.VulVeldIn(1, "jaarbedrag", 1200M);
-            Assert.Equal(_baat.Lijnen[1].VeldenWaarden.First(v => v.Key.Equals("jaarbedrag")).Value, 1200M);
+            Assert.Equal(_baat.Lijnen[1].VeldenWaarden.First(v => v.VeldKey.Equals("jaarbedrag")).Value, 1200M);
 
         }
 
@@ -98,14 +98,14 @@ namespace KostenBatenToolTests.Models
         {
             _baat.VulVeldIn(0, "jaarbedrag", 1000M);
             _baat.VulVeldIn(1, "jaarbedrag", 1200M);
-            Assert.Equal(_baat.Lijnen[1].VeldenWaarden.First(v => v.Key.Equals("jaarbedrag")).Value, 1200M);
+            Assert.Equal(_baat.Lijnen[1].VeldenWaarden.First(v => v.VeldKey.Equals("jaarbedrag")).Value, 1200M);
         }
 
         [Fact]
         public void VulTypeBesparingIn()
         {
             _baat.VulVeldIn(0, "type besparing", "test");
-            Assert.Equal(_baat.Lijnen[0].VeldenWaarden.First(v => v.Key.Equals("type besparing")).Value, "test");
+            Assert.Equal(_baat.Lijnen[0].VeldenWaarden.First(v => v.VeldKey.Equals("type besparing")).Value, "test");
         }
 
         [Fact]
@@ -113,7 +113,7 @@ namespace KostenBatenToolTests.Models
         {
             _baat.VulVeldIn(0, "type besparing", "test0");
             _baat.VulVeldIn(1, "type besparing", "test");
-            Assert.Equal(_baat.Lijnen[1].VeldenWaarden.First(v => v.Key.Equals("type besparing")).Value, "test");
+            Assert.Equal(_baat.Lijnen[1].VeldenWaarden.First(v => v.VeldKey.Equals("type besparing")).Value, "test");
         }
 
         [Fact]
@@ -121,7 +121,7 @@ namespace KostenBatenToolTests.Models
         {
             _baat.VulVeldIn(0, "type besparing", "test0");
             _baat.VulVeldIn(1, "type besparing", "test");
-            Assert.Equal(_baat.Lijnen[1].VeldenWaarden.First(v => v.Key.Equals("jaarbedrag")).Value, 0M);
+            Assert.Equal(_baat.Lijnen[1].VeldenWaarden.First(v => v.VeldKey.Equals("jaarbedrag")).Value, 0M);
         }
 
         [Fact]
@@ -129,7 +129,7 @@ namespace KostenBatenToolTests.Models
         {
             _baat.VulVeldIn(0, "jaarbedrag", 1000M);
             _baat.VulVeldIn(1, "type besparing", "test");
-            Assert.Equal(_baat.Lijnen[1].VeldenWaarden.First(v => v.Key.Equals("type besparing")).Value, "test");
+            Assert.Equal(_baat.Lijnen[1].VeldenWaarden.First(v => v.VeldKey.Equals("type besparing")).Value, "test");
         }
 
         [Fact]
@@ -149,7 +149,7 @@ namespace KostenBatenToolTests.Models
         public void vulTypeBesparingIn_VoegtlijnToeVorigeLijnNietIngevuld()
         {
             _baat.VulVeldIn(1, "type besparing", "test2");
-            Assert.Equal(_baat.Lijnen[1].VeldenWaarden.First(v => v.Key.Equals("type besparing")).Value, "test2");
+            Assert.Equal(_baat.Lijnen[1].VeldenWaarden.First(v => v.VeldKey.Equals("type besparing")).Value, "test2");
 
         }
 
@@ -158,7 +158,7 @@ namespace KostenBatenToolTests.Models
         {
             _baat.VulVeldIn(0, "type besparing", "test");
             _baat.VulVeldIn(0, "type besparing", "test2");
-            Assert.Equal(_baat.Lijnen[0].VeldenWaarden.First(v => v.Key.Equals("type besparing")).Value, "test2");
+            Assert.Equal(_baat.Lijnen[0].VeldenWaarden.First(v => v.VeldKey.Equals("type besparing")).Value, "test2");
         }
 
         [Fact]
