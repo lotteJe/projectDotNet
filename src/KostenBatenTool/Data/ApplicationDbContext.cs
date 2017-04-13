@@ -28,10 +28,12 @@ namespace KostenBatenTool.Data
             builder.Entity<Analyse>(MapAnalyse);
             builder.Entity<Organisatie>(MapOrganisatie);
             builder.Entity<Berekening>(MapBerekening);
+            builder.Entity<LoonkostSubsidie>(MapLoonkostSubisdie);
             builder.Entity<Veld>(MapVeld);
             builder.Entity<Lijn>(MapLijn);
         }
 
+        
         private void MapLijn(EntityTypeBuilder<Lijn> b)
         {
             b.ToTable("Lijn");
@@ -94,6 +96,12 @@ namespace KostenBatenTool.Data
             a.HasMany(t => t.Analyses).WithOne().OnDelete(DeleteBehavior.Cascade);
         }
 
+        private void MapLoonkostSubisdie(EntityTypeBuilder<LoonkostSubsidie> l)
+        {
+            l.Ignore(k => k.Loonkost);
+        }
+
+
         private void MapPersoon(EntityTypeBuilder<Persoon> p)
         {
             p.ToTable("Personen");
@@ -119,7 +127,7 @@ namespace KostenBatenTool.Data
             o.Property(t => t.UrenWerkWeek).IsRequired();
             o.Property(t => t.PatronaleBijdrage).IsRequired();
             o.Property(t => t.Afdeling).IsRequired(false);
-            o.HasOne(t => t.Contactpersoon).WithMany().IsRequired(false).OnDelete(DeleteBehavior.Restrict);
+            o.HasOne(t => t.Contactpersoon).WithMany().IsRequired(false).OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
