@@ -11,12 +11,14 @@ namespace KostenBatenTool.Data.Repositories
     public class ArbeidsBemiddelaarRepository : IArbeidsBemiddelaarRepository
     {
         private readonly DbSet<ArbeidsBemiddelaar> _arbeidsBemiddelaars;
+        private readonly DbSet<Analyse> _analyses;
         private readonly ApplicationDbContext _dbContext;
 
         public ArbeidsBemiddelaarRepository(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
             _arbeidsBemiddelaars = _dbContext.ArbeidsBemiddelaars;
+            _analyses = _dbContext.Analyses;
         }
 
         public ArbeidsBemiddelaar GetBy(string emailadres)
@@ -100,6 +102,11 @@ namespace KostenBatenTool.Data.Repositories
             analyse.Kosten.ForEach(k => k.Deserialiseer());
             analyse.Baten.ForEach(b => b.Deserialiseer());
             return analyse;
+        }
+
+        public void VerwijderAnalyse(Analyse analyse)
+        {
+            _analyses.Remove(analyse);
         }
         
     }

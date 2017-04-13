@@ -19,5 +19,6 @@ namespace KostenBatenTool.Models.Domain
         Analyse GetLaatsteAnalyse(string email);
         IEnumerable<Organisatie> GetOrganisaties(string email);
         Organisatie GetOrganisatie(string email, int id);
+        void VerwijderAnalyse(Analyse analyse);
     }
 }

@@ -140,6 +140,7 @@ namespace KostenBatenTool.Controllers
             string email = user.Result.Email;
             Analyse analyse = _arbeidsBemiddelaarRepository.GetAnalyse(email, id);
             _arbeidsBemiddelaarRepository.GetBy(email).Analyses.Remove(analyse);
+            _arbeidsBemiddelaarRepository.VerwijderAnalyse(analyse);
             _arbeidsBemiddelaarRepository.SaveChanges();
             return RedirectToAction(nameof(Index));
         }
