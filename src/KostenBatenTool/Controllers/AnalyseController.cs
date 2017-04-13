@@ -118,16 +118,14 @@ namespace KostenBatenTool.Controllers
                     string email = user.Result.Email;
                     ArbeidsBemiddelaar ab = _arbeidsBemiddelaarRepository.GetArbeidsBemiddelaarVolledig(email);
                     Analyse analyse = ab.Analyses.First(a => a.AnalyseId == model.AnalyseId);
-                    analyse.VulVeldIn("LoonKost", model.LijnId, "functie", model.Functie);
-                    analyse.VulVeldIn("LoonKost", model.LijnId, "% Vlaamse ondersteuningspremie", model.Vop);
-                    analyse.VulVeldIn("LoonKost", model.LijnId, "uren per week", model.UrenPerWeek);
-                    analyse.VulVeldIn("LoonKost", model.LijnId, "aantal maanden IBO", model.AantalMaanden);
-                    analyse.VulVeldIn("LoonKost", model.LijnId, "bruto maandloon fulltime", model.BrutoMaandloon);
-
+                    int id =((LoonKost)analyse.GetBerekening("LoonKost")).Lijnen.Count;
+                    analyse.VulVeldIn("LoonKost", id, "functie", model.Functie);
+                    analyse.VulVeldIn("LoonKost", id, "uren per week", model.UrenPerWeek);
+                    analyse.VulVeldIn("LoonKost", id, "bruto maandloon fulltime", model.BrutoMaandloon );
                     _arbeidsBemiddelaarRepository.SerialiseerVelden(analyse);
                     _arbeidsBemiddelaarRepository.SaveChanges();
                     return RedirectToAction(nameof(LoonKost), analyse.AnalyseId);
-                }
+               }
                 catch (Exception e)
                 {
                     Console.WriteLine(e);
