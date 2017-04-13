@@ -27,7 +27,7 @@ namespace KostenBatenTool.Models.AnalyseViewModels
         {
             AnalyseId = analyseId;
             Lijnen = loonkost.Lijnen.Select(lijn => new LoonkostLijnViewModel(lijn)).ToList();
-            LijnId = loonkost.Lijnen.Max(l => l.LijnId) + 1;
+            LijnId = loonkost.Lijnen.Count;
         }
     }
 }
