@@ -8,11 +8,11 @@
 <h2>Aan welke kosten kan nog meer worden gedacht?</h2>
 <div class="functie">
     <form asp-controller="Analyse" asp-action="OverurenBesparing" method="post" class="form-horizontal">
-
+        <input type="hidden" asp-for="AnalyseId"/>
         <div class="row">
             <label asp-for="Jaarbedrag" class="col-md-2 control-label ww">Jaarbedrag</label>
             <div class="col-md-3">
-                <input asp-for="Jaarbedrag" class="form-control" />
+                <input asp-for="Jaarbedrag" class="form-control"  type="number"/>
                 <span asp-validation-for="Jaarbedrag" class="text-danger"></span>
             </div>
         </div>
