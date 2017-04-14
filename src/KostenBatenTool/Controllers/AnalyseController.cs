@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using KostenBatenTool.Data.Repositories;
 using KostenBatenTool.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace KostenBatenTool.Controllers
 {
@@ -55,7 +56,6 @@ namespace KostenBatenTool.Controllers
         {
             Organisatie o = _arbeidsBemiddelaarRepository.GetOrganisatie(User.Identity.Name, id);
             WerkgeverViewModel model = o == null ? new WerkgeverViewModel() : new WerkgeverViewModel(o);
-
             return View(model);
         }
 
@@ -102,6 +102,7 @@ namespace KostenBatenTool.Controllers
         {
             Analyse a = GetAnalyse(id);
             LoonKost loonkost = (LoonKost)a.GetBerekening("LoonKost");
+            ViewData["Vop"] = new SelectList(new[] { "40 %", "30 %", "20 %", "0 %" });
             return View(new LoonkostViewModel(loonkost, a.AnalyseId));
         }
 
@@ -148,14 +149,22 @@ namespace KostenBatenTool.Controllers
 
 
         [HttpGet]
-        public IActionResult AanpassingsKost()
+        public IActionResult AanpassingsKost(int id)
         {
-            return View();
+            Analyse a = GetAnalyse(id);
+            AanpassingsKost kost = (AanpassingsKost)a.GetBerekening("AanpassingsKost");
+            TypeBedragViewModel model = new TypeBedragViewModel();
+            model.Lijst = kost.Lijnen.Select(l => new TypeBedragLijstObjectViewModel
+            {
+                Type = l.VeldenWaarden.FirstOrDefault(v => v.Key.Equals("type")).Value.ToString(),
+                Bedrag = (decimal)l.VeldenWaarden.FirstOrDefault(v => v.Key.Equals("bedrag")).Value
+            }).ToList();
+            return View(model);
         }
 
 
         [HttpPost]
-        public async Task<IActionResult> AanpassingsKost(AanpassingsKostViewModel model, string returnUrl = null)
+        public async Task<IActionResult> AanpassingsKost(TypeBedragViewModel model, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
@@ -176,14 +185,16 @@ namespace KostenBatenTool.Controllers
         }
 
         [HttpGet]
-        public IActionResult AanpassingsSubsidie()
+        public IActionResult AanpassingsSubsidie(int id)
         {
-            return View();
+            Analyse a = GetAnalyse(id);
+            AanpassingsSubsidie besparing = (AanpassingsSubsidie)a.GetBerekening("AanpassingsSubsidie");
+            return View(new EenDecimalViewModel(besparing));
         }
 
 
         [HttpPost]
-        public async Task<IActionResult> AanpassingsSubsidie(AanpassingsSubsidieViewModel model, string returnUrl = null)
+        public async Task<IActionResult> AanpassingsSubsidie(EenDecimalViewModel model, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
@@ -203,14 +214,25 @@ namespace KostenBatenTool.Controllers
         }
 
         [HttpGet]
-        public IActionResult AdministratieBegeleidingsKost()
+        public IActionResult AdministratieBegeleidingsKost(int id)
         {
-            return View();
+            Analyse a = GetAnalyse(id);
+            AdministratieBegeleidingsKost kost = (AdministratieBegeleidingsKost)a.GetBerekening("AdministratieBegeleidingsKost");
+            DrieDecimalViewModel model = new DrieDecimalViewModel
+            {
+                Lijst = kost.Lijnen.Select(l => new DrieDecimalLijstObjectViewModel
+                {
+                    Veld1 = (decimal) l.VeldenWaarden.FirstOrDefault(v => v.Key.Equals("uren")).Value,
+                    Veld2 =
+                        (decimal) l.VeldenWaarden.FirstOrDefault(v => v.Key.Equals("bruto maandloon begeleider")).Value,
+                    Veld3 = (decimal) l.VeldenWaarden.FirstOrDefault(v => v.Key.Equals("jaarbedrag")).Value
+                }).ToList()
+            };
+            return View(model);
         }
 
-
         [HttpPost]
-        public async Task<IActionResult> AdministratieBegeleidingsKost(AdministratieBegeleidingsKostViewModel model, string returnUrl = null)
+        public async Task<IActionResult> AdministratieBegeleidingsKost(DrieDecimalViewModel model, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
@@ -230,14 +252,22 @@ namespace KostenBatenTool.Controllers
         }
 
         [HttpGet]
-        public IActionResult AndereBesparing()
+        public IActionResult AndereBesparing(int id)
         {
-            return View();
+            Analyse a = GetAnalyse(id);
+            AndereBesparing kost = (AndereBesparing)a.GetBerekening("AndereBesparing");
+            TypeBedragViewModel model = new TypeBedragViewModel();
+            model.Lijst = kost.Lijnen.Select(l => new TypeBedragLijstObjectViewModel
+            {
+                Type = l.VeldenWaarden.FirstOrDefault(v => v.Key.Equals("type besparing")).Value.ToString(),
+                Bedrag = (decimal)l.VeldenWaarden.FirstOrDefault(v => v.Key.Equals("jaarbedrag")).Value
+            }).ToList();
+            return View(model);
         }
 
 
         [HttpPost]
-        public async Task<IActionResult> AndereBesparing(AndereBesparingViewModel model, string returnUrl = null)
+        public async Task<IActionResult> AndereBesparing(TypeBedragViewModel model, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
@@ -256,14 +286,22 @@ namespace KostenBatenTool.Controllers
         }
 
         [HttpGet]
-        public IActionResult AndereKost()
+        public IActionResult AndereKost(int id)
         {
-            return View();
+            Analyse a = GetAnalyse(id);
+            AndereKost kost = (AndereKost)a.GetBerekening("AndereKost");
+            TypeBedragViewModel model = new TypeBedragViewModel();
+            model.Lijst = kost.Lijnen.Select(l => new TypeBedragLijstObjectViewModel
+            {
+                Type = l.VeldenWaarden.FirstOrDefault(v => v.Key.Equals("type")).Value.ToString(),
+                Bedrag = (decimal)l.VeldenWaarden.FirstOrDefault(v => v.Key.Equals("bedrag")).Value
+            }).ToList();
+            return View(model);
         }
 
 
         [HttpPost]
-        public async Task<IActionResult> AndereKost(AndereKostViewModel model, string returnUrl = null)
+        public async Task<IActionResult> AndereKost(TypeBedragViewModel model, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
@@ -283,9 +321,11 @@ namespace KostenBatenTool.Controllers
         }
 
         [HttpGet]
-        public IActionResult LogistiekeBesparing()
+        public IActionResult LogistiekeBesparing(int id)
         {
-            return View();
+            Analyse a = GetAnalyse(id);
+            LogistiekeBesparing besparing = (LogistiekeBesparing) a.GetBerekening("LogistiekeBesparing");
+            return View(new LogistiekeBesparingViewModel(besparing));
         }
 
 
@@ -336,14 +376,23 @@ namespace KostenBatenTool.Controllers
         }
 
         [HttpGet]
-        public IActionResult MedewerkerHogerNiveauBesparing()
+        public IActionResult MedewerkerHogerNiveauBesparing(int id)
         {
-            return View();
+            Analyse a = GetAnalyse(id);
+            MedewerkerHogerNiveauBesparing kost = (MedewerkerHogerNiveauBesparing)a.GetBerekening("MedewerkerHogerNiveauBesparing");
+            DrieDecimalViewModel model = new DrieDecimalViewModel();
+            model.Lijst = kost.Lijnen.Select(l => new DrieDecimalLijstObjectViewModel
+            {
+                Veld1 = (decimal)l.VeldenWaarden.FirstOrDefault(v => v.Key.Equals("uren")).Value,
+                Veld2 = (decimal)l.VeldenWaarden.FirstOrDefault(v => v.Key.Equals("bruto maandloon fulltime")).Value,
+                Veld3 = (decimal)l.VeldenWaarden.FirstOrDefault(v => v.Key.Equals("totale loonkost per jaar")).Value
+            }).ToList();
+            return View(model);
         }
 
 
         [HttpPost]
-        public async Task<IActionResult> MedewerkerHogerNiveauBesparing(MedewerkerHogerNiveauBesparingViewModel model, string returnUrl = null)
+        public async Task<IActionResult> MedewerkerHogerNiveauBesparing(DrieDecimalViewModel model, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
@@ -363,14 +412,23 @@ namespace KostenBatenTool.Controllers
         }
 
         [HttpGet]
-        public IActionResult MedewerkerZelfdeNiveauBesparing()
+        public IActionResult MedewerkerZelfdeNiveauBesparing(int id)
         {
-            return View();
+            Analyse a = GetAnalyse(id);
+            MedewerkerZelfdeNiveauBesparing kost = (MedewerkerZelfdeNiveauBesparing)a.GetBerekening("MedewerkerZelfdeNiveauBesparing");
+            DrieDecimalViewModel model = new DrieDecimalViewModel();
+            model.Lijst = kost.Lijnen.Select(l => new DrieDecimalLijstObjectViewModel
+            {
+                Veld1 = (decimal)l.VeldenWaarden.FirstOrDefault(v => v.Key.Equals("uren")).Value,
+                Veld2 = (decimal)l.VeldenWaarden.FirstOrDefault(v => v.Key.Equals("bruto maandloon fulltime")).Value,
+                Veld3 = (decimal)l.VeldenWaarden.FirstOrDefault(v => v.Key.Equals("totale loonkost per jaar")).Value
+            }).ToList();
+            return View(model);
         }
 
 
         [HttpPost]
-        public async Task<IActionResult> MedewerkerZelfdeNiveauBesparing(MedewerkerZelfdeNiveauBesparingViewModel model, string returnUrl = null)
+        public async Task<IActionResult> MedewerkerZelfdeNiveauBesparing(DrieDecimalViewModel model, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
@@ -389,14 +447,23 @@ namespace KostenBatenTool.Controllers
             return View(model);
         }
         [HttpGet]
-        public IActionResult OmzetverliesBesparing()
+        public IActionResult OmzetverliesBesparing(int id)
         {
-            return View();
+            Analyse a = GetAnalyse(id);
+            OmzetverliesBesparing kost = (OmzetverliesBesparing)a.GetBerekening("OmzetverliesBesparing");
+            DrieDecimalViewModel model = new DrieDecimalViewModel();
+            model.Lijst = kost.Lijnen.Select(l => new DrieDecimalLijstObjectViewModel
+            {
+                Veld1 = (decimal)l.VeldenWaarden.FirstOrDefault(v => v.Key.Equals("jaarbedrag omzetverlies")).Value,
+                Veld2 = (decimal)l.VeldenWaarden.FirstOrDefault(v => v.Key.Equals("% besparing")).Value,
+                Veld3 = (decimal)l.VeldenWaarden.FirstOrDefault(v => v.Key.Equals("totaalbesparing")).Value
+            }).ToList();
+            return View(model);
         }
 
 
         [HttpPost]
-        public async Task<IActionResult> OmzetverliesBesparing(OmzetverliesBesparingViewModel model, string returnUrl = null)
+        public async Task<IActionResult> OmzetverliesBesparing(DrieDecimalViewModel model, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
@@ -415,14 +482,22 @@ namespace KostenBatenTool.Controllers
             return View(model);
         }
         [HttpGet]
-        public IActionResult OpleidingsKost()
+        public IActionResult OpleidingsKost(int id)
         {
-            return View();
+            Analyse a = GetAnalyse(id);
+            OpleidingsKost kost = (OpleidingsKost)a.GetBerekening("OpleidingsKost");
+            TypeBedragViewModel model = new TypeBedragViewModel();
+            model.Lijst = kost.Lijnen.Select(l => new TypeBedragLijstObjectViewModel()
+            {
+                Type = l.VeldenWaarden.FirstOrDefault(v => v.Key.Equals("type")).Value.ToString(),
+                Bedrag = (decimal)l.VeldenWaarden.FirstOrDefault(v => v.Key.Equals("bedrag")).Value
+            }).ToList();
+            return View(model);
         }
 
 
         [HttpPost]
-        public async Task<IActionResult> OpleidingsKost(OpleidingsKostViewModel model, string returnUrl = null)
+        public async Task<IActionResult> OpleidingsKost(TypeBedragViewModel model, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
@@ -441,14 +516,22 @@ namespace KostenBatenTool.Controllers
             return View(model);
         }
         [HttpGet]
-        public IActionResult OutsourcingBesparing()
+        public IActionResult OutsourcingBesparing(int id)
         {
-            return View();
+            Analyse a = GetAnalyse(id);
+            OutsourcingBesparing kost = (OutsourcingBesparing)a.GetBerekening("OutsourcingBesparing");
+            TypeBedragViewModel model = new TypeBedragViewModel();
+            model.Lijst = kost.Lijnen.Select(l => new TypeBedragLijstObjectViewModel
+            {
+                Type = l.VeldenWaarden.FirstOrDefault(v => v.Key.Equals("beschrijving")).Value.ToString(),
+                Bedrag = (decimal)l.VeldenWaarden.FirstOrDefault(v => v.Key.Equals("jaarbedrag")).Value
+            }).ToList();
+            return View(model);
         }
 
 
         [HttpPost]
-        public async Task<IActionResult> OutsourcingBesparing(OutsourcingBesparingViewModel model, string returnUrl = null)
+        public async Task<IActionResult> OutsourcingBesparing(TypeBedragViewModel model, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
@@ -467,14 +550,16 @@ namespace KostenBatenTool.Controllers
             return View(model);
         }
         [HttpGet]
-        public IActionResult OverurenBesparing()
+        public IActionResult OverurenBesparing(int id)
         {
-            return View();
+            Analyse a = GetAnalyse(id);
+            OverurenBesparing besparing = (OverurenBesparing)a.GetBerekening("OverurenBesparing");
+            return View(new EenDecimalViewModel(besparing));
         }
 
 
         [HttpPost]
-        public async Task<IActionResult> OverurenBesparing(OverurenBesparingViewModel model, string returnUrl = null)
+        public async Task<IActionResult> OverurenBesparing(EenDecimalViewModel model, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
@@ -493,14 +578,16 @@ namespace KostenBatenTool.Controllers
             return View(model);
         }
         [HttpGet]
-        public IActionResult ProductiviteitsWinst()
+        public IActionResult ProductiviteitsWinst(int id)
         {
-            return View();
+            Analyse a = GetAnalyse(id);
+            ProductiviteitsWinst besparing = (ProductiviteitsWinst)a.GetBerekening("ProductiviteitsWinst");
+            return View(new EenDecimalViewModel(besparing));
         }
 
 
         [HttpPost]
-        public async Task<IActionResult> ProductiviteitsWinst(ProductiviteitsWinstViewModel model, string returnUrl = null)
+        public async Task<IActionResult> ProductiviteitsWinst(EenDecimalViewModel model, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
@@ -519,14 +606,22 @@ namespace KostenBatenTool.Controllers
             return View(model);
         }
         [HttpGet]
-        public IActionResult UitzendkrachtenBesparing()
+        public IActionResult UitzendkrachtenBesparing(int id)
         {
-            return View();
+            Analyse a = GetAnalyse(id);
+            UitzendkrachtenBesparing kost = (UitzendkrachtenBesparing)a.GetBerekening("UitzendkrachtenBesparing");
+            TypeBedragViewModel model = new TypeBedragViewModel();
+            model.Lijst = kost.Lijnen.Select(l => new TypeBedragLijstObjectViewModel
+            {
+                Type = l.VeldenWaarden.FirstOrDefault(v => v.Key.Equals("beschrijving")).Value.ToString(),
+                Bedrag = (decimal)l.VeldenWaarden.FirstOrDefault(v => v.Key.Equals("jaarbedrag")).Value
+            }).ToList();
+            return View(model);
         }
 
 
         [HttpPost]
-        public async Task<IActionResult> UitzendkrachtenBesparing(UitzendkrachtenBesparingViewModel model, string returnUrl = null)
+        public async Task<IActionResult> UitzendkrachtenBesparing(TypeBedragViewModel model, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
@@ -545,15 +640,22 @@ namespace KostenBatenTool.Controllers
             return View(model);
         }
         [HttpGet]
-        public IActionResult VoorbereidingsKost()
+        public IActionResult VoorbereidingsKost(int id)
         {
-            // lijst tonen van kosten  die er al zijn
-            return View();
+            Analyse a = GetAnalyse(id);
+            VoorbereidingsKost kost = (VoorbereidingsKost)a.GetBerekening("VoorbereidingsKost");
+            TypeBedragViewModel model = new TypeBedragViewModel();
+            model.Lijst = kost.Lijnen.Select(l => new TypeBedragLijstObjectViewModel()
+            {
+                Type = l.VeldenWaarden.FirstOrDefault(v => v.Key.Equals("type")).Value.ToString(),
+                Bedrag = (decimal)l.VeldenWaarden.FirstOrDefault(v => v.Key.Equals("bedrag")).Value
+            }).ToList();
+            return View(model);
         }
 
 
         [HttpPost]
-        public async Task<IActionResult> VoorbereidingsKost(VoorbereidingsKostViewModel model, string returnUrl = null)
+        public async Task<IActionResult> VoorbereidingsKost(TypeBedragViewModel model, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
@@ -572,14 +674,22 @@ namespace KostenBatenTool.Controllers
             return View(model);
         }
         [HttpGet]
-        public IActionResult WerkkledijKost()
+        public IActionResult WerkkledijKost(int id)
         {
-            return View();
+            Analyse a = GetAnalyse(id);
+            WerkkledijKost kost = (WerkkledijKost)a.GetBerekening("WerkkledijKost");
+            TypeBedragViewModel model = new TypeBedragViewModel();
+            model.Lijst = kost.Lijnen.Select(l => new TypeBedragLijstObjectViewModel()
+            {
+                Type = l.VeldenWaarden.FirstOrDefault(v => v.Key.Equals("type")).Value.ToString(),
+                Bedrag = (decimal) l.VeldenWaarden.FirstOrDefault(v => v.Key.Equals("bedrag")).Value
+            }).ToList();
+            return View(model);
         }
 
 
         [HttpPost]
-        public async Task<IActionResult> WerkkledijKost(WerkkledijKostViewModel model, string returnUrl = null)
+        public async Task<IActionResult> WerkkledijKost(TypeBedragViewModel model, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
@@ -615,3 +725,4 @@ namespace KostenBatenTool.Controllers
     }
 
 }
+
