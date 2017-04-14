@@ -18,8 +18,8 @@ namespace KostenBatenTool.Models.AnalyseViewModels
 
         public LogistiekeBesparingViewModel(LogistiekeBesparing besparing) : this()
         {
-            Transport = (decimal) besparing.Lijnen[0].VeldenWaarden.First(v => v.Key.Equals("transportkosten jaarbedrag")).Value;
-            Logistiek = (decimal)besparing.Lijnen[0].VeldenWaarden.First(v => v.Key.Equals("logistieke kosten jaarbedrag")).Value;
+            Transport = (decimal) besparing.Lijnen[0].VeldenWaarden.First(v => v.VeldKey.Equals("transportkosten jaarbedrag")).Value;
+            Logistiek = (decimal)besparing.Lijnen[0].VeldenWaarden.First(v => v.VeldKey.Equals("logistieke kosten jaarbedrag")).Value;
         }
     }
 }

@@ -156,8 +156,8 @@ namespace KostenBatenTool.Controllers
             TypeBedragViewModel model = new TypeBedragViewModel();
             model.Lijst = kost.Lijnen.Select(l => new TypeBedragLijstObjectViewModel
             {
-                Type = l.VeldenWaarden.FirstOrDefault(v => v.Key.Equals("type")).Value.ToString(),
-                Bedrag = (decimal)l.VeldenWaarden.FirstOrDefault(v => v.Key.Equals("bedrag")).Value
+                Type = l.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("type")).Value.ToString(),
+                Bedrag = (decimal)l.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("bedrag")).Value
             }).ToList();
             return View(model);
         }
@@ -222,10 +222,10 @@ namespace KostenBatenTool.Controllers
             {
                 Lijst = kost.Lijnen.Select(l => new DrieDecimalLijstObjectViewModel
                 {
-                    Veld1 = (decimal) l.VeldenWaarden.FirstOrDefault(v => v.Key.Equals("uren")).Value,
+                    Veld1 = (decimal) l.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("uren")).Value,
                     Veld2 =
-                        (decimal) l.VeldenWaarden.FirstOrDefault(v => v.Key.Equals("bruto maandloon begeleider")).Value,
-                    Veld3 = (decimal) l.VeldenWaarden.FirstOrDefault(v => v.Key.Equals("jaarbedrag")).Value
+                        (decimal) l.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("bruto maandloon begeleider")).Value,
+                    Veld3 = (decimal) l.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("jaarbedrag")).Value
                 }).ToList()
             };
             return View(model);
@@ -259,8 +259,8 @@ namespace KostenBatenTool.Controllers
             TypeBedragViewModel model = new TypeBedragViewModel();
             model.Lijst = kost.Lijnen.Select(l => new TypeBedragLijstObjectViewModel
             {
-                Type = l.VeldenWaarden.FirstOrDefault(v => v.Key.Equals("type besparing")).Value.ToString(),
-                Bedrag = (decimal)l.VeldenWaarden.FirstOrDefault(v => v.Key.Equals("jaarbedrag")).Value
+                Type = l.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("type besparing")).Value.ToString(),
+                Bedrag = (decimal)l.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("jaarbedrag")).Value
             }).ToList();
             return View(model);
         }
@@ -293,8 +293,8 @@ namespace KostenBatenTool.Controllers
             TypeBedragViewModel model = new TypeBedragViewModel();
             model.Lijst = kost.Lijnen.Select(l => new TypeBedragLijstObjectViewModel
             {
-                Type = l.VeldenWaarden.FirstOrDefault(v => v.Key.Equals("type")).Value.ToString(),
-                Bedrag = (decimal)l.VeldenWaarden.FirstOrDefault(v => v.Key.Equals("bedrag")).Value
+                Type = l.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("type")).Value.ToString(),
+                Bedrag = (decimal)l.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("bedrag")).Value
             }).ToList();
             return View(model);
         }
@@ -383,9 +383,9 @@ namespace KostenBatenTool.Controllers
             DrieDecimalViewModel model = new DrieDecimalViewModel();
             model.Lijst = kost.Lijnen.Select(l => new DrieDecimalLijstObjectViewModel
             {
-                Veld1 = (decimal)l.VeldenWaarden.FirstOrDefault(v => v.Key.Equals("uren")).Value,
-                Veld2 = (decimal)l.VeldenWaarden.FirstOrDefault(v => v.Key.Equals("bruto maandloon fulltime")).Value,
-                Veld3 = (decimal)l.VeldenWaarden.FirstOrDefault(v => v.Key.Equals("totale loonkost per jaar")).Value
+                Veld1 = (decimal)l.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("uren")).Value,
+                Veld2 = (decimal)l.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("bruto maandloon fulltime")).Value,
+                Veld3 = (decimal)l.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("totale loonkost per jaar")).Value
             }).ToList();
             return View(model);
         }
@@ -419,9 +419,9 @@ namespace KostenBatenTool.Controllers
             DrieDecimalViewModel model = new DrieDecimalViewModel();
             model.Lijst = kost.Lijnen.Select(l => new DrieDecimalLijstObjectViewModel
             {
-                Veld1 = (decimal)l.VeldenWaarden.FirstOrDefault(v => v.Key.Equals("uren")).Value,
-                Veld2 = (decimal)l.VeldenWaarden.FirstOrDefault(v => v.Key.Equals("bruto maandloon fulltime")).Value,
-                Veld3 = (decimal)l.VeldenWaarden.FirstOrDefault(v => v.Key.Equals("totale loonkost per jaar")).Value
+                Veld1 = (decimal)l.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("uren")).Value,
+                Veld2 = (decimal)l.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("bruto maandloon fulltime")).Value,
+                Veld3 = (decimal)l.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("totale loonkost per jaar")).Value
             }).ToList();
             return View(model);
         }
@@ -454,9 +454,9 @@ namespace KostenBatenTool.Controllers
             DrieDecimalViewModel model = new DrieDecimalViewModel();
             model.Lijst = kost.Lijnen.Select(l => new DrieDecimalLijstObjectViewModel
             {
-                Veld1 = (decimal)l.VeldenWaarden.FirstOrDefault(v => v.Key.Equals("jaarbedrag omzetverlies")).Value,
-                Veld2 = (decimal)l.VeldenWaarden.FirstOrDefault(v => v.Key.Equals("% besparing")).Value,
-                Veld3 = (decimal)l.VeldenWaarden.FirstOrDefault(v => v.Key.Equals("totaalbesparing")).Value
+                Veld1 = (decimal)l.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("jaarbedrag omzetverlies")).Value,
+                Veld2 = (decimal)l.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("% besparing")).Value,
+                Veld3 = (decimal)l.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("totaalbesparing")).Value
             }).ToList();
             return View(model);
         }
@@ -489,8 +489,8 @@ namespace KostenBatenTool.Controllers
             TypeBedragViewModel model = new TypeBedragViewModel();
             model.Lijst = kost.Lijnen.Select(l => new TypeBedragLijstObjectViewModel()
             {
-                Type = l.VeldenWaarden.FirstOrDefault(v => v.Key.Equals("type")).Value.ToString(),
-                Bedrag = (decimal)l.VeldenWaarden.FirstOrDefault(v => v.Key.Equals("bedrag")).Value
+                Type = l.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("type")).Value.ToString(),
+                Bedrag = (decimal)l.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("bedrag")).Value
             }).ToList();
             return View(model);
         }
@@ -523,8 +523,8 @@ namespace KostenBatenTool.Controllers
             TypeBedragViewModel model = new TypeBedragViewModel();
             model.Lijst = kost.Lijnen.Select(l => new TypeBedragLijstObjectViewModel
             {
-                Type = l.VeldenWaarden.FirstOrDefault(v => v.Key.Equals("beschrijving")).Value.ToString(),
-                Bedrag = (decimal)l.VeldenWaarden.FirstOrDefault(v => v.Key.Equals("jaarbedrag")).Value
+                Type = l.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("beschrijving")).Value.ToString(),
+                Bedrag = (decimal)l.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("jaarbedrag")).Value
             }).ToList();
             return View(model);
         }
@@ -613,8 +613,8 @@ namespace KostenBatenTool.Controllers
             TypeBedragViewModel model = new TypeBedragViewModel();
             model.Lijst = kost.Lijnen.Select(l => new TypeBedragLijstObjectViewModel
             {
-                Type = l.VeldenWaarden.FirstOrDefault(v => v.Key.Equals("beschrijving")).Value.ToString(),
-                Bedrag = (decimal)l.VeldenWaarden.FirstOrDefault(v => v.Key.Equals("jaarbedrag")).Value
+                Type = l.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("beschrijving")).Value.ToString(),
+                Bedrag = (decimal)l.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("jaarbedrag")).Value
             }).ToList();
             return View(model);
         }
@@ -647,8 +647,8 @@ namespace KostenBatenTool.Controllers
             TypeBedragViewModel model = new TypeBedragViewModel();
             model.Lijst = kost.Lijnen.Select(l => new TypeBedragLijstObjectViewModel()
             {
-                Type = l.VeldenWaarden.FirstOrDefault(v => v.Key.Equals("type")).Value.ToString(),
-                Bedrag = (decimal)l.VeldenWaarden.FirstOrDefault(v => v.Key.Equals("bedrag")).Value
+                Type = l.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("type")).Value.ToString(),
+                Bedrag = (decimal)l.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("bedrag")).Value
             }).ToList();
             return View(model);
         }
@@ -681,8 +681,8 @@ namespace KostenBatenTool.Controllers
             TypeBedragViewModel model = new TypeBedragViewModel();
             model.Lijst = kost.Lijnen.Select(l => new TypeBedragLijstObjectViewModel()
             {
-                Type = l.VeldenWaarden.FirstOrDefault(v => v.Key.Equals("type")).Value.ToString(),
-                Bedrag = (decimal) l.VeldenWaarden.FirstOrDefault(v => v.Key.Equals("bedrag")).Value
+                Type = l.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("type")).Value.ToString(),
+                Bedrag = (decimal) l.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("bedrag")).Value
             }).ToList();
             return View(model);
         }

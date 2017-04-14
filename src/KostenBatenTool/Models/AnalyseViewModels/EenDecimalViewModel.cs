@@ -17,7 +17,7 @@ namespace KostenBatenTool.Models.AnalyseViewModels
 
         public EenDecimalViewModel(Berekening besparing) : this()
         {
-            Jaarbedrag = (decimal)besparing.Lijnen[0].VeldenWaarden.First(v => v.Key.Equals("jaarbedrag")).Value;
+            Jaarbedrag = (decimal)besparing.Lijnen[0].VeldenWaarden.First(v => v.VeldKey.Equals("jaarbedrag")).Value;
         }
     }
 }
