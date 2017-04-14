@@ -9,11 +9,22 @@ namespace KostenBatenTool.Models.AnalyseViewModels
 {
     public class TypeBedragViewModel
     {
+        public int AnalyseId { get; set; }
         public IEnumerable<TypeBedragLijstObjectViewModel> Lijst { get; set; }
         public string Type { get; set; }
 
         [RegularExpression("[1-9][0-9]*([,][0-9]+)?", ErrorMessage = "Moet een positief getal zijn.")]
-        public string Bedrag { get; set; }
+        public decimal Bedrag { get; set; }
+
+        public TypeBedragViewModel()
+        {
+            
+        }
+
+        public TypeBedragViewModel(int id) : this()
+        {
+            AnalyseId = id;
+        }
 
        }
 }

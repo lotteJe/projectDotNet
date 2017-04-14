@@ -14,11 +14,9 @@
 </div>
 <div id="" class="row">
     <div class="col-md-11 col-md-offset-1">
-        @*@Html.Partial("_loonkostPartial", Model)*@
         <div class="functie">
             <form asp-controller="Analyse" asp-action="LoonKost" method="post" class="form-horizontal">
                 <input type="hidden" asp-for="AnalyseId" />
-
                 <div class="row">
                     <label asp-for="Functie" class="col-md-2 control-label ww">Functie</label>
                     <div class="col-md-3">
@@ -27,8 +25,7 @@
                     </div>
                     <label asp-for="Vop" class="col-md-2 control-label ww">Vlaamse ondersteuningspremie</label>
                     <div class="col-md-3">
-                        <select asp-for="Vop" asp-items="@(ViewData["Vop"] as SelectList)" class="form-control">
-                        </select>
+                        <input asp-for="Vop" class="form-control" type="number" />
                          <span asp-validation-for="Vop" class="text-danger"></span>
                     </div>
                 </div>

@@ -31,7 +31,7 @@
 
         <div class="functie">
             <form asp-controller="Analyse" asp-action="AndereKost" method="post" class="form-horizontal">
-
+                <input type="hidden" asp-for="AnalyseId" />
                 <div class="row">
                     <label asp-for="Type" class="col-md-4 col-md-offset-2 ww">Type</label>
                     <div class="col-md-4">
@@ -42,7 +42,7 @@
                 <div class="row">
                     <label asp-for="Bedrag" class="col-md-4  col-md-offset-2 control-label ww">Bedrag</label>
                     <div class="col-md-4">
-                        <input asp-for="Bedrag" class="form-control" />
+                        <input asp-for="Bedrag" class="form-control"  type="number"/>
                         <span asp-validation-for="Bedrag" class="text-danger"></span>
                     </div>
                 </div>

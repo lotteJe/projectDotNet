@@ -1,4 +1,5 @@
-﻿<table class="table overzicht">
+﻿@model KostenBatenTool.Models.AnalyseViewModels.OverzichtViewModel
+<table class="table overzicht">
     <tr>
         <th> </th>
         <th>KOSTEN</th>
@@ -9,53 +10,53 @@
         <td>1</td>
         <td><a asp-area="" asp-controller="Analyse" asp-action="LoonKost" asp-route-id="@Model.AnalyseId">loonkosten medewerkers met grote afstand tot arbeidsmarkt </a></td>
 
-        <td>-5.693</td>
+        <td>@($"€ {Model.Kost1:N2}")</td>
     </tr>
     <tr>
         
             <td>2</td>
             <td><a asp-area="" asp-controller="Analyse" asp-action="VoorbereidingsKost" asp-route-id="@Model.AnalyseId">voorbereiding start medewerker </a></td>
        
-        <td></td>
+        <td>@($"€ {Model.Kost2:N2}")</td>
     </tr>
     <tr>
 
         <td>3</td>
         <td><a asp-area="" asp-controller="Analyse" asp-action="WerkkledijKost" asp-route-id="@Model.AnalyseId">extra kosten werkkledij en andere personeelskosten </a></td>
 
-        <td></td>
+        <td>@($"€ {Model.Kost3:N2}")</td>
     </tr>
     <tr>
       
             <td>4</td>
             <td><a asp-area="" asp-controller="Analyse" asp-action="AanpassingsKost" asp-route-id="@Model.AnalyseId">extra kosten voor aanpassing werkomgeving/gereedschap</a></td>
       
-        <td></td>
+        <td>@($"€ {Model.Kost4:N2}")</td>
     </tr>
     <tr>
        
             <td>5</td>
             <td><a asp-area="" asp-controller="Analyse" asp-action="OpleidingsKost" asp-route-id="">extra kosten opleiding </a></td>
        
-        <td></td>
+        <td>@($"€ {Model.Kost5:N2}")</td>
     </tr>
     <tr>
        
             <td>6</td>
             <td><a asp-area="" asp-controller="Analyse" asp-action="AdministratieBegeleidingsKost" asp-route-id="@Model.AnalyseId">extra kosten administratie en begeleiding </a></td>
        
-        <td></td>
+        <td>@($"€ {Model.Kost6:N2}")</td>
     </tr>
     <tr>
        
             <td>7</td>
             <td><a asp-area="" asp-controller="Analyse" asp-action="AndereKost" asp-route-id="@Model.AnalyseId">andere kosten  </a></td>
       
-        <td></td>
+        <td>@($"€ {Model.Kost7:N2}")</td>
     </tr>
     <tr>
         <td></td>
         <td>SUBTOTAAL KOSTEN</td>
-        <td></td>
+        <td>@($"€ {Model.SubTotaalKosten:N2}")</td>
     </tr>
 </table>
