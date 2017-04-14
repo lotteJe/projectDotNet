@@ -31,6 +31,21 @@ namespace KostenBatenTool.Data.Repositories
             ArbeidsBemiddelaar ab = _arbeidsBemiddelaars.Include("Analyses.Organisatie").Include("Analyses.Baten.Velden").Include("Analyses.Kosten.Velden").Include("Analyses.Kosten.Lijnen.VeldenDefinitie").Include("Analyses.Kosten.Lijnen.VeldenWaarden").Include("Analyses.Baten.Lijnen.VeldenDefinitie").Include("Analyses.Baten.Lijnen.VeldenWaarden").First(a => a.Email.Equals(email));
             foreach (Analyse analyse in ab.Analyses)
             {
+                foreach (Berekening kost in analyse.Kosten)
+                {
+                    foreach (Lijn lijn in kost.Lijnen)
+                    {
+                        lijn.VeldenDefinitie = kost.Velden;
+                    }
+
+                }
+                foreach (Berekening baat in analyse.Baten)
+                {
+                    foreach (Lijn lijn in baat.Lijnen)
+                    {
+                        lijn.VeldenDefinitie = baat.Velden;
+                    }
+                }
                 analyse.Kosten.ForEach(k => k.Deserialiseer());
                 analyse.Baten.ForEach(b => b.Deserialiseer());
                 ((LoonkostSubsidie)analyse.Baten.First(b => b.GetType() == Type.GetType("KostenBatenTool.Models.Domain.LoonkostSubsidie"))).Loonkost = (LoonKost)analyse.Kosten.First(k => k.GetType() == Type.GetType("KostenBatenTool.Models.Domain.LoonKost"));
@@ -89,6 +104,21 @@ namespace KostenBatenTool.Data.Repositories
             //Ophalen
             Analyse analyse = _arbeidsBemiddelaars.Include("Analyses.Organisatie").Include("Analyses.Baten.Velden").Include("Analyses.Kosten.Velden").Include("Analyses.Kosten.Lijnen.VeldenDefinitie").Include("Analyses.Kosten.Lijnen.VeldenWaarden").Include("Analyses.Baten.Lijnen.VeldenDefinitie").Include("Analyses.Baten.Lijnen.VeldenWaarden").First(a => a.Email.Equals(email)).Analyses.FirstOrDefault(a => a.AnalyseId == id);
             //Deserialiseren
+            foreach (Berekening kost in analyse.Kosten)
+            {
+                foreach (Lijn lijn in kost.Lijnen)
+                {
+                    lijn.VeldenDefinitie = kost.Velden;
+                }
+
+            }
+            foreach (Berekening baat in analyse.Baten)
+            {
+                foreach (Lijn lijn in baat.Lijnen)
+                {
+                    lijn.VeldenDefinitie = baat.Velden;
+                }
+            }
             analyse.Kosten.ForEach(k => k.Deserialiseer());
             analyse.Baten.ForEach(b => b.Deserialiseer());
             return analyse;
