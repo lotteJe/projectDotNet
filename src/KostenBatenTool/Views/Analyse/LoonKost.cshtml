@@ -18,48 +18,49 @@
         <div class="functie">
             <form asp-controller="Analyse" asp-action="LoonKost" method="post" class="form-horizontal">
                 <input type="hidden" asp-for="AnalyseId" />
-               
+
                 <div class="row">
                     <label asp-for="Functie" class="col-md-2 control-label ww">Functie</label>
                     <div class="col-md-3">
-                        <input asp-for="Functie" class="form-control"/>
+                        <input asp-for="Functie" class="form-control" />
                         <span asp-validation-for="Functie" class="text-danger"></span>
                     </div>
                     <label asp-for="Vop" class="col-md-2 control-label ww">Vlaamse ondersteuningspremie</label>
                     <div class="col-md-3">
-                        <input asp-for="Vop" class="form-control"/>
-                        <span asp-validation-for="Vop" class="text-danger"></span>
+                        <select asp-for="Vop" asp-items="@(ViewData["Vop"] as SelectList)" class="form-control">
+                        </select>
+                         <span asp-validation-for="Vop" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="row">
                     <label asp-for="UrenPerWeek" class="col-md-2 control-label ww">Uren per week</label>
                     <div class="col-md-3">
-                        <input asp-for="UrenPerWeek" class="form-control"/>
+                        <input asp-for="UrenPerWeek" class="form-control" type="number" />
                         <span asp-validation-for="UrenPerWeek" class="text-danger"></span>
                     </div>
 
                     <label asp-for="AantalMaanden" class="col-md-2 control-label ww">Aantal maanden IBO</label>
                     <div class="col-md-3">
-                        <input asp-for="AantalMaanden" class="form-control"/>
+                        <input asp-for="AantalMaanden" class="form-control" type="number" />
                         <span asp-validation-for="AantalMaanden" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="row">
                     <label asp-for="BrutoMaandloon" class="col-md-2 control-label ww">Bruto maandloon</label>
                     <div class="col-md-3">
-                        <input asp-for="BrutoMaandloon" class="form-control"/>
+                        <input asp-for="BrutoMaandloon" class="form-control" type="number" />
                         <span asp-validation-for="BrutoMaandloon" class="text-danger"></span>
                     </div>
                     <label asp-for="Ibo" class="col-md-2 control-label ww">Totale productiviteitspremie</label>
                     <div class="col-md-3">
-                        <input asp-for="Ibo" class="form-control"/>
+                        <input asp-for="Ibo" class="form-control" type="number" />
                         <span asp-validation-for="Ibo" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="row">
                     <label asp-for="Doelgroep" class="col-md-2 control-label ww">Doelgroep</label>
                     <div class="col-md-3">
-                        <input asp-for="Doelgroep" class="form-control"/>
+                        <select asp-items="Html.GetEnumSelectList<Doelgroep>()"></select>
                         <span asp-validation-for="Doelgroep" class="text-danger"></span>
                     </div>
                 </div>
@@ -75,9 +76,9 @@
 </div>
 <div class="col-md-12">
     <table class="table table-responsive table-bordered functies">
-        
+
         <tr>
-            
+
             <th>Functie</th>
             <th>Aantal uren per week</th>
             <th>Bruto maandloon</th>

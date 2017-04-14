@@ -10,8 +10,16 @@ namespace KostenBatenTool.Models.AnalyseViewModels
     {
         public decimal Transport { get; set; }
         public decimal Logistiek { get; set; }
-        public decimal Bedrag { get; set; }
+       
+        public LogistiekeBesparingViewModel()
+        {
+            
+        }
 
-
+        public LogistiekeBesparingViewModel(LogistiekeBesparing besparing) : this()
+        {
+            Transport = (decimal) besparing.Lijnen[0].VeldenWaarden.First(v => v.Key.Equals("transportkosten jaarbedrag")).Value;
+            Logistiek = (decimal)besparing.Lijnen[0].VeldenWaarden.First(v => v.Key.Equals("logistieke kosten jaarbedrag")).Value;
+        }
     }
 }

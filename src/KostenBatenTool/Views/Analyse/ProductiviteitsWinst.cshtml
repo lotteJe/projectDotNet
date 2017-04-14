@@ -1,4 +1,4 @@
-﻿@model KostenBatenTool.Models.AnalyseViewModels.ProductiviteitsWinstViewModel
+﻿@model KostenBatenTool.Models.AnalyseViewModels.EenDecimalViewModel
 @{
     ViewData["Title"] = "7. Productiviteitswinst";
 }
@@ -9,10 +9,10 @@
 <form asp-controller="Analyse" asp-action="ProductiviteitsWinst" method="post" class="form-horizontal">
 
     <div class="row">
-        <label asp-for="Bedrag" class="col-md-2 control-label ww">Jaarbedrag</label>
+        <label asp-for="Jaarbedrag" class="col-md-2 control-label ww">Jaarbedrag</label>
         <div class="col-md-3">
-            <input asp-for="Bedrag" class="form-control" />
-            <span asp-validation-for="Bedrag" class="text-danger"></span>
+            <input asp-for="Jaarbedrag" class="form-control" />
+            <span asp-validation-for="Jaarbedrag" class="text-danger"></span>
         </div>
     </div>
     <div class="form-group">
