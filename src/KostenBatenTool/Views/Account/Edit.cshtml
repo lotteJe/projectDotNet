@@ -22,7 +22,7 @@
         </div>
         <div class="col-md-12">
             <label for="email" class="control-label">Email</label>
-            <input asp-for="Email" id="email" type="text" class="form-control" name="email">
+            <input asp-for="Email" id="email" type="text" class="form-control" name="email" >
             <span asp-validation-for="Email" class="text-danger"></span>
         </div>
         <div class="col-md-12">
@@ -56,15 +56,11 @@
         </div>
         <div class="form-group">
             <div class="col-md-12" id="aanmelden">
-                <a id="show-change">wachtwoord wijzigen</a>
+                <a  asp-controller="Manage" asp-action="ChangePassword" id="show-change" >wachtwoord wijzigen</a>
                 <button type="submit" class="btn btn-default knop P">Opslaan</button>
             </div>
         </div>
     </form>
-    <div id="changePartial" class="row">
-        <div class="col-md-12 ">
-            @Html.Partial("_changePasswordPartial",Model.cpvm)
-        </div>
-    </div>
+   
 </div>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBxyKtliOFsiE46psfqY-Z6Tf0ZWAEqlkc&libraries=places&callback=initAutocomplete" async defer></script>

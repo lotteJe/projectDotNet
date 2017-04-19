@@ -2,8 +2,14 @@
 @{
     ViewData["Title"] = "7. Andere kosten";
 }
-
-<h1>@ViewData["Title"]</h1>
+<div class="row">
+    <h1 class="col-md-7">@ViewData["Title"]</h1>
+    <div class="volgendeTabs">
+        <a href="@Url.Action("AdministratieBegeleidingsKost", "Analyse", new { id = Model.AnalyseId })"> <i class="fa fa-angle-left" aria-hidden="true"></i> </a>
+        <a href="@Url.Action("Overzicht", "Analyse", new { id = Model.AnalyseId })">OVERZICHT</a>
+        <a href="" style="pointer-events: none; background-color: lightgrey"> <i class="fa fa-angle-right" aria-hidden="true"></i> </a>
+    </div>
+</div>
 <hr />
 <div class="row">
     <h2 class="col-md-7">Aan welke kosten kan nog meer worden gedacht?</h2>
