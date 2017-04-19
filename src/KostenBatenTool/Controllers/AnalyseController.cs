@@ -66,7 +66,7 @@ namespace KostenBatenTool.Controllers
                 try
                 {
                     Organisatie o = new Organisatie(model.Naam, model.Straat, model.Huisnummer, model.Postcode,
-                        model.Gemeente);
+                       model.Gemeente);
                     o.UrenWerkWeek = model.Werkuren;
                     o.PatronaleBijdrage = model.Bijdrage / 100;
                     o.Afdeling = model.Afdeling;
@@ -89,6 +89,36 @@ namespace KostenBatenTool.Controllers
             return View(model);
         }
 
+        [HttpPost]
+        public IActionResult WerkgeverEdit(WerkgeverViewModel model, string returnUrl = null)
+        {
+            ViewData["ReturnUrl"] = returnUrl;
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var user = GetCurrentUserAsync();
+                    string email = user.Result.Email;
+                    Organisatie o = _arbeidsBemiddelaarRepository.GetOrganisatie(email, model.OrganisatieId);
+                    o.Naam = model.Naam;
+                    o.Afdeling = model.Afdeling;
+                    o.Gemeente = model.Gemeente;
+                    o.Straat = model.Straat;
+                    o.Huisnummer = model.Huisnummer;
+                    o.UrenWerkWeek = model.Werkuren;
+                    o.PatronaleBijdrage = model.Bijdrage / 100;
+                    _arbeidsBemiddelaarRepository.SaveChanges();
+                    return RedirectToAction(nameof(Overzicht));
+                  }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
+
+            }
+            return View(model);
+        }
         [HttpGet]
         public IActionResult Overzicht(int id)
         {
@@ -117,9 +147,9 @@ namespace KostenBatenTool.Controllers
                     ArbeidsBemiddelaar ab = _arbeidsBemiddelaarRepository.GetArbeidsBemiddelaarVolledig(email);
                     Analyse analyse = ab.Analyses.First(a => a.AnalyseId == model.AnalyseId);
                     int id = ((LoonKost)analyse.GetBerekening("LoonKost")).Lijnen.Count;
-                    analyse.VulVeldIn("LoonKost", id, "functie", model.Functie);
-                    analyse.VulVeldIn("LoonKost", id, "uren per week", model.UrenPerWeek);
-                    analyse.VulVeldIn("LoonKost", id, "bruto maandloon fulltime", model.BrutoMaandloon);
+                    analyse.VulVeldIn("LoonKost", 0, "functie", model.Functie);
+                    analyse.VulVeldIn("LoonKost", 0, "uren per week", model.UrenPerWeek);
+                    analyse.VulVeldIn("LoonKost", 0, "bruto maandloon fulltime", model.BrutoMaandloon);
                     _arbeidsBemiddelaarRepository.SerialiseerVelden(analyse);
                     _arbeidsBemiddelaarRepository.SaveChanges();
                     return RedirectToAction(nameof(LoonKost), analyse.AnalyseId);
@@ -177,7 +207,7 @@ namespace KostenBatenTool.Controllers
                     analyse.VulVeldIn("AanpassingsKost", id, "bedrag", model.Bedrag);
                     _arbeidsBemiddelaarRepository.SerialiseerVelden(analyse);
                     _arbeidsBemiddelaarRepository.SaveChanges();
-                    return RedirectToAction(nameof(LoonKost), analyse.AnalyseId);
+                    return RedirectToAction(nameof(AanpassingsKost), analyse.AnalyseId);
                 }
                 catch (Exception e)
                 {
@@ -260,7 +290,7 @@ namespace KostenBatenTool.Controllers
                     analyse.VulVeldIn("AdministratieBegeleidingsKost", id, "jaarbedrag", model.Veld3);
                     _arbeidsBemiddelaarRepository.SerialiseerVelden(analyse);
                     _arbeidsBemiddelaarRepository.SaveChanges();
-                    return RedirectToAction(nameof(LoonKost), analyse.AnalyseId);
+                    return RedirectToAction(nameof(AdministratieBegeleidingsKost), analyse.AnalyseId);
                 }
                 catch (Exception e)
                 {
@@ -303,7 +333,7 @@ namespace KostenBatenTool.Controllers
                     analyse.VulVeldIn("AndereBesparing", id, "jaarbedrag", model.Bedrag);
                     _arbeidsBemiddelaarRepository.SerialiseerVelden(analyse);
                     _arbeidsBemiddelaarRepository.SaveChanges();
-                    return RedirectToAction(nameof(LoonKost), analyse.AnalyseId);
+                    return RedirectToAction(nameof(AndereBesparing), analyse.AnalyseId);
                 }
                 catch (Exception e)
                 {
@@ -346,7 +376,7 @@ namespace KostenBatenTool.Controllers
                     analyse.VulVeldIn("AndereKost", id, "bedrag", model.Bedrag);
                     _arbeidsBemiddelaarRepository.SerialiseerVelden(analyse);
                     _arbeidsBemiddelaarRepository.SaveChanges();
-                    return RedirectToAction(nameof(LoonKost), analyse.AnalyseId);
+                    return RedirectToAction(nameof(AndereKost), analyse.AnalyseId);
                 }
                 catch (Exception e)
                 {
@@ -456,7 +486,7 @@ namespace KostenBatenTool.Controllers
                     analyse.VulVeldIn("MedewerkerHogerNiveauBesparing", id, "totale loonkost per jaar", model.Veld3);
                     _arbeidsBemiddelaarRepository.SerialiseerVelden(analyse);
                     _arbeidsBemiddelaarRepository.SaveChanges();
-                    return RedirectToAction(nameof(LoonKost), analyse.AnalyseId);
+                    return RedirectToAction(nameof(MedewerkerHogerNiveauBesparing), analyse.AnalyseId);
                 }
                 catch (Exception e)
                 {
@@ -501,7 +531,7 @@ namespace KostenBatenTool.Controllers
                     analyse.VulVeldIn("MedewerkerZelfdeNiveauBesparing", id, "totale loonkost per jaar", model.Veld3);
                     _arbeidsBemiddelaarRepository.SerialiseerVelden(analyse);
                     _arbeidsBemiddelaarRepository.SaveChanges();
-                    return RedirectToAction(nameof(LoonKost), analyse.AnalyseId);
+                    return RedirectToAction(nameof(MedewerkerZelfdeNiveauBesparing), analyse.AnalyseId);
                 }
                 catch (Exception e)
                 {
@@ -578,7 +608,7 @@ namespace KostenBatenTool.Controllers
                     analyse.VulVeldIn("OpleidingsKost", id, "bedrag", model.Bedrag);
                     _arbeidsBemiddelaarRepository.SerialiseerVelden(analyse);
                     _arbeidsBemiddelaarRepository.SaveChanges();
-                    return RedirectToAction(nameof(LoonKost), analyse.AnalyseId);
+                    return RedirectToAction(nameof(OpleidingsKost), analyse.AnalyseId);
                 }
                 catch (Exception e)
                 {
@@ -620,7 +650,7 @@ namespace KostenBatenTool.Controllers
                     analyse.VulVeldIn("OutsourcingBesparing", id, "jaarbedrag", model.Bedrag);
                     _arbeidsBemiddelaarRepository.SerialiseerVelden(analyse);
                     _arbeidsBemiddelaarRepository.SaveChanges();
-                    return RedirectToAction(nameof(LoonKost), analyse.AnalyseId);
+                    return RedirectToAction(nameof(OutsourcingBesparing), analyse.AnalyseId);
                 }
                 catch (Exception e)
                 {
@@ -730,7 +760,7 @@ namespace KostenBatenTool.Controllers
                     analyse.VulVeldIn("UitzendkrachtenBesparing", id, "jaarbedrag", model.Bedrag);
                     _arbeidsBemiddelaarRepository.SerialiseerVelden(analyse);
                     _arbeidsBemiddelaarRepository.SaveChanges();
-                    return RedirectToAction(nameof(LoonKost), analyse.AnalyseId);
+                    return RedirectToAction(nameof(UitzendkrachtenBesparing), analyse.AnalyseId);
                 }
                 catch (Exception e)
                 {
@@ -772,7 +802,7 @@ namespace KostenBatenTool.Controllers
                     analyse.VulVeldIn("VoorbereidingsKost", id, "bedrag", model.Bedrag);
                     _arbeidsBemiddelaarRepository.SerialiseerVelden(analyse);
                     _arbeidsBemiddelaarRepository.SaveChanges();
-                    return RedirectToAction(nameof(LoonKost), analyse.AnalyseId);
+                    return RedirectToAction(nameof(VoorbereidingsKost), analyse.AnalyseId);
                 }
                 catch (Exception e)
                 {
@@ -814,7 +844,7 @@ namespace KostenBatenTool.Controllers
                     analyse.VulVeldIn("WerkkledijKost", id, "bedrag", model.Bedrag);
                     _arbeidsBemiddelaarRepository.SerialiseerVelden(analyse);
                     _arbeidsBemiddelaarRepository.SaveChanges();
-                    return RedirectToAction(nameof(LoonKost), analyse.AnalyseId);
+                    return RedirectToAction(nameof(WerkkledijKost), analyse.AnalyseId);
                 }
                 catch (Exception e)
                 {

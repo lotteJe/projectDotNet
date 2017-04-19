@@ -210,7 +210,7 @@ namespace KostenBatenTool.Controllers
         [HttpGet]
         public IActionResult ChangePassword()
         {
-            return View("_changePasswordPartial");
+            return View();
         }
 
         //
