@@ -29,27 +29,17 @@ namespace KostenBatenTool.Models.Domain
 
         public abstract decimal BerekenBedragPerLijn(int index);
 
-        public void VoegLijnToe(int index) //Voegt nieuwe List toe op index waarvan alle keys ingevuld zijn en elke string null is, elke double en decimal zijn 0
+        public void VoegLijnToe() //Voegt nieuwe List toe op index waarvan alle keys ingevuld zijn en elke string null is, elke double en decimal zijn 0
         {
-            Lijnen.Insert(index, new Lijn(Velden));
-            Lijnen[index].VoegLijnToe();
-                
+            Lijn lijn = new Lijn(Velden);
+            lijn.VoegLijnToe();
+            Lijnen.Add(lijn);
         }
 
-        public void VulVeldIn(int index, string key, Object waarde)
+        public void VulVeldIn(int lijnId, string key, Object waarde)
         {
-            
-            if (index == Lijnen.Count) //Als Lijn nog niet bestaat, ze toevoegen
-            {
-                VoegLijnToe(index);
-
-            }
-            if (index < 0 || index > Lijnen.Count)
-            {
-                throw new ArgumentException("Index is ongeldig!");
-            }
-
-            Lijnen[index].VulVeldIn(key, waarde);
+           
+            Lijnen.FirstOrDefault(l => l.LijnId == lijnId).VulVeldIn(key, waarde);
             
         }
 
