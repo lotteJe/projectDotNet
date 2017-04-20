@@ -13,7 +13,7 @@ namespace KostenBatenTool.Models.Domain
         {
             Velden.Add(new Veld("beschrijving", typeof(string)));
             Velden.Add(new Veld("jaarbedrag", typeof(decimal)));
-            VoegLijnToe(0);
+            VoegLijnToe();
         }
         #endregion
 

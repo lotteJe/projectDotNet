@@ -113,22 +113,22 @@ $('#show-kosten').click(function () {
 //    $('#loonkostPartial').hide();
 //});
 
-$("#toevoegenFunctie").click(function () {
-    $("#partial").slideToggle();
-});
-$(".rotate").click(function () {
-    $(this).toggleClass("down");
-    var elements = document.getElementsByTagName("input");
-    for (var ii = 0; ii < elements.length; ii++) {
-        if (elements[ii].type === "text") {
-            elements[ii].value = "";
-        }
-        if (elements[ii].type === "number") {
-            elements[ii].value = 0;
-        }
-    }
+//$("#toevoegenFunctie").click(function () {
+//    $("#partial").slideToggle();
+//});
+//$(".rotate").click(function () {
+//    $(this).toggleClass("down");
+//    var elements = document.getElementsByTagName("input");
+//    for (var ii = 0; ii < elements.length; ii++) {
+//        if (elements[ii].type === "text") {
+//            elements[ii].value = "";
+//        }
+//        if (elements[ii].type === "number") {
+//            elements[ii].value = 0;
+//        }
+//    }
     
-});
+//});
 
 /* TABEL EXPORTEREN */
 

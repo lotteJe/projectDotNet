@@ -10,6 +10,5 @@ namespace KostenBatenTool.Models.AnalyseViewModels
         public decimal Veld1 { get; set; }
         public decimal Veld2 { get; set; }
         public decimal Veld3 { get; set; }
-
     }
 }

@@ -19,7 +19,7 @@ namespace KostenBatenTool.Models.Domain
             Velden.Add(new Veld("uren", typeof(decimal)));
             Velden.Add(new Veld("bruto maandloon fulltime", typeof(decimal)));
             Velden.Add(new Veld("totale loonkost per jaar", typeof(decimal)));
-            VoegLijnToe(0);
+            VoegLijnToe();
         }
         #endregion
 

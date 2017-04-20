@@ -22,7 +22,7 @@ namespace KostenBatenTool.Models.Domain
         {
             Loonkost = loonkost;
             Velden.Add(new Veld("Totale loonkostsubsidie", typeof(decimal)));
-            VoegLijnToe(0);
+            VoegLijnToe();
         }
         #endregion
 

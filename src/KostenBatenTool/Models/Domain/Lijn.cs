@@ -8,7 +8,8 @@ namespace KostenBatenTool.Models.Domain
     public class Lijn
     {
         #region Properties
-        public int LijnId { get; set; }
+
+        public int LijnId { get; set; } = 0;
         public List<Veld> VeldenDefinitie { get; set; }
         public List<Veld> VeldenWaarden { get; set; } = new List<Veld>();
         #endregion
@@ -47,7 +48,7 @@ namespace KostenBatenTool.Models.Domain
                 }
                 else
                 {
-                    VeldenWaarden.Add(new Veld(veld.VeldKey, "test"));
+                    VeldenWaarden.Add(new Veld(veld.VeldKey, "-"));
                 }
             }
         }

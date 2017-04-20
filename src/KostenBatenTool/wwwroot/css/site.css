@@ -426,7 +426,7 @@ hr {
 }
 
 /* partial werkgevers */
-#partial, #kostenpartial, #batenpartial, #changePartial, #loonkostPartial {
+#partial, #kostenpartial, #batenpartial, #changePartial/*, #loonkostPartial*/ {
     display: none;
 }
 

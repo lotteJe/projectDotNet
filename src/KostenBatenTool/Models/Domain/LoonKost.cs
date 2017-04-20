@@ -34,7 +34,7 @@ namespace KostenBatenTool.Models.Domain
             Velden.Add(new Veld("totale productiviteitspremie IBO", typeof(decimal)));
             Velden.Add(new Veld("totale loonkost eerste jaar", typeof(decimal)));
 
-            VoegLijnToe(0);
+            VoegLijnToe();
         }
 
         #endregion

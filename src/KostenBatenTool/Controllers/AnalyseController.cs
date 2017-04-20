@@ -109,7 +109,7 @@ namespace KostenBatenTool.Controllers
                     o.PatronaleBijdrage = model.Bijdrage / 100;
                     _arbeidsBemiddelaarRepository.SaveChanges();
                     return RedirectToAction(nameof(Overzicht));
-                  }
+                }
                 catch (Exception e)
                 {
                     Console.WriteLine(e);
@@ -135,7 +135,7 @@ namespace KostenBatenTool.Controllers
                 Lijn lijn = loonkost.Lijnen.FirstOrDefault(l => l.LijnId == lijnId);
                 return View(new LoonkostViewModel(lijn, loonkost, a.AnalyseId));
             }
-            
+
             return View(new LoonkostViewModel(loonkost, a.AnalyseId));
         }
 
@@ -148,11 +148,12 @@ namespace KostenBatenTool.Controllers
             {
                 try
                 {
-
-                    //var user = GetCurrentUserAsync();
-                    //string email = user.Result.Email;
                     ArbeidsBemiddelaar ab = _arbeidsBemiddelaarRepository.GetArbeidsBemiddelaarVolledig(User.Identity.Name);
                     Analyse analyse = ab.Analyses.FirstOrDefault(a => a.AnalyseId == model.AnalyseId);
+                    if (model.LijnId == 0)
+                    {
+                        analyse.GetBerekening("LoonKost").VoegLijnToe();
+                    }
                     analyse.VulVeldIn("LoonKost", model.LijnId, "functie", model.Functie);
                     analyse.VulVeldIn("LoonKost", model.LijnId, "uren per week", model.UrenPerWeek);
                     analyse.VulVeldIn("LoonKost", model.LijnId, "bruto maandloon fulltime", model.BrutoMaandloon);
@@ -170,47 +171,6 @@ namespace KostenBatenTool.Controllers
             return View(model);
         }
 
-
-        //[HttpPost]
-        //public IActionResult LoonKostEdit(LoonkostViewModel model, string returnUrl = null)
-        //{
-        //    ViewData["ReturnUrl"] = returnUrl;
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-
-        //            //var user = GetCurrentUserAsync();
-        //            //string email = user.Result.Email;
-        //            ArbeidsBemiddelaar ab = _arbeidsBemiddelaarRepository.GetArbeidsBemiddelaarVolledig(User.Identity.Name);
-        //            Analyse analyse = ab.Analyses.FirstOrDefault(a => a.AnalyseId == model.AnalyseId);
-        //            int id = model
-        //            if (((LoonKost)analyse.GetBerekening("LoonKost")).Lijnen.Count != 0)
-        //            {
-        //                id = ((LoonKost)analyse.GetBerekening("LoonKost")).Lijnen.Max(l => l.LijnId) + 1;
-
-        //            }
-        //            else
-        //            {
-        //                id = 0;
-        //            }
-        //            analyse.VulVeldIn("LoonKost", id, "functie", model.Functie);
-        //            analyse.VulVeldIn("LoonKost", id, "uren per week", model.UrenPerWeek);
-        //            analyse.VulVeldIn("LoonKost", id, "bruto maandloon fulltime", model.BrutoMaandloon);
-
-        //            _arbeidsBemiddelaarRepository.SerialiseerVelden(analyse);
-        //            _arbeidsBemiddelaarRepository.SaveChanges();
-
-        //            return RedirectToAction(nameof(LoonKost), analyse.AnalyseId);
-        //        }
-        //        catch (Exception e)
-        //        {
-        //            Console.WriteLine(e);
-        //            throw;
-        //        }
-        //    }
-        //    return View(model);
-        //}
         public IActionResult Delete(int id)
         {
             var user = GetCurrentUserAsync();
@@ -766,7 +726,7 @@ namespace KostenBatenTool.Controllers
                     analyse.VulVeldIn("ProductiviteitsWinst", 0, "jaarbedrag", model.Jaarbedrag);
                     _arbeidsBemiddelaarRepository.SerialiseerVelden(analyse);
                     _arbeidsBemiddelaarRepository.SaveChanges();
-                    return RedirectToAction(nameof(Overzicht),model.AnalyseId);
+                    return RedirectToAction(nameof(Overzicht), model.AnalyseId);
                 }
                 catch (Exception e)
                 {
@@ -917,7 +877,7 @@ namespace KostenBatenTool.Controllers
             }
             return _arbeidsBemiddelaarRepository.GetAnalyse(email, id);
         }
-       }
+    }
 
 }
 

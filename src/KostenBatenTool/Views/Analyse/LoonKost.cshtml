@@ -18,9 +18,9 @@
 
     <a id="toevoegenFunctie" class="col-md-offset-5"><i class="fa fa-plus fa-2x  rotate" aria-hidden="true"></i></a>
 </div>
-<div id="partial" class="row">
+<div  class="row"> @*id="partial"*@
     <div class="col-md-11 col-md-offset-1">
-        <div class="functie">
+        <div > @*class="functie"*@
             <form asp-controller="Analyse" asp-action="LoonKost" method="post" id="inputForm" class="form-horizontal">
                 <input type="hidden" asp-for="AnalyseId" />
                 <input type="hidden" asp-for="LijnId"/>
