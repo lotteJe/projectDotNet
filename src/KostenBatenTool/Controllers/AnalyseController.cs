@@ -242,7 +242,7 @@ namespace KostenBatenTool.Controllers
                     analyse.VulVeldIn("AanpassingsSubsidie", 0, "jaarbedrag", model.Jaarbedrag);
                     _arbeidsBemiddelaarRepository.SerialiseerVelden(analyse);
                     _arbeidsBemiddelaarRepository.SaveChanges();
-                    return RedirectToAction(nameof(Overzicht));
+                    return RedirectToAction(nameof(Overzicht), model.AnalyseId);
                 }
                 catch (Exception e)
                 {
@@ -412,7 +412,7 @@ namespace KostenBatenTool.Controllers
                     analyse.VulVeldIn("LogistiekeBesparing", 0, "logistieke kosten jaarbedrag", model.Logistiek);
                     _arbeidsBemiddelaarRepository.SerialiseerVelden(analyse);
                     _arbeidsBemiddelaarRepository.SaveChanges();
-                    return RedirectToAction(nameof(Overzicht));
+                    return RedirectToAction(nameof(Overzicht), model.AnalyseId);
 
 
                 }
@@ -566,7 +566,7 @@ namespace KostenBatenTool.Controllers
                     analyse.VulVeldIn("OmzetverliesBesparing", 0, "% besparing", model.Veld2);
                     _arbeidsBemiddelaarRepository.SerialiseerVelden(analyse);
                     _arbeidsBemiddelaarRepository.SaveChanges();
-                    return RedirectToAction(nameof(Overzicht));
+                    return RedirectToAction(nameof(Overzicht), model.AnalyseId);
                 }
                 catch (Exception e)
                 {
@@ -684,7 +684,7 @@ namespace KostenBatenTool.Controllers
                     analyse.VulVeldIn("OverurenBesparing", 0, "jaarbedrag", model.Jaarbedrag);
                     _arbeidsBemiddelaarRepository.SerialiseerVelden(analyse);
                     _arbeidsBemiddelaarRepository.SaveChanges();
-                    return RedirectToAction(nameof(Overzicht));
+                    return RedirectToAction(nameof(Overzicht), model.AnalyseId);
                 }
                 catch (Exception e)
                 {
@@ -718,7 +718,7 @@ namespace KostenBatenTool.Controllers
                     analyse.VulVeldIn("ProductiviteitsWinst", 0, "jaarbedrag", model.Jaarbedrag);
                     _arbeidsBemiddelaarRepository.SerialiseerVelden(analyse);
                     _arbeidsBemiddelaarRepository.SaveChanges();
-                    return RedirectToAction(nameof(Overzicht));
+                    return RedirectToAction(nameof(Overzicht),model.AnalyseId);
                 }
                 catch (Exception e)
                 {
