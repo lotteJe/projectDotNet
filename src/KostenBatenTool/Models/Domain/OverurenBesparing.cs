@@ -12,7 +12,7 @@ namespace KostenBatenTool.Models.Domain
         public OverurenBesparing(Analyse analyse)
         {
             Velden.Add(new Veld("jaarbedrag", typeof(decimal)));
-            VoegLijnToe(0);
+            VoegLijnToe();
         }
         #endregion
 

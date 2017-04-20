@@ -14,7 +14,7 @@ namespace KostenBatenTool.Models.Domain
             Velden.Add(new Veld("jaarbedrag omzetverlies", typeof(decimal)));
             Velden.Add(new Veld("% besparing", typeof(decimal)));
             Velden.Add(new Veld("totaalbesparing", typeof(decimal)));
-            VoegLijnToe(0);
+            VoegLijnToe();
         }
         #endregion
 

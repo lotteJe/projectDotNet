@@ -25,7 +25,7 @@ namespace KostenBatenTool.Models.Domain
             Velden.Add(new Veld("uren", typeof(decimal)));
             Velden.Add(new Veld("bruto maandloon begeleider", typeof(decimal)));
             Velden.Add(new Veld("jaarbedrag", typeof(decimal)));
-            VoegLijnToe(0);
+            VoegLijnToe();
         }
         #endregion
 

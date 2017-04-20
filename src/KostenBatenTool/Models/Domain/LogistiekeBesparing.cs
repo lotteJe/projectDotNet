@@ -15,7 +15,7 @@ namespace KostenBatenTool.Models.Domain
             Velden.Add(new Veld("transportkosten jaarbedrag", typeof(decimal)));
             Velden.Add(new Veld("logistieke kosten jaarbedrag", typeof(decimal)));
             Velden.Add(new Veld("totaalbedrag", typeof(decimal)));
-            VoegLijnToe(0);
+            VoegLijnToe();
         }
         #endregion
         #region Methods
