@@ -63,7 +63,7 @@ namespace KostenBatenTool.Models.Domain
         public void Deserialiseer()
         {
             //omzetten naar correct type, checken bij Velden
-            Lijnen.ForEach(l => l.Deserialiseer());
+            Lijnen.ForEach(l => l.Deserialiseer(Velden));
         }
 
         public void ControleerIndex(int index)

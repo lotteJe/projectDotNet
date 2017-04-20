@@ -142,16 +142,28 @@ namespace KostenBatenTool.Controllers
             {
                 try
                 {
-                    var user = GetCurrentUserAsync();
-                    string email = user.Result.Email;
-                    ArbeidsBemiddelaar ab = _arbeidsBemiddelaarRepository.GetArbeidsBemiddelaarVolledig(email);
-                    Analyse analyse = ab.Analyses.First(a => a.AnalyseId == model.AnalyseId);
-                    int id = ((LoonKost)analyse.GetBerekening("LoonKost")).Lijnen.Count;
-                    analyse.VulVeldIn("LoonKost", 0, "functie", model.Functie);
-                    analyse.VulVeldIn("LoonKost", 0, "uren per week", model.UrenPerWeek);
-                    analyse.VulVeldIn("LoonKost", 0, "bruto maandloon fulltime", model.BrutoMaandloon);
+
+                    //var user = GetCurrentUserAsync();
+                    //string email = user.Result.Email;
+                    ArbeidsBemiddelaar ab = _arbeidsBemiddelaarRepository.GetArbeidsBemiddelaarVolledig(User.Identity.Name);
+                    Analyse analyse = ab.Analyses.FirstOrDefault(a => a.AnalyseId == model.AnalyseId);
+                    int id;
+                    if (((LoonKost) analyse.GetBerekening("LoonKost")).Lijnen.Count != 0)
+                    {
+                       id = ((LoonKost) analyse.GetBerekening("LoonKost")).Lijnen.Max(l => l.LijnId) + 1;
+
+                    }
+                    else
+                    {
+                        id = 0;
+                    }
+                    analyse.VulVeldIn("LoonKost", 2, "functie", model.Functie);
+                    analyse.VulVeldIn("LoonKost", 2, "uren per week", model.UrenPerWeek);
+                    analyse.VulVeldIn("LoonKost", 2, "bruto maandloon fulltime", model.BrutoMaandloon);
+
                     _arbeidsBemiddelaarRepository.SerialiseerVelden(analyse);
                     _arbeidsBemiddelaarRepository.SaveChanges();
+
                     return RedirectToAction(nameof(LoonKost), analyse.AnalyseId);
                 }
                 catch (Exception e)
