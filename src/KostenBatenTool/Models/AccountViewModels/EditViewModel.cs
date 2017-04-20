@@ -6,7 +6,7 @@ namespace KostenBatenTool.Models.AccountViewModels
 {
     public class EditViewModel
     {
-       [Required(ErrorMessage = "Naam is verplicht")]
+        [Required(ErrorMessage = "Naam is verplicht")]
         [Display(Name = "Naam")]
         public string Naam { get; set; }
 
@@ -14,7 +14,7 @@ namespace KostenBatenTool.Models.AccountViewModels
         [Display(Name = "Voornaam")]
         public string Voornaam { get; set; }
 
-        [Required(ErrorMessage = "E-mailadres is verplicht")]
+       [Required(ErrorMessage = "E-mailadres is verplicht")]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
@@ -29,7 +29,7 @@ namespace KostenBatenTool.Models.AccountViewModels
 
         [Required(ErrorMessage = "Huisnummer is verplicht")]
         [Display(Name = "Huisnummer")]
-        [RegularExpression(@"[1-9][0-9]*[a-zA-Z]", ErrorMessage = "Moet een getal zijn, mag maximum 1 letter bevatten!")]
+        [RegularExpression(@"[1-9][0-9]*[a-zA-Z]?", ErrorMessage = "Moet een getal zijn, mag maximum 1 letter bevatten!")]
         public string Huisnummer { get; set; }
 
         [Required(ErrorMessage = "Postcode is verplicht")]
@@ -41,20 +41,15 @@ namespace KostenBatenTool.Models.AccountViewModels
         [Display(Name = "Gemeente")]
         public string Gemeente { get; set; }
 
-        public ChangePasswordViewModel cpvm { get; set; }
-    
+
+
 
         public EditViewModel()
         {
 
         }
 
-        public EditViewModel(ChangePasswordViewModel cpvm) : this()
-        {
-            this.cpvm = cpvm;
-
-        }
-        public EditViewModel(ArbeidsBemiddelaar a, ChangePasswordViewModel cpvm) : this(cpvm)
+        public EditViewModel(ArbeidsBemiddelaar a) : this()
         {
             Naam = a.Naam;
             Voornaam = a.Voornaam;

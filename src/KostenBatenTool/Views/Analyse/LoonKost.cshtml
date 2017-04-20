@@ -4,18 +4,24 @@
 @{
     ViewData["Title"] = "1. Loonkosten medewerkers met grote afstand tot arbeidsmarkt";
 }
-
-<h1>@ViewData["Title"]</h1>
+<div class="row">
+    <h1 class="col-md-7">@ViewData["Title"]</h1>
+    <div class="volgendeTabs">
+        <a href="@Url.Action("AndereBesparing", "Analyse", new { id = Model.AnalyseId })"> <i class="fa fa-angle-left" aria-hidden="true"></i> </a>
+        <a href="@Url.Action("Overzicht", "Analyse", new { id = Model.AnalyseId })">OVERZICHT</a>
+        <a href="@Url.Action("VoorbereidingsKost", "Analyse", new { id = Model.AnalyseId })"> <i class="fa fa-angle-right" aria-hidden="true"></i> </a>
+    </div>
+</div>
 <hr />
 <div class="row">
     <h2 class="col-md-6">Welke functie zet u in?</h2>
 
     <a id="toevoegenFunctie" class="col-md-offset-5"><i class="fa fa-plus fa-2x  rotate" aria-hidden="true"></i></a>
 </div>
-<div id="" class="row">
+<div id="partial" class="row">
     <div class="col-md-11 col-md-offset-1">
         <div class="functie">
-            <form asp-controller="Analyse" asp-action="LoonKost" method="post" class="form-horizontal">
+            <form asp-controller="Analyse" asp-action="LoonKost" method="post" id="inputForm" class="form-horizontal">
                 <input type="hidden" asp-for="AnalyseId" />
                 <div class="row">
                     <label asp-for="Functie" class="col-md-2 control-label ww">Functie</label>

@@ -44,6 +44,7 @@ namespace KostenBatenTool.Models.AnalyseViewModels
         [Display(Name = "Afdeling")]
         public string Afdeling { get; set; }
 
+        public int OrganisatieId { get; set; }
         public WerkgeverViewModel()
         {
             Werkuren = 38;
@@ -60,6 +61,7 @@ namespace KostenBatenTool.Models.AnalyseViewModels
             Huisnummer = o.Huisnummer;
             Straat = o.Straat;
             Naam = o.Naam;
+            OrganisatieId = o.OrganisatieId;
         }
 
     }

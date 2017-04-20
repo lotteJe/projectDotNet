@@ -44,24 +44,24 @@ namespace KostenBatenTool.Models.AnalyseViewModels
             SubTotaalBaten = analyse.BatenResultaat;
             SubTotaalKosten = analyse.KostenResultaat;
             Resultaat = analyse.Resultaat;
-            Kost1 = analyse.Kosten[0].Resultaat;
-            Kost2 = analyse.Kosten[1].Resultaat;
+            Kost1 = analyse.Kosten[4].Resultaat;
+            Kost2 = analyse.Kosten[3].Resultaat;
             Kost3 = analyse.Kosten[2].Resultaat;
-            Kost4 = analyse.Kosten[3].Resultaat;
-            Kost5 = analyse.Kosten[4].Resultaat;
+            Kost4 = analyse.Kosten[1].Resultaat;
+            Kost5 = analyse.Kosten[0].Resultaat;
             Kost6 = analyse.Kosten[5].Resultaat;
             Kost7 = analyse.Kosten[6].Resultaat;
             Baat1 = analyse.Baten[0].Resultaat;
-            Baat2 = analyse.Baten[1].Resultaat;
-            Baat2 = analyse.Baten[2].Resultaat;
-            Baat4 = analyse.Baten[3].Resultaat;
-            Baat5 = analyse.Baten[4].Resultaat;
-            Baat6 = analyse.Baten[5].Resultaat;
-            Baat7 = analyse.Baten[6].Resultaat;
-            Baat8 = analyse.Baten[7].Resultaat;
-            Baat9 = analyse.Baten[8].Resultaat;
-            Baat10 = analyse.Baten[9].Resultaat;
-            Baat11 = analyse.Baten[10].Resultaat;
+            Baat2 = analyse.Baten[10].Resultaat;
+            Baat3 = analyse.Baten[9].Resultaat;
+            Baat4 = analyse.Baten[8].Resultaat;
+            Baat5 = analyse.Baten[7].Resultaat;
+            Baat6 = analyse.Baten[6].Resultaat;
+            Baat7 = analyse.Baten[5].Resultaat;
+            Baat8 = analyse.Baten[4].Resultaat;
+            Baat9 = analyse.Baten[3].Resultaat;
+            Baat10 = analyse.Baten[2].Resultaat;
+            Baat11 = analyse.Baten[1].Resultaat;
 
 
         }

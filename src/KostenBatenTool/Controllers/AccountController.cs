@@ -45,7 +45,7 @@ namespace KostenBatenTool.Controllers
         public IActionResult Edit()
         {
             ArbeidsBemiddelaar a = _arbeidsBemiddelaarRepository.GetBy(User.Identity.Name);
-            return View(new EditViewModel(a, new ChangePasswordViewModel()));
+            return View(new EditViewModel(a));
         }
 
         [HttpPost]
@@ -67,7 +67,7 @@ namespace KostenBatenTool.Controllers
                 a.EigenOrganisatie.Gemeente = model.Gemeente;
                 _arbeidsBemiddelaarRepository.SaveChanges();
                 TempData["message"] = "Je gegevens werden succesvol gewijzigd.";
-                return RedirectToAction(nameof(HomeController.Index), "Home");
+                return RedirectToAction(nameof(Edit));
             }
             return View(model);
         }

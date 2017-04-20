@@ -8,20 +8,20 @@ namespace KostenBatenTool.Models.ManageViewModels
 {
     public class ChangePasswordViewModel
     {
-        [Required(ErrorMessage = "Oud wachtwoord is verplicht")]
+        [Required(ErrorMessage = "Huidig wachtwoord is verplicht.")]
         [DataType(DataType.Password)]
-        [Display(Name = "Current password")]
+        [Display(Name = "Huidig wachtwoord")]
         public string OldPassword { get; set; }
 
         [Required(ErrorMessage = "Nieuw wachtwoord is verplicht")]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+        [StringLength(100, ErrorMessage = "Wachtwoord moet minstens 6 tekens bevatten waaronder één cijfer.", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "New password")]
+        [Display(Name = "Nieuw Wachtwoord")]
         public string NewPassword { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm new password")]
-        [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
+        [Display(Name = "Bevestig wachtwoord")]
+        [Compare("NewPassword", ErrorMessage = "Nieuwe en bevestig wachtwoord komen niet overeen")]
         public string ConfirmPassword { get; set; }
     }
 }

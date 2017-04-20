@@ -2,13 +2,19 @@
 @{
     ViewData["Title"] = "5. Extra kosten opleiding";
 }
-
-<h1>@ViewData["Title"]</h1>
+<div class="row">
+    <h1 class="col-md-7">@ViewData["Title"]</h1>
+    <div class="volgendeTabs">
+        <a href="@Url.Action("AanpassingsKost", "Analyse", new { id = Model.AnalyseId })"> <i class="fa fa-angle-left" aria-hidden="true"></i> </a>
+        <a href="@Url.Action("Overzicht", "Analyse", new { id = Model.AnalyseId })">OVERZICHT</a>
+        <a href="@Url.Action("AdministratieBegeleidingsKost", "Analyse", new { id = Model.AnalyseId })"> <i class="fa fa-angle-right" aria-hidden="true"></i> </a>
+    </div>
+</div>
 <hr />
 <h2></h2>
 
 <div class="row">
-    <h2 class="col-md-7">Welke opleidingskosten moeten er gemaakt worden om de nieuwe kraachten op het gewenste niveau te krijgen?</h2>
+    <h2 class="col-md-7">Welke opleidingskosten moeten er gemaakt worden om de nieuwe krachten op het gewenste niveau te krijgen?</h2>
     <a id="toevoegenFunctie" class="col-md-offset-4"><i class="fa fa-plus fa-2x  rotate" aria-hidden="true"></i></a>
 </div>
 
