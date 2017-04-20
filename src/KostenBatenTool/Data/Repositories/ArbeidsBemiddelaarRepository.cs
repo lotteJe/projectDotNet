@@ -11,14 +11,12 @@ namespace KostenBatenTool.Data.Repositories
     public class ArbeidsBemiddelaarRepository : IArbeidsBemiddelaarRepository
     {
         private readonly DbSet<ArbeidsBemiddelaar> _arbeidsBemiddelaars;
-        private readonly DbSet<Analyse> _analyses;
         private readonly ApplicationDbContext _dbContext;
 
         public ArbeidsBemiddelaarRepository(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
             _arbeidsBemiddelaars = _dbContext.ArbeidsBemiddelaars;
-            _analyses = _dbContext.Analyses;
         }
 
         public ArbeidsBemiddelaar GetBy(string emailadres)
@@ -28,24 +26,9 @@ namespace KostenBatenTool.Data.Repositories
 
         public ArbeidsBemiddelaar GetArbeidsBemiddelaarVolledig(string email)
         {
-            ArbeidsBemiddelaar ab = _arbeidsBemiddelaars.Include("Analyses.Organisatie").Include("Analyses.Baten.Velden").Include("Analyses.Kosten.Velden").Include("Analyses.Kosten.Lijnen.VeldenDefinitie").Include("Analyses.Kosten.Lijnen.VeldenWaarden").Include("Analyses.Baten.Lijnen.VeldenDefinitie").Include("Analyses.Baten.Lijnen.VeldenWaarden").First(a => a.Email.Equals(email));
+            ArbeidsBemiddelaar ab = _arbeidsBemiddelaars.Include("Analyses.Organisatie").Include("Analyses.Baten.Velden").Include("Analyses.Kosten.Velden").Include("Analyses.Kosten.Lijnen.VeldenWaarden").Include("Analyses.Baten.Lijnen.VeldenWaarden").First(a => a.Email.Equals(email));
             foreach (Analyse analyse in ab.Analyses)
             {
-                foreach (Berekening kost in analyse.Kosten)
-                {
-                    foreach (Lijn lijn in kost.Lijnen)
-                    {
-                        lijn.VeldenDefinitie = kost.Velden;
-                    }
-
-                }
-                foreach (Berekening baat in analyse.Baten)
-                {
-                    foreach (Lijn lijn in baat.Lijnen)
-                    {
-                        lijn.VeldenDefinitie = baat.Velden;
-                    }
-                }
                 analyse.Kosten.ForEach(k => k.Deserialiseer());
                 analyse.Baten.ForEach(b => b.Deserialiseer());
                 ((LoonkostSubsidie)analyse.Baten.First(b => b.GetType() == Type.GetType("KostenBatenTool.Models.Domain.LoonkostSubsidie"))).Loonkost = (LoonKost)analyse.Kosten.First(k => k.GetType() == Type.GetType("KostenBatenTool.Models.Domain.LoonKost"));
@@ -102,43 +85,29 @@ namespace KostenBatenTool.Data.Repositories
         public Analyse GetAnalyse(string email, int id)
         {
             //Ophalen
-            Analyse analyse = _arbeidsBemiddelaars.Include("Analyses.Organisatie").Include("Analyses.Baten.Velden").Include("Analyses.Kosten.Velden").Include("Analyses.Kosten.Lijnen.VeldenDefinitie").Include("Analyses.Kosten.Lijnen.VeldenWaarden").Include("Analyses.Baten.Lijnen.VeldenDefinitie").Include("Analyses.Baten.Lijnen.VeldenWaarden").First(a => a.Email.Equals(email)).Analyses.FirstOrDefault(a => a.AnalyseId == id);
+            Analyse analyse = _arbeidsBemiddelaars.Include("Analyses.Organisatie").Include("Analyses.Baten.Velden").Include("Analyses.Kosten.Velden").Include("Analyses.Kosten.Lijnen.VeldenWaarden").Include("Analyses.Baten.Lijnen.VeldenWaarden").First(a => a.Email.Equals(email)).Analyses.FirstOrDefault(a => a.AnalyseId == id);
             //Deserialiseren
-            foreach (Berekening kost in analyse.Kosten)
-            {
-                foreach (Lijn lijn in kost.Lijnen)
-                {
-                    lijn.VeldenDefinitie = kost.Velden;
-                }
-
-            }
-            foreach (Berekening baat in analyse.Baten)
-            {
-                foreach (Lijn lijn in baat.Lijnen)
-                {
-                    lijn.VeldenDefinitie = baat.Velden;
-                }
-            }
             analyse.Kosten.ForEach(k => k.Deserialiseer());
             analyse.Baten.ForEach(b => b.Deserialiseer());
+            ((LoonkostSubsidie)analyse.Baten.First(b => b.GetType() == Type.GetType("KostenBatenTool.Models.Domain.LoonkostSubsidie"))).Loonkost = (LoonKost)analyse.Kosten.First(k => k.GetType() == Type.GetType("KostenBatenTool.Models.Domain.LoonKost"));
             return analyse;
         }
 
         public Analyse GetLaatsteAnalyse(string email)
         {
             //Ophalen
-            Analyse analyse = _arbeidsBemiddelaars.Include("Analyses.Organisatie").Include("Analyses.Baten.Velden").Include("Analyses.Kosten.Velden").Include("Analyses.Kosten.Lijnen.VeldenDefinitie").Include("Analyses.Kosten.Lijnen.VeldenWaarden").Include("Analyses.Baten.Lijnen.VeldenDefinitie").Include("Analyses.Baten.Lijnen.VeldenWaarden").First(a => a.Email.Equals(email)).Analyses.OrderBy(a => a.AanmaakDatum).Last();
+            Analyse analyse = _arbeidsBemiddelaars.Include("Analyses.Organisatie").Include("Analyses.Baten.Velden").Include("Analyses.Kosten.Velden").Include("Analyses.Kosten.Lijnen.VeldenWaarden").Include("Analyses.Baten.Lijnen.VeldenWaarden").First(a => a.Email.Equals(email)).Analyses.OrderBy(a => a.AanmaakDatum).Last();
             //Deserialiseren
             analyse.Kosten.ForEach(k => k.Deserialiseer());
             analyse.Baten.ForEach(b => b.Deserialiseer());
+            ((LoonkostSubsidie)analyse.Baten.First(b => b.GetType() == Type.GetType("KostenBatenTool.Models.Domain.LoonkostSubsidie"))).Loonkost = (LoonKost)analyse.Kosten.First(k => k.GetType() == Type.GetType("KostenBatenTool.Models.Domain.LoonKost"));
             return analyse;
         }
 
         public void VerwijderAnalyse(Analyse analyse)
         {
-            _analyses.Remove(analyse);
+            _dbContext.Analyses.Remove(analyse);
         }
-        
     }
 }
 

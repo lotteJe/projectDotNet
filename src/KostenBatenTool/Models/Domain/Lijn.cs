@@ -99,9 +99,9 @@ namespace KostenBatenTool.Models.Domain
             }
         }
 
-        public void Deserialiseer()
+        public void Deserialiseer(List<Veld> velden)
         {
-            VeldenDefinitie.RemoveAll(a => a.InternalValue == null);
+            VeldenDefinitie = velden;
             foreach (Veld veld in VeldenDefinitie)
             {
                 veld.Value = Type.GetType(veld.InternalValue);
