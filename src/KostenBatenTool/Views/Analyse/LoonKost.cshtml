@@ -23,6 +23,7 @@
         <div class="functie">
             <form asp-controller="Analyse" asp-action="LoonKost" method="post" id="inputForm" class="form-horizontal">
                 <input type="hidden" asp-for="AnalyseId" />
+                <input type="hidden" asp-for="LijnId"/>
                 <div class="row">
                     <label asp-for="Functie" class="col-md-2 control-label ww">Functie</label>
                     <div class="col-md-3">
@@ -92,7 +93,7 @@
         </tr>
         @foreach (LoonkostLijnViewModel lijn in Model.Lijnen)
         {
-            <tr>
+            <tr onclick="location.href = '@(Url.Action("LoonKost","Analyse", new {analyseId = Model.AnalyseId, lijnId = lijn.LijnId}))'">
                 <td>@lijn.Functie</td>
                 <td>@lijn.UrenPerWeek</td>
                 <td>@lijn.BrutoMaandloon</td>
