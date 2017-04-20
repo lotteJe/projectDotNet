@@ -126,10 +126,16 @@ namespace KostenBatenTool.Controllers
         }
 
         [HttpGet]
-        public IActionResult LoonKost(int id)
+        public IActionResult LoonKost(int analyseId, int lijnId = -1)
         {
-            Analyse a = GetAnalyse(id);
+            Analyse a = GetAnalyse(analyseId);
             LoonKost loonkost = (LoonKost)a.GetBerekening("LoonKost");
+            if (lijnId > 0)
+            {
+                Lijn lijn = loonkost.Lijnen.FirstOrDefault(l => l.LijnId == lijnId);
+                return View(new LoonkostViewModel(lijn, loonkost, a.AnalyseId));
+            }
+            
             return View(new LoonkostViewModel(loonkost, a.AnalyseId));
         }
 
@@ -147,20 +153,9 @@ namespace KostenBatenTool.Controllers
                     //string email = user.Result.Email;
                     ArbeidsBemiddelaar ab = _arbeidsBemiddelaarRepository.GetArbeidsBemiddelaarVolledig(User.Identity.Name);
                     Analyse analyse = ab.Analyses.FirstOrDefault(a => a.AnalyseId == model.AnalyseId);
-                    int id;
-                    if (((LoonKost) analyse.GetBerekening("LoonKost")).Lijnen.Count != 0)
-                    {
-                       id = ((LoonKost) analyse.GetBerekening("LoonKost")).Lijnen.Max(l => l.LijnId) + 1;
-
-                    }
-                    else
-                    {
-                        id = 0;
-                    }
-                    analyse.VulVeldIn("LoonKost", 2, "functie", model.Functie);
-                    analyse.VulVeldIn("LoonKost", 2, "uren per week", model.UrenPerWeek);
-                    analyse.VulVeldIn("LoonKost", 2, "bruto maandloon fulltime", model.BrutoMaandloon);
-
+                    analyse.VulVeldIn("LoonKost", model.LijnId, "functie", model.Functie);
+                    analyse.VulVeldIn("LoonKost", model.LijnId, "uren per week", model.UrenPerWeek);
+                    analyse.VulVeldIn("LoonKost", model.LijnId, "bruto maandloon fulltime", model.BrutoMaandloon);
                     _arbeidsBemiddelaarRepository.SerialiseerVelden(analyse);
                     _arbeidsBemiddelaarRepository.SaveChanges();
 
@@ -175,6 +170,47 @@ namespace KostenBatenTool.Controllers
             return View(model);
         }
 
+
+        //[HttpPost]
+        //public IActionResult LoonKostEdit(LoonkostViewModel model, string returnUrl = null)
+        //{
+        //    ViewData["ReturnUrl"] = returnUrl;
+        //    if (ModelState.IsValid)
+        //    {
+        //        try
+        //        {
+
+        //            //var user = GetCurrentUserAsync();
+        //            //string email = user.Result.Email;
+        //            ArbeidsBemiddelaar ab = _arbeidsBemiddelaarRepository.GetArbeidsBemiddelaarVolledig(User.Identity.Name);
+        //            Analyse analyse = ab.Analyses.FirstOrDefault(a => a.AnalyseId == model.AnalyseId);
+        //            int id = model
+        //            if (((LoonKost)analyse.GetBerekening("LoonKost")).Lijnen.Count != 0)
+        //            {
+        //                id = ((LoonKost)analyse.GetBerekening("LoonKost")).Lijnen.Max(l => l.LijnId) + 1;
+
+        //            }
+        //            else
+        //            {
+        //                id = 0;
+        //            }
+        //            analyse.VulVeldIn("LoonKost", id, "functie", model.Functie);
+        //            analyse.VulVeldIn("LoonKost", id, "uren per week", model.UrenPerWeek);
+        //            analyse.VulVeldIn("LoonKost", id, "bruto maandloon fulltime", model.BrutoMaandloon);
+
+        //            _arbeidsBemiddelaarRepository.SerialiseerVelden(analyse);
+        //            _arbeidsBemiddelaarRepository.SaveChanges();
+
+        //            return RedirectToAction(nameof(LoonKost), analyse.AnalyseId);
+        //        }
+        //        catch (Exception e)
+        //        {
+        //            Console.WriteLine(e);
+        //            throw;
+        //        }
+        //    }
+        //    return View(model);
+        //}
         public IActionResult Delete(int id)
         {
             var user = GetCurrentUserAsync();

@@ -24,11 +24,28 @@ namespace KostenBatenTool.Models.AnalyseViewModels
         {
 
         }
-        public LoonkostViewModel(LoonKost loonkost, int analyseId) : this()
+
+       public LoonkostViewModel(LoonKost loonkost, int analyseId) : this()
         {
             AnalyseId = analyseId;
             Lijnen = loonkost.Lijnen.Select(lijn => new LoonkostLijnViewModel(lijn)).ToList();
-            LijnId = loonkost.Lijnen.Max(l => l.LijnId) + 1;
+            LijnId = 0;
+
+        }
+        public LoonkostViewModel(Lijn  lijn, LoonKost loonkost, int analyseId) : this(loonkost,analyseId)
+        {
+            LijnId = lijn.LijnId;
+            Functie = lijn.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("functie")).Value.ToString();
+            UrenPerWeek = (decimal)lijn.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("uren per week")).Value;
+            BrutoMaandloon =
+                (decimal)lijn.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("bruto maandloon fulltime")).Value;
+            Doelgroep = (Doelgroep)lijn.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("doelgroep")).Value;
+            Vop =
+                (decimal)lijn.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("% Vlaamse ondersteuningspremie")).Value;
+            AantalMaanden = (decimal)lijn.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("aantal maanden IBO")).Value;
+            Ibo =
+               (decimal)
+                    lijn.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("totale productiviteitspremie IBO")).Value;
         }
     }
 }
