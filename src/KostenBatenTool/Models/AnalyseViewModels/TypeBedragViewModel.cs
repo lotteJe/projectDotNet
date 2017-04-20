@@ -9,22 +9,32 @@ namespace KostenBatenTool.Models.AnalyseViewModels
 {
     public class TypeBedragViewModel
     {
+        public int LijnId { get; set; }
         public int AnalyseId { get; set; }
         public IEnumerable<TypeBedragLijstObjectViewModel> Lijst { get; set; }
         public string Type { get; set; }
-
-        [RegularExpression("[1-9][0-9]*([,][0-9]+)?", ErrorMessage = "Moet een positief getal zijn.")]
         public decimal Bedrag { get; set; }
 
         public TypeBedragViewModel()
         {
-            
+
         }
 
-        public TypeBedragViewModel(int id) : this()
+        public TypeBedragViewModel(Berekening berekening, int analyseId) : this()
         {
-            AnalyseId = id;
+            AnalyseId = analyseId;
+            Lijst = berekening.Lijnen.Select(lijn => new TypeBedragLijstObjectViewModel(lijn)).ToList();
+            LijnId = 0;
         }
 
-       }
+        public TypeBedragViewModel(Lijn lijn, Berekening berekening, int analysId) : this(berekening, analysId)
+        {
+            LijnId = lijn.LijnId;
+            Type = lijn.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("type")).Value.ToString();
+            Bedrag = (decimal)lijn.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("bedrag")).Value;
+        }
+
+    }
 }
+
+
