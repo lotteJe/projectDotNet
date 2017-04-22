@@ -14,6 +14,7 @@ namespace KostenBatenTool.Data
         public DbSet<Persoon> Personen { get; set; }
         public DbSet<ArbeidsBemiddelaar> ArbeidsBemiddelaars { get; set; }
         public DbSet<Analyse> Analyses { get; set; }
+        public DbSet<Bericht> Berichten { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
@@ -34,8 +35,18 @@ namespace KostenBatenTool.Data
             builder.Entity<MedewerkerZelfdeNiveauBesparing>(MapMedewerkerZelfdeNiveauBesparing);
             builder.Entity<Veld>(MapVeld);
             builder.Entity<Lijn>(MapLijn);
+            builder.Entity<Bericht>(MapBericht);
         }
 
+        private void MapBericht(EntityTypeBuilder<Bericht> b)
+        {
+            b.ToTable("Bericht");
+            b.HasKey(br => br.BerichtId);
+            b.Property(br => br.BerichtId).ValueGeneratedOnAdd();
+            b.Property(br => br.AanmaakDatum);
+            b.Property(br => br.Onderwerp);
+            b.Property(br => br.Tekst);
+        }
         
         private void MapLijn(EntityTypeBuilder<Lijn> b)
         {
