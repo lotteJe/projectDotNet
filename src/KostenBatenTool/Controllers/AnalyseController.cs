@@ -184,17 +184,16 @@ namespace KostenBatenTool.Controllers
 
 
         [HttpGet]
-        public IActionResult AanpassingsKost(int id)
+        public IActionResult AanpassingsKost(int analyseId, int lijnId = -1)
         {
-            Analyse a = GetAnalyse(id);
+            Analyse a = GetAnalyse(analyseId);
             AanpassingsKost kost = (AanpassingsKost)a.GetBerekening("AanpassingsKost");
-            TypeBedragViewModel model = new TypeBedragViewModel(a.AnalyseId);
-            model.Lijst = kost.Lijnen.Select(l => new TypeBedragLijstObjectViewModel
+            if (lijnId > 0)
             {
-                Type = l.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("type")).Value.ToString(),
-                Bedrag = (decimal)l.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("bedrag")).Value
-            }).ToList();
-            return View(model);
+                Lijn lijn = kost.Lijnen.FirstOrDefault(l => l.LijnId == lijnId);
+                return View(new TypeBedragViewModel(lijn, kost, a.AnalyseId));
+            }
+            return View(new TypeBedragViewModel(kost, a.AnalyseId));
         }
 
 
@@ -206,13 +205,14 @@ namespace KostenBatenTool.Controllers
             {
                 try
                 {
-                    var user = GetCurrentUserAsync();
-                    string email = user.Result.Email;
-                    ArbeidsBemiddelaar ab = _arbeidsBemiddelaarRepository.GetArbeidsBemiddelaarVolledig(email);
+                    ArbeidsBemiddelaar ab = _arbeidsBemiddelaarRepository.GetArbeidsBemiddelaarVolledig(User.Identity.Name);
                     Analyse analyse = ab.Analyses.First(a => a.AnalyseId == model.AnalyseId);
-                    int id = ((AanpassingsKost)analyse.GetBerekening("AanpassingsKost")).Lijnen.Count;
-                    analyse.VulVeldIn("AanpassingsKost", id, "type", model.Type);
-                    analyse.VulVeldIn("AanpassingsKost", id, "bedrag", model.Bedrag);
+                    if (model.LijnId == 0)
+                    {
+                        analyse.GetBerekening("AanpassingsKost").VoegLijnToe();
+                    }
+                    analyse.VulVeldIn("AanpassingsKost", model.LijnId, "type", model.Type);
+                    analyse.VulVeldIn("AanpassingsKost", model.LijnId, "bedrag", model.Bedrag);
                     _arbeidsBemiddelaarRepository.SerialiseerVelden(analyse);
                     _arbeidsBemiddelaarRepository.SaveChanges();
                     return RedirectToAction(nameof(AanpassingsKost), analyse.AnalyseId);
@@ -262,23 +262,17 @@ namespace KostenBatenTool.Controllers
         }
 
         [HttpGet]
-        public IActionResult AdministratieBegeleidingsKost(int id)
+        public IActionResult AdministratieBegeleidingsKost(int analyseId, int lijnId = -1)
         {
-            Analyse a = GetAnalyse(id);
+            Analyse a = GetAnalyse(analyseId);
             AdministratieBegeleidingsKost kost = (AdministratieBegeleidingsKost)a.GetBerekening("AdministratieBegeleidingsKost");
-            DrieDecimalViewModel model = new DrieDecimalViewModel
+            if (lijnId > 0)
             {
-                AnalyseId = a.AnalyseId,
-                Lijst = kost.Lijnen.Select(l => new DrieDecimalLijstObjectViewModel
-                {
-                    Veld1 = (decimal)l.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("uren")).Value,
-                    Veld2 =
-                        (decimal)l.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("bruto maandloon begeleider")).Value,
-                    Veld3 = (decimal)l.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("jaarbedrag")).Value
-                }).ToList()
-            };
-            return View(model);
-        }
+                Lijn lijn = kost.Lijnen.FirstOrDefault(l => l.LijnId == lijnId);
+                return View(new DrieDecimalViewModel(lijn, kost, analyseId));
+            }
+            return View(new DrieDecimalViewModel(kost, analyseId));
+           }
 
         [HttpPost]
         public IActionResult AdministratieBegeleidingsKost(DrieDecimalViewModel model, string returnUrl = null)
@@ -288,14 +282,15 @@ namespace KostenBatenTool.Controllers
             {
                 try
                 {
-                    var user = GetCurrentUserAsync();
-                    string email = user.Result.Email;
-                    ArbeidsBemiddelaar ab = _arbeidsBemiddelaarRepository.GetArbeidsBemiddelaarVolledig(email);
-                    Analyse analyse = ab.Analyses.First(a => a.AnalyseId == model.AnalyseId);
-                    int id = ((AdministratieBegeleidingsKost)analyse.GetBerekening("AdministratieBegeleidingsKost")).Lijnen.Count;
-                    analyse.VulVeldIn("AdministratieBegeleidingsKost", id, "uren", model.Veld1);
-                    analyse.VulVeldIn("AdministratieBegeleidingsKost", id, "bruto maandloon begeleider", model.Veld2);
-                    analyse.VulVeldIn("AdministratieBegeleidingsKost", id, "jaarbedrag", model.Veld3);
+                   ArbeidsBemiddelaar ab = _arbeidsBemiddelaarRepository.GetArbeidsBemiddelaarVolledig(User.Identity.Name);
+                    Analyse analyse = ab.Analyses.FirstOrDefault(a => a.AnalyseId == model.AnalyseId);
+                    if (model.LijnId == 0)
+                    {
+                        analyse.GetBerekening("AdministratieBegeleidingsKost").VoegLijnToe();
+                    }
+                    analyse.VulVeldIn("AdministratieBegeleidingsKost", model.LijnId, "uren", model.Veld1);
+                    analyse.VulVeldIn("AdministratieBegeleidingsKost", model.LijnId, "bruto maandloon begeleider", model.Veld2);
+                    analyse.VulVeldIn("AdministratieBegeleidingsKost", model.LijnId, "jaarbedrag", model.Veld3);
                     _arbeidsBemiddelaarRepository.SerialiseerVelden(analyse);
                     _arbeidsBemiddelaarRepository.SaveChanges();
                     return RedirectToAction(nameof(AdministratieBegeleidingsKost), analyse.AnalyseId);
@@ -310,17 +305,16 @@ namespace KostenBatenTool.Controllers
         }
 
         [HttpGet]
-        public IActionResult AndereBesparing(int id)
+        public IActionResult AndereBesparing(int analyseId, int lijnId = -1)
         {
-            Analyse a = GetAnalyse(id);
+            Analyse a = GetAnalyse(analyseId);
             AndereBesparing kost = (AndereBesparing)a.GetBerekening("AndereBesparing");
-            TypeBedragViewModel model = new TypeBedragViewModel(a.AnalyseId);
-            model.Lijst = kost.Lijnen.Select(l => new TypeBedragLijstObjectViewModel
+            if (lijnId > 0)
             {
-                Type = l.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("type besparing")).Value.ToString(),
-                Bedrag = (decimal)l.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("jaarbedrag")).Value
-            }).ToList();
-            return View(model);
+                Lijn lijn = kost.Lijnen.FirstOrDefault(l => l.LijnId == lijnId);
+                return View(new TypeBedragViewModel(lijn, kost, a.AnalyseId));
+            }
+            return View(new TypeBedragViewModel(kost, a.AnalyseId));
         }
 
 
@@ -332,13 +326,14 @@ namespace KostenBatenTool.Controllers
             {
                 try
                 {
-                    var user = GetCurrentUserAsync();
-                    string email = user.Result.Email;
-                    ArbeidsBemiddelaar ab = _arbeidsBemiddelaarRepository.GetArbeidsBemiddelaarVolledig(email);
+                    ArbeidsBemiddelaar ab = _arbeidsBemiddelaarRepository.GetArbeidsBemiddelaarVolledig(User.Identity.Name);
                     Analyse analyse = ab.Analyses.First(a => a.AnalyseId == model.AnalyseId);
-                    int id = ((AndereBesparing)analyse.GetBerekening("AndereBesparing")).Lijnen.Count;
-                    analyse.VulVeldIn("AndereBesparing", id, "type besparing", model.Type);
-                    analyse.VulVeldIn("AndereBesparing", id, "jaarbedrag", model.Bedrag);
+                    if (model.LijnId == 0)
+                    {
+                        analyse.GetBerekening("AndereBesparing").VoegLijnToe();
+                    }
+                    analyse.VulVeldIn("AndereBesparing", model.LijnId, "type", model.Type);
+                    analyse.VulVeldIn("AndereBesparing", model.LijnId, "bedrag", model.Bedrag);
                     _arbeidsBemiddelaarRepository.SerialiseerVelden(analyse);
                     _arbeidsBemiddelaarRepository.SaveChanges();
                     return RedirectToAction(nameof(AndereBesparing), analyse.AnalyseId);
@@ -353,17 +348,16 @@ namespace KostenBatenTool.Controllers
         }
 
         [HttpGet]
-        public IActionResult AndereKost(int id)
+        public IActionResult AndereKost(int analyseId, int lijnId = -1)
         {
-            Analyse a = GetAnalyse(id);
+            Analyse a = GetAnalyse(analyseId);
             AndereKost kost = (AndereKost)a.GetBerekening("AndereKost");
-            TypeBedragViewModel model = new TypeBedragViewModel(a.AnalyseId);
-            model.Lijst = kost.Lijnen.Select(l => new TypeBedragLijstObjectViewModel
+            if (lijnId > 0)
             {
-                Type = l.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("type")).Value.ToString(),
-                Bedrag = (decimal)l.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("bedrag")).Value
-            }).ToList();
-            return View(model);
+                Lijn lijn = kost.Lijnen.FirstOrDefault(l => l.LijnId == lijnId);
+                return View(new TypeBedragViewModel(lijn, kost, a.AnalyseId));
+            }
+            return View(new TypeBedragViewModel(kost, a.AnalyseId));
         }
 
 
@@ -375,13 +369,14 @@ namespace KostenBatenTool.Controllers
             {
                 try
                 {
-                    var user = GetCurrentUserAsync();
-                    string email = user.Result.Email;
-                    ArbeidsBemiddelaar ab = _arbeidsBemiddelaarRepository.GetArbeidsBemiddelaarVolledig(email);
+                    ArbeidsBemiddelaar ab = _arbeidsBemiddelaarRepository.GetArbeidsBemiddelaarVolledig(User.Identity.Name);
                     Analyse analyse = ab.Analyses.First(a => a.AnalyseId == model.AnalyseId);
-                    int id = ((AndereKost)analyse.GetBerekening("AndereKost")).Lijnen.Count;
-                    analyse.VulVeldIn("AndereKost", id, "type", model.Type);
-                    analyse.VulVeldIn("AndereKost", id, "bedrag", model.Bedrag);
+                    if (model.LijnId == 0)
+                    {
+                        analyse.GetBerekening("AndereKost").VoegLijnToe();
+                    }
+                    analyse.VulVeldIn("AndereKost", model.LijnId, "type", model.Type);
+                    analyse.VulVeldIn("AndereKost", model.LijnId, "bedrag", model.Bedrag);
                     _arbeidsBemiddelaarRepository.SerialiseerVelden(analyse);
                     _arbeidsBemiddelaarRepository.SaveChanges();
                     return RedirectToAction(nameof(AndereKost), analyse.AnalyseId);
@@ -461,18 +456,16 @@ namespace KostenBatenTool.Controllers
         //}
 
         [HttpGet]
-        public IActionResult MedewerkerHogerNiveauBesparing(int id)
+        public IActionResult MedewerkerHogerNiveauBesparing(int analyseId, int lijnId = -1)
         {
-            Analyse a = GetAnalyse(id);
+            Analyse a = GetAnalyse(analyseId);
             MedewerkerHogerNiveauBesparing kost = (MedewerkerHogerNiveauBesparing)a.GetBerekening("MedewerkerHogerNiveauBesparing");
-            DrieDecimalViewModel model = new DrieDecimalViewModel(a.AnalyseId);
-            model.Lijst = kost.Lijnen.Select(l => new DrieDecimalLijstObjectViewModel
+            if (lijnId > 0)
             {
-                Veld1 = (decimal)l.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("uren")).Value,
-                Veld2 = (decimal)l.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("bruto maandloon fulltime")).Value,
-                Veld3 = (decimal)l.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("totale loonkost per jaar")).Value
-            }).ToList();
-            return View(model);
+                Lijn lijn = kost.Lijnen.FirstOrDefault(l => l.LijnId == lijnId);
+                return View(new DrieDecimalViewModel(lijn, kost, analyseId));
+            }
+            return View(new DrieDecimalViewModel(kost, analyseId));
         }
 
 
@@ -484,14 +477,15 @@ namespace KostenBatenTool.Controllers
             {
                 try
                 {
-                    var user = GetCurrentUserAsync();
-                    string email = user.Result.Email;
-                    ArbeidsBemiddelaar ab = _arbeidsBemiddelaarRepository.GetArbeidsBemiddelaarVolledig(email);
-                    Analyse analyse = ab.Analyses.First(a => a.AnalyseId == model.AnalyseId);
-                    int id = ((MedewerkerHogerNiveauBesparing)analyse.GetBerekening("MedewerkerHogerNiveauBesparing")).Lijnen.Count;
-                    analyse.VulVeldIn("MedewerkerHogerNiveauBesparing", id, "uren", model.Veld1);
-                    analyse.VulVeldIn("MedewerkerHogerNiveauBesparing", id, "bruto maandloon fulltime", model.Veld2);
-                    analyse.VulVeldIn("MedewerkerHogerNiveauBesparing", id, "totale loonkost per jaar", model.Veld3);
+                    ArbeidsBemiddelaar ab = _arbeidsBemiddelaarRepository.GetArbeidsBemiddelaarVolledig(User.Identity.Name);
+                    Analyse analyse = ab.Analyses.FirstOrDefault(a => a.AnalyseId == model.AnalyseId);
+                    if (model.LijnId == 0)
+                    {
+                        analyse.GetBerekening("MedewerkerHogerNiveauBesparing").VoegLijnToe();
+                    }
+                    analyse.VulVeldIn("MedewerkerHogerNiveauBesparing", model.LijnId, "uren", model.Veld1);
+                    analyse.VulVeldIn("MedewerkerHogerNiveauBesparing", model.LijnId, "bruto maandloon begeleider", model.Veld2);
+                    analyse.VulVeldIn("MedewerkerHogerNiveauBesparing", model.LijnId, "jaarbedrag", model.Veld3);
                     _arbeidsBemiddelaarRepository.SerialiseerVelden(analyse);
                     _arbeidsBemiddelaarRepository.SaveChanges();
                     return RedirectToAction(nameof(MedewerkerHogerNiveauBesparing), analyse.AnalyseId);
@@ -506,18 +500,16 @@ namespace KostenBatenTool.Controllers
         }
 
         [HttpGet]
-        public IActionResult MedewerkerZelfdeNiveauBesparing(int id)
+        public IActionResult MedewerkerZelfdeNiveauBesparing(int analyseId, int lijnId = -1)
         {
-            Analyse a = GetAnalyse(id);
+            Analyse a = GetAnalyse(analyseId);
             MedewerkerZelfdeNiveauBesparing kost = (MedewerkerZelfdeNiveauBesparing)a.GetBerekening("MedewerkerZelfdeNiveauBesparing");
-            DrieDecimalViewModel model = new DrieDecimalViewModel(a.AnalyseId);
-            model.Lijst = kost.Lijnen.Select(l => new DrieDecimalLijstObjectViewModel
+            if (lijnId > 0)
             {
-                Veld1 = (decimal)l.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("uren")).Value,
-                Veld2 = (decimal)l.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("bruto maandloon fulltime")).Value,
-                Veld3 = (decimal)l.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("totale loonkost per jaar")).Value
-            }).ToList();
-            return View(model);
+                Lijn lijn = kost.Lijnen.FirstOrDefault(l => l.LijnId == lijnId);
+                return View(new DrieDecimalViewModel(lijn, kost, analyseId));
+            }
+            return View(new DrieDecimalViewModel(kost, analyseId));
         }
 
 
@@ -529,14 +521,15 @@ namespace KostenBatenTool.Controllers
             {
                 try
                 {
-                    var user = GetCurrentUserAsync();
-                    string email = user.Result.Email;
-                    ArbeidsBemiddelaar ab = _arbeidsBemiddelaarRepository.GetArbeidsBemiddelaarVolledig(email);
-                    Analyse analyse = ab.Analyses.First(a => a.AnalyseId == model.AnalyseId);
-                    int id = ((MedewerkerZelfdeNiveauBesparing)analyse.GetBerekening("MedewerkerZelfdeNiveauBesparing")).Lijnen.Count;
-                    analyse.VulVeldIn("MedewerkerZelfdeNiveauBesparing", id, "uren", model.Veld1);
-                    analyse.VulVeldIn("MedewerkerZelfdeNiveauBesparing", id, "bruto maandloon fulltime", model.Veld2);
-                    analyse.VulVeldIn("MedewerkerZelfdeNiveauBesparing", id, "totale loonkost per jaar", model.Veld3);
+                    ArbeidsBemiddelaar ab = _arbeidsBemiddelaarRepository.GetArbeidsBemiddelaarVolledig(User.Identity.Name);
+                    Analyse analyse = ab.Analyses.FirstOrDefault(a => a.AnalyseId == model.AnalyseId);
+                    if (model.LijnId == 0)
+                    {
+                        analyse.GetBerekening("MedewerkerZelfdeNiveauBesparing").VoegLijnToe();
+                    }
+                    analyse.VulVeldIn("MedewerkerZelfdeNiveauBesparing", model.LijnId, "uren", model.Veld1);
+                    analyse.VulVeldIn("MedewerkerZelfdeNiveauBesparing", model.LijnId, "bruto maandloon begeleider", model.Veld2);
+                    analyse.VulVeldIn("MedewerkerZelfdeNiveauBesparing", model.LijnId, "jaarbedrag", model.Veld3);
                     _arbeidsBemiddelaarRepository.SerialiseerVelden(analyse);
                     _arbeidsBemiddelaarRepository.SaveChanges();
                     return RedirectToAction(nameof(MedewerkerZelfdeNiveauBesparing), analyse.AnalyseId);
@@ -585,17 +578,16 @@ namespace KostenBatenTool.Controllers
             return View(model);
         }
         [HttpGet]
-        public IActionResult OpleidingsKost(int id)
+        public IActionResult OpleidingsKost(int analyseId, int lijnId = -1)
         {
-            Analyse a = GetAnalyse(id);
+            Analyse a = GetAnalyse(analyseId);
             OpleidingsKost kost = (OpleidingsKost)a.GetBerekening("OpleidingsKost");
-            TypeBedragViewModel model = new TypeBedragViewModel(a.AnalyseId);
-            model.Lijst = kost.Lijnen.Select(l => new TypeBedragLijstObjectViewModel()
+            if (lijnId > 0)
             {
-                Type = l.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("type")).Value.ToString(),
-                Bedrag = (decimal)l.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("bedrag")).Value
-            }).ToList();
-            return View(model);
+                Lijn lijn = kost.Lijnen.FirstOrDefault(l => l.LijnId == lijnId);
+                return View(new TypeBedragViewModel(lijn, kost, a.AnalyseId));
+            }
+            return View(new TypeBedragViewModel(kost, a.AnalyseId));
         }
 
 
@@ -607,13 +599,14 @@ namespace KostenBatenTool.Controllers
             {
                 try
                 {
-                    var user = GetCurrentUserAsync();
-                    string email = user.Result.Email;
-                    ArbeidsBemiddelaar ab = _arbeidsBemiddelaarRepository.GetArbeidsBemiddelaarVolledig(email);
+                    ArbeidsBemiddelaar ab = _arbeidsBemiddelaarRepository.GetArbeidsBemiddelaarVolledig(User.Identity.Name);
                     Analyse analyse = ab.Analyses.First(a => a.AnalyseId == model.AnalyseId);
-                    int id = ((OpleidingsKost)analyse.GetBerekening("OpleidingsKost")).Lijnen.Count;
-                    analyse.VulVeldIn("OpleidingsKost", id, "type", model.Type);
-                    analyse.VulVeldIn("OpleidingsKost", id, "bedrag", model.Bedrag);
+                    if (model.LijnId == 0)
+                    {
+                        analyse.GetBerekening("OpleidingsKost").VoegLijnToe();
+                    }
+                    analyse.VulVeldIn("OpleidingsKost", model.LijnId, "type", model.Type);
+                    analyse.VulVeldIn("OpleidingsKost", model.LijnId, "bedrag", model.Bedrag);
                     _arbeidsBemiddelaarRepository.SerialiseerVelden(analyse);
                     _arbeidsBemiddelaarRepository.SaveChanges();
                     return RedirectToAction(nameof(OpleidingsKost), analyse.AnalyseId);
@@ -627,17 +620,16 @@ namespace KostenBatenTool.Controllers
             return View(model);
         }
         [HttpGet]
-        public IActionResult OutsourcingBesparing(int id)
+        public IActionResult OutsourcingBesparing(int analyseId, int lijnId = -1)
         {
-            Analyse a = GetAnalyse(id);
+            Analyse a = GetAnalyse(analyseId);
             OutsourcingBesparing kost = (OutsourcingBesparing)a.GetBerekening("OutsourcingBesparing");
-            TypeBedragViewModel model = new TypeBedragViewModel(a.AnalyseId);
-            model.Lijst = kost.Lijnen.Select(l => new TypeBedragLijstObjectViewModel
+            if (lijnId > 0)
             {
-                Type = l.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("beschrijving")).Value.ToString(),
-                Bedrag = (decimal)l.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("jaarbedrag")).Value
-            }).ToList();
-            return View(model);
+                Lijn lijn = kost.Lijnen.FirstOrDefault(l => l.LijnId == lijnId);
+                return View(new TypeBedragViewModel(lijn, kost, a.AnalyseId));
+            }
+            return View(new TypeBedragViewModel(kost, a.AnalyseId));
         }
 
 
@@ -649,13 +641,14 @@ namespace KostenBatenTool.Controllers
             {
                 try
                 {
-                    var user = GetCurrentUserAsync();
-                    string email = user.Result.Email;
-                    ArbeidsBemiddelaar ab = _arbeidsBemiddelaarRepository.GetArbeidsBemiddelaarVolledig(email);
+                    ArbeidsBemiddelaar ab = _arbeidsBemiddelaarRepository.GetArbeidsBemiddelaarVolledig(User.Identity.Name);
                     Analyse analyse = ab.Analyses.First(a => a.AnalyseId == model.AnalyseId);
-                    int id = ((OutsourcingBesparing)analyse.GetBerekening("OutsourcingBesparing")).Lijnen.Count;
-                    analyse.VulVeldIn("OutsourcingBesparing", id, "beschrijving", model.Type);
-                    analyse.VulVeldIn("OutsourcingBesparing", id, "jaarbedrag", model.Bedrag);
+                    if (model.LijnId == 0)
+                    {
+                        analyse.GetBerekening("OutsourcingBesparing").VoegLijnToe();
+                    }
+                    analyse.VulVeldIn("OutsourcingBesparing", model.LijnId, "type", model.Type);
+                    analyse.VulVeldIn("OutsourcingBesparing", model.LijnId, "bedrag", model.Bedrag);
                     _arbeidsBemiddelaarRepository.SerialiseerVelden(analyse);
                     _arbeidsBemiddelaarRepository.SaveChanges();
                     return RedirectToAction(nameof(OutsourcingBesparing), analyse.AnalyseId);
@@ -737,17 +730,16 @@ namespace KostenBatenTool.Controllers
             return View(model);
         }
         [HttpGet]
-        public IActionResult UitzendkrachtenBesparing(int id)
+        public IActionResult UitzendkrachtenBesparing(int analyseId, int lijnId = -1)
         {
-            Analyse a = GetAnalyse(id);
+            Analyse a = GetAnalyse(analyseId);
             UitzendkrachtenBesparing kost = (UitzendkrachtenBesparing)a.GetBerekening("UitzendkrachtenBesparing");
-            TypeBedragViewModel model = new TypeBedragViewModel(a.AnalyseId);
-            model.Lijst = kost.Lijnen.Select(l => new TypeBedragLijstObjectViewModel
+            if (lijnId > 0)
             {
-                Type = l.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("beschrijving")).Value.ToString(),
-                Bedrag = (decimal)l.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("jaarbedrag")).Value
-            }).ToList();
-            return View(model);
+                Lijn lijn = kost.Lijnen.FirstOrDefault(l => l.LijnId == lijnId);
+                return View(new TypeBedragViewModel(lijn, kost, a.AnalyseId));
+            }
+            return View(new TypeBedragViewModel(kost, a.AnalyseId));
         }
 
 
@@ -759,13 +751,14 @@ namespace KostenBatenTool.Controllers
             {
                 try
                 {
-                    var user = GetCurrentUserAsync();
-                    string email = user.Result.Email;
-                    ArbeidsBemiddelaar ab = _arbeidsBemiddelaarRepository.GetArbeidsBemiddelaarVolledig(email);
+                    ArbeidsBemiddelaar ab = _arbeidsBemiddelaarRepository.GetArbeidsBemiddelaarVolledig(User.Identity.Name);
                     Analyse analyse = ab.Analyses.First(a => a.AnalyseId == model.AnalyseId);
-                    int id = ((UitzendkrachtenBesparing)analyse.GetBerekening("UitzendkrachtenBesparing")).Lijnen.Count;
-                    analyse.VulVeldIn("UitzendkrachtenBesparing", id, "beschrijving", model.Type);
-                    analyse.VulVeldIn("UitzendkrachtenBesparing", id, "jaarbedrag", model.Bedrag);
+                    if (model.LijnId == 0)
+                    {
+                        analyse.GetBerekening("UitzendkrachtenBesparing").VoegLijnToe();
+                    }
+                    analyse.VulVeldIn("UitzendkrachtenBesparing", model.LijnId, "type", model.Type);
+                    analyse.VulVeldIn("UitzendkrachtenBesparing", model.LijnId, "bedrag", model.Bedrag);
                     _arbeidsBemiddelaarRepository.SerialiseerVelden(analyse);
                     _arbeidsBemiddelaarRepository.SaveChanges();
                     return RedirectToAction(nameof(UitzendkrachtenBesparing), analyse.AnalyseId);
@@ -779,17 +772,16 @@ namespace KostenBatenTool.Controllers
             return View(model);
         }
         [HttpGet]
-        public IActionResult VoorbereidingsKost(int id)
+        public IActionResult VoorbereidingsKost(int analyseId, int lijnId = -1)
         {
-            Analyse a = GetAnalyse(id);
+            Analyse a = GetAnalyse(analyseId);
             VoorbereidingsKost kost = (VoorbereidingsKost)a.GetBerekening("VoorbereidingsKost");
-            TypeBedragViewModel model = new TypeBedragViewModel(a.AnalyseId);
-            model.Lijst = kost.Lijnen.Select(l => new TypeBedragLijstObjectViewModel()
+            if (lijnId > 0)
             {
-                Type = l.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("type")).Value.ToString(),
-                Bedrag = (decimal)l.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("bedrag")).Value
-            }).ToList();
-            return View(model);
+                Lijn lijn = kost.Lijnen.FirstOrDefault(l => l.LijnId == lijnId);
+                return View(new TypeBedragViewModel(lijn, kost, a.AnalyseId));
+            }
+            return View(new TypeBedragViewModel(kost, a.AnalyseId));
         }
 
 
@@ -801,13 +793,14 @@ namespace KostenBatenTool.Controllers
             {
                 try
                 {
-                    var user = GetCurrentUserAsync();
-                    string email = user.Result.Email;
-                    ArbeidsBemiddelaar ab = _arbeidsBemiddelaarRepository.GetArbeidsBemiddelaarVolledig(email);
+                    ArbeidsBemiddelaar ab = _arbeidsBemiddelaarRepository.GetArbeidsBemiddelaarVolledig(User.Identity.Name);
                     Analyse analyse = ab.Analyses.First(a => a.AnalyseId == model.AnalyseId);
-                    int id = ((VoorbereidingsKost)analyse.GetBerekening("VoorbereidingsKost")).Lijnen.Count;
-                    analyse.VulVeldIn("VoorbereidingsKost", id, "type", model.Type);
-                    analyse.VulVeldIn("VoorbereidingsKost", id, "bedrag", model.Bedrag);
+                    if (model.LijnId ==0 )
+                    {
+                        analyse.GetBerekening("VoorbereidingsKost").VoegLijnToe();
+                    }
+                    analyse.VulVeldIn("VoorbereidingsKost", model.LijnId, "type", model.Type);
+                    analyse.VulVeldIn("VoorbereidingsKost", model.LijnId, "bedrag", model.Bedrag);
                     _arbeidsBemiddelaarRepository.SerialiseerVelden(analyse);
                     _arbeidsBemiddelaarRepository.SaveChanges();
                     return RedirectToAction(nameof(VoorbereidingsKost), analyse.AnalyseId);
@@ -821,17 +814,16 @@ namespace KostenBatenTool.Controllers
             return View(model);
         }
         [HttpGet]
-        public IActionResult WerkkledijKost(int id)
+        public IActionResult WerkkledijKost(int analyseId, int lijnId = -1)
         {
-            Analyse a = GetAnalyse(id);
+            Analyse a = GetAnalyse(analyseId);
             WerkkledijKost kost = (WerkkledijKost)a.GetBerekening("WerkkledijKost");
-            TypeBedragViewModel model = new TypeBedragViewModel(a.AnalyseId);
-            model.Lijst = kost.Lijnen.Select(l => new TypeBedragLijstObjectViewModel()
+            if (lijnId > 0)
             {
-                Type = l.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("type")).Value.ToString(),
-                Bedrag = (decimal)l.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("bedrag")).Value
-            }).ToList();
-            return View(model);
+                Lijn lijn = kost.Lijnen.FirstOrDefault(l => l.LijnId == lijnId);
+                return View(new TypeBedragViewModel(lijn, kost, a.AnalyseId));
+            }
+            return View(new TypeBedragViewModel(kost, a.AnalyseId));
         }
 
 
@@ -843,13 +835,14 @@ namespace KostenBatenTool.Controllers
             {
                 try
                 {
-                    var user = GetCurrentUserAsync();
-                    string email = user.Result.Email;
-                    ArbeidsBemiddelaar ab = _arbeidsBemiddelaarRepository.GetArbeidsBemiddelaarVolledig(email);
+                    ArbeidsBemiddelaar ab = _arbeidsBemiddelaarRepository.GetArbeidsBemiddelaarVolledig(User.Identity.Name);
                     Analyse analyse = ab.Analyses.First(a => a.AnalyseId == model.AnalyseId);
-                    int id = ((WerkkledijKost)analyse.GetBerekening("WerkkledijKost")).Lijnen.Count;
-                    analyse.VulVeldIn("WerkkledijKost", id, "type", model.Type);
-                    analyse.VulVeldIn("WerkkledijKost", id, "bedrag", model.Bedrag);
+                    if (model.LijnId == 0)
+                    {
+                        analyse.GetBerekening("WerkkledijKost").VoegLijnToe();
+                    }
+                    analyse.VulVeldIn("WerkkledijKost", model.LijnId, "type", model.Type);
+                    analyse.VulVeldIn("WerkkledijKost", model.LijnId, "bedrag", model.Bedrag);
                     _arbeidsBemiddelaarRepository.SerialiseerVelden(analyse);
                     _arbeidsBemiddelaarRepository.SaveChanges();
                     return RedirectToAction(nameof(WerkkledijKost), analyse.AnalyseId);

@@ -28,7 +28,7 @@
             @foreach (var item in Model.Lijst)
         {
 
-            <tr>
+            <tr onclick="location.href = '@(Url.Action("OutsourcingBesparing","Analyse", new {analyseId = Model.AnalyseId, lijnId = item.LijnId}))'">
                 <td>@item.Type</td>
                 <td>@item.Bedrag</td>
             </tr>
@@ -39,17 +39,19 @@
 
         <div class="functie">
             <form asp-controller="Analyse" asp-action="OutsourcingBesparing" method="post" class="form-horizontal">
+                <input type="hidden" asp-for="LijnId"/>
+                <input type="hidden" asp-for="AnalyseId"/>
                 <div class="row">
                     <label asp-for="Type" class="col-md-4 col-md-offset-2 ww">Beschrijving</label>
                     <div class="col-md-4">
-                        <input asp-for="Type" class="form-control" />
+                        <input asp-for="Type" class="form-control"/>
                         <span asp-validation-for="Type" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="row">
                     <label asp-for="Bedrag" class="col-md-4  col-md-offset-2 control-label ww">Jaarbedrag</label>
                     <div class="col-md-4">
-                        <input asp-for="Bedrag" class="form-control" type="number" />
+                        <input asp-for="Bedrag" class="form-control" type="number"/>
                         <span asp-validation-for="Bedrag" class="text-danger"></span>
                     </div>
                 </div>

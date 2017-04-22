@@ -54,6 +54,11 @@
                     percentK = Math.Abs(Decimal.ToInt32((analyse.KostenResultaat / analyse.Resultaat) * 100));
                     percentB = 100 - percentK;
                 }
+                else
+                {
+                    percentK = 50;
+                    percentB = 50;
+                }
                 <div class="progress">
                     <div class="progress-bar progress-bar-danger" role="progressbar" style="width:@percentK%">
                         @($"{analyse.KostenResultaat:N2} €")

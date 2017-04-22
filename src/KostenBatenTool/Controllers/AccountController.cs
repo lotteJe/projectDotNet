@@ -67,7 +67,7 @@ namespace KostenBatenTool.Controllers
                 a.EigenOrganisatie.Gemeente = model.Gemeente;
                 _arbeidsBemiddelaarRepository.SaveChanges();
                 TempData["message"] = "Je gegevens werden succesvol gewijzigd.";
-                return RedirectToAction(nameof(Edit));
+                return RedirectToAction(nameof(AnalyseController.Index), "Home");
             }
             return View(model);
         }

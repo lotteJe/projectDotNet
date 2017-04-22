@@ -1,13 +1,9 @@
 ﻿
 using System.Collections.Generic;
-using System.Net;
-using System.Net.Mail;
 using System.Threading.Tasks;
-using KostenBatenTool.Data.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using KostenBatenTool.Models;
-using KostenBatenTool.Models.AccountViewModels;
 using KostenBatenTool.Models.Domain;
 using KostenBatenTool.Services;
 using Microsoft.AspNetCore.Identity;
@@ -82,5 +78,10 @@ namespace KostenBatenTool.Controllers
             return _userManager.GetUserAsync(HttpContext.User);
         }
 
+        [HttpGet]
+        public IActionResult Berichten()
+        {
+            return View();
+        }
     }
 }
