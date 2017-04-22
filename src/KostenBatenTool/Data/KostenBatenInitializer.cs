@@ -23,7 +23,7 @@ namespace KostenBatenTool.Data
 
         public async Task InitializeData()
         {
-            //_dbContext.Database.EnsureDeleted();
+            _dbContext.Database.EnsureDeleted();
             if (_dbContext.Database.EnsureCreated())
             {
                 //await InitializeUsers();
@@ -37,6 +37,8 @@ namespace KostenBatenTool.Data
 
                 Persoon persoon1 = new Contactpersoon("jespers","lotte","lotte@hotmail.com");
                 _dbContext.Personen.Add(persoon1);
+                Bericht welkom = new Bericht("Welkom", "Welkom bij Kairos!");
+                _dbContext.Berichten.Add(welkom);
                 _dbContext.SaveChanges();
 
                 ////dit gebeurt bij registreren
