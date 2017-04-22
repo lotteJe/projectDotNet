@@ -172,7 +172,7 @@ div#top-menu {
         }
 }
 
-.fa-home, .fa-balance-scale, .fa-archive {
+.fa-home, .fa-balance-scale, .fa-archive, .fa-commenting-o, .fa-envelope-o {
     display: inline-block;
     width: 100%;
 }
@@ -714,4 +714,9 @@ form.form-horizontal.wwWijzigen {
 .volgendeTabs a:last-of-type {
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
+}
+
+/* tooltip */
+ .tooltip.right > .tooltip-inner,  .tooltip.right > .tooltip-arrow {
+    margin-left: -20px;
 }

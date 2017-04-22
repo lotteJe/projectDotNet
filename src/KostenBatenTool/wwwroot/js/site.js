@@ -165,7 +165,5 @@ function fnExcelReport() {
 
 /* Tooltip */
 $(document).ready(function () {
-    $('[tool-tip-toggle="tooltip"]').tooltip({
-        placement: 'right'
-    });
+    $('[tool-tip-toggle="tooltip"]').tooltip();
 });
