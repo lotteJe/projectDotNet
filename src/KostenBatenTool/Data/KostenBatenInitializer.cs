@@ -39,6 +39,8 @@ namespace KostenBatenTool.Data
                 _dbContext.Personen.Add(persoon1);
                 Bericht welkom = new Bericht("Welkom", "Welkom bij Kairos!");
                 _dbContext.Berichten.Add(welkom);
+                Bericht test = new Bericht("Test", "Dit is een testbericht");
+                _dbContext.Berichten.Add(test);
                 _dbContext.SaveChanges();
 
                 ////dit gebeurt bij registreren

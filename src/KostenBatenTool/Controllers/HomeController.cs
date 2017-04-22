@@ -17,11 +17,13 @@ namespace KostenBatenTool.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailService _emailService;
         private readonly IArbeidsBemiddelaarRepository _arbeidsBemiddelaarRepository;
+        private readonly IBerichtenRepository _berichtenRepository;
 
         public HomeController(UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager, IArbeidsBemiddelaarRepository arbeidsBemiddelaarRepository, IEmailService emailService)
+            SignInManager<ApplicationUser> signInManager, IArbeidsBemiddelaarRepository arbeidsBemiddelaarRepository, IBerichtenRepository berichtenRepository,IEmailService emailService)
         {
             _arbeidsBemiddelaarRepository = arbeidsBemiddelaarRepository;
+            _berichtenRepository = berichtenRepository;
             _userManager = userManager;
             _signInManager = signInManager;
             _emailService = emailService;
@@ -81,6 +83,7 @@ namespace KostenBatenTool.Controllers
         [HttpGet]
         public IActionResult Berichten()
         {
+            List<Bericht> berichten = _berichtenRepository.GeefBerichten();
             return View();
         }
     }
