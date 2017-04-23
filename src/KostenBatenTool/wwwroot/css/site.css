@@ -720,3 +720,27 @@ form.form-horizontal.wwWijzigen {
  .tooltip.right > .tooltip-inner,  .tooltip.right > .tooltip-arrow {
     margin-left: -20px;
 }
+
+ /* berichten */
+ .bericht {
+     background-color: white;
+     border-radius: 6px;
+     padding: 20px;
+     margin: 20px;
+ }
+
+ .bericht p:first-child {
+     font-weight: bold;
+     font-size: 110%;
+ }
+ .bericht p:nth-of-type(2) {
+     font-size: 70%;    
+ }
+ .bericht p:last-child {
+     padding-left: 20px;
+     padding-right: 20px;
+     padding-top: 10px;
+ }
+ .bericht .row {
+     border-bottom: 1px dotted #3b4041;
+ }

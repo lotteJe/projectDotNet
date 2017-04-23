@@ -1,4 +1,5 @@
-﻿@{
+﻿@model IEnumerable<KostenBatenTool.Models.Domain.Bericht>
+@{
     ViewData["Title"] = "Berichten";
 }
 
@@ -6,4 +7,15 @@
 <hr />
 
 <div class="container-fluid">
+
+    @foreach (var item in Model)
+    {
+        <div class="bericht">
+            <div class="row">
+                <p class="col-md-6">@item.Onderwerp</p>
+                <p class="col-md-offset-10">@item.AanmaakDatum.Day/@item.AanmaakDatum.Month/@item.AanmaakDatum.Year @item.AanmaakDatum.Hour:@item.AanmaakDatum.Minute</p>
+            </div>
+            <p>@item.Tekst</p>
+        </div>
+    }
 </div>
