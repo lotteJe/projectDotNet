@@ -36,6 +36,13 @@ namespace KostenBatenTool.Data
             builder.Entity<Veld>(MapVeld);
             builder.Entity<Lijn>(MapLijn);
             builder.Entity<Bericht>(MapBericht);
+            builder.Entity<Administrator>(MapAdministrator);
+           
+        }
+
+        private void MapAdministrator(EntityTypeBuilder<Administrator> a)
+        {
+            a.Property(ad => ad.Paswoord);
         }
 
         private void MapBericht(EntityTypeBuilder<Bericht> b)
