@@ -83,8 +83,8 @@ namespace KostenBatenTool.Controllers
         [HttpGet]
         public IActionResult Berichten()
         {
-            List<Bericht> berichten = _berichtenRepository.GeefBerichten();
-            return View();
+            IEnumerable<Bericht> berichten = _berichtenRepository.GeefBerichten();
+            return View(berichten);
         }
     }
 }

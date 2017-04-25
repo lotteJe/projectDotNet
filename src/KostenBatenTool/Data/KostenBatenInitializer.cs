@@ -36,9 +36,11 @@ namespace KostenBatenTool.Data
 
                 Persoon persoon1 = new Contactpersoon("jespers","lotte","lotte@hotmail.com");
                 _dbContext.Personen.Add(persoon1);
-                Persoon persoon2 = new Administrator("Jan", "Peeters", "jan@hotmail.com");
+
+                Persoon persoon2 = new Administrator("Bart", "Moens", "bart@hotmail.com");
                 _dbContext.Personen.Add(persoon2);
-                Bericht welkom = new Bericht("Welkom", "Welkom bij Kairos!");
+                Bericht welkom = new Bericht("Welkom", "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui.");
+
                 _dbContext.Berichten.Add(welkom);
                 Bericht test = new Bericht("Test", "Dit is een testbericht");
                 _dbContext.Berichten.Add(test);
