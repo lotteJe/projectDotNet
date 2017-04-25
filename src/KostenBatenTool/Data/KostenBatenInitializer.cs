@@ -28,7 +28,6 @@ namespace KostenBatenTool.Data
             {
                 //await InitializeUsers();
 
-
                 //Organisatie colruyt = new Organisatie("colruyt","eiklaan","23",1600,"SPL");
                 //Organisatie delhaize = new Organisatie("delhaize", "beukenlaan", "3", 9000, "Gent");
                 //Organisatie[] organisaties = new Organisatie[] {colruyt,delhaize};
@@ -37,6 +36,8 @@ namespace KostenBatenTool.Data
 
                 Persoon persoon1 = new Contactpersoon("jespers","lotte","lotte@hotmail.com");
                 _dbContext.Personen.Add(persoon1);
+                Persoon persoon2 = new Administrator("Jan", "Peeters", "jan@hotmail.com");
+                _dbContext.Personen.Add(persoon2);
                 Bericht welkom = new Bericht("Welkom", "Welkom bij Kairos!");
                 _dbContext.Berichten.Add(welkom);
                 Bericht test = new Bericht("Test", "Dit is een testbericht");
