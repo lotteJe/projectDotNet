@@ -167,3 +167,11 @@ function fnExcelReport() {
 $(document).ready(function () {
     $('[tool-tip-toggle="tooltip"]').tooltip();
 });
+
+/* navigation */
+$(document).ready(function () {
+    function disableBack() { window.history.forward() }
+
+    window.onload = disableBack();
+    window.onpageshow = function (evt) { if (evt.persisted) disableBack() }
+});

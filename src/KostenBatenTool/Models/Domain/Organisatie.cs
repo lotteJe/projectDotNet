@@ -60,6 +60,7 @@ namespace KostenBatenTool.Models.Domain
             Huisnummer = huisnummer;
             Postcode = postcode;
             Gemeente = gemeente;
+            
         }
 
         #endregion

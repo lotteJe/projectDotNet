@@ -14,7 +14,7 @@
         </tr>
         foreach (var item in Model)
         {
-            <tr onclick="location.href = '@(Url.Action("Werkgever","Analyse", new {id = @item.OrganisatieId}))'">
+            <tr onclick="location.href = '@(Url.Action("Werkgever","Analyse", new {id = @item.OrganisatieId}))'" style="cursor: pointer">
                 <td>@item.Naam</td>
                 @if (item.Afdeling != null)
                 {
