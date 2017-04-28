@@ -18,8 +18,15 @@
         foreach (Analyse analyse in @Model)
         {
             <div class="col-md-4 col-sm-6 analyseDetail animated fadeIn">
-                <a asp-controller="Analyse" asp-action="Overzicht" asp-route-id="@analyse.AnalyseId">@analyse.Organisatie.Naam</a>
+                <div class="col-md-8">
+                    <a asp-controller="Analyse" asp-action="Overzicht" asp-route-id="@analyse.AnalyseId">@analyse.Organisatie.Naam</a>
+                </div>
 
+                <div class="col-md-4">
+                    <a href="#" id="tabel" onclick="javascript:fnExcelReport();"><i class="fa fa fa-download animated fadeInDown " aria-hidden="true"></i></a>
+                    <i class="fa fa-paper-plane animated fadeInDown" aria-hidden="true"></i>
+                    <a asp-controller="Analyse" asp-action="Delete" asp-route-id="@analyse.AnalyseId"><i class="fa fa-trash animated fadeInDown" aria-hidden="true"></i></a>
+                </div> 
                 <div>
                     <table class="table table-responsive">
                         <tr>
@@ -60,7 +67,7 @@
                     percentB = 50;
                 }
                 <div class="progress">
-                    <div class="progress-bar progress-bar-danger" role="progressbar" style="width:@percentK%">
+                    <div class="progress-bar progress-bar-danger" role="progressbar" style="width: @percentK%">
                         @($"{analyse.KostenResultaat:N2} €")
                     </div>
                     <div class="progress-bar progress-bar-success" role="progressbar" style="width: @percentB%">

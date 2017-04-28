@@ -8,6 +8,11 @@ namespace KostenBatenTool.Models.Domain
     public class Contactpersoon : Persoon
     {
         #region Constructors
+
+        public Contactpersoon()
+        {
+            
+        }
         public Contactpersoon(string naam, string voornaam, string email) : base(naam, voornaam, email)
         {
 

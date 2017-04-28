@@ -70,6 +70,8 @@ namespace KostenBatenTool.Controllers
                     o.UrenWerkWeek = model.Werkuren;
                     o.PatronaleBijdrage = model.Bijdrage / 100;
                     o.Afdeling = model.Afdeling;
+                    Contactpersoon contactpersoon = new Contactpersoon(model.NaamContactpersoon, model.VoornaamContactpersoon, model.EmailContactpersoon);
+                    o.Contactpersoon = contactpersoon;
                     var user = GetCurrentUserAsync();
                     string email = user.Result.Email;
                     ArbeidsBemiddelaar a = _arbeidsBemiddelaarRepository.GetBy(email);
@@ -490,8 +492,8 @@ namespace KostenBatenTool.Controllers
                         analyse.GetBerekening("MedewerkerHogerNiveauBesparing").VoegLijnToe();
                     }
                     analyse.VulVeldIn("MedewerkerHogerNiveauBesparing", model.LijnId, "uren", model.Veld1);
-                    analyse.VulVeldIn("MedewerkerHogerNiveauBesparing", model.LijnId, "bruto maandloon begeleider", model.Veld2);
-                    analyse.VulVeldIn("MedewerkerHogerNiveauBesparing", model.LijnId, "jaarbedrag", model.Veld3);
+                    analyse.VulVeldIn("MedewerkerHogerNiveauBesparing", model.LijnId, "bruto maandloon fulltime", model.Veld2);
+                    analyse.VulVeldIn("MedewerkerHogerNiveauBesparing", model.LijnId, "totale loonkost per jaar", model.Veld3);
                     _arbeidsBemiddelaarRepository.SerialiseerVelden(analyse);
                     _arbeidsBemiddelaarRepository.SaveChanges();
                     return RedirectToAction(nameof(MedewerkerHogerNiveauBesparing), analyse.AnalyseId);
@@ -534,8 +536,8 @@ namespace KostenBatenTool.Controllers
                         analyse.GetBerekening("MedewerkerZelfdeNiveauBesparing").VoegLijnToe();
                     }
                     analyse.VulVeldIn("MedewerkerZelfdeNiveauBesparing", model.LijnId, "uren", model.Veld1);
-                    analyse.VulVeldIn("MedewerkerZelfdeNiveauBesparing", model.LijnId, "bruto maandloon begeleider", model.Veld2);
-                    analyse.VulVeldIn("MedewerkerZelfdeNiveauBesparing", model.LijnId, "jaarbedrag", model.Veld3);
+                    analyse.VulVeldIn("MedewerkerZelfdeNiveauBesparing", model.LijnId, "bruto maandloon fulltime", model.Veld2);
+                    analyse.VulVeldIn("MedewerkerZelfdeNiveauBesparing", model.LijnId, "totale loonkost per jaar", model.Veld3);
                     _arbeidsBemiddelaarRepository.SerialiseerVelden(analyse);
                     _arbeidsBemiddelaarRepository.SaveChanges();
                     return RedirectToAction(nameof(MedewerkerZelfdeNiveauBesparing), analyse.AnalyseId);
@@ -878,6 +880,12 @@ namespace KostenBatenTool.Controllers
                 return _arbeidsBemiddelaarRepository.GetLaatsteAnalyse(email);
             }
             return _arbeidsBemiddelaarRepository.GetAnalyse(email, id);
+        }
+
+        public IActionResult DeleteLijn(int analyseId, int lijnId)
+        {
+            int id = analyseId;
+            throw new NotImplementedException();
         }
     }
 

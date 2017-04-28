@@ -44,6 +44,11 @@ namespace KostenBatenTool.Models.AnalyseViewModels
         [Display(Name = "Afdeling")]
         public string Afdeling { get; set; }
 
+        public string EmailContactpersoon { get; set; }
+
+        public string NaamContactpersoon { get; set; }
+        public string VoornaamContactpersoon { get; set; }
+
         public int OrganisatieId { get; set; }
         public WerkgeverViewModel()
         {
@@ -62,6 +67,9 @@ namespace KostenBatenTool.Models.AnalyseViewModels
             Straat = o.Straat;
             Naam = o.Naam;
             OrganisatieId = o.OrganisatieId;
+            EmailContactpersoon = o.Contactpersoon.Email;
+            NaamContactpersoon = o.Contactpersoon.Naam;
+            VoornaamContactpersoon = o.Contactpersoon.Voornaam;
         }
 
     }
