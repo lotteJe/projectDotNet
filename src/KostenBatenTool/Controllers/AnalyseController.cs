@@ -157,6 +157,10 @@ namespace KostenBatenTool.Controllers
                     analyse.VulVeldIn("LoonKost", model.LijnId, "functie", model.Functie);
                     analyse.VulVeldIn("LoonKost", model.LijnId, "uren per week", model.UrenPerWeek);
                     analyse.VulVeldIn("LoonKost", model.LijnId, "bruto maandloon fulltime", model.BrutoMaandloon);
+                    analyse.VulVeldIn("LoonKost", model.LijnId, "doelgroep", model.Doelgroep);
+                    analyse.VulVeldIn("LoonKost", model.LijnId, "% Vlaamse ondersteuningspremie", model.Vop);
+                    analyse.VulVeldIn("LoonKost", model.LijnId, "aantal maanden IBO", model.AantalMaanden);
+                    analyse.VulVeldIn("LoonKost", model.LijnId, "totale productiviteitspremie IBO", model.Ibo);
                     _arbeidsBemiddelaarRepository.SerialiseerVelden(analyse);
                     _arbeidsBemiddelaarRepository.SaveChanges();
 
@@ -227,9 +231,9 @@ namespace KostenBatenTool.Controllers
         }
 
         [HttpGet]
-        public IActionResult AanpassingsSubsidie(int id)
+        public IActionResult AanpassingsSubsidie(int analyseId)
         {
-            Analyse a = GetAnalyse(id);
+            Analyse a = GetAnalyse(analyseId);
             AanpassingsSubsidie besparing = (AanpassingsSubsidie)a.GetBerekening("AanpassingsSubsidie");
             return View(new EenDecimalViewModel(besparing, a.AnalyseId));
         }
@@ -247,7 +251,8 @@ namespace KostenBatenTool.Controllers
                     string email = user.Result.Email;
                     ArbeidsBemiddelaar ab = _arbeidsBemiddelaarRepository.GetArbeidsBemiddelaarVolledig(email);
                     Analyse analyse = ab.Analyses.First(a => a.AnalyseId == model.AnalyseId);
-                    analyse.VulVeldIn("AanpassingsSubsidie", 0, "jaarbedrag", model.Jaarbedrag);
+                    Lijn lijn = ((AanpassingsSubsidie) analyse.GetBerekening("AanpassingsSubsidie")).Lijnen[0];
+                    analyse.VulVeldIn("AanpassingsSubsidie", lijn.LijnId, "jaarbedrag", model.Jaarbedrag);
                     _arbeidsBemiddelaarRepository.SerialiseerVelden(analyse);
                     _arbeidsBemiddelaarRepository.SaveChanges();
                     return RedirectToAction(nameof(Overzicht), model.AnalyseId);
@@ -411,8 +416,9 @@ namespace KostenBatenTool.Controllers
                     string email = user.Result.Email;
                     ArbeidsBemiddelaar ab = _arbeidsBemiddelaarRepository.GetArbeidsBemiddelaarVolledig(email);
                     Analyse analyse = ab.Analyses.First(a => a.AnalyseId == model.AnalyseId);
-                    analyse.VulVeldIn("LogistiekeBesparing", 0, "transportkosten jaarbedrag", model.Transport);
-                    analyse.VulVeldIn("LogistiekeBesparing", 0, "logistieke kosten jaarbedrag", model.Logistiek);
+                    Lijn lijn = ((LogistiekeBesparing)analyse.GetBerekening("LogistiekeBesparing")).Lijnen[0];
+                    analyse.VulVeldIn("LogistiekeBesparing", lijn.LijnId, "transportkosten jaarbedrag", model.Transport);
+                    analyse.VulVeldIn("LogistiekeBesparing", lijn.LijnId, "logistieke kosten jaarbedrag", model.Logistiek);
                     _arbeidsBemiddelaarRepository.SerialiseerVelden(analyse);
                     _arbeidsBemiddelaarRepository.SaveChanges();
                     return RedirectToAction(nameof(Overzicht), model.AnalyseId);
@@ -563,8 +569,9 @@ namespace KostenBatenTool.Controllers
                     string email = user.Result.Email;
                     ArbeidsBemiddelaar ab = _arbeidsBemiddelaarRepository.GetArbeidsBemiddelaarVolledig(email);
                     Analyse analyse = ab.Analyses.First(a => a.AnalyseId == model.AnalyseId);
-                    analyse.VulVeldIn("OmzetverliesBesparing", 0, "jaarbedrag omzetverlies", model.Veld1);
-                    analyse.VulVeldIn("OmzetverliesBesparing", 0, "% besparing", model.Veld2);
+                    Lijn lijn = ((OmzetverliesBesparing)analyse.GetBerekening("OmzetverliesBesparing")).Lijnen[0];
+                    analyse.VulVeldIn("OmzetverliesBesparing",lijn.LijnId, "jaarbedrag omzetverlies", model.Veld1);
+                    analyse.VulVeldIn("OmzetverliesBesparing", lijn.LijnId, "% besparing", model.Veld2);
                     _arbeidsBemiddelaarRepository.SerialiseerVelden(analyse);
                     _arbeidsBemiddelaarRepository.SaveChanges();
                     return RedirectToAction(nameof(Overzicht), model.AnalyseId);
@@ -682,7 +689,8 @@ namespace KostenBatenTool.Controllers
                     string email = user.Result.Email;
                     ArbeidsBemiddelaar ab = _arbeidsBemiddelaarRepository.GetArbeidsBemiddelaarVolledig(email);
                     Analyse analyse = ab.Analyses.First(a => a.AnalyseId == model.AnalyseId);
-                    analyse.VulVeldIn("OverurenBesparing", 0, "jaarbedrag", model.Jaarbedrag);
+                    Lijn lijn = ((OverurenBesparing)analyse.GetBerekening("OverurenBesparing")).Lijnen[0];
+                    analyse.VulVeldIn("OverurenBesparing", lijn.LijnId, "jaarbedrag", model.Jaarbedrag);
                     _arbeidsBemiddelaarRepository.SerialiseerVelden(analyse);
                     _arbeidsBemiddelaarRepository.SaveChanges();
                     return RedirectToAction(nameof(Overzicht), model.AnalyseId);
@@ -716,7 +724,8 @@ namespace KostenBatenTool.Controllers
                     string email = user.Result.Email;
                     ArbeidsBemiddelaar ab = _arbeidsBemiddelaarRepository.GetArbeidsBemiddelaarVolledig(email);
                     Analyse analyse = ab.Analyses.First(a => a.AnalyseId == model.AnalyseId);
-                    analyse.VulVeldIn("ProductiviteitsWinst", 0, "jaarbedrag", model.Jaarbedrag);
+                    Lijn lijn = ((ProductiviteitsWinst)analyse.GetBerekening("ProductiviteitsWinst")).Lijnen[0];
+                    analyse.VulVeldIn("ProductiviteitsWinst", lijn.LijnId, "jaarbedrag", model.Jaarbedrag);
                     _arbeidsBemiddelaarRepository.SerialiseerVelden(analyse);
                     _arbeidsBemiddelaarRepository.SaveChanges();
                     return RedirectToAction(nameof(Overzicht), model.AnalyseId);
@@ -757,8 +766,8 @@ namespace KostenBatenTool.Controllers
                     {
                         analyse.GetBerekening("UitzendkrachtenBesparing").VoegLijnToe();
                     }
-                    analyse.VulVeldIn("UitzendkrachtenBesparing", model.LijnId, "type", model.Type);
-                    analyse.VulVeldIn("UitzendkrachtenBesparing", model.LijnId, "bedrag", model.Bedrag);
+                    analyse.VulVeldIn("UitzendkrachtenBesparing", model.LijnId, "beschrijving", model.Type);
+                    analyse.VulVeldIn("UitzendkrachtenBesparing", model.LijnId, "jaarbedrag", model.Bedrag);
                     _arbeidsBemiddelaarRepository.SerialiseerVelden(analyse);
                     _arbeidsBemiddelaarRepository.SaveChanges();
                     return RedirectToAction(nameof(UitzendkrachtenBesparing), analyse.AnalyseId);

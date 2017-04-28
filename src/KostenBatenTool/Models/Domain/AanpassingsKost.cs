@@ -17,7 +17,7 @@ namespace KostenBatenTool.Models.Domain
         {
             Velden.Add(new Veld("type", typeof(String)));
             Velden.Add(new Veld("bedrag", typeof(decimal)));
-            VoegLijnToe();
+            //VoegLijnToe();
         }
         #endregion
 
