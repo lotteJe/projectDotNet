@@ -12,9 +12,9 @@ namespace KostenBatenTool.Models.Domain
 
         public AndereBesparing(Analyse analyse)
         {
-            Velden.Add(new Veld("type besparing", typeof(string)));
+            Velden.Add(new Veld("beschrijving", typeof(string)));
             Velden.Add(new Veld("jaarbedrag", typeof(decimal)));
-            VoegLijnToe();
+            //VoegLijnToe();
         }
         #endregion
 

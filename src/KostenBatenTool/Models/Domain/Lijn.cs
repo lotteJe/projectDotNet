@@ -94,19 +94,19 @@ namespace KostenBatenTool.Models.Domain
                     veld.InternalValue = "" + veld.Value;
                 }
             }
-            foreach (Veld veld in VeldenDefinitie)
-            {
-                veld.InternalValue = veld.Value.ToString();
-            }
+            //foreach (Veld veld in VeldenDefinitie)
+            //{
+            //    veld.InternalValue = veld.Value.ToString();
+            //}
         }
 
         public void Deserialiseer(List<Veld> velden)
         {
             VeldenDefinitie = velden;
-            foreach (Veld veld in VeldenDefinitie)
-            {
-                veld.Value = Type.GetType(veld.InternalValue);
-            }
+            //foreach (Veld veld in VeldenDefinitie)
+            //{
+            //    veld.Value = Type.GetType(veld.InternalValue);
+            //}
             foreach (Veld veld in VeldenWaarden)
             {
                 //type ophalen 

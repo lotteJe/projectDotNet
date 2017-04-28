@@ -45,6 +45,10 @@ namespace KostenBatenTool.Models.Domain
 
         public void Serialiseer()//oproepen in Repository
         {
+            foreach (Veld veld in Velden)
+            {
+                veld.InternalValue = veld.Value.ToString();
+            }
             //omzetten van Value naar string in Lijnen
             Lijnen.ForEach(l => l.Serialiseer());
 
@@ -52,6 +56,10 @@ namespace KostenBatenTool.Models.Domain
 
         public void Deserialiseer()
         {
+            foreach (Veld veld in Velden)
+            {
+                veld.Value = Type.GetType(veld.InternalValue);
+            }
             //omzetten naar correct type, checken bij Velden
             Lijnen.ForEach(l => l.Deserialiseer(Velden));
         }
