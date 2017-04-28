@@ -27,7 +27,7 @@
             </tr>
             foreach (Analyse analyse in Model)
             {
-                <tr onclick="location.href = '@(Url.Action("Overzicht","Analyse", new {id = analyse.AnalyseId}))'">
+                <tr onclick="location.href = '@(Url.Action("Overzicht","Analyse", new {id = analyse.AnalyseId}))'" style="cursor: pointer">
                     <td>@(analyse.AanmaakDatum.Date.ToString("d") ?? "-")</td>
                     <td>@analyse.Organisatie.Naam</td>
                     @if(analyse.Organisatie.Afdeling == null){

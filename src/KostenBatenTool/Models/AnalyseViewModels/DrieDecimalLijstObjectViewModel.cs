@@ -13,13 +13,12 @@ namespace KostenBatenTool.Models.AnalyseViewModels
         public decimal Veld1 { get; set; }
         public decimal Veld2 { get; set; }
         public decimal Veld3 { get; set; }
-        public DrieDecimalLijstObjectViewModel(Lijn lijn)
+        public DrieDecimalLijstObjectViewModel(Lijn lijn, string veld2 , string veld3 )
         {
             LijnId = lijn.LijnId;
             Veld1 = (decimal)lijn.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("uren")).Value;
-            Veld2 =
-                (decimal)lijn.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("bruto maandloon begeleider")).Value;
-            Veld3 = (decimal)lijn.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("jaarbedrag")).Value;
+            Veld2 = (decimal)lijn.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals(veld2)).Value;
+            Veld3 = (decimal)lijn.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals(veld3)).Value;
         }
     }
 }

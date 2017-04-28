@@ -90,10 +90,11 @@
             <th>Vlaamse ondersteuningspremie</th>
             <th>Aantal maanden IBO</th>
             <th>Totale productiviteitspremie IBO</th>
+            <th></th>
         </tr>
         @foreach (LoonkostLijnViewModel lijn in Model.Lijnen)
         {
-            <tr onclick="location.href = '@(Url.Action("LoonKost","Analyse", new {analyseId = Model.AnalyseId, lijnId = lijn.LijnId}))'">
+            <tr onclick="location.href = '@(Url.Action("LoonKost","Analyse", new {analyseId = Model.AnalyseId, lijnId = lijn.LijnId}))'" style="cursor: pointer">
                 <td>@lijn.Functie</td>
                 <td>@lijn.UrenPerWeek</td>
                 <td>@lijn.BrutoMaandloon</td>
@@ -101,6 +102,7 @@
                 <td>@lijn.Vop</td>
                 <td>@lijn.AantalMaanden</td>
                 <td>@lijn.Ibo</td>
+                <td><a asp-controller="Analyse" asp-action="DeleteLijn" asp-route-id="new {analyseId = Model.AnalyseId, lijnId = lijn.LijnId}"><i class="fa fa-trash animated fadeInDown" aria-hidden="true"></i></a></td>
             </tr>
         }
 

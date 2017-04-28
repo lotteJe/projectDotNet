@@ -26,7 +26,7 @@ namespace KostenBatenTool.Data.Repositories
 
         public ArbeidsBemiddelaar GetArbeidsBemiddelaarVolledig(string email)
         {
-            ArbeidsBemiddelaar ab = _arbeidsBemiddelaars.Include("Analyses.Organisatie").Include("Analyses.Baten.Velden").Include("Analyses.Kosten.Velden").Include("Analyses.Kosten.Lijnen.VeldenWaarden").Include("Analyses.Baten.Lijnen.VeldenWaarden").First(a => a.Email.Equals(email));
+            ArbeidsBemiddelaar ab = _arbeidsBemiddelaars.Include("Analyses.Organisatie.Contactpersoon").Include("Analyses.Baten.Velden").Include("Analyses.Kosten.Velden").Include("Analyses.Kosten.Lijnen.VeldenWaarden").Include("Analyses.Baten.Lijnen.VeldenWaarden").First(a => a.Email.Equals(email));
             foreach (Analyse analyse in ab.Analyses)
             {
                 analyse.Kosten.ForEach(k => k.Deserialiseer());
@@ -53,7 +53,7 @@ namespace KostenBatenTool.Data.Repositories
 
         public Organisatie GetOrganisatie(string emailadres, int id)
         {
-            return _arbeidsBemiddelaars.Include("Analyses.Organisatie").First(a => a.Email.Equals(emailadres)).Analyses.Select(a => a.Organisatie).FirstOrDefault(o => o.OrganisatieId == id);
+            return _arbeidsBemiddelaars.Include("Analyses.Organisatie.Contactpersoon").First(a => a.Email.Equals(emailadres)).Analyses.Select(a => a.Organisatie).FirstOrDefault(o => o.OrganisatieId == id);
         }
 
         public IEnumerable<Organisatie> GetOrganisaties(string emailadres)

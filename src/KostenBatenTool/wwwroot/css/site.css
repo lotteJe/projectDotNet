@@ -638,6 +638,9 @@ form.form-horizontal.wwWijzigen {
         font-weight: unset;
         text-align: center;
     }
+    .functies th:last-child {
+        width: 80px;
+    }
 
     .functies td {
         background-color: #ffffff;
