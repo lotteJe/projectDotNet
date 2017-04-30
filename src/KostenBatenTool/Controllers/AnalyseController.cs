@@ -50,8 +50,9 @@ namespace KostenBatenTool.Controllers
             return PartialView("_werkgeversPartial", organisaties);
         }
 
-        public IActionResult Werkgever(int id = -1)
+        public IActionResult Werkgever(int id = -1, bool nieuw = false)
         {
+            ViewData["nieuw"] = nieuw;
             Organisatie o = _arbeidsBemiddelaarRepository.GetOrganisatie(User.Identity.Name, id);
             WerkgeverViewModel model = o == null ? new WerkgeverViewModel() : new WerkgeverViewModel(o);
             return View(model);
@@ -70,8 +71,11 @@ namespace KostenBatenTool.Controllers
                     o.UrenWerkWeek = model.Werkuren;
                     o.PatronaleBijdrage = model.Bijdrage / 100;
                     o.Afdeling = model.Afdeling;
-                    Contactpersoon contactpersoon = new Contactpersoon(model.NaamContactpersoon, model.VoornaamContactpersoon, model.EmailContactpersoon);
-                    o.Contactpersoon = contactpersoon;
+                    if (model.EmailContactpersoon != null)
+                    {
+                        Contactpersoon contactpersoon = new Contactpersoon(model.NaamContactpersoon, model.VoornaamContactpersoon, model.EmailContactpersoon);
+                        o.Contactpersoon = contactpersoon;
+                    }
                     var user = GetCurrentUserAsync();
                     string email = user.Result.Email;
                     ArbeidsBemiddelaar a = _arbeidsBemiddelaarRepository.GetBy(email);
@@ -109,6 +113,19 @@ namespace KostenBatenTool.Controllers
                     o.Huisnummer = model.Huisnummer;
                     o.UrenWerkWeek = model.Werkuren;
                     o.PatronaleBijdrage = model.Bijdrage / 100;
+                    if (o.Contactpersoon == null && model.EmailContactpersoon != null)
+                    {
+                        Contactpersoon contactpersoon = new Contactpersoon(model.NaamContactpersoon,
+                            model.VoornaamContactpersoon, model.EmailContactpersoon);
+                        o.Contactpersoon = contactpersoon;
+                    }
+                    else if (o.Contactpersoon != null)
+                    {
+                        o.Contactpersoon.Email = model.EmailContactpersoon;
+                        o.Contactpersoon.Naam = model.NaamContactpersoon;
+                        o.Contactpersoon.Voornaam = model.VoornaamContactpersoon;
+                    }
+                   
                     _arbeidsBemiddelaarRepository.SaveChanges();
                     return RedirectToAction(nameof(Overzicht));
                 }
@@ -185,6 +202,7 @@ namespace KostenBatenTool.Controllers
             _arbeidsBemiddelaarRepository.GetBy(email).Analyses.Remove(analyse);
             _arbeidsBemiddelaarRepository.VerwijderAnalyse(analyse);
             _arbeidsBemiddelaarRepository.SaveChanges();
+            TempData["message"] = "De analyse werd succesvol verwijderd.";
             return RedirectToAction(nameof(Index));
         }
 
@@ -279,7 +297,7 @@ namespace KostenBatenTool.Controllers
                 return View(new DrieDecimalViewModel(lijn, kost, analyseId));
             }
             return View(new DrieDecimalViewModel(kost, analyseId));
-           }
+        }
 
         [HttpPost]
         public IActionResult AdministratieBegeleidingsKost(DrieDecimalViewModel model, string returnUrl = null)
@@ -289,7 +307,7 @@ namespace KostenBatenTool.Controllers
             {
                 try
                 {
-                   ArbeidsBemiddelaar ab = _arbeidsBemiddelaarRepository.GetArbeidsBemiddelaarVolledig(User.Identity.Name);
+                    ArbeidsBemiddelaar ab = _arbeidsBemiddelaarRepository.GetArbeidsBemiddelaarVolledig(User.Identity.Name);
                     Analyse analyse = ab.Analyses.FirstOrDefault(a => a.AnalyseId == model.AnalyseId);
                     if (model.LijnId == 0)
                     {
@@ -806,7 +824,7 @@ namespace KostenBatenTool.Controllers
                 {
                     ArbeidsBemiddelaar ab = _arbeidsBemiddelaarRepository.GetArbeidsBemiddelaarVolledig(User.Identity.Name);
                     Analyse analyse = ab.Analyses.First(a => a.AnalyseId == model.AnalyseId);
-                    if (model.LijnId ==0 )
+                    if (model.LijnId == 0)
                     {
                         analyse.GetBerekening("VoorbereidingsKost").VoegLijnToe();
                     }

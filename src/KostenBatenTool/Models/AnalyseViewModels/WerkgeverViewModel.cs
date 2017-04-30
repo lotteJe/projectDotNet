@@ -9,7 +9,7 @@ namespace KostenBatenTool.Models.AnalyseViewModels
 {
     public class WerkgeverViewModel
     {
-       [Required(ErrorMessage = "Naam van de organisatie is verplicht")]
+        [Required(ErrorMessage = "Naam van de organisatie is verplicht")]
         [Display(Name = "Naam")]
         public string Naam { get; set; }
 
@@ -67,11 +67,20 @@ namespace KostenBatenTool.Models.AnalyseViewModels
             Straat = o.Straat;
             Naam = o.Naam;
             OrganisatieId = o.OrganisatieId;
-            EmailContactpersoon = o.Contactpersoon.Email;
-            NaamContactpersoon = o.Contactpersoon.Naam;
-            VoornaamContactpersoon = o.Contactpersoon.Voornaam;
+            if (o.Contactpersoon != null)
+            {
+                EmailContactpersoon = o.Contactpersoon.Email;
+                NaamContactpersoon = o.Contactpersoon.Naam;
+                VoornaamContactpersoon = o.Contactpersoon.Voornaam;
+            }
+            else
+            {
+                EmailContactpersoon = "";
+                NaamContactpersoon = "";
+                VoornaamContactpersoon = "";
+            }
+            
         }
-
     }
 }
 

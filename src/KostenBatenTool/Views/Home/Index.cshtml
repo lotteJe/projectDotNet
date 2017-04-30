@@ -23,9 +23,9 @@
                 </div>
 
                 <div class="col-md-4">
-                    <a href="#" id="tabel" onclick="javascript:fnExcelReport();"><i class="fa fa fa-download animated fadeInDown " aria-hidden="true"></i></a>
+                    @*<a href="#" id="tabel" onclick="javascript:fnExcelReport();"><i class="fa fa fa-download animated fadeInDown " aria-hidden="true"></i></a>*@
                     <i class="fa fa-paper-plane animated fadeInDown" aria-hidden="true"></i>
-                    <a asp-controller="Analyse" asp-action="Delete" asp-route-id="@analyse.AnalyseId"><i class="fa fa-trash animated fadeInDown" aria-hidden="true"></i></a>
+                    <a asp-controller="Analyse" asp-action="Delete" asp-route-id="@analyse.AnalyseId" id="myLink"><i class="fa fa-trash animated fadeInDown" aria-hidden="true"></i></a>
                 </div> 
                 <div>
                     <table class="table table-responsive">

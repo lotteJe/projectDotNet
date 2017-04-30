@@ -127,7 +127,7 @@ $('#show-kosten').click(function () {
 //            elements[ii].value = 0;
 //        }
 //    }
-    
+
 //});
 
 /* TABEL EXPORTEREN */
@@ -175,3 +175,34 @@ $(document).ready(function () {
     window.onload = disableBack();
     window.onpageshow = function (evt) { if (evt.persisted) disableBack() }
 });
+
+/* pdf*/
+function makePdf() {
+    var werkgever = document.getElementById("naamOrganisatie").innerText;
+    var doc = new jsPDF('l');
+    doc.setFontSize(18);
+    doc.text(werkgever, 14, 22);
+    doc.setFontSize(11);
+    doc.setTextColor(100);
+    var text = "Hieronder vind u het overzicht van de kosten en baten voor deze organsiatie.";
+    doc.text(text, 14, 30);
+    var elem = document.getElementById("overzichtO");
+    var res = doc.autoTableHtmlToJson(elem);
+    doc.autoTable(res.columns, res.data, { startY: 40, styles: { overflow: 'linebreak' } });
+    doc.save('Analyse_'+werkgever +'.pdf');
+
+}
+
+/* confirm */
+
+$(document).on("click", "#myLink", function (e) {
+    var link = $(this).attr("href"); 
+    e.preventDefault();
+    bootbox.setLocale("nl");
+    bootbox.confirm("U staat op het punt deze analyse te verwijderen. <br/> Bent u zeker dat u wil doorgaan?", function (result) {
+        if (result) {
+            document.location.href = link;     
+        }
+    });
+});
+

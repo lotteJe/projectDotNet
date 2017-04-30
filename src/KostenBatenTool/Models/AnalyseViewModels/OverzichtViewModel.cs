@@ -62,8 +62,6 @@ namespace KostenBatenTool.Models.AnalyseViewModels
             Baat9 = analyse.Baten[3].Resultaat;
             Baat10 = analyse.Baten[2].Resultaat;
             Baat11 = analyse.Baten[1].Resultaat;
-
-
         }
 
 
