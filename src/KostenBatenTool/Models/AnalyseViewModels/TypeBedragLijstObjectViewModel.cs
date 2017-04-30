@@ -13,11 +13,11 @@ namespace KostenBatenTool.Models.AnalyseViewModels
         public decimal Bedrag { get; set; }
 
 
-        public TypeBedragLijstObjectViewModel(Lijn lijn)
+        public TypeBedragLijstObjectViewModel(Lijn lijn, string veld1, string veld2)
         {
             LijnId = lijn.LijnId;
-            Type = lijn.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("type")).Value.ToString();
-            Bedrag = (decimal)lijn.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("bedrag")).Value;
+            Type = lijn.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals(veld1)).Value.ToString();
+            Bedrag = (decimal)lijn.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals(veld2)).Value;
         }
     }
 }

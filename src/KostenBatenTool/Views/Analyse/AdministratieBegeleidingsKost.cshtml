@@ -1,6 +1,8 @@
 ﻿@model KostenBatenTool.Models.AnalyseViewModels.DrieDecimalViewModel
 @{
-   ViewData["Title"] = "6. Extra kosten administratie en begeleiding";
+    ViewData["Title"] = "6. Extra kosten administratie en begeleiding";
+    var open = ViewData["open"].Equals(true) ? "in" : "";
+    var knop = ViewData["open"].Equals(true) ? "Opslaan" : "Toevoegen";
 }
 <div class="row">
     <h1 class="col-md-7">@ViewData["Title"]</h1>
@@ -15,7 +17,7 @@
 
 <div class="row">
     <h2 class="col-md-7">Hoeveel uren spendeert u jaarlijks aan extra administratie en interne begeleiding?</h2>
-    <a id="toevoegenFunctie" class="col-md-offset-4"><i class="fa fa-plus fa-2x  rotate" aria-hidden="true"></i></a>
+    <a id="toevoegenFunctie" class="col-md-offset-4" href="#demo" data-toggle="collapse"><i class="fa fa-plus fa-2x  rotate" aria-hidden="true"></i></a>
 </div>
 
 <div class="row">
@@ -27,50 +29,53 @@
                 <th>Jaarbedrag</th>
             </tr>
             @foreach (var item in Model.Lijst)
-        {
+            {
 
-            <tr  onclick="location.href = '@(Url.Action("AdministratieBegeleidingsKost","Analyse", new {analyseId = Model.AnalyseId, lijnId = item.LijnId}))'">
-                <td>@item.Veld1</td>
-                <td>@item.Veld2</td>
-                <td>@item.Veld3</td>
-            </tr>
-        }
+                <tr onclick="location.href = '@(Url.Action("AdministratieBegeleidingsKost","Analyse", new {analyseId = Model.AnalyseId, lijnId = item.LijnId}))'">
+                    <td>@item.Veld1</td>
+                    <td>@item.Veld2</td>
+                    <td>@item.Veld3</td>
+                </tr>
+            }
         </table>
     </div>
-    <div id="partial" class="col-md-6">
+    <div class="col-md-6">
+        <div class="">
+            <div id="demo" class="collapse @open">
+                <div class="functie">
+                    <form asp-controller="Analyse" asp-action="AdministratieBegeleidingsKost" method="post" class="form-horizontal">
+                        <input type="hidden" asp-for="AnalyseId" />
+                        <input type="hidden" asp-for="LijnId" />
+                        <div class="row">
+                            <label asp-for="Veld1" class="col-md-4 col-md-offset-2 ww">Uren</label>
+                            <div class="col-md-6">
+                                <input asp-for="Veld1" class="form-control" type="number" />
+                                <span asp-validation-for="Veld1" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label asp-for="Veld2" class="col-md-4  col-md-offset-2 control-label ww">Bruto maandloon begeleider</label>
+                            <div class="col-md-6">
+                                <input asp-for="Veld2" class="form-control" type="number" />
+                                <span asp-validation-for="Veld2" class="text-danger"></span>
+                            </div>
+                        </div><div class="row">
+                            <label asp-for="Veld3" class="col-md-4  col-md-offset-2 control-label ww">Jaarbedrag</label>
+                            <div class="col-md-6">
+                                <input asp-for="Veld3" class="form-control" type="number" />
+                                <span asp-validation-for="Veld3" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12" id="aanmelden">
+                                <a asp-controller="Analyse" asp-action="AdministratieBegeleidingsKost" asp-route-analyseId="@Model.AnalyseId" class="btn btn-default knop">Annuleren</a>
+                                <button type="submit" class="btn btn-default knop" id="">@knop</button>
+                            </div>
+                        </div>
 
-        <div class="functie">
-            <form asp-controller="Analyse" asp-action="AdministratieBegeleidingsKost" method="post" class="form-horizontal">
-                <input type="hidden" asp-for="AnalyseId" />
-                <input type="hidden" asp-for="LijnId" />
-                <div class="row">
-                    <label asp-for="Veld1" class="col-md-4 col-md-offset-2 ww">Uren</label>
-                    <div class="col-md-4">
-                        <input asp-for="Veld1" class="form-control"  type="number" />
-                        <span asp-validation-for="Veld1" class="text-danger"></span>
-                    </div>
+                    </form>
                 </div>
-                <div class="row">
-                    <label asp-for="Veld2" class="col-md-4  col-md-offset-2 control-label ww">Bruto maandloon begeleider</label>
-                    <div class="col-md-4">
-                        <input asp-for="Veld2" class="form-control"  type="number" />
-                        <span asp-validation-for="Veld2" class="text-danger"></span>
-                    </div>
-                </div><div class="row">
-                    <label asp-for="Veld3" class="col-md-4  col-md-offset-2 control-label ww">Jaarbedrag</label>
-                    <div class="col-md-4">
-                        <input asp-for="Veld3" class="form-control"  type="number" />
-                        <span asp-validation-for="Veld3" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-12" id="aanmelden">
-                        @*<button type="button" class="btn btn-default knop" id="loonkostnochange">Annuleren</button>*@
-                        <button type="submit" class="btn btn-default knop" id="">Toevoegen</button>
-                    </div>
-                </div>
-
-            </form>
+            </div>
         </div>
     </div>
 </div>
