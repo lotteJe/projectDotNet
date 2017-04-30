@@ -106,18 +106,20 @@ $('#show-kosten').click(function () {
 
 /*kostenpartial */
 
-//$('#toevoegenFunctie').click(function () {
-//    $('#loonkostPartial').show();
-//});
-// $('#loonkostnochange').click(function () {
-//    $('#loonkostPartial').hide();
-//});
+//$('#lijnEdit').click(function () {
+//    var z = document.getElementById("demo");
+//    z.classList.add("in");
 
+//});
+//$('#lijnEdit').click(function () {
+//    $('#partialK').show();
+//});
 //$("#toevoegenFunctie").click(function () {
-//    $("#partial").slideToggle();
+//    $("#partialK").slideToggle();
 //});
 //$(".rotate").click(function () {
 //    $(this).toggleClass("down");
+//    $('#partialK').hide();
 //    var elements = document.getElementsByTagName("input");
 //    for (var ii = 0; ii < elements.length; ii++) {
 //        if (elements[ii].type === "text") {

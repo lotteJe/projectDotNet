@@ -152,9 +152,11 @@ namespace KostenBatenTool.Controllers
             if (lijnId > 0)
             {
                 Lijn lijn = loonkost.Lijnen.FirstOrDefault(l => l.LijnId == lijnId);
+                ViewData["open"] = true;
                 return View(new LoonkostViewModel(lijn, loonkost, a.AnalyseId));
+                
             }
-
+            ViewData["open"] = false;
             return View(new LoonkostViewModel(loonkost, a.AnalyseId));
         }
 
@@ -183,7 +185,7 @@ namespace KostenBatenTool.Controllers
                     _arbeidsBemiddelaarRepository.SerialiseerVelden(analyse);
                     _arbeidsBemiddelaarRepository.SaveChanges();
 
-                    return RedirectToAction(nameof(LoonKost), analyse.AnalyseId);
+                    return RedirectToAction("Loonkost", new {analyseId= analyse.AnalyseId});
                 }
                 catch (Exception e)
                 {
@@ -215,8 +217,10 @@ namespace KostenBatenTool.Controllers
             if (lijnId > 0)
             {
                 Lijn lijn = kost.Lijnen.FirstOrDefault(l => l.LijnId == lijnId);
+                ViewData["open"] = true;
                 return View(new TypeBedragViewModel(lijn, kost, a.AnalyseId));
             }
+            ViewData["open"] = false;
             return View(new TypeBedragViewModel(kost, a.AnalyseId));
         }
 
@@ -294,8 +298,10 @@ namespace KostenBatenTool.Controllers
             if (lijnId > 0)
             {
                 Lijn lijn = kost.Lijnen.FirstOrDefault(l => l.LijnId == lijnId);
+                ViewData["open"] = true;
                 return View(new DrieDecimalViewModel(lijn, kost, analyseId));
             }
+            ViewData["open"] = false;
             return View(new DrieDecimalViewModel(kost, analyseId));
         }
 
@@ -337,8 +343,10 @@ namespace KostenBatenTool.Controllers
             if (lijnId > 0)
             {
                 Lijn lijn = kost.Lijnen.FirstOrDefault(l => l.LijnId == lijnId);
+                ViewData["open"] = true;
                 return View(new TypeBedragViewModel(lijn, kost, a.AnalyseId));
             }
+            ViewData["open"] = false;
             return View(new TypeBedragViewModel(kost, a.AnalyseId));
         }
 
@@ -357,8 +365,8 @@ namespace KostenBatenTool.Controllers
                     {
                         analyse.GetBerekening("AndereBesparing").VoegLijnToe();
                     }
-                    analyse.VulVeldIn("AndereBesparing", model.LijnId, "type", model.Type);
-                    analyse.VulVeldIn("AndereBesparing", model.LijnId, "bedrag", model.Bedrag);
+                    analyse.VulVeldIn("AndereBesparing", model.LijnId, "type besparing", model.Type);
+                    analyse.VulVeldIn("AndereBesparing", model.LijnId, "jaarbedrag", model.Bedrag);
                     _arbeidsBemiddelaarRepository.SerialiseerVelden(analyse);
                     _arbeidsBemiddelaarRepository.SaveChanges();
                     return RedirectToAction(nameof(AndereBesparing), analyse.AnalyseId);
@@ -380,8 +388,10 @@ namespace KostenBatenTool.Controllers
             if (lijnId > 0)
             {
                 Lijn lijn = kost.Lijnen.FirstOrDefault(l => l.LijnId == lijnId);
+                ViewData["open"] = true;
                 return View(new TypeBedragViewModel(lijn, kost, a.AnalyseId));
             }
+            ViewData["open"] = false;
             return View(new TypeBedragViewModel(kost, a.AnalyseId));
         }
 
@@ -489,8 +499,10 @@ namespace KostenBatenTool.Controllers
             if (lijnId > 0)
             {
                 Lijn lijn = kost.Lijnen.FirstOrDefault(l => l.LijnId == lijnId);
+                ViewData["open"] = true;
                 return View(new DrieDecimalViewModel(lijn, kost, analyseId));
             }
+            ViewData["open"] = false;
             return View(new DrieDecimalViewModel(kost, analyseId));
         }
 
@@ -532,9 +544,11 @@ namespace KostenBatenTool.Controllers
             MedewerkerZelfdeNiveauBesparing kost = (MedewerkerZelfdeNiveauBesparing)a.GetBerekening("MedewerkerZelfdeNiveauBesparing");
             if (lijnId > 0)
             {
+                ViewData["open"] = true;
                 Lijn lijn = kost.Lijnen.FirstOrDefault(l => l.LijnId == lijnId);
                 return View(new DrieDecimalViewModel(lijn, kost, analyseId));
             }
+            ViewData["open"] = false;
             return View(new DrieDecimalViewModel(kost, analyseId));
         }
 
@@ -612,8 +626,10 @@ namespace KostenBatenTool.Controllers
             if (lijnId > 0)
             {
                 Lijn lijn = kost.Lijnen.FirstOrDefault(l => l.LijnId == lijnId);
+                ViewData["open"] = true;
                 return View(new TypeBedragViewModel(lijn, kost, a.AnalyseId));
             }
+            ViewData["open"] = false;
             return View(new TypeBedragViewModel(kost, a.AnalyseId));
         }
 
@@ -654,8 +670,10 @@ namespace KostenBatenTool.Controllers
             if (lijnId > 0)
             {
                 Lijn lijn = kost.Lijnen.FirstOrDefault(l => l.LijnId == lijnId);
+                ViewData["open"] = true;
                 return View(new TypeBedragViewModel(lijn, kost, a.AnalyseId));
             }
+            ViewData["open"] = false;
             return View(new TypeBedragViewModel(kost, a.AnalyseId));
         }
 
@@ -674,8 +692,8 @@ namespace KostenBatenTool.Controllers
                     {
                         analyse.GetBerekening("OutsourcingBesparing").VoegLijnToe();
                     }
-                    analyse.VulVeldIn("OutsourcingBesparing", model.LijnId, "type", model.Type);
-                    analyse.VulVeldIn("OutsourcingBesparing", model.LijnId, "bedrag", model.Bedrag);
+                    analyse.VulVeldIn("OutsourcingBesparing", model.LijnId, "beschrijving", model.Type);
+                    analyse.VulVeldIn("OutsourcingBesparing", model.LijnId, "jaarbedrag", model.Bedrag);
                     _arbeidsBemiddelaarRepository.SerialiseerVelden(analyse);
                     _arbeidsBemiddelaarRepository.SaveChanges();
                     return RedirectToAction(nameof(OutsourcingBesparing), analyse.AnalyseId);
@@ -766,8 +784,10 @@ namespace KostenBatenTool.Controllers
             if (lijnId > 0)
             {
                 Lijn lijn = kost.Lijnen.FirstOrDefault(l => l.LijnId == lijnId);
+                ViewData["open"] = true;
                 return View(new TypeBedragViewModel(lijn, kost, a.AnalyseId));
             }
+            ViewData["open"] = false;
             return View(new TypeBedragViewModel(kost, a.AnalyseId));
         }
 
@@ -808,8 +828,10 @@ namespace KostenBatenTool.Controllers
             if (lijnId > 0)
             {
                 Lijn lijn = kost.Lijnen.FirstOrDefault(l => l.LijnId == lijnId);
+                ViewData["open"] = true;
                 return View(new TypeBedragViewModel(lijn, kost, a.AnalyseId));
             }
+            ViewData["open"] = false;
             return View(new TypeBedragViewModel(kost, a.AnalyseId));
         }
 
@@ -850,8 +872,10 @@ namespace KostenBatenTool.Controllers
             if (lijnId > 0)
             {
                 Lijn lijn = kost.Lijnen.FirstOrDefault(l => l.LijnId == lijnId);
+                ViewData["open"] = true;
                 return View(new TypeBedragViewModel(lijn, kost, a.AnalyseId));
             }
+            ViewData["open"] = false;
             return View(new TypeBedragViewModel(kost, a.AnalyseId));
         }
 

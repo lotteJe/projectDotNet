@@ -433,7 +433,7 @@ hr {
 }
 
 /* partial werkgevers */
-/*#partial,*/ #kostenpartial, #batenpartial, #changePartial /*, #loonkostPartial*/ {
+#partial, #kostenpartial, #batenpartial, #changePartial , #loonkostPartial {
     display: none;
 }
 
@@ -652,13 +652,13 @@ a:hover {
     margin: 25px;
 }
 
-    .functie .row {
-        margin-top: 30px;
-    }
+.functie .row {
+    margin-top: 30px;
+}
 
-    .functie label {
-        font-size: 18px;
-    }
+.functie label {
+    font-size: 18px;
+}
 
 /* partials kosten en baten Type Bedrag*/
 .typeTable {
@@ -681,9 +681,6 @@ a:hover {
         text-align: center;
     }
 
-        .functies th:last-child {
-            width: 80px;
-        }
 
     .functies td {
         background-color: #ffffff;
