@@ -4,7 +4,6 @@
 @{
     ViewData["Title"] = "Archief";
 }
-
 <h1>@ViewData["Title"]</h1>
 <hr />
 
@@ -27,25 +26,29 @@
             </tr>
             foreach (Analyse analyse in Model)
             {
-                <tr onclick="location.href = '@(Url.Action("Overzicht","Analyse", new {id = analyse.AnalyseId}))'" style="cursor: pointer">
-                    <td>@(analyse.AanmaakDatum.Date.ToString("d") ?? "-")</td>
-                    <td>@analyse.Organisatie.Naam</td>
-                    @if(analyse.Organisatie.Afdeling == null){
-                        <td>-</td>
-                    }else{
-                        <td>@analyse.Organisatie.Afdeling</td>
-                    }
-                    
-                    <td>@analyse.Organisatie.Gemeente</td>
-                    <td style="color: red">@($"{analyse.Resultaat:N2} €")</td>
-                    <td style="color: red">@($"{analyse.KostenResultaat:N2} €")</td>
-                    <td style="color: green">@($"{analyse.Resultaat:N2} €")</td>
+                <tr style="cursor: pointer">
+                    <td onclick="location.href = '@(Url.Action("Overzicht","Analyse", new {id = analyse.AnalyseId}))'">@(analyse.AanmaakDatum.Date.ToString("d") ?? "-")</td>
+                        <td onclick="location.href = '@(Url.Action("Overzicht","Analyse", new {id = analyse.AnalyseId}))'">@analyse.Organisatie.Naam</td>
+                        @if (analyse.Organisatie.Afdeling == null)
+                        {
+                            <td onclick="location.href = '@(Url.Action("Overzicht","Analyse", new {id = analyse.AnalyseId}))'">-</td>
+                        }
+                        else
+                        {
+                            <td >@analyse.Organisatie.Afdeling</td>
+                        }
+
+                        <td onclick="location.href = '@(Url.Action("Overzicht","Analyse", new {id = analyse.AnalyseId}))'">@analyse.Organisatie.Gemeente</td>
+                        <td onclick="location.href = '@(Url.Action("Overzicht","Analyse", new {id = analyse.AnalyseId}))'" style="color: red">@($"{analyse.Resultaat:N2} €")</td>
+                        <td onclick="location.href = '@(Url.Action("Overzicht","Analyse", new {id = analyse.AnalyseId}))'" style="color: red">@($"{analyse.KostenResultaat:N2} €")</td>
+                        <td onclick="location.href = '@(Url.Action("Overzicht","Analyse", new {id = analyse.AnalyseId}))'" style="color: green">@($"{analyse.Resultaat:N2} €")</td>
+                   
                     <td>
-                       <a asp-controller="Analyse" asp-action="" asp-route-id="@analyse.AnalyseId"> <i class="fa fa fa-download animated fadeInDown " aria-hidden="true"></i></a>
-                    <a asp-controller="Analyse" asp-action="" asp-route-id="@analyse.AnalyseId"><i class="fa fa-paper-plane animated fadeInDown" aria-hidden="true"></i></a>
-                    <a asp-controller="Analyse" asp-action="" asp-route-id="@analyse.AnalyseId"> <i class="fa fa-print animated fadeInDown" aria-hidden="true"></i></a>
-                    <a asp-controller="Analyse" asp-action="Delete" asp-route-id="@analyse.AnalyseId"><i class="fa fa-trash animated fadeInDown" aria-hidden="true"></i></a>
-                 </td>
+                        <a asp-controller="Analyse" asp-action="" asp-route-id="@analyse.AnalyseId"> <i class="fa fa fa-download animated fadeInDown " aria-hidden="true"></i></a>
+                        <a asp-controller="Analyse" asp-action="" asp-route-id="@analyse.AnalyseId"><i class="fa fa-paper-plane animated fadeInDown" aria-hidden="true"></i></a>
+                        <a asp-controller="Analyse" asp-action="" asp-route-id="@analyse.AnalyseId"> <i class="fa fa-print animated fadeInDown" aria-hidden="true"></i></a>
+                        <a asp-controller="Analyse" asp-action="Delete" asp-route-id="@analyse.AnalyseId" id="myLink"><i class="fa fa-trash animated fadeInDown" aria-hidden="true"></i></a>
+                    </td>
                 </tr>
             }
         }

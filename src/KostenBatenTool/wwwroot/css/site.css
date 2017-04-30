@@ -5,6 +5,13 @@
     src: url('../font/abadi.ttf'), url('../font/abadi.ttf'), url('../font/abadi.ttf');
 }
 
+@media print {
+    
+    .no-print, .no-print * {
+        display: none !important;
+    }
+}
+
 html.dash {
     background: url('../images/bg.png') no-repeat center center fixed;
     -webkit-background-size: cover;
@@ -395,10 +402,10 @@ hr {
 
     .archief tr:hover td > a i {
         display: inline;
-        cursor:pointer !important;
+        cursor: pointer !important;
         color: #3b4041;
         text-decoration: none;
-        }
+    }
 
     .archief td:nth-of-type(1),
     .archief td:nth-of-type(2),
@@ -426,7 +433,7 @@ hr {
 }
 
 /* partial werkgevers */
-/*#partial,*/ #kostenpartial, #batenpartial, #changePartial/*, #loonkostPartial*/ {
+/*#partial,*/ #kostenpartial, #batenpartial, #changePartial /*, #loonkostPartial*/ {
     display: none;
 }
 
@@ -544,6 +551,39 @@ hr {
     text-align: right;
 }
 
+.overzichtBtn i, #naamOrganisatie i {
+    color: dimgrey;
+}
+
+.overzichtBtn  i:hover, #naamOrganisatie i:hover {
+    color: #9CCD0B;
+    cursor: pointer;
+}
+
+
+.overzicht td a {
+    width: 100%;
+    display: block;
+    text-decoration: none;
+    color: #3b4041;
+}
+
+.overzicht td:nth-of-type(2):hover, .overzicht td:nth-of-type(5):hover {
+    background-color: #9CCD0B;
+}
+
+.overzicht td:hover a {
+    color: white;
+}
+
+.overzicht td a:hover {
+    text-decoration: none;
+}
+
+td.none:hover {
+    background-color: transparent !important;
+}
+
 h1 {
     font-size: 22px;
 }
@@ -552,14 +592,15 @@ h2 {
     font-size: 20px;
     padding-left: 20px;
     margin-bottom: 10px;
-    
 }
+
 hr {
     color: dimgray;
 }
+
 img#logo {
-   // width: 40px;
-    margin-right: 20px;
+/* width: 40px;*/
+        margin-right: 20px;
 }
 
 /* ww wijzigen*/
@@ -593,9 +634,10 @@ form.form-horizontal.wwWijzigen {
         background-color: none;
         color: dimgray;
     }
-    a:hover {
-          text-decoration: none;
-    }
+
+a:hover {
+    text-decoration: none;
+}
 
 .kruis {
     color: dimgray;
@@ -638,9 +680,10 @@ form.form-horizontal.wwWijzigen {
         font-weight: unset;
         text-align: center;
     }
-    .functies th:last-child {
-        width: 80px;
-    }
+
+        .functies th:last-child {
+            width: 80px;
+        }
 
     .functies td {
         background-color: #ffffff;
@@ -665,21 +708,6 @@ form.form-horizontal.wwWijzigen {
         transform: rotate(45deg);
     }
 
-.overzicht td a {
-    width: 100%;
-    display: block;
-    text-decoration: none;
-    color: #3b4041;
-}
-.overzicht td:nth-of-type(2):hover, .overzicht td:nth-of-type(5):hover  {
-    background-color: #9CCD0B;
-}
-.overzicht td:hover a {
-    color: white;
-}
-.overzicht td a:hover {
-    text-decoration: none;
-}
 
 .type {
     text-align: left;
@@ -693,57 +721,68 @@ form.form-horizontal.wwWijzigen {
     margin-bottom: 30px;
 }
 
-.volgendeTabs a {
-    background-color: #3b4041;
-    color: white;
-    cursor: pointer;
-    padding: 12px;
-    font-size:16px;
-    margin-left: -5px;
-}
+    .volgendeTabs a {
+        background-color: #3b4041;
+        color: white;
+        cursor: pointer;
+        padding: 12px;
+        font-size: 16px;
+        margin-left: -5px;
+    }
 
-.volgendeTabs a:hover, .volgendeTabs a.active, .volgendeTabs a:focus {
-    background-color: white;
-    color: #3b4041;
-    padding: 12px;
-    text-decoration: none;
-}
+        .volgendeTabs a:hover, .volgendeTabs a.active, .volgendeTabs a:focus {
+            background-color: white;
+            color: #3b4041;
+            padding: 12px;
+            text-decoration: none;
+        }
 
-.volgendeTabs a:first-of-type {
-    border-bottom-left-radius: 10px;
-    border-top-left-radius: 10px;
-}
+        .volgendeTabs a:first-of-type {
+            border-bottom-left-radius: 10px;
+            border-top-left-radius: 10px;
+        }
 
-.volgendeTabs a:last-of-type {
-    border-top-right-radius: 10px;
-    border-bottom-right-radius: 10px;
-}
+        .volgendeTabs a:last-of-type {
+            border-top-right-radius: 10px;
+            border-bottom-right-radius: 10px;
+        }
 
 /* tooltip */
- .tooltip.right > .tooltip-inner,  .tooltip.right > .tooltip-arrow {
+.tooltip.right > .tooltip-inner, .tooltip.right > .tooltip-arrow {
     margin-left: -20px;
 }
 
- /* berichten */
- .bericht {
-     background-color: white;
-     border-radius: 6px;
-     padding: 20px;
-     margin: 20px;
- }
+/* berichten */
+.bericht {
+    background-color: white;
+    border-radius: 6px;
+    padding: 20px;
+    margin: 20px;
+}
 
- .bericht p:first-child {
-     font-weight: bold;
-     font-size: 110%;
- }
- .bericht p:nth-of-type(2) {
-     font-size: 70%;    
- }
- .bericht p:last-child {
-     padding-left: 20px;
-     padding-right: 20px;
-     padding-top: 10px;
- }
- .bericht .row {
-     border-bottom: 1px dotted #3b4041;
- }
+    .bericht p:first-child {
+        font-weight: bold;
+        font-size: 110%;
+    }
+
+    .bericht p:nth-of-type(2) {
+        font-size: 70%;
+    }
+
+    .bericht p:last-child {
+        padding-left: 20px;
+        padding-right: 20px;
+        padding-top: 10px;
+    }
+
+    .bericht .row {
+        border-bottom: 1px dotted #3b4041;
+    }
+
+
+   /* confirmbox */
+   .btn-primary, .btn-primary:focus {
+       background-color: #9ccd0b;
+       border: 1px solid #9ccd0b;
+   }
+  

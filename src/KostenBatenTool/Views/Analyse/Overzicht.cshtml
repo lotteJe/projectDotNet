@@ -3,12 +3,12 @@
     ViewData["Title"] = Model.Organisatie.Naam+ ", " + Model.Organisatie.Gemeente ;
 }
 <div class="row">
-    <h1 class="col-md-8" id="naamOrganisatie">@ViewData["Title"] <a asp-controller="Analyse" asp-action="Werkgever" asp-route-id="@Model.Organisatie.OrganisatieId"><i class="fa fa-pencil" aria-hidden="true"></i></a></h1>
+    <h1 class="col-md-8" id="naamOrganisatie">@ViewData["Title"] <a asp-controller="Analyse" asp-action="Werkgever" asp-route-id="@Model.Organisatie.OrganisatieId"><i class="fa fa-pencil no-print" tool-tip-toggle="tooltip"  data-placement="bottom" data-original-title="Bewerken" aria-hidden="true"></i></a></h1>
    
-    <div class="col-md-2 col-md-offset-2 overzichtBtn">
-        <a href="#" id="tabel" onclick="javascript:fnExcelReport();" ><i class="fa fa fa-download animated fadeInDown " aria-hidden="true"></i></a>
-        <i class="fa fa-paper-plane animated fadeInDown" aria-hidden="true"></i>
-        <i class="fa fa-print animated fadeInDown" aria-hidden="true"></i>
+    <div class="col-md-2 col-md-offset-2 overzichtBtn no-print">
+        <a href="#" id="tabel" onclick="javascript:fnExcelReport();" ><i class="fa fa fa-file-excel-o animated fadeInDown " tool-tip-toggle="tooltip"  data-placement="bottom" data-original-title="Excel" aria-hidden="true"></i></a>
+        <i class="fa fa-file-pdf-o animated fadeInDown" aria-hidden="true" tool-tip-toggle="tooltip"  data-placement="bottom" data-original-title="Pdf" onclick="makePdf()"></i>
+        <i class="fa fa-print animated fadeInDown" aria-hidden="true" tool-tip-toggle="tooltip"  data-placement="bottom" data-original-title="Afdrukken" onClick="window.print()"></i>
     </div>
 </div>
 <hr />

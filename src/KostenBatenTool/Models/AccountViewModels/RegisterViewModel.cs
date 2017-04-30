@@ -14,7 +14,7 @@ namespace KostenBatenTool.Models.AccountViewModels
 
         [Required(ErrorMessage = "E-mailadres is verplicht")]
         [EmailAddress]
-        [Display(Name = "Email")]
+        [Display(Name = "E-mailadres")]
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Naam van de organisatie is verplicht")]
