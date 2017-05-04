@@ -1000,7 +1000,7 @@ namespace KostenBatenTool.Controllers
                         throw new Exception("file should not be null");
 
                     var filename = ContentDispositionHeaderValue.Parse(pdf.ContentDisposition).FileName.Trim('"');
-                    var targetDirectory = Path.Combine(_hostingEnv.WebRootPath, string.Format("Common\\"));
+                    var targetDirectory = Path.Combine(_hostingEnv.WebRootPath, string.Format("common\\"));
                     var savePath = Path.Combine(targetDirectory, filename);
                     FileStream stream = new FileStream(savePath, FileMode.Create);
                     pdf.CopyTo(stream);
