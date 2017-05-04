@@ -17,9 +17,10 @@ namespace KostenBatenTool.Models.AnalyseViewModels
 
         public string Bericht { get; set; }
         public int OrganisatiId { get; set; }
+        public int AnalyseId { get; set; }
 
         [DataType(DataType.Upload)]
-        [FileExtensions(Extensions = "pdf")]
+        [Required(ErrorMessage = "Gelieve een bestand te selecteren")]
         public IFormFile Pdf { get; set; }
 
         public ResultaatViewModel()
@@ -27,10 +28,11 @@ namespace KostenBatenTool.Models.AnalyseViewModels
 
         }
 
-        public ResultaatViewModel(Organisatie o, string voornaam, string naam)
+        public ResultaatViewModel(Organisatie o, string voornaam, string naam, int analyseId)
         {
             EmailContactpersoon = o.Contactpersoon?.Email ?? "";
             OrganisatiId = o.OrganisatieId;
+            AnalyseId = analyseId;
             Bericht =
                 string.Format("Beste " + $"{o.Contactpersoon?.Voornaam}\n" + "\nIn bijlage vind u de analyse voor " +
                               $"{o.Naam} te {o.Gemeente}." + " \n \nHartelijke groet \n"+$"{voornaam} {naam}");

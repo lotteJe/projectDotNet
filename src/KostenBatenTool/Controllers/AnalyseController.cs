@@ -981,29 +981,29 @@ namespace KostenBatenTool.Controllers
         }
 
         [HttpGet]
-        public IActionResult EmailResultaat(int id)
+        public IActionResult EmailResultaat(int id, int analyseId)
         {
             Organisatie o = _arbeidsBemiddelaarRepository.GetOrganisatie(User.Identity.Name, id);
             Persoon p = _arbeidsBemiddelaarRepository.GetArbeidsBemiddelaarVolledig(User.Identity.Name);
-            return View(new ResultaatViewModel(o, p.Voornaam, p.Naam));
+            return View(new ResultaatViewModel(o, p.Voornaam, p.Naam, analyseId));
         }
 
         [HttpPost]
-        public async Task<IActionResult> EmailResultaat(ResultaatViewModel model, IFormFile pdf, string returnUrl = null)
+        public async Task<IActionResult> EmailResultaat(ResultaatViewModel model, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
                 try
                 {
-                    if (pdf == null || pdf.Length == 0)
+                    if (model.Pdf == null || model.Pdf.Length == 0)
                         throw new Exception("file should not be null");
 
-                    var filename = ContentDispositionHeaderValue.Parse(pdf.ContentDisposition).FileName.Trim('"');
+                    var filename = ContentDispositionHeaderValue.Parse(model.Pdf.ContentDisposition).FileName.Trim('"');
                     var targetDirectory = Path.Combine(_hostingEnv.WebRootPath, string.Format("common\\"));
                     var savePath = Path.Combine(targetDirectory, filename);
                     FileStream stream = new FileStream(savePath, FileMode.Create);
-                    pdf.CopyTo(stream);
+                    model.Pdf.CopyTo(stream);
                     stream.Dispose();
                     Organisatie o = _arbeidsBemiddelaarRepository.GetOrganisatie(User.Identity.Name,
                             model.OrganisatiId);
@@ -1021,7 +1021,7 @@ namespace KostenBatenTool.Controllers
                     await _emailService.SendEmailAsync(User.Identity.Name, model.EmailContactpersoon, emailMessage);
                     TempData["message"] = "De analyse werd succesvol verstuurd.";
 
-                    return RedirectToAction(nameof(Overzicht));
+                    return RedirectToAction(nameof(Overzicht),model.AnalyseId);
                 }
 
                 catch (Exception e)
