@@ -11,9 +11,12 @@ namespace KostenBatenTool.Models.Domain
         protected AndereKost() { }
         public AndereKost(Analyse analyse)
         {
-            Velden.Add(new Veld("type", typeof(String)));
-            Velden.Add(new Veld("bedrag", typeof(decimal)));
+            Velden.Add(new Veld("type", typeof(String),1));
+            Velden.Add(new Veld("bedrag", typeof(decimal),2));
             //VoegLijnToe();
+            Beschrijving = "Andere kosten";
+            Volgorde = 7;
+
         }
         #endregion
 

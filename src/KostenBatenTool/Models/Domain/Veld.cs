@@ -9,6 +9,7 @@ namespace KostenBatenTool.Models.Domain
     {
         #region Properties
         public int VeldId { get; set; }
+        public int Volgorde { get; set; }
         public string VeldKey { get; set; }
         public object Value { get; set; }
         public string InternalValue { get; set; }
@@ -20,10 +21,11 @@ namespace KostenBatenTool.Models.Domain
         {
             
         }
-        public Veld(string key, Object value)
+        public Veld(string key, Object value, int volgorde)
         {
             VeldKey = key;
             Value = value;
+            Volgorde = volgorde;
         }
         #endregion
 

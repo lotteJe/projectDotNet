@@ -11,8 +11,11 @@ namespace KostenBatenTool.Models.Domain
         protected VoorbereidingsKost() { }
         public VoorbereidingsKost(Analyse analyse)
         {
-            Velden.Add(new Veld("type", typeof(String)));
-            Velden.Add(new Veld("bedrag", typeof(decimal)));
+            Velden.Add(new Veld("type", typeof(String),1));
+            Velden.Add(new Veld("bedrag", typeof(decimal),2));
+
+            Beschrijving = "Voorbereiding start medewerker met grote afstand tot de arbeidsmarkt";
+            Volgorde = 2;
             //VoegLijnToe();
         }
         #endregion

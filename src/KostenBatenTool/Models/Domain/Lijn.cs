@@ -32,23 +32,17 @@ namespace KostenBatenTool.Models.Domain
         {
             foreach (Veld veld in VeldenDefinitie)
             {
-
                 if (veld.Value == typeof(decimal))
                 {
-                    VeldenWaarden.Add(new Veld(veld.VeldKey, 0M));
+                    VeldenWaarden.Add(new Veld(veld.VeldKey, 0M, veld.Volgorde));
                 }
                 else if (veld.Value == typeof(double))
                 {
-                    VeldenWaarden.Add(new Veld(veld.VeldKey, 0));
-                }
-                else if (veld.Value == typeof(Doelgroep))
-                {
-
-                    VeldenWaarden.Add(new Veld(veld.VeldKey, Doelgroep.Ander));
+                    VeldenWaarden.Add(new Veld(veld.VeldKey, 0, veld.Volgorde));
                 }
                 else
                 {
-                    VeldenWaarden.Add(new Veld(veld.VeldKey, "-"));
+                    VeldenWaarden.Add(new Veld(veld.VeldKey, "-", veld.Volgorde));
                 }
             }
         }
@@ -85,14 +79,7 @@ namespace KostenBatenTool.Models.Domain
         {
             foreach (Veld veld in VeldenWaarden)
             {
-                if (VeldenDefinitie.Find(v => v.VeldKey == veld.VeldKey).Value == typeof(Doelgroep) && veld.Value != null)
-                {
-                    veld.InternalValue = Enum.GetName(typeof(Doelgroep), veld.Value);
-                }
-                else
-                {
-                    veld.InternalValue = "" + veld.Value;
-                }
+                veld.InternalValue = "" + veld.Value;
             }
             //foreach (Veld veld in VeldenDefinitie)
             //{
@@ -118,21 +105,8 @@ namespace KostenBatenTool.Models.Domain
                 {
                     veld.Value = Double.Parse(veld.InternalValue);
                 }
-                else if (VeldenDefinitie.Find(v => v.VeldKey == veld.VeldKey).Value == typeof(Doelgroep))
-                {
-                    if (veld.InternalValue != "")
-                    {
-                        veld.Value = Enum.Parse(typeof(Doelgroep), veld.InternalValue);
-                    }
-                    else
-                    {
-                        veld.Value = null;
-                    }
-
-                }
-                else
-                {
-                    veld.Value = veld.InternalValue;
+                else { 
+                    veld.Value = veld.InternalValue.ToString();
                 }
             }
             

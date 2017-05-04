@@ -11,8 +11,10 @@ namespace KostenBatenTool.Models.Domain
         protected OverurenBesparing() { }
         public OverurenBesparing(Analyse analyse)
         {
-            Velden.Add(new Veld("jaarbedrag", typeof(decimal)));
+            Velden.Add(new Veld("jaarbedrag", typeof(decimal),1));
             VoegLijnToe();
+            Beschrijving = "Besparing op overuren";
+            Volgorde = 8;
         }
         #endregion
 

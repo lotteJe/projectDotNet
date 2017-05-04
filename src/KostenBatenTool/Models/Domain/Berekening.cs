@@ -12,6 +12,8 @@ namespace KostenBatenTool.Models.Domain
     {
         #region Properties
         public int BerekeningId { get; set; }
+        public int Volgorde { get; set; }
+        public string Beschrijving { get; set; }
         public List<Veld> Velden { get; set; } = new List<Veld>();
         public List<Lijn> Lijnen { get; set; } = new List<Lijn>();
         public decimal Resultaat { get; set; } = 0M;
@@ -29,7 +31,7 @@ namespace KostenBatenTool.Models.Domain
 
         public abstract decimal BerekenBedragPerLijn(int index);
 
-        public void VoegLijnToe() //Voegt nieuwe List toe op index waarvan alle keys ingevuld zijn en elke string null is, elke double en decimal zijn 0
+        public virtual void VoegLijnToe() //Voegt nieuwe List toe op index waarvan alle keys ingevuld zijn en elke string null is, elke double en decimal zijn 0
         {
             Lijn lijn = new Lijn(Velden);
             lijn.VoegLijnToe();

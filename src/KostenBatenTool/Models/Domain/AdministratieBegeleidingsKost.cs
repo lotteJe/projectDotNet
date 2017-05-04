@@ -22,10 +22,13 @@ namespace KostenBatenTool.Models.Domain
         public AdministratieBegeleidingsKost(Analyse analyse)
         {
             Analyse = analyse;
-            Velden.Add(new Veld("uren", typeof(decimal)));
-            Velden.Add(new Veld("bruto maandloon begeleider", typeof(decimal)));
-            Velden.Add(new Veld("jaarbedrag", typeof(decimal)));
+            Velden.Add(new Veld("uren", typeof(decimal),1));
+            Velden.Add(new Veld("bruto maandloon begeleider", typeof(decimal),2));
+            Velden.Add(new Veld("jaarbedrag", typeof(decimal),3));
             //VoegLijnToe();
+
+            Beschrijving = "Extra kosten administratie en begeleiding";
+            Volgorde = 6;
         }
         #endregion
 

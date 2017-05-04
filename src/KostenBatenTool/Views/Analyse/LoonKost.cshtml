@@ -62,7 +62,7 @@
                 <div class="row">
                     <label asp-for="Doelgroep" class="col-md-2 control-label ww">Doelgroep</label>
                     <div class="col-md-3">
-                        <select asp-items="Html.GetEnumSelectList<Doelgroep>()"></select>
+                        <select asp-for="Doelgroep" asp-items="@(ViewData["Doelgroepen"] as SelectList)"></select>
                         <span asp-validation-for="Doelgroep" class="text-danger"></span>
                     </div>
                 </div>
