@@ -27,13 +27,15 @@ namespace KostenBatenToolTests.Models
             _kost = new LoonKost(_analyse);
             _kost.VulVeldIn(0, "bruto maandloon fulltime", 1000M);
             _kost.VulVeldIn(0, "uren per week", 40.0M);
-            _kost.VulVeldIn(0, "doelgroep", Doelgroep.Boven60);
+            Doelgroep boven60 = new Doelgroep("Boven60", 4466.66M, 1500M);
+            ((LoonKostLijn)_kost.Lijnen[0]).Doelgroep = boven60;
             _kost.VulVeldIn(0, "% Vlaamse ondersteuningspremie", 0.2M);
             _kost.VulVeldIn(0, "aantal maanden IBO", 2M);
             _kost.VulVeldIn(0, "totale productiviteitspremie IBO", 100M);
             _kost.VulVeldIn(1, "bruto maandloon fulltime", 1200M);
             _kost.VulVeldIn(1, "uren per week", 40.0M);
-            _kost.VulVeldIn(1, "doelgroep", Doelgroep.Laaggeschoold);
+            Doelgroep laaggeschoold = new Doelgroep("Laaggeschoold", 2500M, 1550M);
+            ((LoonKostLijn)_kost.Lijnen[0]).Doelgroep = laaggeschoold;
             _kost.VulVeldIn(1, "% Vlaamse ondersteuningspremie", 0.4M);
             _kost.VulVeldIn(1, "aantal maanden IBO", 3M);
             _kost.VulVeldIn(1, "totale productiviteitspremie IBO", 200M);

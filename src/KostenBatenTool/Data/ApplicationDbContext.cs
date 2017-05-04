@@ -15,6 +15,7 @@ namespace KostenBatenTool.Data
         public DbSet<ArbeidsBemiddelaar> ArbeidsBemiddelaars { get; set; }
         public DbSet<Analyse> Analyses { get; set; }
         public DbSet<Bericht> Berichten { get; set; }
+        public DbSet<Doelgroep> Doelgroepen { get;set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
@@ -35,9 +36,23 @@ namespace KostenBatenTool.Data
             builder.Entity<MedewerkerZelfdeNiveauBesparing>(MapMedewerkerZelfdeNiveauBesparing);
             builder.Entity<Veld>(MapVeld);
             builder.Entity<Lijn>(MapLijn);
+            builder.Entity<LoonKostLijn>(MapLoonKostLijn);
             builder.Entity<Bericht>(MapBericht);
             builder.Entity<Administrator>(MapAdministrator);
-           
+            builder.Entity<Doelgroep>(MapDoelgroep);
+        }
+
+        private void MapLoonKostLijn(EntityTypeBuilder<LoonKostLijn> l)
+        {
+            l.HasOne(t => t.Doelgroep).WithMany().OnDelete(DeleteBehavior.Restrict);
+        }
+
+        private void MapDoelgroep(EntityTypeBuilder<Doelgroep> d)
+        {
+            d.ToTable("Doelgroep");
+            d.HasKey(dg => dg.DoelgroepId);
+            d.Property(dg => dg.DoelgroepId).ValueGeneratedOnAdd();
+            d.Property(dg => dg.Soort);
         }
 
         private void MapAdministrator(EntityTypeBuilder<Administrator> a)

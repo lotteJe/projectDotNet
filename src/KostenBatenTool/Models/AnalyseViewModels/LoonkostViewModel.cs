@@ -13,7 +13,7 @@ namespace KostenBatenTool.Models.AnalyseViewModels
         public string Functie { get; set; }
         public decimal UrenPerWeek { get; set; }
         public decimal BrutoMaandloon { get; set; }
-        public Doelgroep Doelgroep { get; set; }
+        public string Doelgroep { get; set; }
         public decimal Vop { get; set; }
         public decimal AantalMaanden { get; set; }
         public decimal Ibo { get; set; }
@@ -39,7 +39,7 @@ namespace KostenBatenTool.Models.AnalyseViewModels
             UrenPerWeek = (decimal)lijn.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("uren per week")).Value;
             BrutoMaandloon =
                 (decimal)lijn.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("bruto maandloon fulltime")).Value;
-            Doelgroep = (Doelgroep)lijn.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("doelgroep")).Value;
+            Doelgroep = ((LoonKostLijn)lijn).Doelgroep.Soort;
             Vop =
                 (decimal)lijn.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("% Vlaamse ondersteuningspremie")).Value;
             AantalMaanden = (decimal)lijn.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("aantal maanden IBO")).Value;
