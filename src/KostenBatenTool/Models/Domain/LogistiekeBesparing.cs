@@ -12,10 +12,12 @@ namespace KostenBatenTool.Models.Domain
 
         public LogistiekeBesparing(Analyse analyse)
         {
-            Velden.Add(new Veld("transportkosten jaarbedrag", typeof(decimal)));
-            Velden.Add(new Veld("logistieke kosten jaarbedrag", typeof(decimal)));
-            Velden.Add(new Veld("totaalbedrag", typeof(decimal)));
+            Velden.Add(new Veld("transportkosten jaarbedrag", typeof(decimal),1));
+            Velden.Add(new Veld("logistieke kosten jaarbedrag", typeof(decimal),2));
+            Velden.Add(new Veld("totaalbedrag", typeof(decimal),3));
             VoegLijnToe();
+            Beschrijving = "Logistieke besparing";
+            Volgorde = 10;
         }
         #endregion
         #region Methods

@@ -34,15 +34,15 @@ namespace KostenBatenTool.Models.Domain
             {
                 if (veld.Value == typeof(decimal))
                 {
-                    VeldenWaarden.Add(new Veld(veld.VeldKey, 0M));
+                    VeldenWaarden.Add(new Veld(veld.VeldKey, 0M, veld.Volgorde));
                 }
                 else if (veld.Value == typeof(double))
                 {
-                    VeldenWaarden.Add(new Veld(veld.VeldKey, 0));
+                    VeldenWaarden.Add(new Veld(veld.VeldKey, 0, veld.Volgorde));
                 }
                 else
                 {
-                    VeldenWaarden.Add(new Veld(veld.VeldKey, "-"));
+                    VeldenWaarden.Add(new Veld(veld.VeldKey, "-", veld.Volgorde));
                 }
             }
         }

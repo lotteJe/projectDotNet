@@ -11,9 +11,11 @@ namespace KostenBatenTool.Models.Domain
         protected UitzendkrachtenBesparing() { }
         public UitzendkrachtenBesparing(Analyse analyse)
         {
-            Velden.Add(new Veld("beschrijving", typeof(string)));
-            Velden.Add(new Veld("jaarbedrag", typeof(decimal)));
+            Velden.Add(new Veld("beschrijving", typeof(string),1));
+            Velden.Add(new Veld("jaarbedrag", typeof(decimal),2));
             //VoegLijnToe();
+            Beschrijving = "Besparing (extra) uitzendkrachten";
+            Volgorde = 5;
         }
         #endregion
 

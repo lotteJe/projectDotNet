@@ -11,10 +11,12 @@ namespace KostenBatenTool.Models.Domain
         protected OmzetverliesBesparing() { }
         public OmzetverliesBesparing(Analyse analyse)
         {
-            Velden.Add(new Veld("jaarbedrag omzetverlies", typeof(decimal)));
-            Velden.Add(new Veld("% besparing", typeof(decimal)));
-            Velden.Add(new Veld("totaalbesparing", typeof(decimal)));
+            Velden.Add(new Veld("jaarbedrag omzetverlies", typeof(decimal),1));
+            Velden.Add(new Veld("% besparing", typeof(decimal),2));
+            Velden.Add(new Veld("totaalbesparing", typeof(decimal),3));
             VoegLijnToe();
+            Beschrijving = "Inperking omzetverlies";
+            Volgorde = 6;
         }
         #endregion
 
