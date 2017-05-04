@@ -24,7 +24,7 @@ namespace KostenBatenTool.Data
         public async Task InitializeData()
         {
 
-          //  _dbContext.Database.EnsureDeleted();
+           // _dbContext.Database.EnsureDeleted();
 
             if (_dbContext.Database.EnsureCreated())
             {
@@ -46,34 +46,46 @@ namespace KostenBatenTool.Data
                 _dbContext.Berichten.Add(welkom);
                 Bericht test = new Bericht("Test", "Dit is een testbericht");
                 _dbContext.Berichten.Add(test);
+
+                Doelgroep laaggeschoold = new Doelgroep("Laaggeschoold", 2500M,1550M);
+                Doelgroep middengeschoold = new Doelgroep("Middengeschoold", 2500M, 1000M);
+                Doelgroep tussen55En60 = new Doelgroep("Tussen 55 en 60 jaar", 4466.66M, 1150M);
+                Doelgroep boven60 = new Doelgroep("Boven 60 jaar", 4466.66M, 1500M);
+                Doelgroep ander = new Doelgroep("Ander", 0M, 0M);
+                _dbContext.Doelgroepen.Add(laaggeschoold);
+                _dbContext.Doelgroepen.Add(middengeschoold);
+                _dbContext.Doelgroepen.Add(tussen55En60);
+                _dbContext.Doelgroepen.Add(boven60);
+                _dbContext.Doelgroepen.Add(ander);
+                
                 _dbContext.SaveChanges();
 
                 ////dit gebeurt bij registreren
-                //Organisatie vdab = new Organisatie("vdab", "KroonveldLaan", "102", 9200, "Dendermonde");
-                //Persoon sharonRegistreer = new ArbeidsBemiddelaar("Van Hove", "Sharon", "sharonvanhove1@gmail.com", vdab);
-                //_dbContext.Personen.Add(sharonRegistreer);
+                //Organisatie vdab = new Organisatie("vdab", "KroonveldLaan", "102", "9200", "Dendermonde");
+                //Persoon persoon3 = new ArbeidsBemiddelaar("De Kinder", "Hugo", "hugo@gmail.com", vdab);
+                //_dbContext.Personen.Add(persoon3);
                 //_dbContext.SaveChanges();
 
 
 
                 ////ophalen gebeurt bij overgang naar dashboard
                 //ArbeidsBemiddelaarRepository arb = new ArbeidsBemiddelaarRepository(_dbContext);
-                //ArbeidsBemiddelaar sharon = arb.GetBy("sharonvanhove1@gmail.com");
-               
+                //ArbeidsBemiddelaar hugo = arb.GetBy("hugo@gmail.com");
+
 
                 ////nieuwe analyse toevoegen
-                //Organisatie hogent = new Organisatie("HoGent", "Arbeidstraat", "14", 9300, "Aalst");
+                //Organisatie hogent = new Organisatie("HoGent", "Arbeidstraat", "14", "9300", "Aalst");
                 //Analyse analyseHogent = new Analyse(hogent);
-                //sharon.VoegNieuweAnalyseToe(analyseHogent);
-                //Organisatie ugent = new Organisatie("UGent", "Krijgslaan", "114", 9000, "Gent");
+                //hugo.VoegNieuweAnalyseToe(analyseHogent);
+                //Organisatie ugent = new Organisatie("UGent", "Krijgslaan", "114", "9000", "Gent");
                 //Analyse analyseUgent = new Analyse(ugent);
-                //sharon.VoegNieuweAnalyseToe(analyseUgent);
+                //hugo.VoegNieuweAnalyseToe(analyseUgent);
 
                 //foreach(Analyse analyse in sharon.Analyses)
                 //    arb.SerialiseerVelden(analyse);
                 //arb.SaveChanges();
-               
-                
+
+
                 //analyses ophalen
                 //Analyse analyseHogent = a.GetBy(1);
                 //analyseHogent.VulVeldIn("LoonKost", 0, "functie", "manager");
@@ -92,9 +104,9 @@ namespace KostenBatenTool.Data
                 //analyseUgent.VulVeldIn("LoonKost", 1, "uren per week", 40.0M);
                 //analyseUgent.VulVeldIn("AndereKost", 1, "bedrag", 100M);
                 //analyseUgent.VulVeldIn("ProductiviteitsWinst", 1, "jaarbedrag", 1000M);
-               
+
                 //a.SaveChanges();
-                
+
 
 
             }

@@ -8,6 +8,7 @@ using KostenBatenTool.Models.Domain;
 using Microsoft.AspNetCore.Mvc;
 using KostenBatenTool.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace KostenBatenTool.Controllers
 {
@@ -15,11 +16,13 @@ namespace KostenBatenTool.Controllers
     {
 
         private readonly IArbeidsBemiddelaarRepository _arbeidsBemiddelaarRepository;
+        private readonly IDoelgroepRepository _doelgroepRepository;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public AnalyseController(IArbeidsBemiddelaarRepository arbeidsBemiddelaarRepository, UserManager<ApplicationUser> userManager)
+        public AnalyseController(IArbeidsBemiddelaarRepository arbeidsBemiddelaarRepository, IDoelgroepRepository doelgroepRepository, UserManager<ApplicationUser> userManager)
         {
             _arbeidsBemiddelaarRepository = arbeidsBemiddelaarRepository;
+            _doelgroepRepository = doelgroepRepository;
             _userManager = userManager;
         }
 
@@ -153,10 +156,12 @@ namespace KostenBatenTool.Controllers
             {
                 Lijn lijn = loonkost.Lijnen.FirstOrDefault(l => l.LijnId == lijnId);
                 ViewData["open"] = true;
+                ViewData["Doelgroepen"] = new SelectList(_doelgroepRepository.GetAll(),  nameof(Doelgroep.DoelgroepId), nameof(Doelgroep.Soort));
                 return View(new LoonkostViewModel(lijn, loonkost, a.AnalyseId));
                 
             }
             ViewData["open"] = false;
+            ViewData["Doelgroepen"] = new SelectList(_doelgroepRepository.GetAll(), nameof(Doelgroep.DoelgroepId), nameof(Doelgroep.Soort));
             return View(new LoonkostViewModel(loonkost, a.AnalyseId));
         }
 
@@ -178,7 +183,8 @@ namespace KostenBatenTool.Controllers
                     analyse.VulVeldIn("LoonKost", model.LijnId, "functie", model.Functie);
                     analyse.VulVeldIn("LoonKost", model.LijnId, "uren per week", model.UrenPerWeek);
                     analyse.VulVeldIn("LoonKost", model.LijnId, "bruto maandloon fulltime", model.BrutoMaandloon);
-                    analyse.VulVeldIn("LoonKost", model.LijnId, "doelgroep", model.Doelgroep);
+                    Doelgroep doelgroep = _doelgroepRepository.GetById(Int32.Parse(model.Doelgroep));
+                    ((LoonKostLijn) analyse.GetBerekening("LoonKost").Lijnen.FirstOrDefault(l => l.LijnId == model.LijnId)).Doelgroep = doelgroep;
                     analyse.VulVeldIn("LoonKost", model.LijnId, "% Vlaamse ondersteuningspremie", model.Vop);
                     analyse.VulVeldIn("LoonKost", model.LijnId, "aantal maanden IBO", model.AantalMaanden);
                     analyse.VulVeldIn("LoonKost", model.LijnId, "totale productiviteitspremie IBO", model.Ibo);
