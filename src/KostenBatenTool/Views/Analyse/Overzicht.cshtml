@@ -8,7 +8,7 @@
     <div class="col-md-2 col-md-offset-2 overzichtBtn no-print">
         <a href="#" id="tabel" onclick="javascript:fnExcelReport();"><i class="fa fa fa-file-excel-o animated fadeInDown " tool-tip-toggle="tooltip" data-placement="bottom" data-original-title="Excel" aria-hidden="true"></i></a>
         <i class="fa fa-file-pdf-o animated fadeInDown" aria-hidden="true" tool-tip-toggle="tooltip" data-placement="bottom" data-original-title="Pdf" onclick="makePdf()"></i>
-        <a asp-controller="Analyse" asp-action="EmailResultaat" asp-route-id="@Model.Organisatie.OrganisatieId"><i class="animated fadeInDown fa fa-paper-plane no-print" onclick="makePdf()" tool-tip-toggle="tooltip" data-placement="bottom" data-original-title="Resultaat mailen" aria-hidden="true"></i></a>
+        <a asp-controller="Analyse" asp-action="EmailResultaat" asp-route-id="@Model.Organisatie.OrganisatieId" asp-route-analyseId="@Model.AnalyseId"><i class="animated fadeInDown fa fa-paper-plane no-print" onclick="makePdf()" tool-tip-toggle="tooltip" data-placement="bottom" data-original-title="Resultaat mailen" aria-hidden="true"></i></a>
         <i class="fa fa-print animated fadeInDown" aria-hidden="true" tool-tip-toggle="tooltip" data-placement="bottom" data-original-title="Afdrukken" onClick="window.print()"></i>
     </div>
 </div>
