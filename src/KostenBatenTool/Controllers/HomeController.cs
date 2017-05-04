@@ -1,4 +1,5 @@
 ﻿
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -7,6 +8,8 @@ using KostenBatenTool.Models;
 using KostenBatenTool.Models.Domain;
 using KostenBatenTool.Services;
 using Microsoft.AspNetCore.Identity;
+using MimeKit;
+using MimeKit.Text;
 
 namespace KostenBatenTool.Controllers
 {
@@ -60,8 +63,15 @@ namespace KostenBatenTool.Controllers
                 var user = _userManager.GetUserAsync(HttpContext.User);
                 if (user != null)
                 {
-                   await _emailService.SendEmailAsync(user.Result.Email,"lotje.j@hotmail.com", "Vraag via contactformulier",
-                        model.Omschrijving);
+                    MimeMessage emailMessage = new MimeMessage();
+                    emailMessage.Subject = "Vraag via contactformulier";
+                    BodyBuilder builder = new BodyBuilder();
+                    builder.HtmlBody = @"<h2>Vraag via contactformulier</h2>
+                        <h3>Onderwerp: " + $"{model.Onderwerp}" + @"</h3>
+                        <p>" + $"{model.Omschrijving}" + @"</p>
+                        <b>Afzender: " + $"{user.Result.Voornaam} {user.Result.Naam} {user.Result.Email}"+ @"</b>";
+                    emailMessage.Body = builder.ToMessageBody();
+                    await _emailService.SendEmailAsync(user.Result.Email,"lotje.j@hotmail.com", emailMessage);
                     TempData["message"] = "Je bericht werd succesvol verstuurd.";
                     return RedirectToAction(nameof(AnalyseController.Index), "Home");
                 }
