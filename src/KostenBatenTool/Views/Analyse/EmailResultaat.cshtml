@@ -1,0 +1,39 @@
+﻿@model KostenBatenTool.Models.AnalyseViewModels.ResultaatViewModel
+@{
+    ViewBag.Title = "Resultaat analyse mailen naar werkgever";
+}
+<h1>@ViewBag.Title</h1>
+<hr />
+<form asp-controller="Analyse" asp-action="EmailResultaat" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal" id="address" enctype="multipart/form-data">
+    <input type="hidden" asp-for="OrganisatiId" />
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3 ">
+            <label for="EmailContactpersoon" class="control-label">E-mailadres contactpersoon</label>
+            <input asp-for="EmailContactpersoon" id="EmailContactpersoon" type="text" class="form-control" name="EmailContactpersoon">
+            <span asp-validation-for="EmailContactpersoon" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <label for="Bericht" class="control-label">Bericht</label>
+            <textarea asp-for="Bericht" id="Bericht" type="text" class="form-control" name="Bericht"></textarea>
+            <span asp-validation-for="Bericht" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <label for="Pdf" class="control-label">Bericht</label>
+            <input asp-for="Pdf" id="Pdf" class="form-control" name="Pdf"/>
+            <span asp-validation-for="Pdf" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group">
+            <div class="col-md-offset-7">
+                <a asp-controller="Home" asp-action="Index" class="btn btn-default knop">Annuleren</a>
+                <button type="submit" class="btn btn-default knop">Verzend</button>
+            </div>
+        </div>
+    </div>
+
+</form>

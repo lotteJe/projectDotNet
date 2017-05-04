@@ -11,6 +11,8 @@ using KostenBatenTool.Services;
 using KostenBatenTool.Models;
 using KostenBatenTool.Models.Domain;
 using KostenBatenTool.Models.ManageViewModels;
+using MimeKit;
+using MimeKit.Utils;
 
 namespace KostenBatenTool.Controllers
 {
@@ -151,9 +153,20 @@ namespace KostenBatenTool.Controllers
                     var code = await _userManager.GeneratePasswordResetTokenAsync(user);
                     var callbackUrl = Url.Action(nameof(ResetPassword), "Account",
                         new { userId = user.Id, code = code, email = model.Email }, protocol: HttpContext.Request.Scheme);
-                    await _emailService.SendEmailAsync("lottejespers1@gmail.com", model.Email, "Registratie Kairos",
-                $"Klik op de link om je registratie te bevestigen:  <a href='{callbackUrl}'>link</a>");
-
+                    MimeMessage emailMessage = new MimeMessage();
+                    emailMessage.Subject = "Welkom bij KAIROS\' kosten-baten tool!";
+                    BodyBuilder builder = new BodyBuilder();
+                    builder.HtmlBody = @"
+                        <img src='https://static.wixstatic.com/media/192f9b_a49f1a3533c149a2a803ee4ab519ef2e~mv2.png/v1/crop/x_2,y_0,w_1257,h_515/fill/w_500,h_205,al_c,usm_0.66_1.00_0.01/192f9b_a49f1a3533c149a2a803ee4ab519ef2e~mv2.png' alt='Logo Kairos' height='40px'/>
+                        <br><br><b>Beste " + $"{model.Voornaam}" + @"</b>
+                        <p>Leuk dat je gebruik wil maken van onze tool om werkgevers meer inzicht te geven in de kosten en baten bij het tewerkstellen van personen met een grote afstand tot de arbeidsmarkt.</p>
+                        <p>Gelieve je registratie te voltooien via deze <a href='" + $"{callbackUrl}" + @"'>link</a>.</p>
+                        <p>Veel succes met het gebruik van onze tool!</p>
+                        <p>Wil je meer weten over wie we zijn en wat we doen, surf naar www.hetmomentvooriedereen.be.</p>
+                        <p>Hartelijke groet</p>
+                        <p>Het team van KAIROS</p>";
+                    emailMessage.Body = builder.ToMessageBody();
+                    await _emailService.SendEmailAsync("lottejespers1@gmail.com", model.Email, emailMessage);
                     // Comment out following line to prevent a new user automatically logged on.
                     //await _signInManager.SignInAsync(user, isPersistent: false);
                     _logger.LogInformation(3, "User created a new account with password.");
@@ -247,8 +260,19 @@ namespace KostenBatenTool.Controllers
                 // Send an email with this link
                 var code = await _userManager.GeneratePasswordResetTokenAsync(user);
                 var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code, email = model.Email }, protocol: HttpContext.Request.Scheme);
-                await _emailService.SendEmailAsync("lottejespers1@gmail.com", model.Email, "Wachtwoord wijzigen",
-                   $"Wijzig je wachtwoord door deze <a href='{callbackUrl}'>link</a>");
+                MimeMessage emailMessage = new MimeMessage();
+                emailMessage.Subject = "Paswoord KAIROS kosten-baten tool vergeten";
+                BodyBuilder builder = new BodyBuilder();
+                builder.HtmlBody = @"
+                 <img src='https://static.wixstatic.com/media/192f9b_a49f1a3533c149a2a803ee4ab519ef2e~mv2.png/v1/crop/x_2,y_0,w_1257,h_515/fill/w_500,h_205,al_c,usm_0.66_1.00_0.01/192f9b_a49f1a3533c149a2a803ee4ab519ef2e~mv2.png' alt='Logo Kairos' height='40px'/>
+                 <br><br><b>Beste " + $"{user.Voornaam}" + @"</b>
+                 <p>Je hebt aangegeven dat je jouw paswoord vergeten bent.</p>
+                 <p>Via deze <a href='" + $"{callbackUrl}" + @"'>link</a> kan je een nieuw paswoord aanmaken.</p>
+                 <p>Hartelijke groet</p>
+                 <p>Het team van KAIROS</p>";
+                emailMessage.Body = builder.ToMessageBody();
+                await _emailService.SendEmailAsync("lottejespers1@gmail.com", model.Email, emailMessage);
+
                 return View("ForgotPasswordConfirmation");
             }
 
@@ -350,12 +374,13 @@ namespace KostenBatenTool.Controllers
                 return View("Error");
             }
 
-            var message = "Your security code is: " + code;
+            MimeMessage message = new MimeMessage("Your security code is: " + code);
             if (model.SelectedProvider == "Email")
             {
-                await _emailService.SendEmailAsync("lottejespers1@gmail.com",await _userManager.GetEmailAsync(user), "Security Code", message);
+
+                await _emailService.SendEmailAsync("lottejespers1@gmail.com", await _userManager.GetEmailAsync(user), message);
             }
-            
+
             return RedirectToAction(nameof(VerifyCode), new { Provider = model.SelectedProvider, model.ReturnUrl, model.RememberMe });
         }
 

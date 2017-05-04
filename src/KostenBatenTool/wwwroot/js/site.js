@@ -188,12 +188,14 @@ function makePdf() {
     doc.setTextColor(100);
     var text = "Hieronder vind u het overzicht van de kosten en baten voor deze organsiatie.";
     doc.text(text, 14, 30);
-    var elem = document.getElementById("overzichtO");
+    var elem = document.getElementById("overzicht");
     var res = doc.autoTableHtmlToJson(elem);
     doc.autoTable(res.columns, res.data, { startY: 40, styles: { overflow: 'linebreak' } });
     doc.save('Analyse_'+werkgever +'.pdf');
 
 }
+
+
 
 /* confirm */
 
