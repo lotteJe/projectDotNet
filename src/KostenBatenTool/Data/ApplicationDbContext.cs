@@ -58,6 +58,7 @@ namespace KostenBatenTool.Data
         private void MapAdministrator(EntityTypeBuilder<Administrator> a)
         {
             a.Property(ad => ad.Paswoord);
+            a.Property(ad => ad.SuperAdmin);
         }
 
         private void MapBericht(EntityTypeBuilder<Bericht> b)

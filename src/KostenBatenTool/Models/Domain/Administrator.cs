@@ -9,11 +9,12 @@ namespace KostenBatenTool.Models.Domain
     public class Administrator : Persoon
     {
         public string Paswoord { get; set; }
+        public bool SuperAdmin { get; set; }
         #region Constructor
 
-        public Administrator(string naam, string voornaam, string email):base(naam, voornaam, email)
+        public Administrator(string naam, string voornaam, string email, bool superadmin):base(naam, voornaam, email)
         {
-            
+            SuperAdmin = superadmin;
         }
 
         #endregion
