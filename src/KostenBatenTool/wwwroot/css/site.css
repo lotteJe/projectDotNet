@@ -783,3 +783,7 @@ a:hover {
        border: 1px solid #9ccd0b;
    }
   
+   /* emailen*/
+   textarea#Bericht {
+       height: 180px;
+   }

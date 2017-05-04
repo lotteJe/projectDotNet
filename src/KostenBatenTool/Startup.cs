@@ -14,6 +14,7 @@ using KostenBatenTool.Data.Repositories;
 using KostenBatenTool.Models;
 using KostenBatenTool.Models.Domain;
 using KostenBatenTool.Services;
+using Microsoft.AspNetCore.Hosting.Internal;
 
 namespace KostenBatenTool
 {
@@ -57,6 +58,7 @@ namespace KostenBatenTool
             services.Configure<EmailConfig>(Configuration.GetSection("Email"));
 
             services.AddMvc();
+
             services.AddScoped<IArbeidsBemiddelaarRepository, ArbeidsBemiddelaarRepository>();
             services.AddScoped<IBerichtenRepository, BerichtenRepository>();
             services.AddScoped<KostenBatenInitializer>();
