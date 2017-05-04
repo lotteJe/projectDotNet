@@ -12,8 +12,10 @@ namespace KostenBatenTool.Models.Domain
 
         public AanpassingsSubsidie(Analyse analyse)
         {
-            Velden.Add(new Veld("jaarbedrag", typeof(decimal)));
+            Velden.Add(new Veld("jaarbedrag", typeof(decimal),1));
             VoegLijnToe();
+            Beschrijving = "Tegemoetkoming in de kosten voor aanpassingen werkomgeving/aangepast gereedschap";
+            Volgorde = 2;
         }
         #endregion
 

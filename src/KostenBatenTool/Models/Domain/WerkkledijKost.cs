@@ -11,8 +11,11 @@ namespace KostenBatenTool.Models.Domain
         protected WerkkledijKost() { }
         public WerkkledijKost(Analyse analyse)
         {
-            Velden.Add(new Veld("type", typeof(String)));
-            Velden.Add(new Veld("bedrag", typeof(decimal)));
+            Velden.Add(new Veld("type", typeof(String),1));
+            Velden.Add(new Veld("bedrag", typeof(decimal),2));
+
+            Beschrijving = "Extra kosten werkkleding e.a. personeelskosten";
+            Volgorde = 3;
             //VoegLijnToe();
         }
         #endregion

@@ -11,9 +11,11 @@ namespace KostenBatenTool.Models.Domain
         protected OutsourcingBesparing() { }
         public OutsourcingBesparing(Analyse analyse)
         {
-            Velden.Add(new Veld("beschrijving", typeof(string)));
-            Velden.Add(new Veld("jaarbedrag", typeof(decimal)));
+            Velden.Add(new Veld("beschrijving", typeof(string),1));
+            Velden.Add(new Veld("jaarbedrag", typeof(decimal),2));
             //VoegLijnToe();
+            Beschrijving = "Besparing op outsourcing";
+            Volgorde = 9;
         }
         #endregion
         #region Methods

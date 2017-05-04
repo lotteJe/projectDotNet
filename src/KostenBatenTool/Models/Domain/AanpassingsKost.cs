@@ -15,9 +15,12 @@ namespace KostenBatenTool.Models.Domain
         }
         public AanpassingsKost(Analyse analyse)
         {
-            Velden.Add(new Veld("type", typeof(String)));
-            Velden.Add(new Veld("bedrag", typeof(decimal)));
+            Velden.Add(new Veld("type", typeof(String),1));
+            Velden.Add(new Veld("bedrag", typeof(decimal),2));
             //VoegLijnToe();
+
+            Beschrijving = "Extra kosten voor aanpassingen werkomgeving/aangepast gereedschap";
+            Volgorde = 4;
         }
         #endregion
 

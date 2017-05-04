@@ -21,10 +21,12 @@ namespace KostenBatenTool.Models.Domain
         public MedewerkerHogerNiveauBesparing(Analyse analyse)
         {
             Analyse = analyse;
-            Velden.Add(new Veld("uren", typeof(decimal)));
-            Velden.Add(new Veld("bruto maandloon fulltime", typeof(decimal)));
-            Velden.Add(new Veld("totale loonkost per jaar", typeof(decimal)));
+            Velden.Add(new Veld("uren", typeof(decimal),1));
+            Velden.Add(new Veld("bruto maandloon fulltime", typeof(decimal),2));
+            Velden.Add(new Veld("totale loonkost per jaar", typeof(decimal),3));
             //VoegLijnToe();
+            Beschrijving = "Besparing reguliere medewerker op hoger niveau";
+            Volgorde = 4;
         }
         #endregion
 

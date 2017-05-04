@@ -11,9 +11,12 @@ namespace KostenBatenTool.Models.Domain
         protected OpleidingsKost() { }
         public OpleidingsKost(Analyse analyse)
         {
-            Velden.Add(new Veld("type", typeof(String)));
-            Velden.Add(new Veld("bedrag", typeof(decimal)));
+            Velden.Add(new Veld("type", typeof(String),1));
+            Velden.Add(new Veld("bedrag", typeof(decimal),2));
             //VoegLijnToe();
+
+            Beschrijving = " Extra kosten opleiding";
+            Volgorde = 5;
         }
         #endregion
 

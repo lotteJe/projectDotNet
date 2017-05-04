@@ -12,6 +12,8 @@ namespace KostenBatenTool.Models.Domain
     {
         #region Properties
         public int BerekeningId { get; set; }
+        public int Volgorde { get; set; }
+        public string Beschrijving { get; set; }
         public List<Veld> Velden { get; set; } = new List<Veld>();
         public List<Lijn> Lijnen { get; set; } = new List<Lijn>();
         public decimal Resultaat { get; set; } = 0M;

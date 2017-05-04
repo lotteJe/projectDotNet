@@ -12,9 +12,11 @@ namespace KostenBatenTool.Models.Domain
 
         public AndereBesparing(Analyse analyse)
         {
-            Velden.Add(new Veld("beschrijving", typeof(string)));
-            Velden.Add(new Veld("jaarbedrag", typeof(decimal)));
+            Velden.Add(new Veld("beschrijving", typeof(string),1));
+            Velden.Add(new Veld("jaarbedrag", typeof(decimal),2));
             //VoegLijnToe();
+            Beschrijving = "Andere besparingen";
+            Volgorde = 11;
         }
         #endregion
 

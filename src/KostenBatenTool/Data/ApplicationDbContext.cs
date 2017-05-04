@@ -84,6 +84,8 @@ namespace KostenBatenTool.Data
             b.ToTable("Berekening");
             b.Property(t => t.BerekeningId);
             b.Property(t => t.Resultaat);
+            b.Property(t => t.Volgorde);
+            b.Property(t => t.Beschrijving);
             b.HasMany(t => t.Velden).WithOne().OnDelete(DeleteBehavior.Cascade);
             b.HasMany(t => t.Lijnen).WithOne().IsRequired().OnDelete(DeleteBehavior.Cascade);
             b.HasDiscriminator<String>("Type").HasValue<AanpassingsKost>("AanpassingsKost")
@@ -112,6 +114,7 @@ namespace KostenBatenTool.Data
             v.HasKey(t => t.VeldId);
             v.Property(t => t.VeldId);
             v.Property(t => t.VeldKey);
+            v.Property(t => t.Volgorde);
             v.Ignore(t => t.Value);
             v.Property(t => t.InternalValue);
         }
