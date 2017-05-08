@@ -25,7 +25,7 @@ namespace KostenBatenTool.Data
         {
 
 
-          // _dbContext.Database.EnsureDeleted();
+         //  _dbContext.Database.EnsureDeleted();
 
 
             if (_dbContext.Database.EnsureCreated())
@@ -38,7 +38,7 @@ namespace KostenBatenTool.Data
                 //_dbContext.Organisaties.AddRange(organisaties);
                 //_dbContext.SaveChanges();
                 
-                Persoon superadmin = new Administrator("Bart", "Moens", "bart.moens@kairos.com", true);
+                Persoon superadmin = new Administrator("Bart", "Moens", "bart@werkgeversbenadering.be", true);
                 _dbContext.Personen.Add(superadmin);
                 Bericht welkom = new Bericht("Welkom", "Welkom bij Kairos!");
                 _dbContext.Berichten.Add(welkom);

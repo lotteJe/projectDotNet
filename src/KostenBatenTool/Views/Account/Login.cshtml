@@ -12,7 +12,7 @@
         <a asp-area="" asp-controller="Account" asp-action="Register" class="tab btn-default col-md-6">Registreren</a>
     </div>
     <form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal gegevens">
-
+        @Html.ValidationMessage("EmailReg", new { @style = "color:#a94442; font-weight: bold" })
         <div class="input-group col-md-offset-1 col-md-10" id="gegeven">
             <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
             <input asp-for="Email" id="email" class="form-control" placeholder="E-mailadres" autofocus>

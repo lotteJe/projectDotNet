@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -23,7 +24,7 @@ namespace KostenBatenTool.Controllers
         private readonly IBerichtenRepository _berichtenRepository;
 
         public HomeController(UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager, IArbeidsBemiddelaarRepository arbeidsBemiddelaarRepository, IBerichtenRepository berichtenRepository,IEmailService emailService)
+            SignInManager<ApplicationUser> signInManager, IArbeidsBemiddelaarRepository arbeidsBemiddelaarRepository, IBerichtenRepository berichtenRepository, IEmailService emailService)
         {
             _arbeidsBemiddelaarRepository = arbeidsBemiddelaarRepository;
             _berichtenRepository = berichtenRepository;
@@ -69,13 +70,13 @@ namespace KostenBatenTool.Controllers
                     builder.HtmlBody = @"<h2>Vraag via contactformulier</h2>
                         <h3>Onderwerp: " + $"{model.Onderwerp}" + @"</h3>
                         <p>" + $"{model.Omschrijving}" + @"</p>
-                        <b>Afzender: " + $"{user.Result.Voornaam} {user.Result.Naam} {user.Result.Email}"+ @"</b>";
+                        <b>Afzender: " + $"{user.Result.Voornaam} {user.Result.Naam} {user.Result.Email}" + @"</b>";
                     emailMessage.Body = builder.ToMessageBody();
-                    await _emailService.SendEmailAsync(user.Result.Email,"lotje.j@hotmail.com", emailMessage);
+                    await _emailService.SendEmailAsync(user.Result.Email, "lotje.j@hotmail.com", emailMessage);
                     TempData["message"] = "Je bericht werd succesvol verstuurd.";
                     return RedirectToAction(nameof(AnalyseController.Index), "Home");
                 }
-                
+
             }
             return View(model);
         }
@@ -94,7 +95,8 @@ namespace KostenBatenTool.Controllers
         public IActionResult Berichten()
         {
             IEnumerable<Bericht> berichten = _berichtenRepository.GeefBerichten();
-            return View(berichten);
+            IList<Bericht> berichtenGesorteerd = berichten.OrderByDescending(b => b.AanmaakDatum).ToList();
+            return View(berichtenGesorteerd);
         }
     }
 }
