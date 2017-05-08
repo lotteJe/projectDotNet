@@ -92,6 +92,11 @@ namespace KostenBatenTool.Controllers
         public async Task<IActionResult> Login(LoginViewModel model, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
+            ArbeidsBemiddelaar test = _arbeidsBemiddelaarRepository.GetBy(model.Email);
+            if (test == null)
+            {
+                ModelState.AddModelError("EmailReg", "Uw e-mailadres is onjuist, bent u al geregistreerd?");
+            }
             if (ModelState.IsValid)
             {
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, isPersistent: false, lockoutOnFailure: false);
@@ -99,11 +104,7 @@ namespace KostenBatenTool.Controllers
                 {
                     _logger.LogInformation(1, "User logged in.");
                     var user = await _userManager.FindByNameAsync(model.Email);
-                    //if (user.PasswordReset == false)
-                    //{
-                    //    return RedirectToAction(nameof(ManageController.ChangePassword), "Manage");
-                    //}
-                    return RedirectToLocal(returnUrl);
+                   return RedirectToLocal(returnUrl);
                 }
                 if (result.RequiresTwoFactor)
                 {
@@ -116,7 +117,7 @@ namespace KostenBatenTool.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    ModelState.AddModelError("EmailReg", "Uw wachtwoord is onjuist");
                     return View(model);
                 }
             }
@@ -142,6 +143,11 @@ namespace KostenBatenTool.Controllers
         public async Task<IActionResult> Register(RegisterViewModel model, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
+            ArbeidsBemiddelaar test = _arbeidsBemiddelaarRepository.GetBy(model.Email);
+            if (test != null)
+            {
+                ModelState.AddModelError("EmailGer", "U bent reeds geregistreerd.");
+            }
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email, Naam = model.Naam, Gemeente = model.Gemeente, Voornaam = model.Voornaam, Postcode = model.Postcode, Huisnummer = model.Huisnummer, Straat = model.Straat, NaamOrganisatie = model.NaamOrganisatie };
@@ -458,6 +464,7 @@ namespace KostenBatenTool.Controllers
             }
         }
 
+       
         #endregion
     }
 }
