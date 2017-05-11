@@ -17,15 +17,15 @@
     {
         foreach (Analyse analyse in @Model)
         {
-            <div class="col-md-4 col-sm-6 analyseDetail animated fadeIn">
+            <div class="col-md-4 col-sm-6 analyseDetail animated fadeIn" style="cursor: pointer" onclick="location.href = '@(Url.Action("Overzicht","Analyse", new {id = analyse.AnalyseId}))'">
                 <div class="col-md-8">
-                    <a asp-controller="Analyse" asp-action="Overzicht" asp-route-id="@analyse.AnalyseId">@analyse.Organisatie.Naam</a>
+                    <h3 class="cardHeader">@analyse.Organisatie.Naam</h3>
                 </div>
 
                 <div class="col-md-4">
                     @*<a href="#" id="tabel" onclick="javascript:fnExcelReport();"><i class="fa fa fa-download animated fadeInDown " aria-hidden="true"></i></a>*@
-                    <i class="fa fa-paper-plane animated fadeInDown" aria-hidden="true"></i>
-                    <a asp-controller="Analyse" asp-action="Delete" asp-route-id="@analyse.AnalyseId" id="myLink"><i class="fa fa-trash animated fadeInDown" aria-hidden="true"></i></a>
+                    @*<i class="fa fa-paper-plane animated fadeInDown" aria-hidden="true"></i>
+                    <a asp-controller="Analyse" asp-action="Delete" asp-route-id="@analyse.AnalyseId" id="myLink"><i class="fa fa-trash animated fadeInDown" aria-hidden="true"></i></a>*@
                 </div> 
                 <div>
                     <table class="table table-responsive">
@@ -52,7 +52,7 @@
                             {
                                 color = "red";
                             }
-                            <td style="color: @color; font-weight: bold;">@($"{analyse.Resultaat:N2} €")</td>
+                            <td style="color: @color; font-weight: bold; font-size: 25px;">@($"{analyse.Resultaat:N2} €")</td>
                         </tr>
                     </table>
                 </div>

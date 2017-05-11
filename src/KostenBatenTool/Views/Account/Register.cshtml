@@ -8,6 +8,7 @@
         <a asp-area="" asp-controller="Account" asp-action="Register" class="tab btn-default col-md-6 active" style="pointer-events: none">REGISTREREN</a>
     </div>
     <form asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal" id="address">
+        @Html.ValidationMessage("EmailGer", new { @style = "color:#a94442; font-weight: bold; padding-left:15px" })
         <div class="row">
             <div class="col-md-6">
                 <label for="naam" class="control-label">Naam</label>
@@ -22,7 +23,7 @@
         </div>
         <div class="col-md-12">
             <label for="email" class="control-label">Email</label>
-            <input asp-for="Email" id="email" type="text" class="form-control" name="email" >
+            <input asp-for="Email" id="email" type="email" class="form-control" name="email" >
             <span asp-validation-for="Email" class="text-danger"></span>
         </div>
         <div class="col-md-12">

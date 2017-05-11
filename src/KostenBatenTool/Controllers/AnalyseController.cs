@@ -265,7 +265,7 @@ namespace KostenBatenTool.Controllers
                     analyse.VulVeldIn("AanpassingsKost", model.LijnId, "bedrag", model.Bedrag);
                     _arbeidsBemiddelaarRepository.SerialiseerVelden(analyse);
                     _arbeidsBemiddelaarRepository.SaveChanges();
-                    return RedirectToAction(nameof(AanpassingsKost), analyse.AnalyseId);
+                    return RedirectToAction(nameof(AanpassingsKost), new { analyseId = analyse.AnalyseId });
                 }
                 catch (Exception e)
                 {
@@ -349,7 +349,7 @@ namespace KostenBatenTool.Controllers
                     analyse.VulVeldIn("AdministratieBegeleidingsKost", model.LijnId, "jaarbedrag", model.Veld3);
                     _arbeidsBemiddelaarRepository.SerialiseerVelden(analyse);
                     _arbeidsBemiddelaarRepository.SaveChanges();
-                    return RedirectToAction(nameof(AdministratieBegeleidingsKost), analyse.AnalyseId);
+                    return RedirectToAction(nameof(AdministratieBegeleidingsKost), new { analyseId = analyse.AnalyseId });
                 }
                 catch (Exception e)
                 {
@@ -395,7 +395,7 @@ namespace KostenBatenTool.Controllers
                     analyse.VulVeldIn("AndereBesparing", model.LijnId, "jaarbedrag", model.Bedrag);
                     _arbeidsBemiddelaarRepository.SerialiseerVelden(analyse);
                     _arbeidsBemiddelaarRepository.SaveChanges();
-                    return RedirectToAction(nameof(AndereBesparing), analyse.AnalyseId);
+                    return RedirectToAction(nameof(AndereBesparing), new { analyseId = analyse.AnalyseId });
                 }
                 catch (Exception e)
                 {
@@ -441,7 +441,7 @@ namespace KostenBatenTool.Controllers
                     analyse.VulVeldIn("AndereKost", model.LijnId, "bedrag", model.Bedrag);
                     _arbeidsBemiddelaarRepository.SerialiseerVelden(analyse);
                     _arbeidsBemiddelaarRepository.SaveChanges();
-                    return RedirectToAction(nameof(AndereKost), analyse.AnalyseId);
+                    return RedirectToAction(nameof(AndereKost), new { analyseId = analyse.AnalyseId });
                 }
                 catch (Exception e)
                 {
@@ -558,7 +558,7 @@ namespace KostenBatenTool.Controllers
                         model.Veld3);
                     _arbeidsBemiddelaarRepository.SerialiseerVelden(analyse);
                     _arbeidsBemiddelaarRepository.SaveChanges();
-                    return RedirectToAction(nameof(MedewerkerHogerNiveauBesparing), analyse.AnalyseId);
+                    return RedirectToAction(nameof(MedewerkerHogerNiveauBesparing), new { analyseId = analyse.AnalyseId });
                 }
                 catch (Exception e)
                 {
@@ -608,7 +608,7 @@ namespace KostenBatenTool.Controllers
                         model.Veld3);
                     _arbeidsBemiddelaarRepository.SerialiseerVelden(analyse);
                     _arbeidsBemiddelaarRepository.SaveChanges();
-                    return RedirectToAction(nameof(MedewerkerZelfdeNiveauBesparing), analyse.AnalyseId);
+                    return RedirectToAction(nameof(MedewerkerZelfdeNiveauBesparing), new { analyseId = analyse.AnalyseId });
                 }
                 catch (Exception e)
                 {
@@ -691,7 +691,7 @@ namespace KostenBatenTool.Controllers
                     analyse.VulVeldIn("OpleidingsKost", model.LijnId, "bedrag", model.Bedrag);
                     _arbeidsBemiddelaarRepository.SerialiseerVelden(analyse);
                     _arbeidsBemiddelaarRepository.SaveChanges();
-                    return RedirectToAction(nameof(OpleidingsKost), analyse.AnalyseId);
+                    return RedirectToAction(nameof(OpleidingsKost), new { analyseId = analyse.AnalyseId });
                 }
                 catch (Exception e)
                 {
@@ -737,7 +737,7 @@ namespace KostenBatenTool.Controllers
                     analyse.VulVeldIn("OutsourcingBesparing", model.LijnId, "jaarbedrag", model.Bedrag);
                     _arbeidsBemiddelaarRepository.SerialiseerVelden(analyse);
                     _arbeidsBemiddelaarRepository.SaveChanges();
-                    return RedirectToAction(nameof(OutsourcingBesparing), analyse.AnalyseId);
+                    return RedirectToAction(nameof(OutsourcingBesparing), new { analyseId = analyse.AnalyseId });
                 }
                 catch (Exception e)
                 {
@@ -855,7 +855,7 @@ namespace KostenBatenTool.Controllers
                     analyse.VulVeldIn("UitzendkrachtenBesparing", model.LijnId, "jaarbedrag", model.Bedrag);
                     _arbeidsBemiddelaarRepository.SerialiseerVelden(analyse);
                     _arbeidsBemiddelaarRepository.SaveChanges();
-                    return RedirectToAction(nameof(UitzendkrachtenBesparing), analyse.AnalyseId);
+                    return RedirectToAction(nameof(UitzendkrachtenBesparing), new { analyseId = analyse.AnalyseId });
                 }
                 catch (Exception e)
                 {
@@ -901,7 +901,7 @@ namespace KostenBatenTool.Controllers
                     analyse.VulVeldIn("VoorbereidingsKost", model.LijnId, "bedrag", model.Bedrag);
                     _arbeidsBemiddelaarRepository.SerialiseerVelden(analyse);
                     _arbeidsBemiddelaarRepository.SaveChanges();
-                    return RedirectToAction(nameof(VoorbereidingsKost), analyse.AnalyseId);
+                    return RedirectToAction(nameof(VoorbereidingsKost), new { analyseId = analyse.AnalyseId });
                 }
                 catch (Exception e)
                 {
@@ -947,7 +947,7 @@ namespace KostenBatenTool.Controllers
                     analyse.VulVeldIn("WerkkledijKost", model.LijnId, "bedrag", model.Bedrag);
                     _arbeidsBemiddelaarRepository.SerialiseerVelden(analyse);
                     _arbeidsBemiddelaarRepository.SaveChanges();
-                    return RedirectToAction(nameof(WerkkledijKost), analyse.AnalyseId);
+                    return RedirectToAction(nameof(WerkkledijKost), new { analyseId = analyse.AnalyseId});
                 }
                 catch (Exception e)
                 {
