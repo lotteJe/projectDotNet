@@ -974,10 +974,15 @@ namespace KostenBatenTool.Controllers
             return _arbeidsBemiddelaarRepository.GetAnalyse(email, id);
         }
 
-        public IActionResult DeleteLijn(int analyseId, int lijnId)
+        public IActionResult DeleteLijn(int analyseId, int lijnId, string berekeningNaam)
         {
-            int id = analyseId;
-            throw new NotImplementedException();
+           Analyse analyse = GetAnalyse(analyseId);
+           Lijn lijn = analyse.GetBerekening(berekeningNaam).Lijnen.FirstOrDefault(l => l.LijnId == lijnId);
+           analyse.GetBerekening(berekeningNaam).Lijnen.Remove(lijn);
+           _arbeidsBemiddelaarRepository.VerwijderLijn(lijn);
+           _arbeidsBemiddelaarRepository.SaveChanges();
+            return RedirectToAction(berekeningNaam, analyseId);
+
         }
 
         [HttpGet]
