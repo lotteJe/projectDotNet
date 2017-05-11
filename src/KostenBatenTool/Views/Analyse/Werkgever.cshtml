@@ -9,73 +9,7 @@
 <div class="container-fluid">
     <form asp-controller="Analyse" asp-action="@action" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal" id="address">
         <input type="hidden" asp-for="OrganisatieId" />
-        @*<div class="col-md-6">
-                <h1>Gegevens werkgever</h1>
-                <div class="col-md-12">
-                    <label for="naam" class="control-label">Naam bedrijf</label>
-                    <input asp-for="Naam" id="naam" type="text" class="form-control" name="naam">
-                    <span asp-validation-for="Naam" class="text-danger"></span>
-                </div>
-                <div class="col-md-8">
-                    <label class="control-label">Straat</label>
-                    <input asp-for="Straat" id="autocomplete" type="text" class="form-control" name="straat">
-                    <span asp-validation-for="Straat" class="text-danger"></span>
-                </div>
-                <div class="col-md-4">
-                    <label class="control-label">Nummer</label>
-                    <input asp-for="Huisnummer" id="street_number" type="text" class="form-control" name="Huisnummer">
-                    <span asp-validation-for="Huisnummer" class="text-danger"></span>
-                </div>
-                <div class="col-md-4">
-                    <label class="control-label">Postcode</label>
-                    <input asp-for="Postcode" id="postal_code" type="text" class="form-control" name="Postcode">
-                    <span asp-validation-for="Postcode" class="text-danger"></span>
-                </div>
-                <div class="col-md-8">
-                    <label class="control-label">Gemeente</label>
-                    <input asp-for="Gemeente" id="locality" type="text" class="form-control" name="Gemeente">
-                    <span asp-validation-for="Gemeente" class="text-danger"></span>
-                </div>
-                <div class="row">
-                    <div class="col-md-4">
-                        <label class="control-label">Aantal werkuren per week</label>
-                        <input asp-for="Werkuren" type="text" class="form-control" name="Werkuren">
-                        <span asp-validation-for="Werkuren" class="text-danger"></span>
-                    </div>
-                    <div class="col-md-4">
-                        <label class="control-label">Patronale bijdrage</label>
-                        <input asp-for="Bijdrage" type="text" class="form-control" name="Bijdrage">
-                        <span asp-validation-for="Bijdrage" class="text-danger"></span>
-                    </div>
-                    <div class="col-md-4">
-                        <label class="control-label">Afdeling</label>
-                        <input asp-for="Afdeling" type="text" class="form-control" name="Afdeling">
-                        <span asp-validation-for="Afdeling" class="text-danger"></span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <h1>Gegevens contactpersoon</h1>
-                <div class="col-md-12">
-                    <label class="control-label">Naam </label>
-                    <input asp-for="NaamContactpersoon" id="naamC" type="text" class="form-control" name="naamC">
-                    <span asp-validation-for="NaamContactpersoon" class="text-danger"></span>
-                </div>
-                <div class="col-md-12">
-                    <label class="control-label">Voornaam</label>
-                    <input asp-for="VoornaamContactpersoon" id="voornaamC" type="text" class="form-control" name="vornaamC">
-                    <span asp-validation-for="VoornaamContactpersoon" class="text-danger"></span>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <label for="email" class="control-label">E-mailadres</label>
-                        <input asp-for="EmailContactpersoon" id="email" type="text" class="form-control" name="emailC">
-                        <span asp-validation-for="EmailContactpersoon" class="text-danger"></span>
-                    </div>
-                </div>
-            </div>*@
-
-        <div class="row">
+       <div class="row">
             <div class="col-md-12">
                 <label for="naam" class="control-label">Naam bedrijf</label>
                 <input asp-for="Naam" id="naam" type="text" class="form-control" name="naam">
@@ -124,7 +58,7 @@
             </div>
         </div>
 
-        <h1>Gegevens contactpersoon</h1>
+        <h1 class="CP">Gegevens contactpersoon</h1>
         <hr />
         <div class="row">
             <div class="col-md-6">
@@ -148,7 +82,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group">
-                    <div class="col-md-offset-10">
+                    <div class="col-md-offset-10 mailen" id="aanmelden">
                         <a asp-controller="Home" asp-action="Index" class="btn btn-default knop">Annuleren</a>
                         <button type="submit" class="btn btn-default knop">Opslaan</button>
                     </div>

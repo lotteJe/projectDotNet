@@ -8,7 +8,7 @@ namespace KostenBatenTool.Models.AccountViewModels
 {
     public class ForgotPasswordViewModel
     {
-        [Required]
+        [Required (ErrorMessage="E-mailadres is verplicht.")]
         [EmailAddress]
         public string Email { get; set; }
     }

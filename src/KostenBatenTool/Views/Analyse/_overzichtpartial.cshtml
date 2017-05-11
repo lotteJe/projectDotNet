@@ -1,6 +1,9 @@
 ﻿@model KostenBatenTool.Models.AnalyseViewModels.OverzichtViewModel
-@{ var color = "dimgray";}
-<table class="table overzicht" id="overzicht" >
+@{
+    var color = "dimgray";
+    ViewData["Title"] = Model.Organisatie.Naam + ", " + Model.Organisatie.Gemeente;
+}
+<table class="table overzicht no-print" id="overzicht" >
    <tr>
         <th>BATEN</th>
         <th></th>
@@ -63,7 +66,7 @@
         <td>7</td>
         <td><a asp-area="" asp-controller="Analyse" asp-action="ProductiviteitsWinst" asp-route-analyseId="@Model.AnalyseId">productiviteitswinst</a></td>
         <td>@($"€ {Model.Baat7:N2}")</td>
-        <td>@($"€ {Model.Kost7:N2}")</tdid="kost7B">
+        <td>@($"€ {Model.Kost7:N2}")</td>
         <td><a asp-area="" asp-controller="Analyse" asp-action="AndereKost" asp-route-analyseId="@Model.AnalyseId">andere kosten</a></td>
         <td>7</td>
     </tr>
@@ -80,7 +83,7 @@
         <td><a asp-area="" asp-controller="Analyse" asp-action="OutsourcingBesparing" asp-route-analyseId="@Model.AnalyseId">besparing op outsourcing</a></td>
         <td>@($"€ {Model.Baat9:N2}")</td>
         <td></td>
-        <td class="none"></tdclass="none">
+        <td class="none"></td>
         <td></td>
     </tr>
     <tr>
@@ -121,6 +124,139 @@
             color = "red";
         }
        <td colspan="2" style="color: @color; font-weight: bold; font-size: 22px;">@($"€ {Model.Resultaat:N2}")</td>
+        <td class="none"></td>
+        <td></td>
+    </tr>
+</table>
+
+
+<table class="table overzicht print" >
+    <tr>
+        <th colspan="6">@ViewData["Title"]</th>
+    </tr>
+    <tr>
+        <th colspan="6"></th>
+    </tr>
+    <tr>
+        <th>BATEN</th>
+        <th></th>
+        <th>BEDRAG</th>
+        <th>BEDRAG</th>
+        <th></th>
+        <th>KOSTEN</th>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>totale loonkostsubsidies</td>
+        <td>@($"€ {Model.Baat1:N2}")</td>
+        <td>@($"€ {Model.Kost1:N2}")</td>
+        <td><a >loonkosten medewerkers met grote afstand tot arbeidsmarkt</a></td>
+        <td>1</td>
+    </tr>
+
+    <tr>
+        <td>2</td>
+        <td><a >tegemoetkoming in kosten voor aanpassingen werkomgeving/gereedschap</a></td>
+        <td>@($"€ {Model.Baat2:N2}")</td>
+        <td>@($"€ {Model.Kost2:N2}")</td>
+        <td><a >kost overname werk door maatwerkbedrijf via enclave of onderaanneming</a></td>
+        <td>2</td>
+    </tr>
+    <tr>
+        <td>3</td>
+        <td><a >besparing reguliere medewerker op hetzelfde niveau</a></td>
+        <td>@($"€ {Model.Baat3:N2}")</td>
+        <td>@($"€ {Model.Kost3:N2}")</td>
+        <td><a>extra kosten werkkledij en andere personeelskosten</a></td>
+        <td>3</td>
+    </tr>
+
+    <tr>
+        <td>4</td>
+        <td><a >besparing reguliere medewerker op hoger niveau</a></td>
+        <td>@($"€ {Model.Baat4:N2}")</td>
+        <td>@($"€ {Model.Kost4:N2}")</td>
+        <td><a >extra kosten voor aanpassing werkomgeving/gereedschap</a></td>
+        <td>4</td>
+    </tr>
+    <tr>
+        <td>5</td>
+        <td><a >besparing extra uitzendkracht</a></td>
+        <td>@($"€ {Model.Baat5:N2}")</td>
+        <td>@($"€ {Model.Kost5:N2}")</td>
+        <td><a >extra kosten opleiding</a></td>
+        <td>5</td>
+    </tr>
+    <tr>
+        <td>6</td>
+        <td><a >inperking omzetverlies</a></td>
+        <td >@($"€ {Model.Baat6:N2}")</td>
+        <td >@($"€ {Model.Kost6:N2}")</td>
+        <td><a>extra kosten administratie en begeleiding</a></td>
+        <td>6</td>
+    </tr>
+    <tr>
+        <td>7</td>
+        <td><a >productiviteitswinst</a></td>
+        <td>@($"€ {Model.Baat7:N2}")</td>
+        <td>@($"€ {Model.Kost7:N2}")</td>
+        <td><a >andere kosten</a></td>
+        <td>7</td>
+    </tr>
+    <tr>
+        <td>8</td>
+        <td><a>besparing op overuren</a></td>
+        <td>@($"€ {Model.Baat8:N2}")</td>
+        <td></td>
+        <td class="none"></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>9</td>
+        <td><a >besparing op outsourcing</a></td>
+        <td>@($"€ {Model.Baat9:N2}")</td>
+        <td></td>
+        <td class="none"></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>10</td>
+        <td><a >logistieke besparing</a></td>
+        <td >@($"€ {Model.Baat10:N2}")</td>
+        <td></td>
+        <td class="none"></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>11</td>
+        <td><a >andere besparingen</a></td>
+        <td>@($"€ {Model.Baat11:N2}")</td>
+        <td></td>
+        <td class="none"></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td> </td>
+        <td class="none">SUBTOTAAL BATEN</td>
+
+        <td>@($"€ {Model.SubTotaalBaten:N2}")</td>
+        <td>@($"€ {Model.SubTotaalKosten:N2}")</td>
+
+        <td class="none">SUBTOTAAL KOSTEN</td>
+        <td> </td>
+    </tr>
+    <tr>
+        <td> </td>
+        <td class="none">RESULTAAT</td>
+        @if (Model.Resultaat > 0)
+        {
+            color = "green";
+        }
+        else if (Model.Resultaat < 0)
+        {
+            color = "red";
+        }
+        <td colspan="2" style="color: @color; font-weight: bold; font-size: 22px;">@($"€ {Model.Resultaat:N2}")</td>
         <td class="none"></td>
         <td></td>
     </tr>

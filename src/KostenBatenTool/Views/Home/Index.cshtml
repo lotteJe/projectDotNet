@@ -7,7 +7,7 @@
     var percentK = 50;
     var percentB = 50;
     var color = "dimgray";
-}
+   }
 
 <h1>@ViewData["Title"]</h1>
 <hr />
@@ -17,28 +17,23 @@
     {
         foreach (Analyse analyse in @Model)
         {
-            <div class="col-md-4 col-sm-6 analyseDetail animated fadeIn" style="cursor: pointer" onclick="location.href = '@(Url.Action("Overzicht","Analyse", new {id = analyse.AnalyseId}))'">
-                <div class="col-md-8">
+            <div class="col-md-4 col-sm-6 col-xs-12 analyseDetail animated fadeIn" style="cursor: pointer" onclick="location.href = '@(Url.Action("Overzicht","Analyse", new {id = analyse.AnalyseId}))'">
+                <div>
                     <h3 class="cardHeader">@analyse.Organisatie.Naam</h3>
                 </div>
-
-                <div class="col-md-4">
-                    @*<a href="#" id="tabel" onclick="javascript:fnExcelReport();"><i class="fa fa fa-download animated fadeInDown " aria-hidden="true"></i></a>*@
-                    @*<i class="fa fa-paper-plane animated fadeInDown" aria-hidden="true"></i>
-                    <a asp-controller="Analyse" asp-action="Delete" asp-route-id="@analyse.AnalyseId" id="myLink"><i class="fa fa-trash animated fadeInDown" aria-hidden="true"></i></a>*@
-                </div> 
+                <hr/>
                 <div>
                     <table class="table table-responsive">
-                        <tr>
+                        <tr class="header">
                             <td>Locatie</td>
                             <td>Afdeling</td>
                             <td>Resultaat</td>
                         </tr>
                         <tr>
-                            <td>@analyse.Organisatie.Gemeente</td>
+                            <td class="header ">@analyse.Organisatie.Gemeente</td>
                             @if (analyse.Organisatie.Afdeling != null)
                             {
-                                <td>@analyse.Organisatie.Afdeling</td>
+                                <td class="header">@analyse.Organisatie.Afdeling</td>
                             }
                             else
                             {
@@ -52,7 +47,7 @@
                             {
                                 color = "red";
                             }
-                            <td style="color: @color; font-weight: bold; font-size: 25px;">@($"{analyse.Resultaat:N2} €")</td>
+                            <td style="color: @color; font-weight: bold; font-size: 20px;">@($"€{analyse.Resultaat:N2}")</td>
                         </tr>
                     </table>
                 </div>

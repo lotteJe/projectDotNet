@@ -186,7 +186,7 @@ function makePdf() {
     doc.text(werkgever, 14, 22);
     doc.setFontSize(11);
     doc.setTextColor(100);
-    var text = "Hieronder vind u het overzicht van de kosten en baten voor deze organsiatie.";
+    var text = "Hieronder vindt u het overzicht van de kosten en baten voor deze organsiatie.";
     doc.text(text, 14, 30);
     var elem = document.getElementById("overzicht");
     var res = doc.autoTableHtmlToJson(elem);

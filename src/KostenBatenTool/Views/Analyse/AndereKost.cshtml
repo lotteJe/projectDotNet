@@ -5,17 +5,51 @@
     var knop = ViewData["open"].Equals(true) ? "Opslaan" : "Toevoegen";
 }
 <div class="row">
-    <h1 class="col-md-7">@ViewData["Title"]</h1>
+    <h1 class="col-md-7 col-sm-7 col-xs-7">@ViewData["Title"]</h1>
     <div class="volgendeTabs">
-        <a href="@Url.Action("AdministratieBegeleidingsKost", "Analyse", new { id = Model.AnalyseId })"> <i class="fa fa-angle-left" aria-hidden="true"></i> </a>
-        <a href="@Url.Action("Overzicht", "Analyse", new { id = Model.AnalyseId })">OVERZICHT</a>
+        <a href="@Url.Action("AdministratieBegeleidingsKost", "Analyse", new { analyseId = Model.AnalyseId })"> <i class="fa fa-angle-left" aria-hidden="true"></i> </a>
+        <a href="@Url.Action("Overzicht", "Analyse", new { analyseId = Model.AnalyseId })">OVERZICHT</a>
         <a href="" style="pointer-events: none; background-color: lightgrey"> <i class="fa fa-angle-right" aria-hidden="true"></i> </a>
     </div>
 </div>
 <hr />
 <div class="row">
-    <h2 class="col-md-7">Aan welke kosten kan nog meer worden gedacht?</h2>
-    <a id="toevoegenFunctie" class="col-md-offset-4" href="#demo" data-toggle="collapse"><i class="fa fa-plus fa-2x  rotate" aria-hidden="true"></i></a>
+    <h2 class="col-md-7 col-sm-9 col-xs-9">Aan welke kosten kan nog meer worden gedacht?</h2>
+    <a id="toevoegenFunctie" class="col-md-offset-4 col-sm-offset-2 col-xs-offset-2 noMobile" href="#demo" data-toggle="collapse"><i class="fa fa-plus fa-2x  rotate" aria-hidden="true"></i></a>
+    <a id="toevoegenFunctie" class="col-md-offset-4 col-sm-offset-2 col-xs-offset-2 mobile" href="#demo1" data-toggle="collapse"><i class="fa fa-plus fa-2x  rotate" aria-hidden="true"></i></a>
+</div>
+<div class="col-md-6 noMobile">
+    <div class="">
+        <div id="demo" class="collapse @open">
+            <div class="functie">
+                <form asp-controller="Analyse" asp-action="AndereKost" method="post" class="form-horizontal">
+                    <input type="hidden" asp-for="AnalyseId" />
+                    <input type="hidden" asp-for="LijnId" />
+                    <div class="row">
+                        <label asp-for="Type" class="col-md-4 col-sm-4 col-md-offset-2 control-label ww">Type</label>
+                        <div class="col-md-6 col-sm-6">
+                            <input asp-for="Type" class="form-control" />
+                            <span asp-validation-for="Type" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label asp-for="Bedrag" class="col-md-4 col-sm-4  col-md-offset-2 control-label ww">Bedrag</label>
+                        <div class="col-md-6 col-sm-6">
+                            <input asp-for="Bedrag" class="form-control" type="number" />
+                            <span asp-validation-for="Bedrag" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12 col-sm-10" id="aanmelden">
+                            <a asp-controller="Analyse" asp-action="AndereKost" asp-route-analyseId="@Model.AnalyseId" class="btn btn-default knop">Annuleren</a>
+                            <button type="submit" class="btn btn-default knop" id="">@knop</button>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 <div class="row">
     <div class="col-md-6 ">
@@ -35,15 +69,15 @@
             }
         </table>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-6 mobile">
         <div class="">
-            <div id="demo" class="collapse @open">
+            <div id="demo1" class="collapse @open">
                 <div class="functie">
                     <form asp-controller="Analyse" asp-action="AndereKost" method="post" class="form-horizontal">
                         <input type="hidden" asp-for="AnalyseId" />
                         <input type="hidden" asp-for="LijnId" />
                         <div class="row">
-                            <label asp-for="Type" class="col-md-4 col-md-offset-2 ww">Type</label>
+                            <label asp-for="Type" class="col-md-4 col-md-offset-2 control-label ww">Type</label>
                             <div class="col-md-6">
                                 <input asp-for="Type" class="form-control" />
                                 <span asp-validation-for="Type" class="text-danger"></span>
