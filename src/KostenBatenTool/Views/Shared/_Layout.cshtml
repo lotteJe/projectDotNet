@@ -22,36 +22,40 @@
 </head>
 
 <body>
-    <div class="wrap no-print">
-        <nav class="nav-bar" role="navigation">
-            <div id="top-menu" class="container-fluid ">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><img src="~/images/kairosLogo.png" alt="logo" id="logo" /></a>
-                <div class="navbar-collapse collapse">
+    <div class="wrap ">
+
+        <nav class="nav-bar no-print" role="navigation">
+            <div id="top-menu" class="container-fluid">
+                <a class="navbar-brand col-xs-3" asp-area="" asp-controller="Home" asp-action="Index"><img src="~/images/kairos_whiteKlein.png" alt="logo" id="logo" /></a>
+                <div class="navbar-collapse col-xs-offset-9">
                     @await Html.PartialAsync("_LoginPartial")
                 </div>
             </div>
         </nav>
-        <aside id="side-menu" class="aside" role="navigation" data-navigation='true'>
+        <aside id="side-menu" class="aside mobile no-print" role="navigation" data-navigation='true'>
             <ul class="nav nav-list accordion">
-                <li class="nav-header "><a asp-area="" asp-controller="Home" asp-action="Index"><i class="fa fa-home fa-3x" tool-tip-toggle="tooltip"  data-placement="right" data-original-title="Home"></i></a></li>
+                <li class="nav-header "><a asp-area="" asp-controller="Home" asp-action="Index"><i class="fa fa-home fa-3x" tool-tip-toggle="tooltip" data-placement="right" data-original-title="Home"></i></a></li>
                 <li class="nav-header "><a asp-area="" asp-controller="Analyse" asp-action="Nieuw"><i class="fa fa-balance-scale fa-2x" tool-tip-toggle="tooltip" data-placement="right" data-original-title="Nieuwe analyse"></i></a></li>
                 <li class="nav-header "><a asp-area="" asp-controller="Analyse" asp-action="Index"><i class="fa fa-archive fa-2x" tool-tip-toggle="tooltip" data-placement="right" data-original-title="Archief"></i></a></li>
-                 </ul>
+            </ul>
         </aside>
-    </div>
-    <div class="container body-content">
-        @if (TempData["message"] != null)
-        {
-            <div class="alert alert-success">@TempData["message"]</div>
-        }
-        @if (TempData["error"] != null)
-        {
-            <div class="alert alert-warning">@TempData["error"]</div>
-        }
-        @RenderBody()
 
-    </div>
+        <div>
+            <div class="container body-content">
+                @if (TempData["message"] != null)
+            {
+                    <div class="alert alert-success">@TempData["message"]</div>
+                }
+                @if (TempData["error"] != null)
+            {
+                    <div class="alert alert-warning">@TempData["error"]</div>
+                }
+                @RenderBody()
 
+            </div>
+        </div>
+    </div>
+   
     <environment names="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>

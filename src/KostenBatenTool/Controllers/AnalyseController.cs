@@ -156,9 +156,9 @@ namespace KostenBatenTool.Controllers
         }
 
         [HttpGet]
-        public IActionResult Overzicht(int id)
+        public IActionResult Overzicht(int analyseId)
         {
-            return View(new OverzichtViewModel(GetAnalyse(id)));
+            return View(new OverzichtViewModel(GetAnalyse(analyseId)));
         }
 
         [HttpGet]
@@ -453,9 +453,9 @@ namespace KostenBatenTool.Controllers
         }
 
         [HttpGet]
-        public IActionResult LogistiekeBesparing(int id)
+        public IActionResult LogistiekeBesparing(int analyseId)
         {
-            Analyse a = GetAnalyse(id);
+            Analyse a = GetAnalyse(analyseId);
             LogistiekeBesparing besparing = (LogistiekeBesparing)a.GetBerekening("LogistiekeBesparing");
             return View(new LogistiekeBesparingViewModel(besparing, a.AnalyseId));
         }
@@ -620,9 +620,9 @@ namespace KostenBatenTool.Controllers
         }
 
         [HttpGet]
-        public IActionResult OmzetverliesBesparing(int id)
+        public IActionResult OmzetverliesBesparing(int analyseId)
         {
-            Analyse a = GetAnalyse(id);
+            Analyse a = GetAnalyse(analyseId);
             OmzetverliesBesparing besparing = (OmzetverliesBesparing)a.GetBerekening("OmzetverliesBesparing");
             return View(new OmzetverliesBesparingViewModel(besparing, a.AnalyseId));
         }
@@ -749,9 +749,9 @@ namespace KostenBatenTool.Controllers
         }
 
         [HttpGet]
-        public IActionResult OverurenBesparing(int id)
+        public IActionResult OverurenBesparing(int analyseId)
         {
-            Analyse a = GetAnalyse(id);
+            Analyse a = GetAnalyse(analyseId);
             OverurenBesparing besparing = (OverurenBesparing)a.GetBerekening("OverurenBesparing");
             return View(new EenDecimalViewModel(besparing, a.AnalyseId));
         }
@@ -785,9 +785,9 @@ namespace KostenBatenTool.Controllers
         }
 
         [HttpGet]
-        public IActionResult ProductiviteitsWinst(int id)
+        public IActionResult ProductiviteitsWinst(int analyseId)
         {
-            Analyse a = GetAnalyse(id);
+            Analyse a = GetAnalyse(analyseId);
             ProductiviteitsWinst besparing = (ProductiviteitsWinst)a.GetBerekening("ProductiviteitsWinst");
             return View(new EenDecimalViewModel(besparing, a.AnalyseId));
         }

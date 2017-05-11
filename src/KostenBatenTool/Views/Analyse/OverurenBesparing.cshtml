@@ -3,30 +3,32 @@
     ViewData["Title"] = "8. Besparing op overuren";
 }
 <div class="row">
-    <h1 class="col-md-7">@ViewData["Title"]</h1>
+    <h1 class="col-md-7 col-sm-7 col-xs-7">@ViewData["Title"]</h1>
     <div class="volgendeTabs">
-        <a href="@Url.Action("ProductiviteitsWinst", "Analyse", new { id = Model.AnalyseId })"> <i class="fa fa-angle-left" aria-hidden="true"></i> </a>
-        <a href="@Url.Action("Overzicht", "Analyse", new { id = Model.AnalyseId })">OVERZICHT</a>
-        <a href="@Url.Action("OutsourcingBesparing", "Analyse", new { id = Model.AnalyseId })"> <i class="fa fa-angle-right" aria-hidden="true"></i> </a>
+        <a href="@Url.Action("ProductiviteitsWinst", "Analyse", new { analyseId = Model.AnalyseId })"> <i class="fa fa-angle-left" aria-hidden="true"></i> </a>
+        <a href="@Url.Action("Overzicht", "Analyse", new { analyseId = Model.AnalyseId })">OVERZICHT</a>
+        <a href="@Url.Action("OutsourcingBesparing", "Analyse", new { analyseId = Model.AnalyseId })"> <i class="fa fa-angle-right" aria-hidden="true"></i> </a>
     </div>
 </div>
 <hr />
 <h2>Aan welke kosten kan nog meer worden gedacht?</h2>
 <div class="functie">
-    <form asp-controller="Analyse" asp-action="OverurenBesparing" method="post" class="form-horizontal">
-        <input type="hidden" asp-for="AnalyseId"/>
-        <div class="row">
-            <label asp-for="Jaarbedrag" class="col-md-2 control-label ww">Jaarbedrag</label>
-            <div class="col-md-3">
-                <input asp-for="Jaarbedrag" class="form-control"  type="number"/>
-                <span asp-validation-for="Jaarbedrag" class="text-danger"></span>
+    <div class="col-xs-6 col-xs-offset-3 col-sm-4 col-sm-offset-4 col-md-4 col-md-offset-4">
+        <form asp-controller="Analyse" asp-action="OverurenBesparing" method="post" class="form-horizontal">
+            <input type="hidden" asp-for="AnalyseId" />
+            <div class="row">
+                <label asp-for="Jaarbedrag" class="control-label ww">Jaarbedrag</label>
+                <div class="">
+                    <input asp-for="Jaarbedrag" class="form-control" type="number" />
+                    <span asp-validation-for="Jaarbedrag" class="text-danger"></span>
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-5" id="aanmelden">
-                <a asp-controller="Analyse" asp-action="Overzicht" asp-route-analyseId="@Model.AnalyseId" class="btn btn-default knop">Annuleren</a>
-  <button type="submit" class="btn btn-default knop" id="">Toevoegen</button>
+            <div class="form-group">
+                <div class="" id="aanmelden">
+                    <a asp-controller="Analyse" asp-action="Overzicht" asp-route-analyseId="@Model.AnalyseId" class="btn btn-default knop">Annuleren</a>
+                    <button type="submit" class="btn btn-default knop" id="">Toevoegen</button>
+                </div>
             </div>
-        </div>
-    </form>
+        </form>
+    </div>
 </div>

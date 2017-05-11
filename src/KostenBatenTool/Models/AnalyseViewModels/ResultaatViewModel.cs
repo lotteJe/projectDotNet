@@ -34,7 +34,7 @@ namespace KostenBatenTool.Models.AnalyseViewModels
             OrganisatiId = o.OrganisatieId;
             AnalyseId = analyseId;
             Bericht =
-                string.Format("Beste " + $"{o.Contactpersoon?.Voornaam}\n" + "\nIn bijlage vind u de analyse voor " +
+                string.Format("Beste " + $"{o.Contactpersoon?.Voornaam}\n" + "\nIn bijlage vindt u de analyse voor " +
                               $"{o.Naam} te {o.Gemeente}." + " \n \nHartelijke groet \n"+$"{voornaam} {naam}");
         }
     

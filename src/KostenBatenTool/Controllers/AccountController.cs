@@ -254,6 +254,11 @@ namespace KostenBatenTool.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel model)
         {
+            ArbeidsBemiddelaar test = _arbeidsBemiddelaarRepository.GetBy(model.Email);
+            if (test == null)
+            {
+                ModelState.AddModelError("WWVergeten", "Uw e-mailadres werd niet gevonden.");
+            }
             if (ModelState.IsValid)
             {
                 var user = await _userManager.FindByNameAsync(model.Email);

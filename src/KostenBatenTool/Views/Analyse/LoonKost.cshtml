@@ -7,61 +7,63 @@
     var knop = ViewData["open"].Equals(true) ? "Opslaan" : "Toevoegen";
 }
 <div class="row">
-    <h1 class="col-md-7">@ViewData["Title"]</h1>
+    <h1 class="col-md-7 col-sm-7 col-xs-7">@ViewData["Title"]</h1>
     <div class="volgendeTabs">
-        <a href="@Url.Action("AndereBesparing", "Analyse", new { id = Model.AnalyseId })"> <i class="fa fa-angle-left" aria-hidden="true"></i> </a>
-        <a href="@Url.Action("Overzicht", "Analyse", new { id = Model.AnalyseId })">OVERZICHT</a>
-        <a href="@Url.Action("VoorbereidingsKost", "Analyse", new { id = Model.AnalyseId })"> <i class="fa fa-angle-right" aria-hidden="true"></i> </a>
+        <a href="@Url.Action("AndereBesparing", "Analyse", new { analyseId = Model.AnalyseId })"> <i class="fa fa-angle-left" aria-hidden="true"></i> </a>
+        <a href="@Url.Action("Overzicht", "Analyse", new { analyseId = Model.AnalyseId })">OVERZICHT</a>
+        <a href="@Url.Action("VoorbereidingsKost", "Analyse", new { analyseId = Model.AnalyseId })"> <i class="fa fa-angle-right" aria-hidden="true"></i> </a>
     </div>
 </div>
 <hr />
 <div class="container-fluid">
-    <h2 class="col-md-6">Welke functie zet u in?</h2>
-    <a id="toevoegenFunctie" class="col-md-offset-5" href="#demo" data-toggle="collapse"><i class="fa fa-plus fa-2x rotate" aria-hidden="true"></i></a>
+    <div class="row">
+        <h2 class="col-md-6 col-sm-6 col-xs-6">Welke functie zet u in?</h2>
+        <a id="toevoegenFunctie" class="col-md-offset-5 col-sm-offset-5 col-xs-offset-5" href="#demo" data-toggle="collapse"><i class="fa fa-plus fa-2x rotate" aria-hidden="true"></i></a>
+    </div>
     <div id="demo" class="collapse @open">
         <div class="functie">
             <form asp-controller="Analyse" asp-action="LoonKost" method="post" id="inputForm" class="form-horizontal">
                 <input type="hidden" asp-for="AnalyseId" />
                 <input type="hidden" asp-for="LijnId" />
                 <div class="row">
-                    <label asp-for="Functie" class="col-md-2 control-label ww">Functie</label>
-                    <div class="col-md-3">
+                    <label asp-for="Functie" class="col-md-2 col-sm-6 control-label ww">Functie</label>
+                    <div class="col-md-3 col-sm-6">
                         <input asp-for="Functie" class="form-control" />
                         <span asp-validation-for="Functie" class="text-danger"></span>
                     </div>
-                    <label asp-for="Vop" class="col-md-2 control-label ww">Vlaamse ondersteuningspremie</label>
-                    <div class="col-md-3">
+                    <label asp-for="Vop" class="col-md-2 col-sm-6 control-label ww">Vlaamse ondersteuningspremie</label>
+                    <div class="col-md-3 col-sm-6">
                         <input asp-for="Vop" class="form-control" type="number" />
                         <span asp-validation-for="Vop" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="row">
-                    <label asp-for="UrenPerWeek" class="col-md-2 control-label ww">Uren per week</label>
-                    <div class="col-md-3">
+                    <label asp-for="UrenPerWeek" class="col-md-2 col-sm-6 control-label ww">Uren per week</label>
+                    <div class="col-md-3 col-sm-6">
                         <input asp-for="UrenPerWeek" class="form-control" type="number" />
                         <span asp-validation-for="UrenPerWeek" class="text-danger"></span>
                     </div>
-                    <label asp-for="AantalMaanden" class="col-md-2 control-label ww">Aantal maanden IBO</label>
-                    <div class="col-md-3">
+                    <label asp-for="AantalMaanden" class="col-md-2 col-sm-6 control-label ww">Aantal maanden IBO</label>
+                    <div class="col-md-3 col-sm-6 ">
                         <input asp-for="AantalMaanden" class="form-control" type="number" />
                         <span asp-validation-for="AantalMaanden" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="row">
-                    <label asp-for="BrutoMaandloon" class="col-md-2 control-label ww">Bruto maandloon</label>
-                    <div class="col-md-3">
+                    <label asp-for="BrutoMaandloon" class="col-md-2 col-sm-6 control-label ww">Bruto maandloon</label>
+                    <div class="col-md-3 col-sm-6">
                         <input asp-for="BrutoMaandloon" class="form-control" type="number" />
                         <span asp-validation-for="BrutoMaandloon" class="text-danger"></span>
                     </div>
-                    <label asp-for="Ibo" class="col-md-2 control-label ww">Totale productiviteitspremie</label>
-                    <div class="col-md-3">
+                    <label asp-for="Ibo" class="col-md-2 col-sm-6 control-label ww">Totale productiviteitspremie</label>
+                    <div class="col-md-3 col-sm-6">
                         <input asp-for="Ibo" class="form-control" type="number" />
                         <span asp-validation-for="Ibo" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="row">
-                    <label asp-for="Doelgroep" class="col-md-2 control-label ww">Doelgroep</label>
-                    <div class="col-md-3">
+                    <label asp-for="Doelgroep" class="col-md-2 col-sm-6 control-label ww">Doelgroep</label>
+                    <div class="col-md-3 col-sm-6">
                         <select asp-for="Doelgroep" asp-items="@(ViewData["Doelgroepen"] as SelectList)"></select>
                         <span asp-validation-for="Doelgroep" class="text-danger"></span>
                     </div>

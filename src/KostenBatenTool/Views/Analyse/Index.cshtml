@@ -39,15 +39,12 @@
                         }
 
                         <td onclick="location.href = '@(Url.Action("Overzicht","Analyse", new {id = analyse.AnalyseId}))'">@analyse.Organisatie.Gemeente</td>
-                        <td onclick="location.href = '@(Url.Action("Overzicht","Analyse", new {id = analyse.AnalyseId}))'" style="color: red">@($"{analyse.Resultaat:N2} €")</td>
+                        <td onclick="location.href = '@(Url.Action("Overzicht","Analyse", new {id = analyse.AnalyseId}))'" style="color: dimgrey">@($"{analyse.Resultaat:N2} €")</td>
                         <td onclick="location.href = '@(Url.Action("Overzicht","Analyse", new {id = analyse.AnalyseId}))'" style="color: red">@($"{analyse.KostenResultaat:N2} €")</td>
                         <td onclick="location.href = '@(Url.Action("Overzicht","Analyse", new {id = analyse.AnalyseId}))'" style="color: green">@($"{analyse.Resultaat:N2} €")</td>
                    
                     <td>
-                        <a asp-controller="Analyse" asp-action="" asp-route-id="@analyse.AnalyseId"> <i class="fa fa fa-download animated fadeInDown " aria-hidden="true"></i></a>
-                        <a asp-controller="Analyse" asp-action="" asp-route-id="@analyse.AnalyseId"><i class="fa fa-paper-plane animated fadeInDown" aria-hidden="true"></i></a>
-                        <a asp-controller="Analyse" asp-action="" asp-route-id="@analyse.AnalyseId"> <i class="fa fa-print animated fadeInDown" aria-hidden="true"></i></a>
-                        <a asp-controller="Analyse" asp-action="Delete" asp-route-id="@analyse.AnalyseId" id="myLink"><i class="fa fa-trash animated fadeInDown" aria-hidden="true"></i></a>
+                         <a asp-controller="Analyse" asp-action="Delete" asp-route-id="@analyse.AnalyseId" id="myLink"><i class="fa fa-trash animated fadeInDown" aria-hidden="true"></i></a>
                     </td>
                 </tr>
             }
