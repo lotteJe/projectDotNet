@@ -99,11 +99,11 @@ namespace KostenBatenTool.Models.Domain
                 //type ophalen 
                 if (VeldenDefinitie.Find(v => v.VeldKey == veld.VeldKey).Value == typeof(decimal))
                 {
-                    veld.Value = Decimal.Parse(veld.InternalValue);
+                    veld.Value = decimal.Parse(veld.InternalValue);
                 }
                 else if (VeldenDefinitie.Find(v => v.VeldKey == veld.VeldKey).Value == typeof(double))
                 {
-                    veld.Value = Double.Parse(veld.InternalValue);
+                    veld.Value = double.Parse(veld.InternalValue);
                 }
                 else { 
                     veld.Value = veld.InternalValue.ToString();

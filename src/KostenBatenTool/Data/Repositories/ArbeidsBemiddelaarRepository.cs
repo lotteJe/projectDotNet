@@ -85,7 +85,12 @@ namespace KostenBatenTool.Data.Repositories
         public Analyse GetAnalyse(string email, int id)
         {
             //Ophalen
-            Analyse analyse = _arbeidsBemiddelaars.Include("Analyses.Organisatie").Include("Analyses.Baten.Velden").Include("Analyses.Kosten.Velden").Include("Analyses.Kosten.Lijnen.VeldenWaarden").Include("Analyses.Baten.Lijnen.VeldenWaarden").First(a => a.Email.Equals(email)).Analyses.FirstOrDefault(a => a.AnalyseId == id);
+            Analyse analyse = _arbeidsBemiddelaars.Include("Analyses.Organisatie")
+                .Include("Analyses.Kosten.Velden")
+                .Include("Analyses.Baten.Velden")
+                .Include("Analyses.Kosten.Lijnen.VeldenWaarden")
+                .Include("Analyses.Baten.Lijnen.VeldenWaarden")
+                .First(a => a.Email.Equals(email)).Analyses.FirstOrDefault(a => a.AnalyseId == id);
             //Deserialiseren
             analyse.Kosten.ForEach(k => k.Deserialiseer());
             analyse.Baten.ForEach(b => b.Deserialiseer());
@@ -113,6 +118,24 @@ namespace KostenBatenTool.Data.Repositories
         {
             _dbContext.Lijnen.Remove(lijn);
         }
+        
+        public LoonKostLijn GetLoonKostLijn(int lijnId, List<Veld> velden)
+        {
+            LoonKostLijn lijn = _dbContext.Lijnen.Include(l => l.VeldenWaarden).OfType<LoonKostLijn>().Include(l => l.Doelgroep).FirstOrDefault(l => l.LijnId == lijnId);
+            lijn.Deserialiseer(velden);
+            return lijn;
+        }
+
+        public IList<LoonKostLijn> GetLoonKostLijnen(int berekeningId, List<Veld> velden)
+        {
+            IEnumerable<int> lijnIds =
+                _dbContext.Berekeningen.Include(b => b.Lijnen)
+                    .FirstOrDefault(b => b.BerekeningId == berekeningId)
+                    .Lijnen.Select(l => l.LijnId);
+            List<LoonKostLijn> lijnen = _dbContext.Lijnen.Include(l => l.VeldenWaarden).OfType<LoonKostLijn>().Include(l => l.Doelgroep).Where(l => lijnIds.Contains(l.LijnId)).ToList();
+            lijnen.ForEach(l => l.Deserialiseer(velden));
+            return lijnen;
+        }   
     }
 }
 

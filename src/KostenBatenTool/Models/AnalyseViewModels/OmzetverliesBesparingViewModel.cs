@@ -22,7 +22,7 @@ namespace KostenBatenTool.Models.AnalyseViewModels
         {
             AnalyseId = id;
             Veld1 = (decimal)besparing.Lijnen[0].VeldenWaarden.First(v => v.VeldKey.Equals("jaarbedrag omzetverlies")).Value;
-            Veld2 = (decimal)besparing.Lijnen[0].VeldenWaarden.First(v => v.VeldKey.Equals("% besparing")).Value;
+            Veld2 = (decimal)besparing.Lijnen[0].VeldenWaarden.First(v => v.VeldKey.Equals("% besparing")).Value*100;
             Veld3 = (decimal)besparing.Lijnen[0].VeldenWaarden.First(v => v.VeldKey.Equals("totaalbesparing")).Value;
         }
     }

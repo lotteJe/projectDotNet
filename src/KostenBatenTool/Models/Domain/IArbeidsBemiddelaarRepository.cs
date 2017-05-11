@@ -21,5 +21,7 @@ namespace KostenBatenTool.Models.Domain
         Organisatie GetOrganisatie(string email, int id);
         void VerwijderAnalyse(Analyse analyse);
         void VerwijderLijn(Lijn lijn);
+        LoonKostLijn GetLoonKostLijn(int lijnId, List<Veld> velden);
+        IList<LoonKostLijn> GetLoonKostLijnen(int BerekeningId, List<Veld> velden);
     }
 }

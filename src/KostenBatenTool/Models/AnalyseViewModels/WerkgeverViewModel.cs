@@ -59,7 +59,7 @@ namespace KostenBatenTool.Models.AnalyseViewModels
         public WerkgeverViewModel(Organisatie o)
         {
             Werkuren = o.UrenWerkWeek;
-            Bijdrage = o.PatronaleBijdrage;
+            Bijdrage = o.PatronaleBijdrage * 100;
             Afdeling = o.Afdeling;
             Gemeente = o.Gemeente;
             Postcode = o.Postcode;

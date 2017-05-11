@@ -15,8 +15,10 @@ namespace KostenBatenTool.Data
         public DbSet<ArbeidsBemiddelaar> ArbeidsBemiddelaars { get; set; }
         public DbSet<Analyse> Analyses { get; set; }
         public DbSet<Lijn> Lijnen { get; set; }
+        public DbSet<LoonKostLijn> Loonkostlijnen { get; set; }
         public DbSet<Bericht> Berichten { get; set; }
         public DbSet<Doelgroep> Doelgroepen { get;set; }
+        public DbSet<Berekening> Berekeningen { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {

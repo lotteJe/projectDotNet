@@ -166,17 +166,22 @@ namespace KostenBatenTool.Controllers
         {
             Analyse a = GetAnalyse(analyseId);
             LoonKost loonkost = (LoonKost)a.GetBerekening("LoonKost");
+            IList<LoonKostLijn> lijnen = _arbeidsBemiddelaarRepository.GetLoonKostLijnen(loonkost.BerekeningId, loonkost.Velden);
             if (lijnId > 0)
             {
-                Lijn lijn = loonkost.Lijnen.FirstOrDefault(l => l.LijnId == lijnId);
+                Lijn lijn = _arbeidsBemiddelaarRepository.GetLoonKostLijn(lijnId, loonkost.Velden);
                 ViewData["open"] = true;
-                ViewData["Doelgroepen"] = new SelectList(_doelgroepRepository.GetAll(),  nameof(Doelgroep.DoelgroepId), nameof(Doelgroep.Soort));
-                return View(new LoonkostViewModel(lijn, loonkost, a.AnalyseId));
+                LoonkostViewModel vm1 = new LoonkostViewModel(lijn, lijnen, a.AnalyseId);
+                vm1.DoelgroepList = _doelgroepRepository.GetAll();
+                vm1.VopList = new List<Veld> { new Veld("0%", 0, 1), new Veld("20%", 0.20, 1), new Veld("30%", 0.30, 2), new Veld("40%", 0.40, 3)};
+                return View(vm1);
 
             }
             ViewData["open"] = false;
-            ViewData["Doelgroepen"] = new SelectList(_doelgroepRepository.GetAll(), nameof(Doelgroep.DoelgroepId), nameof(Doelgroep.Soort));
-            return View(new LoonkostViewModel(loonkost, a.AnalyseId));
+            LoonkostViewModel vm = new LoonkostViewModel(lijnen, a.AnalyseId);
+            vm.DoelgroepList = _doelgroepRepository.GetAll();
+            vm.VopList = new List<Veld> { new Veld("0%", 0, 1), new Veld("20%", 0.20, 1), new Veld("30%", 0.30, 2), new Veld("40%", 0.40, 3) };
+            return View(vm);
         }
 
 
@@ -198,9 +203,9 @@ namespace KostenBatenTool.Controllers
                     analyse.VulVeldIn("LoonKost", model.LijnId, "functie", model.Functie);
                     analyse.VulVeldIn("LoonKost", model.LijnId, "uren per week", model.UrenPerWeek);
                     analyse.VulVeldIn("LoonKost", model.LijnId, "bruto maandloon fulltime", model.BrutoMaandloon);
-                    Doelgroep doelgroep = _doelgroepRepository.GetById(Int32.Parse(model.Doelgroep));
-                    ((LoonKostLijn) analyse.GetBerekening("LoonKost").Lijnen.FirstOrDefault(l => l.LijnId == model.LijnId)).Doelgroep = doelgroep;
-                    analyse.VulVeldIn("LoonKost", model.LijnId, "% Vlaamse ondersteuningspremie", model.Vop);
+                    Doelgroep doelgroep = _doelgroepRepository.GetById(model.DoelgroepId);
+                    ((LoonKostLijn)analyse.GetBerekening("LoonKost").Lijnen.FirstOrDefault(l => l.LijnId == model.LijnId)).Doelgroep = doelgroep;
+                    analyse.VulVeldIn("LoonKost", model.LijnId, "% Vlaamse ondersteuningspremie", model.VopId);
                     analyse.VulVeldIn("LoonKost", model.LijnId, "aantal maanden IBO", model.AantalMaanden);
                     analyse.VulVeldIn("LoonKost", model.LijnId, "totale productiviteitspremie IBO", model.Ibo);
                     _arbeidsBemiddelaarRepository.SerialiseerVelden(analyse);
@@ -642,7 +647,7 @@ namespace KostenBatenTool.Controllers
                     Analyse analyse = ab.Analyses.First(a => a.AnalyseId == model.AnalyseId);
                     Lijn lijn = ((OmzetverliesBesparing)analyse.GetBerekening("OmzetverliesBesparing")).Lijnen[0];
                     analyse.VulVeldIn("OmzetverliesBesparing", lijn.LijnId, "jaarbedrag omzetverlies", model.Veld1);
-                    analyse.VulVeldIn("OmzetverliesBesparing", lijn.LijnId, "% besparing", model.Veld2);
+                    analyse.VulVeldIn("OmzetverliesBesparing", lijn.LijnId, "% besparing", model.Veld2/100);
                     _arbeidsBemiddelaarRepository.SerialiseerVelden(analyse);
                     _arbeidsBemiddelaarRepository.SaveChanges();
                     return RedirectToAction(nameof(Overzicht), model.AnalyseId);
