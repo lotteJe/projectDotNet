@@ -43,12 +43,12 @@
         <div class="row">
             <div class="col-md-4">
                 <label class="control-label">Aantal werkuren per week</label>
-                <input asp-for="Werkuren" type="text" class="form-control" name="Werkuren">
+                <input asp-for="Werkuren" asp-format="{0:N2}"type="text" class="form-control" name="Werkuren">
                 <span asp-validation-for="Werkuren" class="text-danger"></span>
             </div>
             <div class="col-md-4">
-                <label class="control-label">Patronale bijdrage</label>
-                <input asp-for="Bijdrage" type="text" class="form-control" name="Bijdrage">
+                <label class="control-label">Patronale bijdrage (%)</label>
+                <input asp-for="Bijdrage" asp-format="{0:N2}" type="text" class="form-control" name="Bijdrage">
                 <span asp-validation-for="Bijdrage" class="text-danger"></span>
             </div>
             <div class="col-md-4">

@@ -31,9 +31,10 @@
                         <input asp-for="Functie" class="form-control" />
                         <span asp-validation-for="Functie" class="text-danger"></span>
                     </div>
-                    <label asp-for="Vop" class="col-md-2 col-sm-6 control-label ww">Vlaamse ondersteuningspremie</label>
-                    <div class="col-md-3 col-sm-6">
-                        <input asp-for="Vop" class="form-control" type="number" />
+                    <label asp-for="Vop" class="col-md-2 control-label ww">Vlaamse ondersteuningspremie</label>
+                    <div class="col-md-3">
+                        <select asp-for="VopId" asp-items="@(new SelectList(Model.VopList,"Value", "VeldKey"))" class="form-control"></select>
+
                         <span asp-validation-for="Vop" class="text-danger"></span>
                     </div>
                 </div>
@@ -62,9 +63,9 @@
                     </div>
                 </div>
                 <div class="row">
-                    <label asp-for="Doelgroep" class="col-md-2 col-sm-6 control-label ww">Doelgroep</label>
-                    <div class="col-md-3 col-sm-6">
-                        <select asp-for="Doelgroep" asp-items="@(ViewData["Doelgroepen"] as SelectList)"></select>
+                    <label asp-for="Doelgroep" class="col-md-2 control-label ww">Doelgroep</label>
+                    <div class="col-md-3">
+                        <select asp-for="DoelgroepId" asp-items="@(new SelectList(Model.DoelgroepList,"DoelgroepId", "Soort"))" class="form-control"></select>
                         <span asp-validation-for="Doelgroep" class="text-danger"></span>
                     </div>
                 </div>
@@ -100,7 +101,7 @@
                 <td>@lijn.UrenPerWeek</td>
                 <td>@lijn.BrutoMaandloon</td>
                 <td>@lijn.Doelgroep</td>
-                <td>@lijn.Vop</td>
+                <td>@(lijn.Vop * 100) %</td>
                 <td>@lijn.AantalMaanden</td>
                 <td>@lijn.Ibo</td>
                 @*<td><a asp-controller="Analyse" asp-action="DeleteLijn" asp-route-id="new {analyseId = Model.AnalyseId, lijnId = lijn.LijnId}"><i class="fa fa-trash animated fadeInDown" aria-hidden="true"></i></a></td>*@

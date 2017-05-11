@@ -19,20 +19,23 @@ namespace KostenBatenTool.Models.AnalyseViewModels
         public decimal Ibo { get; set; }
         public int AnalyseId { get; set; }
         public IEnumerable<LoonkostLijnViewModel> Lijnen { get; set; }
-
+        public List<Doelgroep> DoelgroepList { get; set; }
+        public int DoelgroepId { get; set; }
+        public List<Veld> VopList { get; set; }
+        public decimal VopId { get; set; }
         public LoonkostViewModel()
         {
-
+            
         }
 
-       public LoonkostViewModel(LoonKost loonkost, int analyseId) : this()
+       public LoonkostViewModel(IList<LoonKostLijn> loonkostlijnen, int analyseId) : this()
         {
             AnalyseId = analyseId;
-            Lijnen = loonkost.Lijnen.Select(lijn => new LoonkostLijnViewModel(lijn)).ToList();
+            Lijnen = loonkostlijnen.Select(lijn => new LoonkostLijnViewModel(lijn)).ToList();
             LijnId = 0;
 
         }
-        public LoonkostViewModel(Lijn  lijn, LoonKost loonkost, int analyseId) : this(loonkost,analyseId)
+        public LoonkostViewModel(Lijn  lijn, IList<LoonKostLijn> loonkostlijnen, int analyseId) : this(loonkostlijnen,analyseId)
         {
             LijnId = lijn.LijnId;
             Functie = lijn.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("functie")).Value.ToString();
@@ -46,6 +49,8 @@ namespace KostenBatenTool.Models.AnalyseViewModels
             Ibo =
                (decimal)
                     lijn.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("totale productiviteitspremie IBO")).Value;
+            DoelgroepId = ((LoonKostLijn) lijn).Doelgroep.DoelgroepId;
+            VopId = Vop;
         }
     }
 }
