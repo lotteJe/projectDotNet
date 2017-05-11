@@ -20,5 +20,6 @@ namespace KostenBatenTool.Models.Domain
         IEnumerable<Organisatie> GetOrganisaties(string email);
         Organisatie GetOrganisatie(string email, int id);
         void VerwijderAnalyse(Analyse analyse);
+        void VerwijderLijn(Lijn lijn);
     }
 }

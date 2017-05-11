@@ -14,6 +14,7 @@ namespace KostenBatenTool.Data
         public DbSet<Persoon> Personen { get; set; }
         public DbSet<ArbeidsBemiddelaar> ArbeidsBemiddelaars { get; set; }
         public DbSet<Analyse> Analyses { get; set; }
+        public DbSet<Lijn> Lijnen { get; set; }
         public DbSet<Bericht> Berichten { get; set; }
         public DbSet<Doelgroep> Doelgroepen { get;set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
@@ -59,6 +60,7 @@ namespace KostenBatenTool.Data
         {
             a.Property(ad => ad.Paswoord);
             a.Property(ad => ad.SuperAdmin);
+            a.Property(ad => ad.WachtwoordReset);
         }
 
         private void MapBericht(EntityTypeBuilder<Bericht> b)

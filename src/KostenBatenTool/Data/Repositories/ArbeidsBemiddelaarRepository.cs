@@ -108,6 +108,11 @@ namespace KostenBatenTool.Data.Repositories
         {
             _dbContext.Analyses.Remove(analyse);
         }
+
+        public void VerwijderLijn(Lijn lijn)
+        {
+            _dbContext.Lijnen.Remove(lijn);
+        }
     }
 }
 

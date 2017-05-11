@@ -25,7 +25,7 @@ namespace KostenBatenTool.Data
         {
 
 
-          // _dbContext.Database.EnsureDeleted();
+           _dbContext.Database.EnsureDeleted();
 
 
             if (_dbContext.Database.EnsureCreated())
@@ -38,13 +38,15 @@ namespace KostenBatenTool.Data
                 //_dbContext.Organisaties.AddRange(organisaties);
                 //_dbContext.SaveChanges();
                 
-                Persoon superadmin = new Administrator("Bart", "Moens", "bart.moens@kairos.com", true);
+                Persoon superadmin = new Administrator("Bart", "Moens", "sharonvanhove1@gmail.com", true);
+                ((Administrator) superadmin).WachtwoordReset = true;
                 _dbContext.Personen.Add(superadmin);
+
                 Bericht welkom = new Bericht("Welkom", "Welkom bij Kairos!");
                 _dbContext.Berichten.Add(welkom);
 
-                Doelgroep laaggeschoold = new Doelgroep("Laaggeschoold", 2500M,1550M);
-                Doelgroep middengeschoold = new Doelgroep("Middengeschoold", 2500M, 1000M);
+                Doelgroep laaggeschoold = new Doelgroep("Jonger dan 25 en laaggeschoold", 2500M,1550M);
+                Doelgroep middengeschoold = new Doelgroep("Jonger dan 25 en middengeschoold", 2500M, 1000M);
                 Doelgroep tussen55En60 = new Doelgroep("Tussen 55 en 60 jaar", 4466.66M, 1150M);
                 Doelgroep boven60 = new Doelgroep("Boven 60 jaar", 4466.66M, 1500M);
                 Doelgroep ander = new Doelgroep("Ander", 0M, 0M);
