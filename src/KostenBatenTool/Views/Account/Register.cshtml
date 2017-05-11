@@ -2,64 +2,70 @@
 @{
     Layout = "~/Views/Shared/CustomLayout.cshtml";
 }
-<div class="jumbotron col-md-4 col-md-offset-1  box box-left" id="locationField2">
+<div class="jumbotron col-xs-offset-1 col-xs-10 col-md-4 col-md-offset-1  box box-left" id="locationField2">
     <div class="tabs">
-        <a asp-area="" asp-controller="Account" asp-action="Login" class="tab btn-default col-md-6">AANMELDEN</a>
+        <a asp-area="" asp-controller="Account" asp-action="Login" class="tab btn-default col-md-6 ">AANMELDEN</a>
         <a asp-area="" asp-controller="Account" asp-action="Register" class="tab btn-default col-md-6 active" style="pointer-events: none">REGISTREREN</a>
     </div>
+  
     <form asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal" id="address">
-        @Html.ValidationMessage("EmailGer", new { @style = "color:#a94442; font-weight: bold; padding-left:15px" })
+        @Html.ValidationMessage("EmailGer", new { @style = "color:#a94442; font-weight: bold;" })
         <div class="row">
             <div class="col-md-6">
                 <label for="naam" class="control-label">Naam</label>
-                <input asp-for="Naam" id="naam" type="text" class="form-control" name="naam" >
+                <input asp-for="Naam" id="naam" type="text" class="form-control" name="naam">
                 <span asp-validation-for="Naam" class="text-danger"></span>
             </div>
             <div class="col-md-6">
                 <label for="voornaam" class="control-label">Voornaam</label>
-                <input asp-for="Voornaam" id="voornaam" type="text" class="form-control" name="voornaam" >
+                <input asp-for="Voornaam" id="voornaam" type="text" class="form-control" name="voornaam">
                 <span asp-validation-for="Voornaam" class="text-danger"></span>
             </div>
         </div>
-        <div class="col-md-12">
-            <label for="email" class="control-label">Email</label>
-            <input asp-for="Email" id="email" type="email" class="form-control" name="email" >
-            <span asp-validation-for="Email" class="text-danger"></span>
-        </div>
-        <div class="col-md-12">
-            <label for="naamOrganisatie" class="control-label">Naam organisatie</label>
-            <input asp-for="NaamOrganisatie" id="naamOrganisatie" type="text" class="form-control" name="naamOrganisatie" >
-            <span asp-validation-for="NaamOrganisatie" class="text-danger"></span>
-        </div>
         <div class="row">
-            <div class="col-md-8">
-                <label class="control-label">Straat</label>
-                <input asp-for="Straat" id="autocomplete"  type="text" class="form-control" name="Straat" >
-                <span asp-validation-for="Straat" class="text-danger"></span>
-            </div>
-            <div class="col-md-4">
-                <label class="control-label">Huisnummer</label>
-                <input asp-for="Huisnummer" id="street_number" type="text" class="form-control" name="Huisnummer" >
-                <span asp-validation-for="Huisnummer" class="text-danger"></span>
+            <div class="col-md-12">
+                <label for="email" class="control-label">Email</label>
+                <input asp-for="Email" id="email" type="email" class="form-control" name="email">
+                <span asp-validation-for="Email" class="text-danger"></span>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-4">
-                <label class="control-label">Postcode</label>
-                <input asp-for="Postcode" id="postal_code" type="text" class="form-control" name="Postcode" >
-                <span asp-validation-for="Postcode" class="text-danger"></span>
-            </div>
-            <div class="col-md-8">
-                <label  class="control-label">Gemeente</label>
-                <input asp-for="Gemeente" id="locality" type="text" class="form-control" name="Gemeente" >
-                <span asp-validation-for="Gemeente" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-offset-9">
-                <button type="submit" class="btn btn-default knop">Registreer</button>
-            </div>
-        </div>
+    <div class="row">
+         <div class="col-md-12">
+        <label for="naamOrganisatie" class="control-label">Naam organisatie</label>
+        <input asp-for="NaamOrganisatie" id="naamOrganisatie" type="text" class="form-control" name="naamOrganisatie">
+        <span asp-validation-for="NaamOrganisatie" class="text-danger"></span>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-8">
+        <label class="control-label">Straat</label>
+        <input asp-for="Straat" id="autocomplete" type="text" class="form-control" name="Straat">
+        <span asp-validation-for="Straat" class="text-danger"></span>
+    </div>
+    <div class="col-md-4">
+        <label class="control-label">Huisnummer</label>
+        <input asp-for="Huisnummer" id="street_number" type="text" class="form-control" name="Huisnummer">
+        <span asp-validation-for="Huisnummer" class="text-danger"></span>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <label class="control-label">Postcode</label>
+        <input asp-for="Postcode" id="postal_code" type="text" class="form-control" name="Postcode">
+        <span asp-validation-for="Postcode" class="text-danger"></span>
+    </div>
+    <div class="col-md-8">
+        <label class="control-label">Gemeente</label>
+        <input asp-for="Gemeente" id="locality" type="text" class="form-control" name="Gemeente">
+        <span asp-validation-for="Gemeente" class="text-danger"></span>
+    </div>
+</div>
+<div class="form-group">
+    <div class="col-md-12" id="aanmelden">
+        <button type="submit" class="btn btn-default knop">Registreer</button>
+    </div>
+</div>
+
     </form>
 </div>
 

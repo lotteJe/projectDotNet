@@ -6,10 +6,66 @@
 }
 
 @media print {
-    
     .no-print, .no-print * {
-        display: none !important;
+        display: none;
     }
+
+    table.print {
+        display: table;
+        visibility: visible;
+    }
+
+    .print tr:first-of-type th, .print tr:nth-of-type(2) th{
+        border-top: 0;
+        text-align: left;
+        font-size: 25px;
+        font-weight: bold;
+    }
+    
+    .print td:first-of-type, .print td:last-of-type {
+        width: 70px;
+        text-align: center;
+        font-size: 80%;
+    }
+
+    .print th:first-of-type, .print th:last-of-type{
+        width: 70px;
+    }
+
+    .print th {
+        font-size: 90%;
+    }
+
+
+
+    .print td:nth-of-type(2), .print td:nth-of-type(5){
+        font-size: 80%;
+    }
+
+    .print td:nth-of-type(3) {
+        color: green !important;
+        font-size: 80%;
+    }
+
+    .print td:nth-of-type(4) {
+        color: #AF0000 !important;
+        font-size: 80%;
+    }
+
+    .print td:nth-of-type(3), .print td:nth-of-type(4), .print th:nth-of-type(3), .print th:nth-of-type(4) {
+        width: 150px;
+        text-align: center;
+    }
+
+    .print td:nth-of-type(5), .print th:last-of-type {
+        text-align: right;
+    }
+
+}
+
+.print {
+    display: none;
+    visibility: hidden;
 }
 
 html.dash {
@@ -19,6 +75,7 @@ html.dash {
     -o-background-size: cover;
     -ms-background-size: cover;
     background-size: cover;
+    min-height: 100%;
 }
 
 html.begin {
@@ -31,183 +88,101 @@ html.begin {
 }
 
 
-
-
 body {
     background-color: transparent;
     font-family: 'abadi' !important;
-    font-size: 20px;
+    font-size: 16px;
     color: dimgray;
+    height: 100%;
 }
 
-.body-content {
-    margin-left: 120px;
-    padding-left: 30px;
-    padding-right: 30px;
-    background-color: rgba(255,255,255, 0.74);
-    width: auto;
-    min-height: 91vmin;
+.mobile {
+    display: none;
 }
 
-/*naam gebruiker*/
-a.dropdown-toggle {
-    color: white;
+hr {
+    margin: 0;
+    border-top: 1px solid #3b4041;
 }
 
-    a.dropdown-toggle:hover,
-    a.dropdown-toggle:focus {
-        background: rgba(255,255,255, 0.74);
-        color: dimgray;
-    }
-
-
-/* logo*/
-#logo {
-    height: 40px;
-    margin-top: -10px;
+h1 {
+    font-size: 25px;
 }
 
-/* sidebar */
-.wrap {
-    position: relative;
+.body-content > div > h1 {
+    font-size: 25px;
 }
 
-div#top-menu {
-    height: 70px;
-    padding-top: 10px;
+h2 {
+    font-size: 20px;
+    padding-left: 20px;
+    margin-bottom: 10px;
 }
 
-.wrap .nav-bar .nav {
-    float: right !important;
+li.dropdown.open {
+    z-index: 1;
 }
 
-    /*.wrap .nav-bar .nav .dropdown span.fa,
-    .wrap .nav-bar .nav .dropdown span.caret {
-        margin-right: 10px;
-    }*/
-
-    .wrap .nav-bar .nav .dropdown-menu {
-        left: auto;
-        width: 200px;
-        right: 0;
-    }
-
-        .wrap .nav-bar .nav .dropdown-menu > li > a, .uitloggen {
-            font-size: 20px;
-            color: dimgray;
-            background: white;
-            padding: 8px;
-        }
-
-            .wrap .nav-bar .nav .dropdown-menu > li > a:hover, .uitloggen:hover {
-                background: #F6F9E6;
-                text-decoration: none;
-                color: dimgray;
-                width: 100%;
-                text-align: left;
-            }
-
-.navbar-inner {
-    background: transparent;
+.menubar {
+    text-align: right;
 }
+/* INLOGSCHERM EN REGISTREREN */
 
-.wrap #side-menu {
-    position: absolute;
-    z-index: 0; /* aangepast naar 0, was niet klikbaar*/
-    width: 120px;
-}
-
-
-.wrap ul.accordion li {
-    /*   height: 70px;*/
-    cursor: pointer;
+#logoIntro1 {
+    border: 0;
+    max-width: 50%;
+    height: auto;
     display: block;
-    position: relative;
-    -webkit-transition: all 0.4s ease;
-    -o-transition: all 0.4s ease;
-    -ms-transition: all 0.4s ease;
-    transition: all 0.4s ease;
+    margin: 0 auto;
+    margin-top: 40px;
+    margin-bottom: 40px;
 }
 
-    .wrap ul.accordion li i {
-        align-items: center;
-        top: 16px;
-        left: 12px;
-        color: white;
-        -webkit-transition: all 0.4s ease;
-        -o-transition: all 0.4s ease;
-        -ms-transition: all 0.4s ease;
-        transition: all 0.4s ease;
-    }
-
-
-@media screen and (max-width: 768px) {
-    .wrap .nav-bar .navbar-brand {
-        margin-top: 0;
-        padding-left: 0;
-    }
-
-    .wrap .side-menu-link {
-        display: inline-block;
-    }
-
-    .wrap #side-menu #qform {
-        position: absolute;
-        top: 10px;
-    }
-
-    .wrap .content {
-        left: 0;
-    }
-
-    .wrap.active .content {
-        left: 21em;
-    }
+.box-left {
+    background-color: white;
+    border-radius: 6px;
 }
-
-@media screen and (min-width: 769px) {
-    .side-menu-link {
-        display: none;
-    }
-
-    .wrap {
-        position: relative;
-    }
-
-        .wrap .content {
-            left: 21em;
-            right: 0;
-        }
-}
-
-.fa-home, .fa-balance-scale, .fa-archive{
-    display: inline-block;
-    width: 100%;
-}
-
-ul.nav.nav-list.accordion li i {
-    text-align: center;
-}
-
-.nav > li > a:hover, .nav > li > a:focus, .active {
-    background-color: rgba(255,255,255, 0.74);
-}
-
-    .wrap ul.accordion li a:hover i, .active a i.fa {
-        color: #9CCD0B !important;
-    }
-
-
-/* LOGIN & REGISTER */
 
 .tabs {
     text-align: center;
-    min-height: 110px;
+    margin-bottom: 30px;
+}
+
+#gegeven {
+    margin-bottom: 10px;
+}
+
+#ww {
+    text-align: right;
+}
+
+    #ww a {
+        color: dimgray;
+        font-size: 15px;
+    }
+
+.knop {
+    color: #ffffff;
+    background: #9CCD0B;
+    text-transform: uppercase;
+    align-content: right;
+    margin-top: 15px;
+}
+
+.jumbotron {
+    background-color: white;
+    border-radius: 10px;
+    padding-bottom: 5px;
+    padding-top: 0px;
+    border: 15px solid transparent;
+    -webkit-box-shadow: 5px 5px 34px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 5px 5px 34px 0px rgba(0,0,0,0.75);
+    box-shadow: 5px 5px 34px 0px rgba(0,0,0,0.75);
 }
 
 .tab {
     background-color: transparent;
-    font-size: 30px;
+    font-size: 20px;
     text-transform: uppercase;
     padding: 20px;
     border-bottom: 1px solid #9CCD0B;
@@ -234,139 +209,98 @@ ul.nav.nav-list.accordion li i {
         background-color: transparent;
     }
 
-.jumbotron {
-    background-color: white;
-    border-radius: 10px;
-    padding: 0;
-    margin-bottom: 0;
-    -webkit-box-shadow: 5px 5px 34px 0px rgba(0,0,0,0.75);
-    -moz-box-shadow: 5px 5px 34px 0px rgba(0,0,0,0.75);
-    box-shadow: 5px 5px 34px 0px rgba(0,0,0,0.75);
-    margin-left: 70px;
-}
-
-.intro {
-    margin-top: 5%;
-    margin-bottom: 5%;
-}
-
-.row {
-    margin: 0;
-}
-
-.knop {
-    color: #ffffff;
-    background: #9CCD0B;
-    font-size: 16px;
-    text-transform: uppercase;
-    margin-top: 15px;
-}
-
 #aanmelden {
     text-align: right;
 }
 
-.P {
-    margin-right: 15px;
-}
-
-#show-change, #toevoegenFunctie {
-    color: dimgray;
+.text-danger {
     font-size: 16px;
-    text-decoration: underline;
-    vertical-align: bottom;
 }
 
-    #show-change:hover, #toevoegenFunctie:hover {
-        cursor: pointer;
-        color: #9CCD0B;
+
+.tabWw {
+    background-color: transparent;
+    font-size: 25px;
+    text-transform: uppercase;
+    padding: 20px 0;
+}
+
+.vergeten {
+    text-align: center;
+    margin: 50px 0;
+}
+/*KRUIS WW VERGETEN*/
+.kruis {
+    color: dimgray;
+}
+
+.fa-times {
+    margin-top: 10px;
+    margin-left: -10px;
+}
+
+    .fa-times:hover, .fa-times:focus {
+        text-decoration: none;
+        background-color: none;
+        color: dimgray;
     }
 
-
-#ww {
+.kruisdiv {
     text-align: right;
 }
 
-    #ww a {
+/*NAVIGATIEBAR*/
+div#top-menu {
+    height: 70px;
+    padding-top: 10px;
+    margin-bottom: 15px;
+}
+
+img#logo {
+    width: 60%;
+    margin-right: 20px;
+    padding: 0;
+}
+
+.dropdown-menu > li > a > .fa, .uitloggen > .fa {
+    width: 30px;
+}
+
+.wrap .nav-bar .nav .dropdown-menu > li > a, .uitloggen {
+    font-size: 20px;
+    color: dimgray;
+    background: white;
+    padding: 8px;
+}
+
+    .wrap .nav-bar .nav .dropdown-menu > li > a:hover, .uitloggen:hover {
+        background: #F6F9E6;
+        text-decoration: none;
         color: dimgray;
-        font-size: 15px;
+        width: 100%;
+        text-align: left;
+    }
+/*NAAM GEBRUIKER*/
+a.dropdown-toggle {
+    color: white;
+}
+
+    a.dropdown-toggle:hover,
+    a.dropdown-toggle:focus {
+        background: rgba(255,255,255, 0.74);
+        color: dimgray;
     }
 
-#intro {
-    font-size: 15px;
-    color: dimgray;
+.body-content {
+    padding-left: 30px;
+    padding-right: 30px;
+    background-color: rgba(255,255,255, 0.74);
+    width: auto;
+    min-height: 95vmin;
 }
 
 
-
-img#logoIntro {
-    width: 70%;
-    /*filter: drop-shadow(1px 1px 7px rgba(0,0,0,.4));*/
-}
-
-#intro p {
-    padding: 20px 5px;
-}
-
-.panel-heading .accordion-toggle:after {
-    font-family: 'Glyphicons Halflings';
-    content: "\e114";
-    float: right;
-    color: rgba(0, 0, 0, .3);
-    font-size: 50px;
-    padding-top: 80px;
-}
-
-.panel-heading .accordion-toggle.collapsed:after {
-    content: "\e080";
-}
-
-
-
-#gegeven {
-    padding: 30px 10px;
-}
-
-.gegevens {
-    padding: 0 40px;
-}
-
-label.control-label {
-    font-size: 20px;
-}
-
-.form-control {
-    font-size: 18px;
-}
-
-span.text-danger.field-validation-error {
-    font-size: 15px;
-}
-
-.wrapper {
-    position: relative;
-    height: 100vh;
-}
-
-
-/* absolute positioning and transforms */
-
-.box-left {
-    position: absolute;
-    top: 50%;
-    left: 25%;
-    transform: translate(-50%, -50%);
-}
-
-.box-right {
-    position: absolute;
-    top: 50%;
-    left: 75%;
-    transform: translate(-50%, -50%);
-}
-
-
-/* analyseDetail*/
+/* ANALYSEDETAIL*/
 .analyseDetail {
     border: 10px solid transparent;
     border-radius: 20px;
@@ -374,76 +308,31 @@ span.text-danger.field-validation-error {
     background-clip: padding-box;
     padding-top: 15px;
 }
-.analyseDetail:hover {
-    background-color: rgba(157, 204, 11, 0.5);
-}
+
+    .analyseDetail:hover {
+        background-color: rgba(157, 204, 11, 0.5);
+    }
 
 .cardHeader {
     margin-top: 0;
 }
-    .analyseDetail .table > tbody > tr > td {
-        border-top: 0px !important;
-    }
 
-    .analyseDetail td:first-of-type {
-        width: 40%;
-    }
-
-hr {
-    margin: 0;
-    border-top: 1px solid #3b4041;
+.analyseDetail .table > tbody > tr > td {
+    border-top: 0px !important;
 }
 
-/* Archief */
-.archief {
-    background-color: #fff;
-    background-clip: padding-box;
-    padding-top: 15px;
-    margin-top: 15px;
+.analyseDetail td:first-of-type {
+    width: 40%;
 }
 
-    .archief td > a i {
-        display: none;
-        text-decoration: none;
-    }
-
-    .archief tr:hover td > a i {
-        display: inline;
-        cursor: pointer !important;
-        color: #3b4041;
-        text-decoration: none;
-    }
-
-    .archief td:nth-of-type(1),
-    .archief td:nth-of-type(2),
-    .archief td:nth-of-type(5),
-    .archief td:nth-of-type(6),
-    .archief td:nth-of-type(7),
-    .archief td:nth-of-type(8) {
-        width: 10%;
-    }
-
-.fa-trash {
-    margin-left: 14px;
+.header {
+    font-size: 15px;
 }
 
-/* Contact admin */
-#contact {
-    position: fixed;
-    bottom: 30px;
-    left: 40px;
-    color: white;
-}
 
-#omschrijving {
-    height: 200px;
-}
 
-/* partial werkgevers */
-#partial, #kostenpartial, #batenpartial, #changePartial , #loonkostPartial {
-    display: none;
-}
 
+/* TABS NIEUWE ANALYSE*/
 .werkgevers {
     background-color: #fff;
     background-clip: padding-box;
@@ -477,6 +366,17 @@ hr {
         color: #3b4041;
     }
 
+/*PARTIALS*/
+#partial, #kostenpartial, #batenpartial, #changePartial, #loonkostPartial {
+    display: none;
+}
+
+/* WERKGEVER */
+.CP {
+    margin-left: -20px;
+}
+
+/* OVERZICHT */
 /* Overzicht baten kosten */
 .overzichtTabs {
     text-align: center;
@@ -553,19 +453,27 @@ hr {
         text-align: right;
     }
 
+    .overzicht th:nth-of-type(1), .overzicht th:nth-of-type(2), .overzicht th:nth-of-type(3), .b th {
+        background-color: #9ccd0b;
+    }
+
+    .overzicht th:nth-of-type(4), .overzicht th:nth-of-type(5), .overzicht th:nth-of-type(6), .k th {
+        background-color: red !important;
+    }
+
 .overzichtBtn {
     margin-top: 25px;
     text-align: right;
 }
 
-.overzichtBtn i, #naamOrganisatie i {
-    color: dimgrey;
-}
+    .overzichtBtn i, #naamOrganisatie i {
+        color: dimgrey;
+    }
 
-.overzichtBtn  i:hover, #naamOrganisatie i:hover {
-    color: #9CCD0B;
-    cursor: pointer;
-}
+        .overzichtBtn i:hover, #naamOrganisatie i:hover {
+            color: #9CCD0B;
+            cursor: pointer;
+        }
 
 
 .overzicht td a {
@@ -591,133 +499,17 @@ td.none:hover {
     background-color: transparent !important;
 }
 
-h1 {
-    font-size: 22px;
+
+/* RESULTAAT MAILEN */
+textarea#Bericht {
+    height: 180px;
 }
 
-h2 {
-    font-size: 20px;
-    padding-left: 20px;
-    margin-bottom: 10px;
+.mailen {
+    padding-right: 15px;
 }
 
-hr {
-    color: dimgray;
-}
-
-img#logo {
-/* width: 40px;*/
-        margin-right: 20px;
-}
-
-/* ww wijzigen*/
-form.form-horizontal.wwWijzigen {
-    margin: 20px;
-}
-
-.ww {
-    text-align: left !important;
-}
-
-.tabWw {
-    background-color: transparent;
-    font-size: 30px;
-    text-transform: uppercase;
-    padding: 20px 0;
-}
-
-.vergeten {
-    text-align: center;
-    margin: 100px 0;
-}
-
-.fa-times {
-    margin-top: 10px;
-    margin-left: -10px;
-}
-
-    .fa-times:hover, .fa-times:focus {
-        text-decoration: none;
-        background-color: none;
-        color: dimgray;
-    }
-
-a:hover {
-    text-decoration: none;
-}
-
-.kruis {
-    color: dimgray;
-}
-
-.resultaat {
-    font-size: 100px;
-    font-weight: bold;
-}
-
-.functie {
-    margin: 25px;
-}
-
-.functie .row {
-    margin-top: 30px;
-}
-
-.functie label {
-    font-size: 18px;
-}
-
-/* partials kosten en baten Type Bedrag*/
-.typeTable {
-    table-layout: fixed;
-}
-
-.functies {
-    background-color: #ffffff;
-    margin-top: 10px;
-    width: 100%;
-    table-layout: fixed;
-    font-size: 18px;
-    border-radius: 6px;
-}
-
-    .functies th {
-        background-color: #9CCD0B;
-        color: white;
-        font-weight: unset;
-        text-align: center;
-    }
-
-
-    .functies td {
-        background-color: #ffffff;
-        border: 1px solid #e4ecb7 !important;
-    }
-
-.fa-plus {
-    margin-top: 20px;
-    color: #9CCD0B;
-    text-align: right;
-}
-
-.rotate {
-    -moz-transition: all 0.5s linear;
-    -webkit-transition: all 0.5s linear;
-    transition: all 0.5s linear;
-}
-
-    .rotate.down {
-        -moz-transform: rotate(45deg);
-        -webkit-transform: rotate(45deg);
-        transform: rotate(45deg);
-    }
-
-
-.type {
-    text-align: left;
-    padding-left: 150px;
-}
-
+/* VOLGENDE EN VORIGE TABS*/
 /* Volgende & vorige */
 .volgendeTabs {
     text-align: right;
@@ -751,12 +543,91 @@ a:hover {
             border-bottom-right-radius: 10px;
         }
 
-/* tooltip */
-.tooltip.right > .tooltip-inner, .tooltip.right > .tooltip-arrow {
-    margin-left: -20px;
+/* + BIJ KOSTEN EN BATEN */
+
+#toevoegenFunctie {
+    color: #9CCD0B;
+    font-size: 16px;
+    text-decoration: underline;
+    vertical-align: bottom;
 }
 
-/* berichten */
+    #show-change:hover, #toevoegenFunctie:hover {
+        cursor: pointer;
+    }
+/* PARTIALS KOSTEN EN BATEN TYPE BEDRAG */
+.typeTable {
+    table-layout: fixed;
+}
+
+/* TABELLEN IN KOSTEN EN BATEN */
+.functies {
+    background-color: #ffffff;
+    margin-top: 10px;
+    width: 100%;
+    table-layout: fixed;
+    font-size: 18px;
+    border-radius: 6px;
+}
+
+
+    .functies th {
+        background-color: #9CCD0B;
+        color: white;
+        font-weight: unset;
+        text-align: center;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+    }
+
+
+    .functies td {
+        background-color: #ffffff;
+        border: 1px solid #e4ecb7 !important;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+    }
+
+.fa-plus {
+    margin-top: 20px;
+    color: #9CCD0B;
+    text-align: right;
+}
+
+.rotate {
+    -moz-transition: all 0.5s linear;
+    -webkit-transition: all 0.5s linear;
+    transition: all 0.5s linear;
+}
+
+    .rotate.down {
+        -moz-transform: rotate(45deg);
+        -webkit-transform: rotate(45deg);
+        transform: rotate(45deg);
+    }
+
+
+.type {
+    text-align: left;
+    padding-left: 150px;
+}
+
+
+.functie {
+    margin: 25px;
+}
+
+    .functie > form > label.col-sm-6, .col-sm-6 > input, .col-sm-6 > select {
+        margin-top: 10px;
+    }
+
+
+    .functie label {
+        font-size: 18px;
+    }
+
+
+/* BERICHTENPAGINA */
 .bericht {
     background-color: white;
     border-radius: 6px;
@@ -783,20 +654,407 @@ a:hover {
         border-bottom: 1px dotted #3b4041;
     }
 
+/* CONFIRMBOX BIJ DELETE*/
+/* confirmbox */
+.btn-primary, .btn-primary:focus {
+    background-color: #9ccd0b;
+    border: 1px solid #9ccd0b;
+}
 
-   /* confirmbox */
-   .btn-primary, .btn-primary:focus {
-       background-color: #9ccd0b;
-       border: 1px solid #9ccd0b;
-   }
-  
-   /* emailen*/
-   textarea#Bericht {
-       height: 180px;
-   }
+/* CONTACT MET ADMIN */
+#omschrijving {
+    height: 200px;
+}
+/* MIJN PROFIEL */
+#show-change {
+    color: dimgrey;
+    font-size: 16px;
+    text-decoration: underline;
+    vertical-align: bottom;
+}
 
-span.field-validation-error.error {
-    color: red !important;
-    font-weight: bold !important;
-    padding-left: 15px;
+/* ARCHIEF*/
+.archief {
+    background-color: #fff;
+    background-clip: padding-box;
+    padding-top: 15px;
+    margin-top: 15px;
+}
+
+    .archief td > a i {
+        display: inline;
+        cursor: pointer !important;
+        color: #3b4041;
+        text-decoration: none;
+    }
+
+
+
+    .archief tr:hover {
+        background-color: rgba(156, 205, 11, 0.5);
+    }
+
+
+    .archief td:nth-of-type(1),
+    .archief td:nth-of-type(2),
+    .archief td:nth-of-type(5),
+    .archief td:nth-of-type(6),
+    .archief td:nth-of-type(7) {
+        width: 12%;
+    }
+
+    .archief td:nth-of-type(8) {
+        width: 8%;
+    }
+
+.fa-trash {
+    margin-left: 14px;
+}
+
+
+@media only screen and (min-width: 992px) {
+    .mobile {
+        display: inline-block;
+    }
+
+    .noMobile {
+        display: none !important;
+    }
+
+    body {
+        font-size: 18px;
+    }
+
+    .body-content {
+        margin-left: 120px;
+        padding-left: 30px;
+        padding-right: 30px;
+        min-height: 100vmin;
+    }
+
+    .jumbotron {
+        margin-left: 70px;
+        border: none;
+    }
+
+        .jumbotron p {
+            font-size: 16px;
+        }
+
+    .intro {
+        margin-top: 5%;
+        margin-bottom: 5%;
+    }
+
+    .tabs {
+        min-height: 60px;
+    }
+
+    .P {
+        margin-right: 15px;
+    }
+
+    #ww {
+        text-align: right;
+    }
+
+        #ww a {
+            color: dimgray;
+            font-size: 15px;
+        }
+
+    #intro {
+        font-size: 15px;
+        color: dimgray;
+    }
+
+    img#logo {
+        width: auto;
+    }
+
+    img#logoIntro {
+        width: 70%;
+    }
+
+    #intro p {
+        padding: 20px 5px;
+    }
+
+    .panel-heading .accordion-toggle:after {
+        font-family: 'Glyphicons Halflings';
+        content: "\e114";
+        float: right;
+        color: rgba(0, 0, 0, .3);
+        font-size: 50px;
+        padding-top: 12.5%;
+    }
+
+    .panel-heading .accordion-toggle.collapsed:after {
+        content: "\e080";
+    }
+
+
+    /*#gegeven {
+        padding: 30px 10px;
+    }*/
+
+    /*.gegevens {
+        padding: 0 40px;
+    }*/
+
+    /*label.control-label {
+        font-size: 20px;
+    }*/
+
+    .form-control {
+        font-size: 18px;
+    }
+
+    span.text-danger.field-validation-error {
+        font-size: 15px;
+    }
+
+    .wrapper {
+        position: relative;
+        height: 100vh;
+    }
+
+
+    /* absolute positioning and transforms */
+
+    .box-left {
+        position: absolute;
+        top: 50%;
+        left: 25%;
+        transform: translate(-50%, -50%);
+    }
+
+    .box-right {
+        position: absolute;
+        top: 50%;
+        left: 75%;
+        transform: translate(-50%, -50%);
+    }
+
+
+    /*naam gebruiker*/
+    a.dropdown-toggle {
+        color: white;
+    }
+
+        a.dropdown-toggle:hover,
+        a.dropdown-toggle:focus {
+            background: rgba(255,255,255, 0.74);
+            color: dimgray;
+        }
+
+
+    /*  logo*/
+    #logo {
+        height: 40px;
+        margin-top: -10px;
+    }
+
+    /*sidebar*/
+    .wrap {
+        position: relative;
+    }
+
+        .wrap .nav-bar .nav {
+            float: right !important;
+        }
+
+            .wrap .nav-bar .nav .dropdown-menu {
+                left: auto;
+                width: 200px;
+                right: 0;
+            }
+
+                .wrap .nav-bar .nav .dropdown-menu > li > a, .uitloggen {
+                    font-size: 20px;
+                    color: dimgray;
+                    background: white;
+                    padding: 8px;
+                }
+
+                    .wrap .nav-bar .nav .dropdown-menu > li > a:hover, .uitloggen:hover {
+                        background: #F6F9E6;
+                        text-decoration: none;
+                        color: dimgray;
+                        width: 100%;
+                        text-align: left;
+                    }
+
+    .navbar-inner {
+        background: transparent;
+    }
+
+    .wrap #side-menu {
+        position: absolute;
+        z-index: 0;
+        width: 120px;
+    }
+
+
+    .wrap ul.accordion li {
+        cursor: pointer;
+        display: block;
+        position: relative;
+        -webkit-transition: all 0.4s ease;
+        -o-transition: all 0.4s ease;
+        -ms-transition: all 0.4s ease;
+        transition: all 0.4s ease;
+    }
+
+        .wrap ul.accordion li i {
+            align-items: center;
+            top: 16px;
+            left: 12px;
+            color: white;
+            -webkit-transition: all 0.4s ease;
+            -o-transition: all 0.4s ease;
+            -ms-transition: all 0.4s ease;
+            transition: all 0.4s ease;
+        }
+
+    .wrap .nav-bar .navbar-brand {
+        margin-top: 0;
+        padding-left: 0;
+    }
+
+    .wrap .side-menu-link {
+        display: inline-block;
+    }
+
+    .wrap #side-menu #qform {
+        position: absolute;
+        top: 10px;
+    }
+
+    .wrap .content {
+        left: 0;
+    }
+
+    .wrap.active .content {
+        left: 21em;
+    }
+
+    .side-menu-link {
+        display: none;
+    }
+
+    .wrap {
+        position: relative;
+    }
+
+        .wrap .content {
+            left: 21em;
+            right: 0;
+        }
+
+    .fa-home, .fa-balance-scale, .fa-archive {
+        display: inline-block;
+        width: 100%;
+    }
+
+    ul.nav.nav-list.accordion li i {
+        text-align: center;
+    }
+
+    .nav > li > a:hover, .nav > li > a:focus, .active {
+        background-color: rgba(255,255,255, 0.74);
+    }
+
+        .wrap ul.accordion li a:hover i, .active a i.fa {
+            color: #9CCD0B !important;
+        }
+
+    .functie .row {
+        margin-top: 30px;
+    }
+
+    b hr {
+        margin: 0;
+        border-top: 1px solid #3b4041;
+    }
+
+    .archief td > a i {
+        display: none;
+        text-decoration: none;
+    }
+
+    .archief tr:hover td > a i {
+        display: inline;
+        cursor: pointer !important;
+        color: #3b4041;
+        text-decoration: none;
+    }
+
+    hr {
+        color: dimgray;
+    }
+
+    /* ww wijzigen*/
+    form.form-horizontal.wwWijzigen {
+        margin: 20px;
+    }
+
+    .ww {
+        text-align: left !important;
+    }
+
+    a:hover {
+        text-decoration: none;
+    }
+
+    .resultaat {
+        font-size: 100px;
+        font-weight: bold;
+    }
+    /* tooltip */
+    .tooltip.right > .tooltip-inner, .tooltip.right > .tooltip-arrow {
+        margin-left: -20px;
+    }
+
+    span.field-validation-error.error {
+        color: red !important;
+        font-weight: bold !important;
+        padding-left: 15px;
+    }
+
+    #logoIntro1 {
+        display: none;
+    }
+}
+
+@media (max-width: 767px) {
+
+    .navbar-nav .open .dropdown-menu {
+        z-index: 1000;
+        position: absolute;
+        float: none;
+        width: auto;
+        margin-top: 0;
+        background-color: white;
+        background-clip: padding-box;
+        border: 1px solid #ccc;
+        border: 1px solid rgba(0, 0, 0, .15);
+        border-radius: 4px;
+        -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+    }
+
+    a.dropdown-toggle.menubar {
+        background-color: transparent;
+        color: white;
+    }
+
+        a.dropdown-toggle.menubar:hover, a.dropdown-toggle.menubar:focus, a.dropdown-toggle.menubar:focus {
+            color: white;
+            background-color: transparent;
+        }
+
+    .table-responsive {
+        border: 0;
+    }
 }

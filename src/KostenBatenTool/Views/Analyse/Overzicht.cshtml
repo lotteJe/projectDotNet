@@ -3,18 +3,17 @@
     ViewData["Title"] = Model.Organisatie.Naam + ", " + Model.Organisatie.Gemeente;
 }
 <div class="row">
-    <h1 class="col-md-8" id="naamOrganisatie">@ViewData["Title"] <a asp-controller="Analyse" asp-action="Werkgever" asp-route-id="@Model.Organisatie.OrganisatieId"><i class="fa fa-pencil no-print" tool-tip-toggle="tooltip" data-placement="bottom" data-original-title="Bewerken" aria-hidden="true"></i></a></h1>
-
-    <div class="col-md-2 col-md-offset-2 overzichtBtn no-print">
-        @*<a href="#" id="tabel" onclick="javascript:fnExcelReport();"><i class="fa fa fa-file-excel-o animated fadeInDown " tool-tip-toggle="tooltip" data-placement="bottom" data-original-title="Excel" aria-hidden="true"></i></a>*@
-        <i class="fa fa-file-pdf-o animated fadeInDown" aria-hidden="true" tool-tip-toggle="tooltip" data-placement="bottom" data-original-title="Pdf" onclick="makePdf()"></i>
-        <a asp-controller="Analyse" asp-action="EmailResultaat" asp-route-id="@Model.Organisatie.OrganisatieId" asp-route-analyseId="@Model.AnalyseId"><i class="animated fadeInDown fa fa-paper-plane no-print" onclick="makePdf()" tool-tip-toggle="tooltip" data-placement="bottom" data-original-title="Resultaat mailen" aria-hidden="true"></i></a>
-        <i class="fa fa-print animated fadeInDown" aria-hidden="true" tool-tip-toggle="tooltip" data-placement="bottom" data-original-title="Afdrukken" onClick="window.print()"></i>
-    </div>
+    <h1 class="col-md-8 col-xs-8 col-sm-8 no-print" id="naamOrganisatie">@ViewData["Title"] <a asp-controller="Analyse" asp-action="Werkgever" asp-route-id="@Model.Organisatie.OrganisatieId"><i class="fa fa-pencil no-print" tool-tip-toggle="tooltip" data-placement="bottom" data-original-title="Bewerken" aria-hidden="true"></i></a>
+</h1>
+<div class="col-sm-2 col-sm-offset-2 col-md-2 col-md-offset-2 overzichtBtn no-print">
+    <i class="fa fa-file-pdf-o animated fadeInDown" aria-hidden="true" tool-tip-toggle="tooltip" data-placement="bottom" data-original-title="Pdf" onclick="makePdf()"></i>
+    <a asp-controller="Analyse" asp-action="EmailResultaat" asp-route-id="@Model.Organisatie.OrganisatieId" asp-route-analyseId="@Model.AnalyseId"><i class="animated fadeInDown fa fa-paper-plane no-print" onclick="makePdf()" tool-tip-toggle="tooltip" data-placement="bottom" data-original-title="Resultaat mailen" aria-hidden="true"></i></a>
+    <i class="fa fa-print animated fadeInDown" aria-hidden="true" tool-tip-toggle="tooltip" data-placement="bottom" data-original-title="Afdrukken" onClick="window.print()"></i>
 </div>
-<hr />
+</div>
+<hr class="no-print" />
 
-<div class="row overzichtTabs">
+<div class="row overzichtTabs no-print">
     <a class="col-md-1 col-md-offset-4" id="show-baten">BATEN</a>
     <a class="col-md-2 active" id="show-overzicht">OVERZICHT</a>
     <a class="col-md-1" id="show-kosten">KOSTEN</a>
