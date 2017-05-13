@@ -1,6 +1,6 @@
 ﻿@using System.Threading.Tasks
 @using KostenBatenTool.Models.Domain
-@model IEnumerable<KostenBatenTool.Models.Domain.Analyse>
+@model PaginatedList<Analyse>
 @{
     ViewData["Title"] = "Archief";
 }
@@ -8,16 +8,31 @@
 <hr />
 
 <div class="container-fluid">
+    <form asp-action="Index" method="get">
+        <div class="form-group">
+            <select id="criteria" onchange="Zoek(this)" class="form-control">
+                <option value="Werkgever">Werkgever</option>
+                <option value="Gemeente">Gemeente</option>
+            </select>
+        </div>
+        <input type="hidden" name="zoekCriteria" value="" id="zoek"/>
+        <div class="form-group">
+            <input type="text" name="SearchString" value="@ViewData["currentFilter"]" />
+            <button type="submit" value="Search" class="btn btn-default"><i class="fa fa-search" aria-hidden="true"></i></button>
+            <a asp-action="Index">Back to Full List</a>
+        </div>
+    </form>
+
     <table class="table table-responsive archief table-striped">
-       
+
         @if (Model != null)
         {
             <tr>
 
-                <th>Datum</th>
-                <th>Werkgever</th>
-                <th>Afdeling</th>
-                <th>Gemeente</th>
+                <th><a asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">Datum</a></th>
+                <th><a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]">Werkgever</a></th>
+                <th><a asp-action="Index" asp-route-sortOrder="@ViewData["AfdelingSort"]">Afdeling</a></th>
+                <th><a asp-action="Index" asp-route-sortOrder="@ViewData["GemeenteSort"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">Gemeente</a></th>
                 <th>Resultaat</th>
                 <th>Kosten</th>
                 <th>Baten</th>
@@ -27,24 +42,24 @@
             foreach (Analyse analyse in Model)
             {
                 <tr style="cursor: pointer">
-                    <td onclick="location.href = '@(Url.Action("Overzicht","Analyse", new {id = analyse.AnalyseId}))'">@(analyse.AanmaakDatum.Date.ToString("d") ?? "-")</td>
-                        <td onclick="location.href = '@(Url.Action("Overzicht","Analyse", new {id = analyse.AnalyseId}))'">@analyse.Organisatie.Naam</td>
-                        @if (analyse.Organisatie.Afdeling == null)
-                        {
-                            <td onclick="location.href = '@(Url.Action("Overzicht","Analyse", new {id = analyse.AnalyseId}))'">-</td>
-                        }
-                        else
-                        {
-                            <td >@analyse.Organisatie.Afdeling</td>
-                        }
+                    <td onclick="location.href = '@(Url.Action("Overzicht", "Analyse", new {id = analyse.AnalyseId}))'">@(analyse.AanmaakDatum.Date.ToString("d") ?? "-")</td>
+                    <td onclick="location.href = '@(Url.Action("Overzicht", "Analyse", new {id = analyse.AnalyseId}))'">@analyse.Organisatie.Naam</td>
+                    @if (analyse.Organisatie.Afdeling == null)
+                    {
+                        <td onclick="location.href = '@(Url.Action("Overzicht", "Analyse", new {id = analyse.AnalyseId}))'">-</td>
+                    }
+                    else
+                    {
+                        <td>@analyse.Organisatie.Afdeling</td>
+                    }
 
-                        <td onclick="location.href = '@(Url.Action("Overzicht","Analyse", new {id = analyse.AnalyseId}))'">@analyse.Organisatie.Gemeente</td>
-                        <td onclick="location.href = '@(Url.Action("Overzicht","Analyse", new {id = analyse.AnalyseId}))'" style="color: dimgrey">@($"{analyse.Resultaat:N2} €")</td>
-                        <td onclick="location.href = '@(Url.Action("Overzicht","Analyse", new {id = analyse.AnalyseId}))'" style="color: red">@($"{analyse.KostenResultaat:N2} €")</td>
-                        <td onclick="location.href = '@(Url.Action("Overzicht","Analyse", new {id = analyse.AnalyseId}))'" style="color: green">@($"{analyse.Resultaat:N2} €")</td>
-                   
+                    <td onclick="location.href = '@(Url.Action("Overzicht", "Analyse", new {id = analyse.AnalyseId}))'">@analyse.Organisatie.Gemeente</td>
+                    <td onclick="location.href = '@(Url.Action("Overzicht", "Analyse", new {id = analyse.AnalyseId}))'" style="color: dimgrey">@($"{analyse.Resultaat:N2} €")</td>
+                    <td onclick="location.href = '@(Url.Action("Overzicht", "Analyse", new {id = analyse.AnalyseId}))'" style="color: red">@($"{analyse.KostenResultaat:N2} €")</td>
+                    <td onclick="location.href = '@(Url.Action("Overzicht", "Analyse", new {id = analyse.AnalyseId}))'" style="color: green">@($"{analyse.Resultaat:N2} €")</td>
+
                     <td>
-                         <a asp-controller="Analyse" asp-action="Delete" asp-route-id="@analyse.AnalyseId" id="myLink"><i class="fa fa-trash animated fadeInDown" aria-hidden="true"></i></a>
+                        <a asp-controller="Analyse" asp-action="Delete" asp-route-id="@analyse.AnalyseId" id="myLink"><i class="fa fa-trash animated fadeInDown" aria-hidden="true"></i></a>
                     </td>
                 </tr>
             }
@@ -55,4 +70,15 @@
         }
 
     </table>
+    @{
+        var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+        var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+    }
+
+    <div class="form-group">
+        <div class="col-md-12" id="aanmelden">
+            <a asp-action="Index" asp-route-sortOrder="@ViewData["CurrentSort"]" asp-route-page="@(Model.PageIndex - 1)" asp-route-currentFilter="@ViewData["CurrentFilter"]" class="btn btn-default knop @prevDisabled">Vorige</a>
+            <a asp-action="Index" asp-route-sortOrder="@ViewData["CurrentSort"]" asp-route-page="@(Model.PageIndex + 1)" asp-route-currentFilter="@ViewData["CurrentFilter"]" class="btn btn-default knop @nextDisabled">Volgende</a>
+        </div>
+    </div>
 </div>

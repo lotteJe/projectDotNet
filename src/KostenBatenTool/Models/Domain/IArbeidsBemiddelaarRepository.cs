@@ -23,9 +23,12 @@ namespace KostenBatenTool.Models.Domain
         void VerwijderLijn(Lijn lijn);
         LoonKostLijn GetLoonKostLijn(int lijnId, List<Veld> velden);
         IList<LoonKostLijn> GetLoonKostLijnen(int BerekeningId, List<Veld> velden);
+        IEnumerable<Analyse> ZoekAnalysesWerkgever(string email, string searchString);
+        IEnumerable<Analyse> ZoekAnalysesGemeente(string email, string searchString);
         Berekening GetBerekeningById(int berekeningId);
         void ZetAnalyseAfgewerkt(string email, int analyseId);
         void ZetAnalyseBewerkbaar(string email, int analyseId);
         List<Analyse> GetAnalysesDashboard(string emailadres);
+
     }
 }

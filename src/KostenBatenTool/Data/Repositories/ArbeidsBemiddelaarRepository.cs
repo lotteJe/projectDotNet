@@ -58,10 +58,10 @@ namespace KostenBatenTool.Data.Repositories
 
         public IEnumerable<Organisatie> GetOrganisaties(string emailadres)
         {
-            if (!_arbeidsBemiddelaars.Include(a =>a.Analyses).First(a => a.Email.Equals(emailadres)).Analyses.Any())
+            if (!_arbeidsBemiddelaars.Include(a => a.Analyses).First(a => a.Email.Equals(emailadres)).Analyses.Any())
             {
                 return null;
-            } 
+            }
             return
                 _arbeidsBemiddelaars.Include("Analyses.Organisatie").First(a => a.Email.Equals(emailadres)).Analyses.Select(a => a.Organisatie).ToList();
         }
@@ -76,6 +76,16 @@ namespace KostenBatenTool.Data.Repositories
             return _arbeidsBemiddelaars.Include("Analyses.Organisatie").First(a => a.Email.Equals(emailadres)).Analyses;
         }
 
+        public IEnumerable<Analyse> ZoekAnalysesWerkgever(string emailadres, string searchString)
+        {
+            return _arbeidsBemiddelaars.Include("Analyses.Organisatie").FirstOrDefault(a => a.Email.Equals(emailadres)).Analyses.Where(s => s.Organisatie.Naam.ToLowerInvariant().Contains(searchString.ToLowerInvariant()));
+        }
+
+        public IEnumerable<Analyse> ZoekAnalysesGemeente(string emailadres, string searchString)
+        {
+            return _arbeidsBemiddelaars.Include("Analyses.Organisatie").FirstOrDefault(a => a.Email.Equals(emailadres)).Analyses.Where(s => s.Organisatie.Gemeente.ToLowerInvariant().Contains(searchString.ToLowerInvariant()));
+        }
+        
         public void SerialiseerVelden(Analyse analyse)
         {
             analyse.Kosten.ForEach(k => k.Serialiseer());
@@ -118,7 +128,7 @@ namespace KostenBatenTool.Data.Repositories
         {
             _dbContext.Lijnen.Remove(lijn);
         }
-        
+
         public LoonKostLijn GetLoonKostLijn(int lijnId, List<Veld> velden)
         {
             LoonKostLijn lijn = _dbContext.Lijnen.Include(l => l.VeldenWaarden).OfType<LoonKostLijn>().Include(l => l.Doelgroep).FirstOrDefault(l => l.LijnId == lijnId);
@@ -136,6 +146,7 @@ namespace KostenBatenTool.Data.Repositories
             lijnen.ForEach(l => l.Deserialiseer(velden));
             return lijnen;
         }
+
 
         public Berekening GetBerekeningById(int berekeningId)
         {
