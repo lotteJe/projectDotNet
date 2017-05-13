@@ -61,10 +61,10 @@
             @foreach (var item in Model.Lijst)
             {
 
-                <tr onclick="location.href = '@(Url.Action("AndereKost","Analyse", new {analyseId = Model.AnalyseId, lijnId = item.LijnId}))'">
-                    <td>@item.Type</td>
-                    <td>@item.Bedrag</td>
-
+                <tr>
+                    <td onclick="location.href = '@(Url.Action("AndereKost","Analyse", new {analyseId = Model.AnalyseId, lijnId = item.LijnId}))'">@item.Type</td>
+                    <td onclick="location.href = '@(Url.Action("AndereKost","Analyse", new {analyseId = Model.AnalyseId, lijnId = item.LijnId}))'">@item.Bedrag</td>
+                    <td><a asp-controller="Analyse" asp-action="DeleteLijn" asp-route-analyseId="@Model.AnalyseId" asp-route-lijnId= "@item.LijnId" asp-route-berekeningId = "@Model.BerekeningId"><i class="fa fa-trash animated fadeInDown" aria-hidden="true"></i></a></td>
                 </tr>
             }
         </table>
