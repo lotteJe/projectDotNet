@@ -135,7 +135,12 @@ namespace KostenBatenTool.Data.Repositories
             List<LoonKostLijn> lijnen = _dbContext.Lijnen.Include(l => l.VeldenWaarden).OfType<LoonKostLijn>().Include(l => l.Doelgroep).Where(l => lijnIds.Contains(l.LijnId)).ToList();
             lijnen.ForEach(l => l.Deserialiseer(velden));
             return lijnen;
-        }   
+        }
+
+        public Berekening GetBerekeningById(int berekeningId)
+        {
+            return _dbContext.Berekeningen.Include(b => b.Lijnen).FirstOrDefault(b => b.BerekeningId == berekeningId);
+        }
     }
 }
 

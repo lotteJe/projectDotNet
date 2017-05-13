@@ -14,7 +14,7 @@ namespace KostenBatenTool.Models.AnalyseViewModels
         public IEnumerable<TypeBedragLijstObjectViewModel> Lijst { get; set; }
         public string Type { get; set; }
         public decimal Bedrag { get; set; }
-
+        public int BerekeningId { get; set; }
         public TypeBedragViewModel()
         {
 
@@ -23,6 +23,7 @@ namespace KostenBatenTool.Models.AnalyseViewModels
         public TypeBedragViewModel(Berekening berekening, int analyseId) : this()
         {
             AnalyseId = analyseId;
+            BerekeningId = berekening.BerekeningId;
             string veld1 =
                berekening.GetType().ToString().Equals("KostenBatenTool.Models.Domain.OutsourcingBesparing") || berekening.GetType().ToString().Equals("KostenBatenTool.Models.Domain.UitzendkrachtenBesparing")
                    ? "beschrijving"

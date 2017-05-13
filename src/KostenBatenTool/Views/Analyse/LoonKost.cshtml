@@ -104,7 +104,7 @@
                 <td>@(lijn.Vop * 100) %</td>
                 <td>@lijn.AantalMaanden</td>
                 <td>@lijn.Ibo</td>
-                @*<td><a asp-controller="Analyse" asp-action="DeleteLijn" asp-route-id="new {analyseId = Model.AnalyseId, lijnId = lijn.LijnId}"><i class="fa fa-trash animated fadeInDown" aria-hidden="true"></i></a></td>*@
+                <td><a asp-controller="Analyse" asp-action="DeleteLijn" asp-route-id="new {analyseId = Model.AnalyseId, lijnId = lijn.LijnId}"><i class="fa fa-trash animated fadeInDown" aria-hidden="true"></i></a></td>
             </tr>
         }
 
