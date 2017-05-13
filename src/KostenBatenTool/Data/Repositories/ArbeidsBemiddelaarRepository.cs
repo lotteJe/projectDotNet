@@ -141,6 +141,29 @@ namespace KostenBatenTool.Data.Repositories
         {
             return _dbContext.Berekeningen.Include(b => b.Lijnen).FirstOrDefault(b => b.BerekeningId == berekeningId);
         }
+
+        public void ZetAnalyseAfgewerkt(string email, int analyseId)
+        {
+            Analyse analyse = GetAnalyse(email, analyseId);
+            analyse.Afgewerkt = true;
+
+        }
+
+        public void ZetAnalyseBewerkbaar(string email, int analyseId)
+        {
+            Analyse analyse = GetAnalyse(email, analyseId);
+            analyse.Afgewerkt = false;
+        }
+
+        public List<Analyse> GetAnalysesDashboard(string emailadres)
+        {
+            if (!_arbeidsBemiddelaars.Include(a => a.Analyses).First(a => a.Email.Equals(emailadres)).Analyses.Any())
+            {
+                return null;
+            }
+            return _arbeidsBemiddelaars.Include("Analyses.Organisatie").First(a => a.Email.Equals(emailadres)).Analyses.Where(a => !a.Afgewerkt).ToList();
+
+        }
     }
 }
 
