@@ -1029,14 +1029,16 @@ namespace KostenBatenTool.Controllers
             return _arbeidsBemiddelaarRepository.GetAnalyse(email, id);
         }
 
-        public IActionResult DeleteLijn(int analyseId, int lijnId, string berekeningNaam)
+
+        public IActionResult DeleteLijn(int analyseId, int lijnId, int berekeningId)
         {
-            Analyse analyse = GetAnalyse(analyseId);
-            Lijn lijn = analyse.GetBerekening(berekeningNaam).Lijnen.FirstOrDefault(l => l.LijnId == lijnId);
-            analyse.GetBerekening(berekeningNaam).Lijnen.Remove(lijn);
-            _arbeidsBemiddelaarRepository.VerwijderLijn(lijn);
-            _arbeidsBemiddelaarRepository.SaveChanges();
-            return RedirectToAction(berekeningNaam, analyseId);
+            Berekening b = _arbeidsBemiddelaarRepository.GetBerekeningById(berekeningId);
+            Lijn lijn = b.Lijnen.FirstOrDefault(l => l.LijnId == lijnId);
+            b.Lijnen.Remove(lijn);
+           _arbeidsBemiddelaarRepository.VerwijderLijn(lijn);
+           _arbeidsBemiddelaarRepository.SaveChanges();
+            return RedirectToAction(b.GetType().Name, new {analyseId, lijnId = 0});
+
 
         }
 

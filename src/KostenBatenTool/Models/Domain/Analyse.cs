@@ -19,6 +19,8 @@ namespace KostenBatenTool.Models.Domain
         public decimal Resultaat { get; set; } = 0M;
         public decimal KostenResultaat { get; set; } = 0M;
         public decimal BatenResultaat { get; set; } = 0M;
+        public bool Afgewerkt { get; set; } = false;
+        public bool Verwijderd { get; set; } = false;
         #endregion
 
         #region Constructors 
