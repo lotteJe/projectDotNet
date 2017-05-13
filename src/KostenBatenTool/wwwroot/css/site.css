@@ -15,20 +15,20 @@
         visibility: visible;
     }
 
-    .print tr:first-of-type th, .print tr:nth-of-type(2) th{
+    .print tr:first-of-type th, .print tr:nth-of-type(2) th {
         border-top: 0;
         text-align: left;
         font-size: 25px;
         font-weight: bold;
     }
-    
+
     .print td:first-of-type, .print td:last-of-type {
         width: 70px;
         text-align: center;
         font-size: 80%;
     }
 
-    .print th:first-of-type, .print th:last-of-type{
+    .print th:first-of-type, .print th:last-of-type {
         width: 70px;
     }
 
@@ -38,7 +38,7 @@
 
 
 
-    .print td:nth-of-type(2), .print td:nth-of-type(5){
+    .print td:nth-of-type(2), .print td:nth-of-type(5) {
         font-size: 80%;
     }
 
@@ -60,7 +60,6 @@
     .print td:nth-of-type(5), .print th:last-of-type {
         text-align: right;
     }
-
 }
 
 .print {
@@ -211,6 +210,7 @@ li.dropdown.open {
 
 #aanmelden {
     text-align: right;
+    margin-bottom: 15px;
 }
 
 .text-danger {
@@ -453,13 +453,13 @@ a.dropdown-toggle {
         text-align: right;
     }
 
-    .overzicht th:nth-of-type(1), .overzicht th:nth-of-type(2), .overzicht th:nth-of-type(3), .b th {
+/*.overzicht th:nth-of-type(1), .overzicht th:nth-of-type(2), .overzicht th:nth-of-type(3), .b th {
         background-color: #9ccd0b;
     }
 
     .overzicht th:nth-of-type(4), .overzicht th:nth-of-type(5), .overzicht th:nth-of-type(6), .k th {
         background-color: red !important;
-    }
+    }*/
 
 .overzichtBtn {
     margin-top: 25px;
@@ -711,6 +711,29 @@ textarea#Bericht {
     margin-left: 14px;
 }
 
+.hidden {
+    display: none;
+}
+
+.zoekbalk {
+    display: block;
+    height: 34px;
+    padding: 6px 12px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}
+
+
+
 
 @media only screen and (min-width: 992px) {
     .mobile {
@@ -900,10 +923,10 @@ textarea#Bericht {
         cursor: pointer;
         display: block;
         position: relative;
-        -webkit-transition: all 0.4s ease;
+        /*-webkit-transition: all 0.4s ease;
         -o-transition: all 0.4s ease;
         -ms-transition: all 0.4s ease;
-        transition: all 0.4s ease;
+        transition: all 0.4s ease;*/
     }
 
         .wrap ul.accordion li i {
@@ -911,10 +934,10 @@ textarea#Bericht {
             top: 16px;
             left: 12px;
             color: white;
-            -webkit-transition: all 0.4s ease;
+            /*-webkit-transition: all 0.4s ease;
             -o-transition: all 0.4s ease;
             -ms-transition: all 0.4s ease;
-            transition: all 0.4s ease;
+            transition: all 0.4s ease;*/
         }
 
     .wrap .nav-bar .navbar-brand {

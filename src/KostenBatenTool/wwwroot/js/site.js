@@ -191,7 +191,7 @@ function makePdf() {
     var elem = document.getElementById("overzicht");
     var res = doc.autoTableHtmlToJson(elem);
     doc.autoTable(res.columns, res.data, { startY: 40, styles: { overflow: 'linebreak' } });
-    doc.save('Analyse_'+werkgever +'.pdf');
+    doc.save('Analyse_' + werkgever + '.pdf');
 
 }
 
@@ -200,13 +200,21 @@ function makePdf() {
 /* confirm */
 
 $(document).on("click", "#myLink", function (e) {
-    var link = $(this).attr("href"); 
+    var link = $(this).attr("href");
     e.preventDefault();
     bootbox.setLocale("nl");
     bootbox.confirm("U staat op het punt deze analyse te verwijderen. <br/> Bent u zeker dat u wil doorgaan?", function (result) {
         if (result) {
-            document.location.href = link;     
+            document.location.href = link;
         }
     });
 });
+
+/* ZOEK */
+function Zoek(selectObject) {
+    var value = selectObject.value;
+    document.getElementById("zoek").value = value.toString();
+}
+
+
 
