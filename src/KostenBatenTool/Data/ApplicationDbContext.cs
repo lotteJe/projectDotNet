@@ -131,6 +131,8 @@ namespace KostenBatenTool.Data
             a.Property(t => t.AnalyseId).ValueGeneratedOnAdd();
             a.Property(t => t.AanmaakDatum).IsRequired();
             a.Property(t => t.Resultaat);
+            a.Property(t => t.Afgewerkt);
+            a.Property(t => t.Verwijderd);
             a.HasOne(t => t.Organisatie).WithMany().IsRequired().OnDelete(DeleteBehavior.Cascade); 
             a.HasMany(t => t.Baten).WithOne().OnDelete(DeleteBehavior.Cascade);
             a.HasMany(t => t.Kosten).WithOne().OnDelete(DeleteBehavior.Cascade);
