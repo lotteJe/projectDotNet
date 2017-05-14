@@ -104,34 +104,6 @@ $('#show-kosten').click(function () {
 });
 
 
-/*kostenpartial */
-
-//$('#lijnEdit').click(function () {
-//    var z = document.getElementById("demo");
-//    z.classList.add("in");
-
-//});
-//$('#lijnEdit').click(function () {
-//    $('#partialK').show();
-//});
-//$("#toevoegenFunctie").click(function () {
-//    $("#partialK").slideToggle();
-//});
-//$(".rotate").click(function () {
-//    $(this).toggleClass("down");
-//    $('#partialK').hide();
-//    var elements = document.getElementsByTagName("input");
-//    for (var ii = 0; ii < elements.length; ii++) {
-//        if (elements[ii].type === "text") {
-//            elements[ii].value = "";
-//        }
-//        if (elements[ii].type === "number") {
-//            elements[ii].value = 0;
-//        }
-//    }
-
-//});
-
 /* TABEL EXPORTEREN */
 
 function fnExcelReport() {

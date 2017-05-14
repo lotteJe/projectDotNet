@@ -3,36 +3,43 @@
 @model PaginatedList<Analyse>
 @{
     ViewData["Title"] = "Archief";
+    var naam = ViewData["pijlNaam"];
+    var datum = ViewData["pijlDatum"];
+    var afdeling = ViewData["pijlAfdeling"];
+    var gemeente = ViewData["pijlGemeente"];
 }
-<h1>@ViewData["Title"]</h1>
-<hr />
-
-<div class="container-fluid">
-    <form asp-action="Index" method="get">
+<div class="row">
+    <h1 class="col-md-2">@ViewData["Title"]</h1>
+    <form asp-action="Index" method="get" class="col-md-10 form-inline">
+        <input type="hidden" name="zoekCriteria" value="" id="zoek" />
         <div class="form-group">
             <select id="criteria" onchange="Zoek(this)" class="form-control">
                 <option value="Werkgever">Werkgever</option>
                 <option value="Gemeente">Gemeente</option>
             </select>
-        </div>
-        <input type="hidden" name="zoekCriteria" value="" id="zoek"/>
-        <div class="form-group">
-            <input type="text" name="SearchString" value="@ViewData["currentFilter"]" />
-            <button type="submit" value="Search" class="btn btn-default"><i class="fa fa-search" aria-hidden="true"></i></button>
-            <a asp-action="Index">Back to Full List</a>
+            <input type="text" name="SearchString" class="zoekTerm" value="@ViewData["currentFilter"]" />
+            <button type="submit" value="Search" class="btn btn-default zoekKnop"><i class="fa fa-search" aria-hidden="true"></i></button>
+            <a asp-action="Index"><i class="fa fa-times btn btn-default zoekKnop" aria-hidden="true"></i></a>
         </div>
     </form>
+</div>
+<hr />
+
+<div class="container-fluid">
 
     <table class="table table-responsive archief table-striped">
 
         @if (Model != null)
         {
             <tr>
-
-                <th><a asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">Datum</a></th>
-                <th><a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]">Werkgever</a></th>
-                <th><a asp-action="Index" asp-route-sortOrder="@ViewData["AfdelingSort"]">Afdeling</a></th>
-                <th><a asp-action="Index" asp-route-sortOrder="@ViewData["GemeenteSort"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">Gemeente</a></th>
+                <th>
+                    <a asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]"> Datum <i class="fa @datum" aria-hidden="true"></i></a>
+                </th>
+                <th>
+                    <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]"> Werkgever <i class="fa @naam " aria-hidden="true"></i>  </a>
+                </th>
+                <th><a asp-action="Index" asp-route-sortOrder="@ViewData["AfdelingSort"]">Afdeling <i class="fa @afdeling " aria-hidden="true"></i></a></th>
+                <th><a asp-action="Index" asp-route-sortOrder="@ViewData["GemeenteSort"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">Gemeente <i class="fa @gemeente" aria-hidden="true"></i></a></th>
                 <th>Resultaat</th>
                 <th>Kosten</th>
                 <th>Baten</th>
@@ -59,6 +66,14 @@
                     <td onclick="location.href = '@(Url.Action("Overzicht", "Analyse", new {id = analyse.AnalyseId}))'" style="color: green">@($"{analyse.Resultaat:N2} €")</td>
 
                     <td>
+                        @if (analyse.Afgewerkt.Equals(false))
+                        {
+                            <a asp-controller="Analyse" asp-action="ZetAfgewerkt" asp-route-analyseId="@analyse.AnalyseId"><i class="fa fa-check" aria-hidden="true" style="color: #AF0000;" tool-tip-toggle="tooltip" data-placement="bottom" data-original-title="Markeer als afgewerkt"></i></a>
+                        }
+                        else
+                        {
+                            <a asp-controller="Analyse" asp-action="ZetBewerkbaar" asp-route-analyseId="@analyse.AnalyseId"><i class="fa fa-check" aria-hidden="true" style="color: green" tool-tip-toggle="tooltip" data-placement="bottom" data-original-title="Markeer als onafgewerkt"></i></a>
+                        }
                         <a asp-controller="Analyse" asp-action="Delete" asp-route-id="@analyse.AnalyseId" id="myLink"><i class="fa fa-trash animated fadeInDown" aria-hidden="true"></i></a>
                     </td>
                 </tr>

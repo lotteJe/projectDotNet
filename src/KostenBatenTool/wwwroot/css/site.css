@@ -2,7 +2,7 @@
 @font-face {
     font-family: 'abadi';
     src: url('../font/abadi.ttf');
-    src: url('../font/abadi.ttf'), url('../font/abadi.ttf'), url('../font/abadi.ttf');
+    src: url('../font/abadi.ttf'), url('../font/abadi-mt-condensed-light-58a976fcd7197.woff'), url('../font/abadi-mt-condensed-light-58a976fcd7197.woff2');
 }
 
 @media print {
@@ -313,6 +313,14 @@ a.dropdown-toggle {
         background-color: rgba(157, 204, 11, 0.5);
     }
 
+    .analyseDetail > div > a > i {
+        display: none;
+    }
+
+    .analyseDetail:hover > div > a > i {
+        display: inline-block;
+    }
+
 .cardHeader {
     margin-top: 0;
 }
@@ -328,9 +336,6 @@ a.dropdown-toggle {
 .header {
     font-size: 15px;
 }
-
-
-
 
 /* TABS NIEUWE ANALYSE*/
 .werkgevers {
@@ -436,22 +441,32 @@ a.dropdown-toggle {
 
     .overzicht td:nth-of-type(3), .overzichtB td:nth-of-type(3) {
         color: green;
+        text-align: right !important;
+        padding-right: 40px;
         font-size: 80%;
     }
 
     .overzicht td:nth-of-type(4), .overzichtK td:nth-of-type(3) {
         color: red;
+        text-align: right !important;
+        padding-right: 40px;
         font-size: 80%;
     }
 
-    .overzicht td:nth-of-type(3), .overzicht td:nth-of-type(4), .overzicht th:nth-of-type(3), .overzicht th:nth-of-type(4) {
-        width: 150px;
-        text-align: center;
-    }
+.resultaatR {
+    font-weight: bold;
+    font-size: 22px;
+    text-align: center !important;
+}
 
-    .overzicht td:nth-of-type(5), .overzicht th:last-of-type {
-        text-align: right;
-    }
+.overzicht td:nth-of-type(3), .overzicht td:nth-of-type(4), .overzicht th:nth-of-type(3), .overzicht th:nth-of-type(4) {
+    width: 150px;
+    text-align: center;
+}
+
+.overzicht td:nth-of-type(5), .overzicht th:last-of-type {
+    text-align: right;
+}
 
 /*.overzicht th:nth-of-type(1), .overzicht th:nth-of-type(2), .overzicht th:nth-of-type(3), .b th {
         background-color: #9ccd0b;
@@ -499,7 +514,21 @@ td.none:hover {
     background-color: transparent !important;
 }
 
+.vuilbak td:last-of-type, .vuilbak th:last-of-type {
+    width: 60px;
+}
 
+    .vuilbak td:last-of-type i {
+        color: dimgrey;
+    }
+
+.functies td {
+    text-align: right;
+}
+
+    .functies td:last-of-type {
+        text-align: left;
+    }
 /* RESULTAAT MAILEN */
 textarea#Bericht {
     height: 180px;
@@ -681,14 +710,16 @@ textarea#Bericht {
     margin-top: 15px;
 }
 
+    .archief th a {
+        color: dimgrey;
+    }
+
     .archief td > a i {
         display: inline;
         cursor: pointer !important;
         color: #3b4041;
         text-decoration: none;
     }
-
-
 
     .archief tr:hover {
         background-color: rgba(156, 205, 11, 0.5);
@@ -707,8 +738,34 @@ textarea#Bericht {
         width: 8%;
     }
 
+.form-inline {
+    text-align: right;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+i.fa.fa-times.btn.btn-default.zoekKnop {
+    margin: 0;
+}
+
+.zoekKnop {
+    height: 33px;
+}
+
 .fa-trash {
     margin-left: 14px;
+}
+
+.archief .fa-chevron-down, .archief .fa-chevron-up {
+    font-size: 10px;
+    vertical-align: middle;
+    color: dimgrey;
+}
+
+.zoekTerm {
+    border-radius: 6px;
+    border: 1px solid lightgray;
+    height: 33px;
 }
 
 .hidden {
@@ -898,6 +955,7 @@ textarea#Bericht {
                     color: dimgray;
                     background: white;
                     padding: 8px;
+                    text-align: left;
                 }
 
                     .wrap .nav-bar .nav .dropdown-menu > li > a:hover, .uitloggen:hover {
@@ -1001,12 +1059,12 @@ textarea#Bericht {
         border-top: 1px solid #3b4041;
     }
 
-    .archief td > a i {
+    .archief td > a i.fa-trash {
         display: none;
         text-decoration: none;
     }
 
-    .archief tr:hover td > a i {
+    .archief tr:hover td > a i.fa-trash {
         display: inline;
         cursor: pointer !important;
         color: #3b4041;
