@@ -28,7 +28,7 @@
                 <div class="row">
                     <label asp-for="Functie" class="col-md-2 col-sm-6 control-label ww">Functie</label>
                     <div class="col-md-3 col-sm-6">
-                        <input asp-for="Functie" class="form-control" />
+                        <input asp-for="Functie" class="form-control" autofocus />
                         <span asp-validation-for="Functie" class="text-danger"></span>
                     </div>
                     <label asp-for="Vop" class="col-md-2 control-label ww">Vlaamse ondersteuningspremie</label>
@@ -83,7 +83,7 @@
 
 
 <div class="col-md-12">
-    <table class="table table-responsive table-bordered functies">
+    <table class="table table-responsive table-bordered functies vuilbak">
         <tr>
             <th>Functie</th>
             <th>Aantal uren per week</th>
@@ -92,18 +92,18 @@
             <th>Vlaamse ondersteuningspremie</th>
             <th>Aantal maanden IBO</th>
             <th>Totale productiviteitspremie IBO</th>
-            @*<th></th>*@
+            <th></th>
         </tr>
         @foreach (LoonkostLijnViewModel lijn in Model.Lijnen)
         {
             <tr id="lijnEdit" onclick="location.href = '@(Url.Action("LoonKost","Analyse", new {analyseId = Model.AnalyseId, lijnId = lijn.LijnId}))'" style="cursor: pointer">
                 <td>@lijn.Functie</td>
                 <td>@lijn.UrenPerWeek</td>
-                <td>@lijn.BrutoMaandloon</td>
+                <td>@($"€ {lijn.BrutoMaandloon:N2}")</td>
                 <td>@lijn.Doelgroep</td>
                 <td>@(lijn.Vop * 100) %</td>
                 <td>@lijn.AantalMaanden</td>
-                <td>@lijn.Ibo</td>
+                <td>@($"€ {lijn.Ibo:N2}")</td>
                 <td><a asp-controller="Analyse" asp-action="DeleteLijn" asp-route-id="new {analyseId = Model.AnalyseId, lijnId = lijn.LijnId}"><i class="fa fa-trash animated fadeInDown" aria-hidden="true"></i></a></td>
             </tr>
         }

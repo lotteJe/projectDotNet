@@ -70,29 +70,37 @@ namespace KostenBatenTool.Controllers
             }
             switch (sortOrder)
             {
-                case "name_desc":
+                case "naam_desc":
                     a = a.OrderByDescending(s => s.Organisatie.Naam);
+                    ViewData["pijlNaam"] = "fa-chevron-down";
                     break;
                 case "Naam":
                     a = a.OrderBy(s => s.Organisatie.Naam);
+                    ViewData["pijlNaam"] = "fa-chevron-up";
                     break;
                 case "date_desc":
                     a = a.OrderByDescending(s => s.AanmaakDatum);
+                    ViewData["pijlDatum"] = "fa-chevron-down";
                     break;
                 case "Gemeente":
                     a = a.OrderBy(s => s.Organisatie.Gemeente);
+                    ViewData["pijlGemeente"] = "fa-chevron-up";
                     break;
                 case "gemeente_desc":
                     a = a.OrderByDescending(s => s.Organisatie.Gemeente);
+                    ViewData["pijlGemeente"] = "fa-chevron-down";
                     break;
                 case "Afdeling":
                     a = a.OrderBy(s => s.Organisatie.Afdeling);
+                    ViewData["pijlAfdeling"] = "fa-chevron-up";
                     break;
                 case "afdeling_desc":
                     a = a.OrderByDescending(s => s.Organisatie.Afdeling);
+                    ViewData["pijlAfdeling"] = "fa-chevron-down";
                     break;
                 default:
                     a = a.OrderBy(s => s.AanmaakDatum);
+                    ViewData["pijlDatum"] = "fa-chevron-up";
                     break;
             }
             int pageSize = 10;
@@ -446,7 +454,7 @@ namespace KostenBatenTool.Controllers
                     {
                         analyse.GetBerekening("AndereBesparing").VoegLijnToe();
                     }
-                    analyse.VulVeldIn("AndereBesparing", model.LijnId, "type besparing", model.Type);
+                    analyse.VulVeldIn("AndereBesparing", model.LijnId, "beschrijving", model.Type);
                     analyse.VulVeldIn("AndereBesparing", model.LijnId, "jaarbedrag", model.Bedrag);
                     _arbeidsBemiddelaarRepository.SerialiseerVelden(analyse);
                     _arbeidsBemiddelaarRepository.SaveChanges();
@@ -1095,6 +1103,19 @@ namespace KostenBatenTool.Controllers
             return View(model);
         }
 
+        public IActionResult ZetBewerkbaar(int analyseId)
+        {
+           _arbeidsBemiddelaarRepository.ZetAnalyseBewerkbaar(User.Identity.Name, analyseId);
+            _arbeidsBemiddelaarRepository.SaveChanges();
+            return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult ZetAfgewerkt(int analyseId)
+        {
+            _arbeidsBemiddelaarRepository.ZetAnalyseAfgewerkt(User.Identity.Name, analyseId);
+            _arbeidsBemiddelaarRepository.SaveChanges();
+            return RedirectToAction(nameof(Index));
+        }
     }
 }
 

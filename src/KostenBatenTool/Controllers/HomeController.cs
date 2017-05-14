@@ -35,9 +35,7 @@ namespace KostenBatenTool.Controllers
         }
         public IActionResult Index()
         {
-            var user = GetCurrentUserAsync();
-            string email = user.Result.Email;
-            IEnumerable<Analyse> a = _arbeidsBemiddelaarRepository.GetAllAnalyses(email);
+            IEnumerable<Analyse> a = _arbeidsBemiddelaarRepository.GetAnalysesDashboard(User.Identity.Name);
             return View(a);
         }
 
@@ -97,6 +95,13 @@ namespace KostenBatenTool.Controllers
             IEnumerable<Bericht> berichten = _berichtenRepository.GeefBerichten();
             IList<Bericht> berichtenGesorteerd = berichten.OrderByDescending(b => b.AanmaakDatum).ToList();
             return View(berichtenGesorteerd);
+        }
+
+        public IActionResult ZetAfgewerkt(int analyseId)
+        {
+            _arbeidsBemiddelaarRepository.ZetAnalyseAfgewerkt(User.Identity.Name,analyseId);
+            _arbeidsBemiddelaarRepository.SaveChanges();
+            return RedirectToAction(nameof(Index));
         }
     }
 }

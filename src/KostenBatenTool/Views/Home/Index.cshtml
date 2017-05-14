@@ -1,5 +1,6 @@
 ﻿@using System.Runtime.InteropServices.ComTypes
 @using System.Threading.Tasks
+@using Castle.Core.Internal
 @using KostenBatenTool.Models.Domain
 @model IEnumerable<KostenBatenTool.Models.Domain.Analyse>
 @{
@@ -13,13 +14,14 @@
 <hr />
 
 <div class="container-fluid">
-    @if (Model != null)
+    @if (!Model.IsNullOrEmpty())
     {
         foreach (Analyse analyse in @Model)
         {
             <div class="col-md-4 col-sm-6 col-xs-12 analyseDetail animated fadeIn" style="cursor: pointer" onclick="location.href = '@(Url.Action("Overzicht","Analyse", new {id = analyse.AnalyseId}))'">
-                <div>
-                    <h3 class="cardHeader">@analyse.Organisatie.Naam</h3>
+                <div class="row">
+                    <h3 class="cardHeader col-md-10">@analyse.Organisatie.Naam</h3>
+                    <a asp-controller="Home" asp-action="ZetAfgewerkt" asp-route-analyseId="@analyse.AnalyseId" class="col-md-2"><i class="fa fa-check" aria-hidden="true" style="color: #d9534f" tool-tip-toggle="tooltip" data-placement="bottom" data-original-title="Markeer als afgewerkt"></i></a>
                 </div>
                 <hr/>
                 <div>
@@ -74,7 +76,7 @@
     }
     else
     {
-        <p>Er zijn nog geen analyses aangemaakt.</p>
+        <p>Alle gemaakte analyses zijn afgewerkt.</p>
 
     }
 

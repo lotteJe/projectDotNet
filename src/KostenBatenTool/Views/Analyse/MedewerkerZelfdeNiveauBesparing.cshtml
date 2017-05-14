@@ -59,19 +59,22 @@
 </div>
 <div class="row">
     <div class="col-md-6 ">
-        <table class="table table-responsive table-striped functies">
+        <table class="table table-responsive table-striped functies vuilbak">
             <tr>
                 <th>Uren</th>
                 <th>Bruto maandloon fulltime</th>
                 <th>Totale loonkost per jaar</th>
+                <th></th>
             </tr>
             @foreach (var item in Model.Lijst)
             {
 
-                <tr onclick="location.href = '@(Url.Action("MedewerkerZelfdeNiveauBesparing","Analyse", new {analyseId = Model.AnalyseId, lijnId = item.LijnId}))'">
-                    <td>@item.Veld1</td>
-                    <td>@item.Veld2</td>
-                    <td>@item.Veld3
+                <tr>
+                    <td onclick="location.href = '@(Url.Action("MedewerkerZelfdeNiveauBesparing","Analyse", new {analyseId = Model.AnalyseId, lijnId = item.LijnId}))'">@item.Veld1</td>
+                    <td onclick="location.href = '@(Url.Action("MedewerkerZelfdeNiveauBesparing","Analyse", new {analyseId = Model.AnalyseId, lijnId = item.LijnId}))'">@($"€ {item.Veld2:N2}") </td>
+                    <td onclick="location.href = '@(Url.Action("MedewerkerZelfdeNiveauBesparing","Analyse", new {analyseId = Model.AnalyseId, lijnId = item.LijnId}))'">@($"€ {item.Veld3:N2}") </td>
+                    <td><a asp-controller="Analyse" asp-action="DeleteLijn" asp-route-analyseId="@Model.AnalyseId" asp-route-lijnId="@item.LijnId" asp-route-berekeningId="@Model.BerekeningId"><i class="fa fa-trash animated fadeInDown" aria-hidden="true"></i></a></td>
+
                 </tr>
             }
         </table>

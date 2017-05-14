@@ -31,6 +31,7 @@ namespace KostenBatenTool.Models.AnalyseViewModels
         public decimal SubTotaalKosten { get; set; }
         public decimal SubTotaalBaten { get; set; }
         public decimal Resultaat { get; set; }
+        public bool Afgewerkt { get; set; }
 
         public OverzichtViewModel()
         {
@@ -41,6 +42,7 @@ namespace KostenBatenTool.Models.AnalyseViewModels
         {
             AnalyseId = analyse.AnalyseId;
             Organisatie = analyse.Organisatie;
+            Afgewerkt = analyse.Afgewerkt;
             SubTotaalBaten = analyse.BatenResultaat;
             SubTotaalKosten = analyse.KostenResultaat;
             Resultaat = analyse.Resultaat;

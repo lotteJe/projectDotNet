@@ -14,6 +14,7 @@ namespace KostenBatenTool.Models.AnalyseViewModels
         public decimal Veld1 { get; set; }
         public decimal Veld2 { get; set; }
         public decimal Veld3 { get; set; }
+        public int BerekeningId { get; set; }
 
         public DrieDecimalViewModel()
         {
@@ -22,6 +23,7 @@ namespace KostenBatenTool.Models.AnalyseViewModels
 
         public DrieDecimalViewModel(Berekening berekening, int analyseId) : this()
         {
+            BerekeningId = berekening.BerekeningId;
             AnalyseId = analyseId;
             string veld2 =
                 berekening.GetType().ToString().Equals("KostenBatenTool.Models.Domain.AdministratieBegeleidingsKost")
