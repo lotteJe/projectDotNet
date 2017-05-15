@@ -12,7 +12,9 @@ namespace KostenBatenTool.Models.AnalyseViewModels
         public int LijnId { get; set; }
         public int AnalyseId { get; set; }
         public IEnumerable<TypeBedragLijstObjectViewModel> Lijst { get; set; }
+        [Required(ErrorMessage = "Type is verplicht.")]
         public string Type { get; set; }
+        [Range(typeof(decimal), "0", "79228162514264337593543950335", ErrorMessage = "Het getal moet positief zijn.")]
         public decimal Bedrag { get; set; }
         public int BerekeningId { get; set; }
         public TypeBedragViewModel()

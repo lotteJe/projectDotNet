@@ -38,7 +38,7 @@ namespace KostenBatenTool.Controllers
         }
 
         // GET: /<controller>/
-        public IActionResult Index(string sortOrder, string currentFilter, string searchString, int? page, string zoekCriteria ="Werkgever" )
+        public IActionResult Index(string sortOrder, string currentFilter, string searchString, int? page, string zoekCriteria = "Werkgever")
         {
             ViewData["NameSortParm"] = sortOrder == "Naam" ? "naam_desc" : "Naam";
             ViewData["DateSortParm"] = String.IsNullOrEmpty(sortOrder) ? "date_desc" : "";
@@ -46,7 +46,7 @@ namespace KostenBatenTool.Controllers
             ViewData["AfdelingSort"] = sortOrder == "Afdeling" ? "afdeling_desc" : "Afdeling";
             ViewData["CurrentFilter"] = searchString;
             ViewData["CurrentSort"] = sortOrder;
-           
+
             if (searchString != null)
             {
                 page = 1;
@@ -62,11 +62,10 @@ namespace KostenBatenTool.Controllers
                 {
                     a = _arbeidsBemiddelaarRepository.ZoekAnalysesWerkgever(User.Identity.Name, searchString);
                 }
-               else
+                else
                 {
                     a = _arbeidsBemiddelaarRepository.ZoekAnalysesGemeente(User.Identity.Name, searchString);
                 }
-
             }
             switch (sortOrder)
             {
@@ -277,6 +276,8 @@ namespace KostenBatenTool.Controllers
                     throw;
                 }
             }
+            ViewData["open"] = true;
+            //IList<LoonKostLijn> lijnen = _arbeidsBemiddelaarRepository.GetLoonKostLijnen(loonkost.BerekeningId, loonkost.Velden);
             return View(model);
         }
 
@@ -336,6 +337,8 @@ namespace KostenBatenTool.Controllers
                     throw;
                 }
             }
+            ViewData["open"] = true;
+            model.Lijst = _arbeidsBemiddelaarRepository.GetAnalyse(User.Identity.Name, model.AnalyseId).GetBerekening("AanpassingsKost").Lijnen.Select(lijn => new TypeBedragLijstObjectViewModel(lijn, "type", "bedrag")).ToList();
             return View(model);
         }
 
@@ -420,6 +423,9 @@ namespace KostenBatenTool.Controllers
                     throw;
                 }
             }
+            ViewData["open"] = true;
+            model.Lijst = _arbeidsBemiddelaarRepository.GetAnalyse(User.Identity.Name, model.AnalyseId).GetBerekening("AdministratieBegeleidingsKost").Lijnen.Select(l => new DrieDecimalLijstObjectViewModel(l, "bruto maandloon begeleider", "jaarbedrag")).ToList();
+
             return View(model);
         }
 
@@ -466,6 +472,8 @@ namespace KostenBatenTool.Controllers
                     throw;
                 }
             }
+            ViewData["open"] = true;
+            model.Lijst = _arbeidsBemiddelaarRepository.GetAnalyse(User.Identity.Name, model.AnalyseId).GetBerekening("AndereBesparing").Lijnen.Select(lijn => new TypeBedragLijstObjectViewModel(lijn, "beschrijving", "jaarbedrag")).ToList();
             return View(model);
         }
 
@@ -512,6 +520,8 @@ namespace KostenBatenTool.Controllers
                     throw;
                 }
             }
+            ViewData["open"] = true;
+            model.Lijst = _arbeidsBemiddelaarRepository.GetAnalyse(User.Identity.Name, model.AnalyseId).GetBerekening("AndereKost").Lijnen.Select(lijn => new TypeBedragLijstObjectViewModel(lijn, "type", "bedrag")).ToList();
             return View(model);
         }
 
@@ -629,6 +639,8 @@ namespace KostenBatenTool.Controllers
                     throw;
                 }
             }
+            ViewData["open"] = true;
+            model.Lijst = _arbeidsBemiddelaarRepository.GetAnalyse(User.Identity.Name, model.AnalyseId).GetBerekening("MedewerkerHogerNiveauBesparing").Lijnen.Select(l => new DrieDecimalLijstObjectViewModel(l, "bruto maandloon fulltime", "totale loonkost per jaar")).ToList();
             return View(model);
         }
 
@@ -679,6 +691,8 @@ namespace KostenBatenTool.Controllers
                     throw;
                 }
             }
+            ViewData["open"] = true;
+            model.Lijst = _arbeidsBemiddelaarRepository.GetAnalyse(User.Identity.Name, model.AnalyseId).GetBerekening("MedewerkerZelfdeNiveauBesparing").Lijnen.Select(l => new DrieDecimalLijstObjectViewModel(l, "bruto maandloon fulltime", "totale loonkost per jaar")).ToList();
             return View(model);
         }
 
@@ -762,6 +776,8 @@ namespace KostenBatenTool.Controllers
                     throw;
                 }
             }
+            ViewData["open"] = true;
+            model.Lijst = _arbeidsBemiddelaarRepository.GetAnalyse(User.Identity.Name, model.AnalyseId).GetBerekening("OpleidingsKost").Lijnen.Select(lijn => new TypeBedragLijstObjectViewModel(lijn, "type", "bedrag")).ToList();
             return View(model);
         }
 
@@ -808,6 +824,8 @@ namespace KostenBatenTool.Controllers
                     throw;
                 }
             }
+            ViewData["open"] = true;
+            model.Lijst = _arbeidsBemiddelaarRepository.GetAnalyse(User.Identity.Name, model.AnalyseId).GetBerekening("OutsourcingBesparing").Lijnen.Select(lijn => new TypeBedragLijstObjectViewModel(lijn, "beschrijving", "jaarbedrag")).ToList();
             return View(model);
         }
 
@@ -926,6 +944,8 @@ namespace KostenBatenTool.Controllers
                     throw;
                 }
             }
+            ViewData["open"] = true;
+            model.Lijst = _arbeidsBemiddelaarRepository.GetAnalyse(User.Identity.Name, model.AnalyseId).GetBerekening("UitzendkrachtenBesparing").Lijnen.Select(lijn => new TypeBedragLijstObjectViewModel(lijn, "beschrijving", "jaarbedrag")).ToList();
             return View(model);
         }
 
@@ -972,6 +992,8 @@ namespace KostenBatenTool.Controllers
                     throw;
                 }
             }
+            ViewData["open"] = true;
+                 model.Lijst = _arbeidsBemiddelaarRepository.GetAnalyse(User.Identity.Name, model.AnalyseId).GetBerekening("VoorbereidingsKost").Lijnen.Select(lijn => new TypeBedragLijstObjectViewModel(lijn, "type", "bedrag")).ToList();
             return View(model);
         }
 
@@ -1018,6 +1040,8 @@ namespace KostenBatenTool.Controllers
                     throw;
                 }
             }
+            ViewData["open"] = true;
+            model.Lijst = _arbeidsBemiddelaarRepository.GetAnalyse(User.Identity.Name, model.AnalyseId).GetBerekening("WerkkledijKost").Lijnen.Select(lijn => new TypeBedragLijstObjectViewModel(lijn, "type", "bedrag")).ToList();
             return View(model);
         }
 
@@ -1043,9 +1067,9 @@ namespace KostenBatenTool.Controllers
             Berekening b = _arbeidsBemiddelaarRepository.GetBerekeningById(berekeningId);
             Lijn lijn = b.Lijnen.FirstOrDefault(l => l.LijnId == lijnId);
             b.Lijnen.Remove(lijn);
-           _arbeidsBemiddelaarRepository.VerwijderLijn(lijn);
-           _arbeidsBemiddelaarRepository.SaveChanges();
-            return RedirectToAction(b.GetType().Name, new {analyseId, lijnId = 0});
+            _arbeidsBemiddelaarRepository.VerwijderLijn(lijn);
+            _arbeidsBemiddelaarRepository.SaveChanges();
+            return RedirectToAction(b.GetType().Name, new { analyseId, lijnId = 0 });
 
 
         }
@@ -1105,7 +1129,7 @@ namespace KostenBatenTool.Controllers
 
         public IActionResult ZetBewerkbaar(int analyseId)
         {
-           _arbeidsBemiddelaarRepository.ZetAnalyseBewerkbaar(User.Identity.Name, analyseId);
+            _arbeidsBemiddelaarRepository.ZetAnalyseBewerkbaar(User.Identity.Name, analyseId);
             _arbeidsBemiddelaarRepository.SaveChanges();
             return RedirectToAction(nameof(Index));
         }

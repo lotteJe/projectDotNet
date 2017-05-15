@@ -52,13 +52,11 @@ namespace KostenBatenTool.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(EditViewModel model, string returnUrl = null)
+        public async Task<IActionResult> Edit(EditViewModel model, string returnUrl = null)
         {
             if (ModelState.IsValid)
             {
-                var user = GetCurrentUserAsync();
-                string email = user.Result.Email;
-                ArbeidsBemiddelaar a = _arbeidsBemiddelaarRepository.GetBy(email);
+                ArbeidsBemiddelaar a = _arbeidsBemiddelaarRepository.GetBy(User.Identity.Name);
                 a.Naam = model.Naam;
                 a.Voornaam = model.Voornaam;
                 a.Email = model.Email;
@@ -68,6 +66,11 @@ namespace KostenBatenTool.Controllers
                 a.EigenOrganisatie.Postcode = model.Postcode;
                 a.EigenOrganisatie.Gemeente = model.Gemeente;
                 _arbeidsBemiddelaarRepository.SaveChanges();
+                ApplicationUser userApp = await _userManager.GetUserAsync(User);
+                userApp.Naam = model.Naam;
+                userApp.Voornaam = model.Voornaam;
+                await _userManager.UpdateAsync(userApp);
+
                 TempData["message"] = "Je gegevens werden succesvol gewijzigd.";
                 return RedirectToAction(nameof(AnalyseController.Index), "Home");
             }

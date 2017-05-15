@@ -75,6 +75,7 @@ namespace KostenBatenTool
                 x.Password.RequireUppercase = false;
                 x.Password.RequireLowercase = false;
                 x.Password.RequireNonAlphanumeric = false;
+                x.Password.RequireDigit = false;
             }).AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
         }
 

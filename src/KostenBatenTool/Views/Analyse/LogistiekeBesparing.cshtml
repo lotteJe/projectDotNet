@@ -19,7 +19,7 @@
         <h2>Wat zijn de transportkosten van eventueel uitbesteedde zaken?</h2>
         <label asp-for="Transport" class="col-md-2 col-sm-2 col-xs-12 control-label ww">Jaarbedrag</label>
         <div class="col-md-3 col-sm-3 col-xs-6 ">
-            <input asp-for="Transport" class="form-control" type="number" autofocus/>
+            <input asp-for="Transport" class="form-control" type="text" autofocus/>
             <span asp-validation-for="Transport" class="text-danger"></span>
         </div>
     </div>
@@ -27,7 +27,7 @@
         <h2>Wat zijn de logistieke handelingskosten van eventueel uitbesteedde zaken?</h2>
         <label asp-for="Logistiek" class="col-md-2 col-xs-12 col-sm-2 control-label ww">Jaarbedrag</label>
         <div class="col-md-3 col-sm-3 col-xs-6">
-            <input asp-for="Logistiek" class="form-control" type="number" />
+            <input asp-for="Logistiek" class="form-control" type="text" />
             <span asp-validation-for="Logistiek" class="text-danger"></span>
         </div>
     </div>

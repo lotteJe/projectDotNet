@@ -213,6 +213,12 @@ li.dropdown.open {
     margin-bottom: 15px;
 }
 
+#contact {
+    text-align: right;
+    margin-bottom: 15px;
+    margin-left: 10px;
+}
+
 .text-danger {
     font-size: 16px;
 }
@@ -253,7 +259,11 @@ li.dropdown.open {
 div#top-menu {
     height: 70px;
     padding-top: 10px;
-    margin-bottom: 15px;
+    /*margin-bottom: 15px; */
+}
+
+.navbar-btn {
+    margin: 0;
 }
 
 img#logo {
@@ -698,8 +708,11 @@ textarea#Bericht {
 #show-change {
     color: dimgrey;
     font-size: 16px;
-    text-decoration: underline;
+  
     vertical-align: bottom;
+}
+#show-change:hover {
+      text-decoration: underline;
 }
 
 /* ARCHIEF*/

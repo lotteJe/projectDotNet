@@ -8,7 +8,8 @@
 
 <div class="container-fluid col-md-8 col-md-offset-2">
     <form asp-controller="Account" asp-action="Edit" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal" id="address">
-        <div class="row">
+       
+         <div class="row">
             <div class="col-md-6">
                 <label for="naam" class="control-label">Naam</label>
                 <input asp-for="Naam" id="naam" type="text" class="form-control" name="naam">
@@ -22,7 +23,8 @@
         </div> <div class="row">
             <div class="col-md-12">
                 <label for="email" class="control-label">Email</label>
-                <input asp-for="Email" id="email" type="text" class="form-control" name="email">
+                <input asp-for="Email" id="email" type="hidden" class="form-control" name="email" >
+                <input value="@Model.Email" disabled class="form-control"/>
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
         </div>
