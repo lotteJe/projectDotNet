@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using KostenBatenTool.Models.Domain;
@@ -12,10 +13,12 @@ namespace KostenBatenTool.Models.AnalyseViewModels
         public int LijnId { get; set; }
         public string Functie { get; set; }
         public decimal UrenPerWeek { get; set; }
+        [Range(typeof(decimal), "0", "79228162514264337593543950335", ErrorMessage = "Het getal moet positief zijn.")]
         public decimal BrutoMaandloon { get; set; }
         public string Doelgroep { get; set; }
         public decimal Vop { get; set; }
         public decimal AantalMaanden { get; set; }
+        [Range(typeof(decimal), "0", "79228162514264337593543950335", ErrorMessage = "Het getal moet positief zijn.")]
         public decimal Ibo { get; set; }
         public int AnalyseId { get; set; }
         public IEnumerable<LoonkostLijnViewModel> Lijnen { get; set; }

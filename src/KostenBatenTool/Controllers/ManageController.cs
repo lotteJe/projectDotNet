@@ -235,6 +235,7 @@ namespace KostenBatenTool.Controllers
                     TempData["message"] = "Je wachtwoord werd succesvol gewijzigd.";
                     return RedirectToAction(nameof(AccountController.Edit), "Account");
                 }
+                ModelState.AddModelError("oldPass", "Uw huidig wachtwoord is onjuist.");
                 AddErrors(result);
                 return View(model);
             }
