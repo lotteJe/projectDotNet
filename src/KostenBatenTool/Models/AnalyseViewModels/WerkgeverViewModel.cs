@@ -9,6 +9,7 @@ namespace KostenBatenTool.Models.AnalyseViewModels
 {
     public class WerkgeverViewModel
     {
+        public int AnalyseId { get; set; }
         [Required(ErrorMessage = "Naam van de organisatie is verplicht")]
         [Display(Name = "Naam")]
         public string Naam { get; set; }
@@ -33,13 +34,14 @@ namespace KostenBatenTool.Models.AnalyseViewModels
 
 
         [Required(ErrorMessage = "Aantal werkuren is verplicht")]
+        [RegularExpression("^[0-9][0-9]?([,][0-9]+)?$|^100$", ErrorMessage = "De waarde moet positief zijn, eventueel gescheiden door een komma.")]
         [Display(Name = "Aantal werkuren per week")]
-        public decimal Werkuren { get; set; }
-
+        public string Werkuren { get; set; }
 
         [Required(ErrorMessage = "Bijdrage is verplicht")]
+        [RegularExpression("^[0-9][0-9]?([,][0-9]+)?$|^100$", ErrorMessage = "De waarde moet tussen 0 en 100 liggen.")]
         [Display(Name = "Patronale bijdrage")]
-        public decimal Bijdrage { get; set; }
+        public string Bijdrage { get; set; }
 
         [Display(Name = "Afdeling")]
         public string Afdeling { get; set; }
@@ -52,14 +54,14 @@ namespace KostenBatenTool.Models.AnalyseViewModels
         public int OrganisatieId { get; set; }
         public WerkgeverViewModel()
         {
-            Werkuren = 38;
-            Bijdrage = 35;
+            Werkuren = "38";
+            Bijdrage = "35";
         }
 
         public WerkgeverViewModel(Organisatie o)
         {
-            Werkuren = o.UrenWerkWeek;
-            Bijdrage = o.PatronaleBijdrage * 100;
+            Werkuren = string.Format("{0:00.##}", o.UrenWerkWeek);
+            Bijdrage = string.Format("{0:00.##}", o.PatronaleBijdrage * 100);
             Afdeling = o.Afdeling;
             Gemeente = o.Gemeente;
             Postcode = o.Postcode;
@@ -79,7 +81,11 @@ namespace KostenBatenTool.Models.AnalyseViewModels
                 NaamContactpersoon = "";
                 VoornaamContactpersoon = "";
             }
-            
+
+        }
+        public WerkgeverViewModel(Organisatie o, int analyseId) : this(o)
+        {
+            AnalyseId = analyseId;
         }
     }
 }

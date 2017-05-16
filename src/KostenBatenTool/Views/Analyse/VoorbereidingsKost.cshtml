@@ -79,16 +79,16 @@
                     <input type="hidden" asp-for="AnalyseId" />
                     <input type="hidden" asp-for="LijnId" />
                     <div class="row">
-                        <label asp-for="Type" class="col-md-4 ww">Type</label>
+                        <label asp-for="Type" class="col-md-4 col-md-offset-2 control-label ww">Type</label>
                         <div class="col-md-6">
                             <input asp-for="Type" class="form-control" autofocus />
                             <span asp-validation-for="Type" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="row">
-                        <label asp-for="Bedrag" class="col-md-4 control-label ww">Bedrag</label>
+                        <label asp-for="Bedrag" class="col-md-4 col-md-offset-2 control-label ww">Bedrag</label>
                         <div class="col-md-6">
-                            <input asp-for="Bedrag" class="form-control" type="number" />
+                            <input asp-for="Bedrag" class="form-control" type="text" placeholder="0"/>
                             <span asp-validation-for="Bedrag" class="text-danger"></span>
                         </div>
                     </div>

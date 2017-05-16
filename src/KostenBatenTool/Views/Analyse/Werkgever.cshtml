@@ -9,6 +9,7 @@
 <div class="container-fluid">
     <form asp-controller="Analyse" asp-action="@action" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal" id="address">
         <input type="hidden" asp-for="OrganisatieId" />
+        <input type="hidden" asp-for="AnalyseId"/>
        <div class="row">
             <div class="col-md-12">
                 <label for="naam" class="control-label">Naam bedrijf</label>
