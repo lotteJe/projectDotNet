@@ -14,14 +14,14 @@ namespace KostenBatenTool.Models.ManageViewModels
         public string OldPassword { get; set; }
 
         [Required(ErrorMessage = "Nieuw wachtwoord is verplicht")]
-        [StringLength(100, ErrorMessage = "Wachtwoord moet minstens 6 tekens bevatten waaronder één cijfer.", MinimumLength = 6)]
+        [StringLength(100, ErrorMessage = "Wachtwoord moet minstens 6 tekens bevatten.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Nieuw Wachtwoord")]
         public string NewPassword { get; set; }
 
         [DataType(DataType.Password)]
         [Display(Name = "Bevestig wachtwoord")]
-        [Compare("NewPassword", ErrorMessage = "Nieuwe en bevestig wachtwoord komen niet overeen")]
+        [Compare("NewPassword", ErrorMessage = "Nieuw en bevestig wachtwoord komen niet overeen.")]
         public string ConfirmPassword { get; set; }
     }
 }

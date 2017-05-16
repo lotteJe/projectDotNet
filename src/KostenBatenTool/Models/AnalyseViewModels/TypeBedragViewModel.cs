@@ -14,8 +14,9 @@ namespace KostenBatenTool.Models.AnalyseViewModels
         public IEnumerable<TypeBedragLijstObjectViewModel> Lijst { get; set; }
         [Required(ErrorMessage = "Type is verplicht.")]
         public string Type { get; set; }
-        [Range(typeof(decimal), "0", "79228162514264337593543950335", ErrorMessage = "Het getal moet positief zijn.")]
-        public decimal Bedrag { get; set; }
+       
+        [RegularExpression("[0-9]*([,][0-9]+)?", ErrorMessage = "Het getal moet positief zijn met eventueel een komma.")]
+        public string Bedrag { get; set; }
         public int BerekeningId { get; set; }
         public TypeBedragViewModel()
         {
@@ -27,13 +28,10 @@ namespace KostenBatenTool.Models.AnalyseViewModels
             AnalyseId = analyseId;
             BerekeningId = berekening.BerekeningId;
             string veld1 =
-               berekening.GetType().ToString().Equals("KostenBatenTool.Models.Domain.OutsourcingBesparing") || berekening.GetType().ToString().Equals("KostenBatenTool.Models.Domain.UitzendkrachtenBesparing")
+               berekening.GetType().ToString().Equals("KostenBatenTool.Models.Domain.OutsourcingBesparing") || berekening.GetType().ToString().Equals("KostenBatenTool.Models.Domain.AndereBesparing") || berekening.GetType().ToString().Equals("KostenBatenTool.Models.Domain.UitzendkrachtenBesparing")
                    ? "beschrijving"
                    : "type";
-            if (berekening.GetType().ToString().Equals("KostenBatenTool.Models.Domain.AndereBesparing") )
-            {
-                veld1 = "type besparing";
-            }
+           
             string veld2 = berekening.GetType().ToString().Equals("KostenBatenTool.Models.Domain.AndereBesparing") || berekening.GetType().ToString().Equals("KostenBatenTool.Models.Domain.OutsourcingBesparing") || berekening.GetType().ToString().Equals("KostenBatenTool.Models.Domain.UitzendkrachtenBesparing")
                   ? "jaarbedrag"
                       : "bedrag";
@@ -45,18 +43,14 @@ namespace KostenBatenTool.Models.AnalyseViewModels
         {
             LijnId = lijn.LijnId;
             string veld1 =
-                berekening.GetType().ToString().Equals("KostenBatenTool.Models.Domain.OutsourcingBesparing") || berekening.GetType().ToString().Equals("KostenBatenTool.Models.Domain.UitzendkrachtenBesparing")
+                berekening.GetType().ToString().Equals("KostenBatenTool.Models.Domain.OutsourcingBesparing") || berekening.GetType().ToString().Equals("KostenBatenTool.Models.Domain.AndereBesparing") || berekening.GetType().ToString().Equals("KostenBatenTool.Models.Domain.UitzendkrachtenBesparing")
                     ? "beschrijving"
                     : "type";
-            if (berekening.GetType().ToString().Equals("KostenBatenTool.Models.Domain.AndereBesparing"))
-            {
-                veld1 = "type besparing";
-            }
-            string veld2 = berekening.GetType().ToString().Equals("KostenBatenTool.Models.Domain.AndereBesparing") || berekening.GetType().ToString().Equals("KostenBatenTool.Models.Domain.OutsourcingBesparing") || berekening.GetType().ToString().Equals("KostenBatenTool.Models.Domain.UitzendkrachtenBesparing")
+           string veld2 = berekening.GetType().ToString().Equals("KostenBatenTool.Models.Domain.AndereBesparing") || berekening.GetType().ToString().Equals("KostenBatenTool.Models.Domain.OutsourcingBesparing") || berekening.GetType().ToString().Equals("KostenBatenTool.Models.Domain.UitzendkrachtenBesparing")
                 ? "jaarbedrag"
                     : "bedrag";
             Type = lijn.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals(veld1)).Value.ToString();
-            Bedrag = (decimal)lijn.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals(veld2)).Value;
+            Bedrag = string.Format("{0:0.##}",(decimal)lijn.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals(veld2)).Value);
         }
 
     }
