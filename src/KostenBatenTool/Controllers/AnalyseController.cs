@@ -21,16 +21,29 @@ namespace KostenBatenTool.Controllers
 
         private readonly IArbeidsBemiddelaarRepository _arbeidsBemiddelaarRepository;
         private readonly IDoelgroepRepository _doelgroepRepository;
+        private readonly IAnalyseRepository _analyseRepository;
+        private readonly IOrganisatieRepository _organisatieRepository;
+        private readonly ILijnRepository _lijnRepository;
+        private readonly IBerekeningRepository _berekeningRepository;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IEmailService _emailService;
         private readonly IHostingEnvironment _hostingEnv;
 
-        public AnalyseController(IHostingEnvironment hostingEnv, IDoelgroepRepository doelgroepRepository, IArbeidsBemiddelaarRepository arbeidsBemiddelaarRepository,
+        public AnalyseController(IHostingEnvironment hostingEnv, IDoelgroepRepository doelgroepRepository,
+            IAnalyseRepository analyserepository, 
+            IOrganisatieRepository organisatieRepository,
+            IBerekeningRepository berekeningRepository,
+            IArbeidsBemiddelaarRepository arbeidsBemiddelaarRepository,
+            ILijnRepository lijnRepository,
             UserManager<ApplicationUser> userManager, IEmailService emailService)
 
         {
             _arbeidsBemiddelaarRepository = arbeidsBemiddelaarRepository;
             _doelgroepRepository = doelgroepRepository;
+            _analyseRepository = analyserepository;
+            _berekeningRepository = berekeningRepository;
+            _organisatieRepository = organisatieRepository;
+            _lijnRepository = lijnRepository;
             _userManager = userManager;
             _emailService = emailService;
             _hostingEnv = hostingEnv;
@@ -54,7 +67,7 @@ namespace KostenBatenTool.Controllers
             {
                 searchString = currentFilter;
             }
-            IEnumerable<Analyse> a = _arbeidsBemiddelaarRepository.GetAllAnalyses(User.Identity.Name);
+            IEnumerable<Analyse> a = _arbeidsBemiddelaarRepository.GetAllAnalysesVanArbeidsBemiddelaar(User.Identity.Name);
             if (!String.IsNullOrEmpty(searchString))
             {
                 if (zoekCriteria == null || zoekCriteria.Equals("Werkgever"))
@@ -107,7 +120,7 @@ namespace KostenBatenTool.Controllers
 
         public IActionResult Nieuw()
         {
-            IEnumerable<Organisatie> organisaties = _arbeidsBemiddelaarRepository.GetOrganisaties(User.Identity.Name);
+            IEnumerable<Organisatie> organisaties = _arbeidsBemiddelaarRepository.GetOrganisatiesVanArbeidsBemiddelaar(User.Identity.Name);
             return View(organisaties);
 
 
@@ -117,15 +130,16 @@ namespace KostenBatenTool.Controllers
         {
             var user = GetCurrentUserAsync();
             string email = user.Result.Email;
-            IEnumerable<Organisatie> organisaties = _arbeidsBemiddelaarRepository.GetOrganisaties(User.Identity.Name);
+            IEnumerable<Organisatie> organisaties = _arbeidsBemiddelaarRepository.GetOrganisatiesVanArbeidsBemiddelaar(User.Identity.Name);
             return PartialView("_werkgeversPartial", organisaties);
         }
 
         public IActionResult Werkgever(int id = -1, bool nieuw = false, int analyseId = -1)
         {
             ViewData["nieuw"] = nieuw;
-            Organisatie o = _arbeidsBemiddelaarRepository.GetOrganisatie(User.Identity.Name, id);
+            Organisatie o = _organisatieRepository.GetOrganisatie(id);
             WerkgeverViewModel model = o == null ? new WerkgeverViewModel() : (analyseId < 0 ? new WerkgeverViewModel(o) : new WerkgeverViewModel(o, analyseId));
+
             return View(model);
         }
 
@@ -150,12 +164,13 @@ namespace KostenBatenTool.Controllers
                     }
                     var user = GetCurrentUserAsync();
                     string email = user.Result.Email;
-                    ArbeidsBemiddelaar a = _arbeidsBemiddelaarRepository.GetBy(email);
+                    ArbeidsBemiddelaar a = _arbeidsBemiddelaarRepository.GetArbeidsBemiddelaarMetAnalyses(email);
                     Analyse analyse = new Analyse(o);
                     a.VoegNieuweAnalyseToe(analyse);
-                    _arbeidsBemiddelaarRepository.SerialiseerVelden(analyse);
-                    _arbeidsBemiddelaarRepository.SaveChanges();
+                    _analyseRepository.SerialiseerVelden(analyse);
+                    _analyseRepository.SaveChanges();
                     return RedirectToAction(nameof(Overzicht), new { analyseId = model.AnalyseId });
+
                 }
                 catch (Exception e)
                 {
@@ -178,9 +193,7 @@ namespace KostenBatenTool.Controllers
             {
                 try
                 {
-                    var user = GetCurrentUserAsync();
-                    string email = user.Result.Email;
-                    Organisatie o = _arbeidsBemiddelaarRepository.GetOrganisatie(email, model.OrganisatieId);
+                    Organisatie o = _organisatieRepository.GetOrganisatie(model.OrganisatieId);
                     o.Naam = model.Naam;
                     o.Afdeling = model.Afdeling;
                     o.Gemeente = model.Gemeente;
@@ -226,10 +239,10 @@ namespace KostenBatenTool.Controllers
         {
             Analyse a = GetAnalyse(analyseId);
             LoonKost loonkost = (LoonKost)a.GetBerekening("LoonKost");
-            IList<LoonKostLijn> lijnen = _arbeidsBemiddelaarRepository.GetLoonKostLijnen(loonkost.BerekeningId, loonkost.Velden);
+            IList<LoonKostLijn> lijnen = _lijnRepository.GetLoonKostLijnen(loonkost.BerekeningId, loonkost.Velden);
             if (lijnId > 0)
             {
-                Lijn lijn = _arbeidsBemiddelaarRepository.GetLoonKostLijn(lijnId, loonkost.Velden);
+                Lijn lijn = _lijnRepository.GetLoonKostLijn(lijnId, loonkost.Velden);
                 ViewData["open"] = true;
                 LoonkostViewModel vm1 = new LoonkostViewModel(lijn, lijnen, a.AnalyseId);
                 vm1.DoelgroepList = _doelgroepRepository.GetAll();
@@ -253,9 +266,7 @@ namespace KostenBatenTool.Controllers
             {
                 try
                 {
-                    ArbeidsBemiddelaar ab =
-                        _arbeidsBemiddelaarRepository.GetArbeidsBemiddelaarVolledig(User.Identity.Name);
-                    Analyse analyse = ab.Analyses.FirstOrDefault(a => a.AnalyseId == model.AnalyseId);
+                    Analyse analyse = GetAnalyse(model.AnalyseId);
                     if (model.LijnId == 0)
                     {
                         analyse.GetBerekening("LoonKost").VoegLijnToe();
@@ -268,9 +279,10 @@ namespace KostenBatenTool.Controllers
                     analyse.VulVeldIn("LoonKost", model.LijnId, "% Vlaamse ondersteuningspremie", model.VopId);
                     analyse.VulVeldIn("LoonKost", model.LijnId, "aantal maanden IBO", model.AantalMaanden);
                     analyse.VulVeldIn("LoonKost", model.LijnId, "totale productiviteitspremie IBO", Convert.ToDecimal(model.Ibo));
-                    _arbeidsBemiddelaarRepository.SerialiseerVelden(analyse);
-                    _arbeidsBemiddelaarRepository.SaveChanges();
+                    _analyseRepository.SerialiseerVelden(analyse);
+                    _analyseRepository.SaveChanges();
                     TempData["message"] = "De functie werd succesvol toegevoegd.";
+
                     return RedirectToAction("Loonkost", new { analyseId = analyse.AnalyseId });
                 }
                 catch (Exception e)
@@ -286,12 +298,8 @@ namespace KostenBatenTool.Controllers
 
         public IActionResult Delete(int id)
         {
-            var user = GetCurrentUserAsync();
-            string email = user.Result.Email;
-            Analyse analyse = _arbeidsBemiddelaarRepository.GetAnalyse(email, id);
-            _arbeidsBemiddelaarRepository.GetBy(email).Analyses.Remove(analyse);
-            _arbeidsBemiddelaarRepository.VerwijderAnalyse(analyse);
-            _arbeidsBemiddelaarRepository.SaveChanges();
+            _analyseRepository.VerwijderAnalyse(id);
+            _analyseRepository.SaveChanges();
             TempData["message"] = "De analyse werd succesvol verwijderd.";
             return RedirectToAction(nameof(Index));
         }
@@ -321,18 +329,17 @@ namespace KostenBatenTool.Controllers
             {
                 try
                 {
-                    ArbeidsBemiddelaar ab =
-                        _arbeidsBemiddelaarRepository.GetArbeidsBemiddelaarVolledig(User.Identity.Name);
-                    Analyse analyse = ab.Analyses.First(a => a.AnalyseId == model.AnalyseId);
+                    Analyse analyse = GetAnalyse(model.AnalyseId);
                     if (model.LijnId == 0)
                     {
                         analyse.GetBerekening("AanpassingsKost").VoegLijnToe();
                     }
                     analyse.VulVeldIn("AanpassingsKost", model.LijnId, "type", model.Type);
                     analyse.VulVeldIn("AanpassingsKost", model.LijnId, "bedrag", Convert.ToDecimal(model.Bedrag));
-                    _arbeidsBemiddelaarRepository.SerialiseerVelden(analyse);
-                    _arbeidsBemiddelaarRepository.SaveChanges();
+                    _analyseRepository.SerialiseerVelden(analyse);
+                    _analyseRepository.SaveChanges();
                     TempData["message"] = "De kost werd succesvol toegevoegd.";
+
                     return RedirectToAction(nameof(AanpassingsKost), new { analyseId = analyse.AnalyseId });
                 }
                 catch (Exception e)
@@ -342,7 +349,7 @@ namespace KostenBatenTool.Controllers
                 }
             }
             ViewData["open"] = true;
-            model.Lijst = _arbeidsBemiddelaarRepository.GetAnalyse(User.Identity.Name, model.AnalyseId).GetBerekening("AanpassingsKost").Lijnen.Select(lijn => new TypeBedragLijstObjectViewModel(lijn, "type", "bedrag")).ToList();
+            model.Lijst = GetAnalyse(model.AnalyseId).GetBerekening("AanpassingsKost").Lijnen.Select(lijn => new TypeBedragLijstObjectViewModel(lijn, "type", "bedrag")).ToList();
             return View(model);
         }
 
@@ -363,16 +370,15 @@ namespace KostenBatenTool.Controllers
             {
                 try
                 {
-                    var user = GetCurrentUserAsync();
-                    string email = user.Result.Email;
-                    ArbeidsBemiddelaar ab = _arbeidsBemiddelaarRepository.GetArbeidsBemiddelaarVolledig(email);
-                    Analyse analyse = ab.Analyses.First(a => a.AnalyseId == model.AnalyseId);
+                    Analyse analyse = GetAnalyse(model.AnalyseId);
                     Lijn lijn = ((AanpassingsSubsidie)analyse.GetBerekening("AanpassingsSubsidie")).Lijnen[0];
+
                     analyse.VulVeldIn("AanpassingsSubsidie", lijn.LijnId, "jaarbedrag", Convert.ToDecimal(model.Jaarbedrag));
-                    _arbeidsBemiddelaarRepository.SerialiseerVelden(analyse);
-                    _arbeidsBemiddelaarRepository.SaveChanges();
+                    _analyseRepository.SerialiseerVelden(analyse);
+                    _analyseRepository.SaveChanges();
                      TempData["message"] = "De subsidie werd succesvol toegevoegd.";
                     return RedirectToAction(nameof(AanpassingsSubsidie), new { analyseId = model.AnalyseId });
+
                 }
                 catch (Exception e)
                 {
@@ -407,20 +413,18 @@ namespace KostenBatenTool.Controllers
             {
                 try
                 {
-                    ArbeidsBemiddelaar ab =
-                        _arbeidsBemiddelaarRepository.GetArbeidsBemiddelaarVolledig(User.Identity.Name);
-                    Analyse analyse = ab.Analyses.FirstOrDefault(a => a.AnalyseId == model.AnalyseId);
+                    Analyse analyse = GetAnalyse(model.AnalyseId);
                     if (model.LijnId == 0)
                     {
                         analyse.GetBerekening("AdministratieBegeleidingsKost").VoegLijnToe();
                     }
                     analyse.VulVeldIn("AdministratieBegeleidingsKost", model.LijnId, "uren", Convert.ToDecimal(model.Veld1));
-                    analyse.VulVeldIn("AdministratieBegeleidingsKost", model.LijnId, "bruto maandloon begeleider",
-                       Convert.ToDecimal(model.Veld2));
+                    analyse.VulVeldIn("AdministratieBegeleidingsKost", model.LijnId, "bruto maandloon begeleider", Convert.ToDecimal(model.Veld2));
                     analyse.VulVeldIn("AdministratieBegeleidingsKost", model.LijnId, "jaarbedrag", Convert.ToDecimal(model.Veld3));
-                    _arbeidsBemiddelaarRepository.SerialiseerVelden(analyse);
-                    _arbeidsBemiddelaarRepository.SaveChanges();
+                    _analyseRepository.SerialiseerVelden(analyse);
+                    _analyseRepository.SaveChanges();
                     TempData["message"] = "De uren werden succesvol toegevoegd.";
+
                     return RedirectToAction(nameof(AdministratieBegeleidingsKost), new { analyseId = analyse.AnalyseId });
                 }
                 catch (Exception e)
@@ -430,7 +434,7 @@ namespace KostenBatenTool.Controllers
                 }
             }
             ViewData["open"] = true;
-            model.Lijst = _arbeidsBemiddelaarRepository.GetAnalyse(User.Identity.Name, model.AnalyseId).GetBerekening("AdministratieBegeleidingsKost").Lijnen.Select(l => new DrieDecimalLijstObjectViewModel(l, "bruto maandloon begeleider", "jaarbedrag")).ToList();
+            model.Lijst = GetAnalyse(model.AnalyseId).GetBerekening("AdministratieBegeleidingsKost").Lijnen.Select(l => new DrieDecimalLijstObjectViewModel(l, "bruto maandloon begeleider", "jaarbedrag")).ToList();
 
             return View(model);
         }
@@ -459,18 +463,17 @@ namespace KostenBatenTool.Controllers
             {
                 try
                 {
-                    ArbeidsBemiddelaar ab =
-                        _arbeidsBemiddelaarRepository.GetArbeidsBemiddelaarVolledig(User.Identity.Name);
-                    Analyse analyse = ab.Analyses.First(a => a.AnalyseId == model.AnalyseId);
+                    Analyse analyse = GetAnalyse(model.AnalyseId);
                     if (model.LijnId == 0)
                     {
                         analyse.GetBerekening("AndereBesparing").VoegLijnToe();
                     }
                     analyse.VulVeldIn("AndereBesparing", model.LijnId, "beschrijving", model.Type);
                     analyse.VulVeldIn("AndereBesparing", model.LijnId, "jaarbedrag", Convert.ToDecimal(model.Bedrag));
-                    _arbeidsBemiddelaarRepository.SerialiseerVelden(analyse);
-                    _arbeidsBemiddelaarRepository.SaveChanges();
+                    _analyseRepository.SerialiseerVelden(analyse);
+                    _analyseRepository.SaveChanges();
                     TempData["message"] = "De besparing werd succesvol toegevoegd.";
+
                     return RedirectToAction(nameof(AndereBesparing), new { analyseId = analyse.AnalyseId });
                 }
                 catch (Exception e)
@@ -480,7 +483,7 @@ namespace KostenBatenTool.Controllers
                 }
             }
             ViewData["open"] = true;
-            model.Lijst = _arbeidsBemiddelaarRepository.GetAnalyse(User.Identity.Name, model.AnalyseId).GetBerekening("AndereBesparing").Lijnen.Select(lijn => new TypeBedragLijstObjectViewModel(lijn, "beschrijving", "jaarbedrag")).ToList();
+            model.Lijst = GetAnalyse(model.AnalyseId).GetBerekening("AndereBesparing").Lijnen.Select(lijn => new TypeBedragLijstObjectViewModel(lijn, "beschrijving", "jaarbedrag")).ToList();
             return View(model);
         }
 
@@ -508,18 +511,17 @@ namespace KostenBatenTool.Controllers
             {
                 try
                 {
-                    ArbeidsBemiddelaar ab =
-                        _arbeidsBemiddelaarRepository.GetArbeidsBemiddelaarVolledig(User.Identity.Name);
-                    Analyse analyse = ab.Analyses.First(a => a.AnalyseId == model.AnalyseId);
+                    Analyse analyse = GetAnalyse(model.AnalyseId);
                     if (model.LijnId == 0)
                     {
                         analyse.GetBerekening("AndereKost").VoegLijnToe();
                     }
                     analyse.VulVeldIn("AndereKost", model.LijnId, "type", model.Type);
                     analyse.VulVeldIn("AndereKost", model.LijnId, "bedrag", Convert.ToDecimal(model.Bedrag));
-                    _arbeidsBemiddelaarRepository.SerialiseerVelden(analyse);
-                    _arbeidsBemiddelaarRepository.SaveChanges();
+                    _analyseRepository.SerialiseerVelden(analyse);
+                    _analyseRepository.SaveChanges();
                     TempData["message"] = "De kost werd succesvol toegevoegd.";
+
                     return RedirectToAction(nameof(AndereKost), new { analyseId = analyse.AnalyseId });
                 }
                 catch (Exception e)
@@ -529,7 +531,7 @@ namespace KostenBatenTool.Controllers
                 }
             }
             ViewData["open"] = true;
-            model.Lijst = _arbeidsBemiddelaarRepository.GetAnalyse(User.Identity.Name, model.AnalyseId).GetBerekening("AndereKost").Lijnen.Select(lijn => new TypeBedragLijstObjectViewModel(lijn, "type", "bedrag")).ToList();
+            model.Lijst = GetAnalyse(model.AnalyseId).GetBerekening("AndereKost").Lijnen.Select(lijn => new TypeBedragLijstObjectViewModel(lijn, "type", "bedrag")).ToList();
             return View(model);
         }
 
@@ -550,19 +552,14 @@ namespace KostenBatenTool.Controllers
             {
                 try
                 {
-                    var user = GetCurrentUserAsync();
-                    string email = user.Result.Email;
-                    ArbeidsBemiddelaar ab = _arbeidsBemiddelaarRepository.GetArbeidsBemiddelaarVolledig(email);
-                    Analyse analyse = ab.Analyses.First(a => a.AnalyseId == model.AnalyseId);
+                    Analyse analyse = GetAnalyse(model.AnalyseId);
                     Lijn lijn = ((LogistiekeBesparing)analyse.GetBerekening("LogistiekeBesparing")).Lijnen[0];
                     analyse.VulVeldIn("LogistiekeBesparing", lijn.LijnId, "transportkosten jaarbedrag", Convert.ToDecimal(model.Transport));
-                    analyse.VulVeldIn("LogistiekeBesparing", lijn.LijnId, "logistieke kosten jaarbedrag",
-                        Convert.ToDecimal(model.Logistiek));
-                    _arbeidsBemiddelaarRepository.SerialiseerVelden(analyse);
-                    _arbeidsBemiddelaarRepository.SaveChanges();
+                    analyse.VulVeldIn("LogistiekeBesparing", lijn.LijnId, "logistieke kosten jaarbedrag",Convert.ToDecimal(model.Logistiek));
+                    _analyseRepository.SerialiseerVelden(analyse);
+                    _analyseRepository.SaveChanges();
                     TempData["message"] = "De kosten werden succesvol toegevoegd.";
                     return RedirectToAction(nameof(LogistiekeBesparing), new { analyseId = model.AnalyseId });
-
 
                 }
                 catch (Exception e)
@@ -626,9 +623,7 @@ namespace KostenBatenTool.Controllers
             {
                 try
                 {
-                    ArbeidsBemiddelaar ab =
-                        _arbeidsBemiddelaarRepository.GetArbeidsBemiddelaarVolledig(User.Identity.Name);
-                    Analyse analyse = ab.Analyses.FirstOrDefault(a => a.AnalyseId == model.AnalyseId);
+                    Analyse analyse = GetAnalyse(model.AnalyseId);
                     if (model.LijnId == 0)
                     {
                         analyse.GetBerekening("MedewerkerHogerNiveauBesparing").VoegLijnToe();
@@ -636,11 +631,11 @@ namespace KostenBatenTool.Controllers
                     analyse.VulVeldIn("MedewerkerHogerNiveauBesparing", model.LijnId, "uren", Convert.ToDecimal(model.Veld1));
                     analyse.VulVeldIn("MedewerkerHogerNiveauBesparing", model.LijnId, "bruto maandloon fulltime",
                        Convert.ToDecimal(model.Veld2));
-                    analyse.VulVeldIn("MedewerkerHogerNiveauBesparing", model.LijnId, "totale loonkost per jaar",
-                       Convert.ToDecimal(model.Veld3));
-                    _arbeidsBemiddelaarRepository.SerialiseerVelden(analyse);
-                    _arbeidsBemiddelaarRepository.SaveChanges();
+                    analyse.VulVeldIn("MedewerkerHogerNiveauBesparing", model.LijnId, "totale loonkost per jaar", Convert.ToDecimal(model.Veld3));
+                    _analyseRepository.SerialiseerVelden(analyse);
+                    _analyseRepository.SaveChanges();
                     TempData["message"] = "Het loon werd succesvol toegevoegd.";
+
                     return RedirectToAction(nameof(MedewerkerHogerNiveauBesparing), new { analyseId = analyse.AnalyseId });
                 }
                 catch (Exception e)
@@ -650,7 +645,7 @@ namespace KostenBatenTool.Controllers
                 }
             }
             ViewData["open"] = true;
-            model.Lijst = _arbeidsBemiddelaarRepository.GetAnalyse(User.Identity.Name, model.AnalyseId).GetBerekening("MedewerkerHogerNiveauBesparing").Lijnen.Select(l => new DrieDecimalLijstObjectViewModel(l, "bruto maandloon fulltime", "totale loonkost per jaar")).ToList();
+            model.Lijst = GetAnalyse(model.AnalyseId).GetBerekening("MedewerkerHogerNiveauBesparing").Lijnen.Select(l => new DrieDecimalLijstObjectViewModel(l, "bruto maandloon fulltime", "totale loonkost per jaar")).ToList();
             return View(model);
         }
 
@@ -679,9 +674,7 @@ namespace KostenBatenTool.Controllers
             {
                 try
                 {
-                    ArbeidsBemiddelaar ab =
-                        _arbeidsBemiddelaarRepository.GetArbeidsBemiddelaarVolledig(User.Identity.Name);
-                    Analyse analyse = ab.Analyses.FirstOrDefault(a => a.AnalyseId == model.AnalyseId);
+                    Analyse analyse = GetAnalyse(model.AnalyseId);
                     if (model.LijnId == 0)
                     {
                         analyse.GetBerekening("MedewerkerZelfdeNiveauBesparing").VoegLijnToe();
@@ -689,11 +682,11 @@ namespace KostenBatenTool.Controllers
                     analyse.VulVeldIn("MedewerkerZelfdeNiveauBesparing", model.LijnId, "uren", Convert.ToDecimal(model.Veld1));
                     analyse.VulVeldIn("MedewerkerZelfdeNiveauBesparing", model.LijnId, "bruto maandloon fulltime",
                         Convert.ToDecimal(model.Veld2));
-                    analyse.VulVeldIn("MedewerkerZelfdeNiveauBesparing", model.LijnId, "totale loonkost per jaar",
-                      Convert.ToDecimal(model.Veld3));
-                    _arbeidsBemiddelaarRepository.SerialiseerVelden(analyse);
-                    _arbeidsBemiddelaarRepository.SaveChanges();
+                    analyse.VulVeldIn("MedewerkerZelfdeNiveauBesparing", model.LijnId, "totale loonkost per jaar", Convert.ToDecimal(model.Veld3));
+                    _analyseRepository.SerialiseerVelden(analyse);
+                    _analyseRepository.SaveChanges();
                     TempData["message"] = "Het loon werd succesvol toegevoegd.";
+
                     return RedirectToAction(nameof(MedewerkerZelfdeNiveauBesparing), new { analyseId = analyse.AnalyseId });
                 }
                 catch (Exception e)
@@ -703,7 +696,7 @@ namespace KostenBatenTool.Controllers
                 }
             }
             ViewData["open"] = true;
-            model.Lijst = _arbeidsBemiddelaarRepository.GetAnalyse(User.Identity.Name, model.AnalyseId).GetBerekening("MedewerkerZelfdeNiveauBesparing").Lijnen.Select(l => new DrieDecimalLijstObjectViewModel(l, "bruto maandloon fulltime", "totale loonkost per jaar")).ToList();
+            model.Lijst = GetAnalyse(model.AnalyseId).GetBerekening("MedewerkerZelfdeNiveauBesparing").Lijnen.Select(l => new DrieDecimalLijstObjectViewModel(l, "bruto maandloon fulltime", "totale loonkost per jaar")).ToList();
             return View(model);
         }
 
@@ -724,17 +717,15 @@ namespace KostenBatenTool.Controllers
             {
                 try
                 {
-                    var user = GetCurrentUserAsync();
-                    string email = user.Result.Email;
-                    ArbeidsBemiddelaar ab = _arbeidsBemiddelaarRepository.GetArbeidsBemiddelaarVolledig(email);
-                    Analyse analyse = ab.Analyses.First(a => a.AnalyseId == model.AnalyseId);
+                    Analyse analyse = GetAnalyse(model.AnalyseId);
                     Lijn lijn = ((OmzetverliesBesparing)analyse.GetBerekening("OmzetverliesBesparing")).Lijnen[0];
                     analyse.VulVeldIn("OmzetverliesBesparing", lijn.LijnId, "jaarbedrag omzetverlies", Convert.ToDecimal(model.Veld1));
                     analyse.VulVeldIn("OmzetverliesBesparing", lijn.LijnId, "% besparing", Convert.ToDecimal(model.Veld2 )/ 100);
-                    _arbeidsBemiddelaarRepository.SerialiseerVelden(analyse);
-                    _arbeidsBemiddelaarRepository.SaveChanges();
+                    _analyseRepository.SerialiseerVelden(analyse);
+                    _analyseRepository.SaveChanges();
                     TempData["message"] = "Het bedrag werd succesvol toegevoegd.";
                     return RedirectToAction(nameof(OmzetverliesBesparing), new { analyseId = model.AnalyseId });
+
                 }
                 catch (Exception e)
                 {
@@ -769,18 +760,17 @@ namespace KostenBatenTool.Controllers
             {
                 try
                 {
-                    ArbeidsBemiddelaar ab =
-                        _arbeidsBemiddelaarRepository.GetArbeidsBemiddelaarVolledig(User.Identity.Name);
-                    Analyse analyse = ab.Analyses.First(a => a.AnalyseId == model.AnalyseId);
+                    Analyse analyse = GetAnalyse(model.AnalyseId);
                     if (model.LijnId == 0)
                     {
                         analyse.GetBerekening("OpleidingsKost").VoegLijnToe();
                     }
                     analyse.VulVeldIn("OpleidingsKost", model.LijnId, "type", model.Type);
                     analyse.VulVeldIn("OpleidingsKost", model.LijnId, "bedrag", Convert.ToDecimal(model.Bedrag));
-                    _arbeidsBemiddelaarRepository.SerialiseerVelden(analyse);
-                    _arbeidsBemiddelaarRepository.SaveChanges();
+                    _analyseRepository.SerialiseerVelden(analyse);
+                    _analyseRepository.SaveChanges();
                     TempData["message"] = "De opleidingskost werd succesvol toegevoegd.";
+
                     return RedirectToAction(nameof(OpleidingsKost), new { analyseId = analyse.AnalyseId });
                 }
                 catch (Exception e)
@@ -790,7 +780,7 @@ namespace KostenBatenTool.Controllers
                 }
             }
             ViewData["open"] = true;
-            model.Lijst = _arbeidsBemiddelaarRepository.GetAnalyse(User.Identity.Name, model.AnalyseId).GetBerekening("OpleidingsKost").Lijnen.Select(lijn => new TypeBedragLijstObjectViewModel(lijn, "type", "bedrag")).ToList();
+            model.Lijst = GetAnalyse(model.AnalyseId).GetBerekening("OpleidingsKost").Lijnen.Select(lijn => new TypeBedragLijstObjectViewModel(lijn, "type", "bedrag")).ToList();
             return View(model);
         }
 
@@ -818,18 +808,17 @@ namespace KostenBatenTool.Controllers
             {
                 try
                 {
-                    ArbeidsBemiddelaar ab =
-                        _arbeidsBemiddelaarRepository.GetArbeidsBemiddelaarVolledig(User.Identity.Name);
-                    Analyse analyse = ab.Analyses.First(a => a.AnalyseId == model.AnalyseId);
+                    Analyse analyse = GetAnalyse(model.AnalyseId);
                     if (model.LijnId == 0)
                     {
                         analyse.GetBerekening("OutsourcingBesparing").VoegLijnToe();
                     }
                     analyse.VulVeldIn("OutsourcingBesparing", model.LijnId, "beschrijving", model.Type);
                     analyse.VulVeldIn("OutsourcingBesparing", model.LijnId, "jaarbedrag", Convert.ToDecimal(model.Bedrag));
-                    _arbeidsBemiddelaarRepository.SerialiseerVelden(analyse);
-                    _arbeidsBemiddelaarRepository.SaveChanges();
+                    _analyseRepository.SerialiseerVelden(analyse);
+                    _analyseRepository.SaveChanges();
                     TempData["message"] = "Het bedrag werd succesvol toegevoegd.";
+
                     return RedirectToAction(nameof(OutsourcingBesparing), new { analyseId = analyse.AnalyseId });
                 }
                 catch (Exception e)
@@ -839,7 +828,7 @@ namespace KostenBatenTool.Controllers
                 }
             }
             ViewData["open"] = true;
-            model.Lijst = _arbeidsBemiddelaarRepository.GetAnalyse(User.Identity.Name, model.AnalyseId).GetBerekening("OutsourcingBesparing").Lijnen.Select(lijn => new TypeBedragLijstObjectViewModel(lijn, "beschrijving", "jaarbedrag")).ToList();
+            model.Lijst = GetAnalyse(model.AnalyseId).GetBerekening("OutsourcingBesparing").Lijnen.Select(lijn => new TypeBedragLijstObjectViewModel(lijn, "beschrijving", "jaarbedrag")).ToList();
             return View(model);
         }
 
@@ -860,16 +849,14 @@ namespace KostenBatenTool.Controllers
             {
                 try
                 {
-                    var user = GetCurrentUserAsync();
-                    string email = user.Result.Email;
-                    ArbeidsBemiddelaar ab = _arbeidsBemiddelaarRepository.GetArbeidsBemiddelaarVolledig(email);
-                    Analyse analyse = ab.Analyses.First(a => a.AnalyseId == model.AnalyseId);
+                    Analyse analyse = GetAnalyse(model.AnalyseId);
                     Lijn lijn = ((OverurenBesparing)analyse.GetBerekening("OverurenBesparing")).Lijnen[0];
                     analyse.VulVeldIn("OverurenBesparing", lijn.LijnId, "jaarbedrag", Convert.ToDecimal(model.Jaarbedrag));
-                    _arbeidsBemiddelaarRepository.SerialiseerVelden(analyse);
-                    _arbeidsBemiddelaarRepository.SaveChanges();
+                    _analyseRepository.SerialiseerVelden(analyse);
+                    _analyseRepository.SaveChanges();
                     TempData["message"] = "De kost werd succesvol toegevoegd.";
                     return RedirectToAction(nameof(OverurenBesparing), new { analyseId = model.AnalyseId });
+
                 }
                 catch (Exception e)
                 {
@@ -897,16 +884,14 @@ namespace KostenBatenTool.Controllers
             {
                 try
                 {
-                    var user = GetCurrentUserAsync();
-                    string email = user.Result.Email;
-                    ArbeidsBemiddelaar ab = _arbeidsBemiddelaarRepository.GetArbeidsBemiddelaarVolledig(email);
-                    Analyse analyse = ab.Analyses.First(a => a.AnalyseId == model.AnalyseId);
+                    Analyse analyse = GetAnalyse(model.AnalyseId);
                     Lijn lijn = ((ProductiviteitsWinst)analyse.GetBerekening("ProductiviteitsWinst")).Lijnen[0];
                     analyse.VulVeldIn("ProductiviteitsWinst", lijn.LijnId, "jaarbedrag", Convert.ToDecimal(model.Jaarbedrag));
-                    _arbeidsBemiddelaarRepository.SerialiseerVelden(analyse);
-                    _arbeidsBemiddelaarRepository.SaveChanges();
+                    _analyseRepository.SerialiseerVelden(analyse);
+                    _analyseRepository.SaveChanges();
                     TempData["message"] = "Het bedrag werd succesvol toegevoegd.";
                     return RedirectToAction(nameof(ProductiviteitsWinst), new { analyseId = model.AnalyseId });
+
                 }
                 catch (Exception e)
                 {
@@ -945,18 +930,17 @@ namespace KostenBatenTool.Controllers
             {
                 try
                 {
-                    ArbeidsBemiddelaar ab =
-                        _arbeidsBemiddelaarRepository.GetArbeidsBemiddelaarVolledig(User.Identity.Name);
-                    Analyse analyse = ab.Analyses.First(a => a.AnalyseId == model.AnalyseId);
+                    Analyse analyse = GetAnalyse(model.AnalyseId);
                     if (model.LijnId == 0)
                     {
                         analyse.GetBerekening("UitzendkrachtenBesparing").VoegLijnToe();
                     }
                     analyse.VulVeldIn("UitzendkrachtenBesparing", model.LijnId, "beschrijving", model.Type);
                     analyse.VulVeldIn("UitzendkrachtenBesparing", model.LijnId, "jaarbedrag", Convert.ToDecimal(model.Bedrag));
-                    _arbeidsBemiddelaarRepository.SerialiseerVelden(analyse);
-                    _arbeidsBemiddelaarRepository.SaveChanges();
+                    _analyseRepository.SerialiseerVelden(analyse);
+                    _analyseRepository.SaveChanges();
                     TempData["message"] = "De besparing werd succesvol toegevoegd.";
+
                     return RedirectToAction(nameof(UitzendkrachtenBesparing), new { analyseId = analyse.AnalyseId });
                 }
                 catch (Exception e)
@@ -966,7 +950,7 @@ namespace KostenBatenTool.Controllers
                 }
             }
             ViewData["open"] = true;
-            model.Lijst = _arbeidsBemiddelaarRepository.GetAnalyse(User.Identity.Name, model.AnalyseId).GetBerekening("UitzendkrachtenBesparing").Lijnen.Select(lijn => new TypeBedragLijstObjectViewModel(lijn, "beschrijving", "jaarbedrag")).ToList();
+            model.Lijst = GetAnalyse(model.AnalyseId).GetBerekening("UitzendkrachtenBesparing").Lijnen.Select(lijn => new TypeBedragLijstObjectViewModel(lijn, "beschrijving", "jaarbedrag")).ToList();
             return View(model);
         }
 
@@ -994,18 +978,17 @@ namespace KostenBatenTool.Controllers
             {
                 try
                 {
-                    ArbeidsBemiddelaar ab =
-                        _arbeidsBemiddelaarRepository.GetArbeidsBemiddelaarVolledig(User.Identity.Name);
-                    Analyse analyse = ab.Analyses.First(a => a.AnalyseId == model.AnalyseId);
+                    Analyse analyse = GetAnalyse(model.AnalyseId);
                     if (model.LijnId == 0)
                     {
                         analyse.GetBerekening("VoorbereidingsKost").VoegLijnToe();
                     }
                     analyse.VulVeldIn("VoorbereidingsKost", model.LijnId, "type", model.Type);
                     analyse.VulVeldIn("VoorbereidingsKost", model.LijnId, "bedrag", Convert.ToDecimal(model.Bedrag));
-                    _arbeidsBemiddelaarRepository.SerialiseerVelden(analyse);
-                    _arbeidsBemiddelaarRepository.SaveChanges();
+                    _analyseRepository.SerialiseerVelden(analyse);
+                    _analyseRepository.SaveChanges();
                     TempData["message"] = "De kost werd succesvol toegevoegd.";
+
                     return RedirectToAction(nameof(VoorbereidingsKost), new { analyseId = analyse.AnalyseId });
                 }
                 catch (Exception e)
@@ -1015,7 +998,7 @@ namespace KostenBatenTool.Controllers
                 }
             }
             ViewData["open"] = true;
-            model.Lijst = _arbeidsBemiddelaarRepository.GetAnalyse(User.Identity.Name, model.AnalyseId).GetBerekening("VoorbereidingsKost").Lijnen.Select(lijn => new TypeBedragLijstObjectViewModel(lijn, "type", "bedrag")).ToList();
+            model.Lijst = GetAnalyse(model.AnalyseId).GetBerekening("VoorbereidingsKost").Lijnen.Select(lijn => new TypeBedragLijstObjectViewModel(lijn, "type", "bedrag")).ToList();
             return View(model);
         }
 
@@ -1043,18 +1026,17 @@ namespace KostenBatenTool.Controllers
             {
                 try
                 {
-                    ArbeidsBemiddelaar ab =
-                        _arbeidsBemiddelaarRepository.GetArbeidsBemiddelaarVolledig(User.Identity.Name);
-                    Analyse analyse = ab.Analyses.First(a => a.AnalyseId == model.AnalyseId);
+                    Analyse analyse = GetAnalyse(model.AnalyseId);
                     if (model.LijnId == 0)
                     {
                         analyse.GetBerekening("WerkkledijKost").VoegLijnToe();
                     }
                     analyse.VulVeldIn("WerkkledijKost", model.LijnId, "type", model.Type);
                     analyse.VulVeldIn("WerkkledijKost", model.LijnId, "bedrag", Convert.ToDecimal(model.Bedrag));
-                    _arbeidsBemiddelaarRepository.SerialiseerVelden(analyse);
-                    _arbeidsBemiddelaarRepository.SaveChanges();
+                    _analyseRepository.SerialiseerVelden(analyse);
+                    _analyseRepository.SaveChanges();
                     TempData["message"] = "De kost werd succesvol toegevoegd.";
+
                     return RedirectToAction(nameof(WerkkledijKost), new { analyseId = analyse.AnalyseId });
                 }
                 catch (Exception e)
@@ -1064,7 +1046,7 @@ namespace KostenBatenTool.Controllers
                 }
             }
             ViewData["open"] = true;
-            model.Lijst = _arbeidsBemiddelaarRepository.GetAnalyse(User.Identity.Name, model.AnalyseId).GetBerekening("WerkkledijKost").Lijnen.Select(lijn => new TypeBedragLijstObjectViewModel(lijn, "type", "bedrag")).ToList();
+            model.Lijst = GetAnalyse(model.AnalyseId).GetBerekening("WerkkledijKost").Lijnen.Select(lijn => new TypeBedragLijstObjectViewModel(lijn, "type", "bedrag")).ToList();
             return View(model);
         }
 
@@ -1079,18 +1061,18 @@ namespace KostenBatenTool.Controllers
             string email = user.Result.Email;
             if (id == 0)
             {
-                return _arbeidsBemiddelaarRepository.GetLaatsteAnalyse(email);
+                return _arbeidsBemiddelaarRepository.GetLaatsteAnalyseVanArbeidsBemiddelaar(email);
             }
-            return _arbeidsBemiddelaarRepository.GetAnalyse(email, id);
+            return _analyseRepository.GetAnalyse(id);
         }
 
 
         public IActionResult DeleteLijn(int analyseId, int lijnId, int berekeningId)
         {
-            Berekening b = _arbeidsBemiddelaarRepository.GetBerekeningById(berekeningId);
+            Berekening b = _berekeningRepository.GetBerekening(berekeningId);
             Lijn lijn = b.Lijnen.FirstOrDefault(l => l.LijnId == lijnId);
             b.Lijnen.Remove(lijn);
-            _arbeidsBemiddelaarRepository.VerwijderLijn(lijn);
+            _lijnRepository.VerwijderLijn(lijn);
             _arbeidsBemiddelaarRepository.SaveChanges();
             return RedirectToAction(b.GetType().Name, new { analyseId, lijnId = 0 });
 
@@ -1100,8 +1082,8 @@ namespace KostenBatenTool.Controllers
         [HttpGet]
         public IActionResult EmailResultaat(int id, int analyseId)
         {
-            Organisatie o = _arbeidsBemiddelaarRepository.GetOrganisatie(User.Identity.Name, id);
-            Persoon p = _arbeidsBemiddelaarRepository.GetArbeidsBemiddelaarVolledig(User.Identity.Name);
+            Organisatie o = _organisatieRepository.GetOrganisatie(id);
+            Persoon p = _arbeidsBemiddelaarRepository.GetArbeidsBemiddelaar(User.Identity.Name);
             return View(new ResultaatViewModel(o, p.Voornaam, p.Naam, analyseId));
         }
 
@@ -1122,9 +1104,7 @@ namespace KostenBatenTool.Controllers
                     FileStream stream = new FileStream(savePath, FileMode.Create);
                     model.Pdf.CopyTo(stream);
                     stream.Dispose();
-                    Organisatie o = _arbeidsBemiddelaarRepository.GetOrganisatie(User.Identity.Name,
-                            model.OrganisatiId);
-                    Persoon p = _arbeidsBemiddelaarRepository.GetArbeidsBemiddelaarVolledig(User.Identity.Name);
+                    Organisatie o = _organisatieRepository.GetOrganisatie(model.OrganisatiId);
                     MimeMessage emailMessage = new MimeMessage();
                     emailMessage.Subject = $"Analyse {o.Naam}";
                     BodyBuilder builder = new BodyBuilder();
@@ -1152,14 +1132,14 @@ namespace KostenBatenTool.Controllers
 
         public IActionResult ZetBewerkbaar(int analyseId)
         {
-            _arbeidsBemiddelaarRepository.ZetAnalyseBewerkbaar(User.Identity.Name, analyseId);
+            _analyseRepository.ZetAnalyseBewerkbaar(analyseId);
             _arbeidsBemiddelaarRepository.SaveChanges();
             return RedirectToAction(nameof(Index));
         }
 
         public IActionResult ZetAfgewerkt(int analyseId)
         {
-            _arbeidsBemiddelaarRepository.ZetAnalyseAfgewerkt(User.Identity.Name, analyseId);
+            _analyseRepository.ZetAnalyseAfgewerkt(analyseId);
             _arbeidsBemiddelaarRepository.SaveChanges();
             return RedirectToAction(nameof(Index));
         }

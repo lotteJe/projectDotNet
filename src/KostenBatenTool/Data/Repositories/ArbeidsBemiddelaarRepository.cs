@@ -19,21 +19,15 @@ namespace KostenBatenTool.Data.Repositories
             _arbeidsBemiddelaars = _dbContext.ArbeidsBemiddelaars;
         }
 
-        public ArbeidsBemiddelaar GetBy(string emailadres)
+        public ArbeidsBemiddelaar GetArbeidsBemiddelaar(string emailadres)
         {
-            return _arbeidsBemiddelaars.Include(a => a.EigenOrganisatie).Include(a => a.Analyses).FirstOrDefault(a => a.Email.Equals(emailadres));
+           return  _arbeidsBemiddelaars.Include(a => a.EigenOrganisatie).FirstOrDefault(a => a.Email.Equals(emailadres));
         }
 
-        public ArbeidsBemiddelaar GetArbeidsBemiddelaarVolledig(string email)
+        public ArbeidsBemiddelaar GetArbeidsBemiddelaarMetAnalyses(string emailadres)
         {
-            ArbeidsBemiddelaar ab = _arbeidsBemiddelaars.Include("Analyses.Organisatie.Contactpersoon").Include("Analyses.Baten.Velden").Include("Analyses.Kosten.Velden").Include("Analyses.Kosten.Lijnen.VeldenWaarden").Include("Analyses.Baten.Lijnen.VeldenWaarden").First(a => a.Email.Equals(email));
-            foreach (Analyse analyse in ab.Analyses)
-            {
-                analyse.Kosten.ForEach(k => k.Deserialiseer());
-                analyse.Baten.ForEach(b => b.Deserialiseer());
-                ((LoonkostSubsidie)analyse.Baten.First(b => b.GetType() == Type.GetType("KostenBatenTool.Models.Domain.LoonkostSubsidie"))).Loonkost = (LoonKost)analyse.Kosten.First(k => k.GetType() == Type.GetType("KostenBatenTool.Models.Domain.LoonKost"));
-            }
-            return ab;
+            return _arbeidsBemiddelaars.Include(a => a.EigenOrganisatie).Include(a => a.Analyses).FirstOrDefault(a => a.Email.Equals(emailadres));
+
         }
 
         public void Add(ArbeidsBemiddelaar arbeidsBemiddelaar)
@@ -50,120 +44,51 @@ namespace KostenBatenTool.Data.Repositories
         {
             _dbContext.SaveChanges();
         }
-
-        public Organisatie GetOrganisatie(string emailadres, int id)
-        {
-            return _arbeidsBemiddelaars.Include("Analyses.Organisatie.Contactpersoon").First(a => a.Email.Equals(emailadres)).Analyses.Select(a => a.Organisatie).FirstOrDefault(o => o.OrganisatieId == id);
-        }
-
-        public IEnumerable<Organisatie> GetOrganisaties(string emailadres)
+        
+        public IEnumerable<Organisatie> GetOrganisatiesVanArbeidsBemiddelaar(string emailadres)
         {
             if (!_arbeidsBemiddelaars.Include(a => a.Analyses).First(a => a.Email.Equals(emailadres)).Analyses.Any())
             {
                 return null;
             }
             return
-                _arbeidsBemiddelaars.Include("Analyses.Organisatie").First(a => a.Email.Equals(emailadres)).Analyses.Select(a => a.Organisatie).ToList();
+                _arbeidsBemiddelaars.Include(a => a.Analyses).ThenInclude(an => an.Organisatie).First(a => a.Email.Equals(emailadres)).Analyses.Select(a => a.Organisatie).Distinct().ToList();
         }
-
-
-        public IEnumerable<Analyse> GetAllAnalyses(string emailadres)
+        public IEnumerable<Analyse> GetAllAnalysesVanArbeidsBemiddelaar(string emailadres)
         {
+
             if (!_arbeidsBemiddelaars.Include(a => a.Analyses).First(a => a.Email.Equals(emailadres)).Analyses.Any())
             {
                 return null;
             }
-            return _arbeidsBemiddelaars.Include("Analyses.Organisatie").First(a => a.Email.Equals(emailadres)).Analyses;
+            return _arbeidsBemiddelaars.Include(a => a.Analyses).First(a => a.Email.Equals(emailadres)).Analyses.Where(a => !a.Verwijderd);
         }
 
         public IEnumerable<Analyse> ZoekAnalysesWerkgever(string emailadres, string searchString)
         {
-            return _arbeidsBemiddelaars.Include("Analyses.Organisatie").FirstOrDefault(a => a.Email.Equals(emailadres)).Analyses.Where(s => s.Organisatie.Naam.ToLowerInvariant().Contains(searchString.ToLowerInvariant()));
+            return _arbeidsBemiddelaars.Include(a => a.Analyses).ThenInclude(an => an.Organisatie).FirstOrDefault(a => a.Email.Equals(emailadres)).Analyses.Where(s => s.Organisatie.Naam.ToLowerInvariant().Contains(searchString.ToLowerInvariant()) && !s.Verwijderd);
         }
 
         public IEnumerable<Analyse> ZoekAnalysesGemeente(string emailadres, string searchString)
         {
-            return _arbeidsBemiddelaars.Include("Analyses.Organisatie").FirstOrDefault(a => a.Email.Equals(emailadres)).Analyses.Where(s => s.Organisatie.Gemeente.ToLowerInvariant().Contains(searchString.ToLowerInvariant()));
+            return _arbeidsBemiddelaars.Include(a => a.Analyses).ThenInclude(an => an.Organisatie).FirstOrDefault(a => a.Email.Equals(emailadres)).Analyses.Where(s => s.Organisatie.Gemeente.ToLowerInvariant().Contains(searchString.ToLowerInvariant()) && !s.Verwijderd);
         }
         
-        public void SerialiseerVelden(Analyse analyse)
-        {
-            analyse.Kosten.ForEach(k => k.Serialiseer());
-            analyse.Baten.ForEach(b => b.Serialiseer());
-        }
-
-        public Analyse GetAnalyse(string email, int id)
+        public Analyse GetLaatsteAnalyseVanArbeidsBemiddelaar(string email)
         {
             //Ophalen
-            Analyse analyse = _arbeidsBemiddelaars.Include("Analyses.Organisatie")
-                .Include("Analyses.Kosten.Velden")
-                .Include("Analyses.Baten.Velden")
-                .Include("Analyses.Kosten.Lijnen.VeldenWaarden")
-                .Include("Analyses.Baten.Lijnen.VeldenWaarden")
-                .First(a => a.Email.Equals(email)).Analyses.FirstOrDefault(a => a.AnalyseId == id);
+            Analyse analyse = _arbeidsBemiddelaars
+                .Include(a => a.Analyses).ThenInclude(an => an.Organisatie)
+                .Include(a => a.Analyses).ThenInclude(an => an.Baten).ThenInclude(b => b.Velden)
+                .Include(a => a.Analyses).ThenInclude(an => an.Kosten).ThenInclude(b => b.Velden)
+                .Include(a => a.Analyses).ThenInclude(an => an.Baten).ThenInclude(b => b.Lijnen).ThenInclude(b => b.VeldenWaarden)
+                .Include(a => a.Analyses).ThenInclude(an => an.Kosten).ThenInclude(b => b.Lijnen).ThenInclude(b => b.VeldenWaarden)
+                .First(a => a.Email.Equals(email)).Analyses.OrderBy(a => a.AanmaakDatum).Last();
             //Deserialiseren
             analyse.Kosten.ForEach(k => k.Deserialiseer());
             analyse.Baten.ForEach(b => b.Deserialiseer());
             ((LoonkostSubsidie)analyse.Baten.First(b => b.GetType() == Type.GetType("KostenBatenTool.Models.Domain.LoonkostSubsidie"))).Loonkost = (LoonKost)analyse.Kosten.First(k => k.GetType() == Type.GetType("KostenBatenTool.Models.Domain.LoonKost"));
             return analyse;
-        }
-
-        public Analyse GetLaatsteAnalyse(string email)
-        {
-            //Ophalen
-            Analyse analyse = _arbeidsBemiddelaars.Include("Analyses.Organisatie").Include("Analyses.Baten.Velden").Include("Analyses.Kosten.Velden").Include("Analyses.Kosten.Lijnen.VeldenWaarden").Include("Analyses.Baten.Lijnen.VeldenWaarden").First(a => a.Email.Equals(email)).Analyses.OrderBy(a => a.AanmaakDatum).Last();
-            //Deserialiseren
-            analyse.Kosten.ForEach(k => k.Deserialiseer());
-            analyse.Baten.ForEach(b => b.Deserialiseer());
-            ((LoonkostSubsidie)analyse.Baten.First(b => b.GetType() == Type.GetType("KostenBatenTool.Models.Domain.LoonkostSubsidie"))).Loonkost = (LoonKost)analyse.Kosten.First(k => k.GetType() == Type.GetType("KostenBatenTool.Models.Domain.LoonKost"));
-            return analyse;
-        }
-
-        public void VerwijderAnalyse(Analyse analyse)
-        {
-            _dbContext.Analyses.Remove(analyse);
-        }
-
-        public void VerwijderLijn(Lijn lijn)
-        {
-            _dbContext.Lijnen.Remove(lijn);
-        }
-
-        public LoonKostLijn GetLoonKostLijn(int lijnId, List<Veld> velden)
-        {
-            LoonKostLijn lijn = _dbContext.Lijnen.Include(l => l.VeldenWaarden).OfType<LoonKostLijn>().Include(l => l.Doelgroep).FirstOrDefault(l => l.LijnId == lijnId);
-            lijn.Deserialiseer(velden);
-            return lijn;
-        }
-
-        public IList<LoonKostLijn> GetLoonKostLijnen(int berekeningId, List<Veld> velden)
-        {
-            IEnumerable<int> lijnIds =
-                _dbContext.Berekeningen.Include(b => b.Lijnen)
-                    .FirstOrDefault(b => b.BerekeningId == berekeningId)
-                    .Lijnen.Select(l => l.LijnId);
-            List<LoonKostLijn> lijnen = _dbContext.Lijnen.Include(l => l.VeldenWaarden).OfType<LoonKostLijn>().Include(l => l.Doelgroep).Where(l => lijnIds.Contains(l.LijnId)).ToList();
-            lijnen.ForEach(l => l.Deserialiseer(velden));
-            return lijnen;
-        }
-
-
-        public Berekening GetBerekeningById(int berekeningId)
-        {
-            return _dbContext.Berekeningen.Include(b => b.Lijnen).FirstOrDefault(b => b.BerekeningId == berekeningId);
-        }
-
-        public void ZetAnalyseAfgewerkt(string email, int analyseId)
-        {
-            Analyse analyse = GetAnalyse(email, analyseId);
-            analyse.Afgewerkt = true;
-
-        }
-
-        public void ZetAnalyseBewerkbaar(string email, int analyseId)
-        {
-            Analyse analyse = GetAnalyse(email, analyseId);
-            analyse.Afgewerkt = false;
         }
 
         public List<Analyse> GetAnalysesDashboard(string emailadres)
@@ -172,8 +97,8 @@ namespace KostenBatenTool.Data.Repositories
             {
                 return null;
             }
-            return _arbeidsBemiddelaars.Include("Analyses.Organisatie").First(a => a.Email.Equals(emailadres)).Analyses.Where(a => !a.Afgewerkt).ToList();
-
+            return _arbeidsBemiddelaars.Include(a => a.Analyses).ThenInclude(an => an.Organisatie)
+                .First(a => a.Email.Equals(emailadres)).Analyses.Where(a => !a.Afgewerkt && !a.Verwijderd).ToList();
         }
     }
 }
