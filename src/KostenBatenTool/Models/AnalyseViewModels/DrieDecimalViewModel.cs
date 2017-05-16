@@ -12,12 +12,15 @@ namespace KostenBatenTool.Models.AnalyseViewModels
         public int LijnId { get; set; }
         public int AnalyseId { get; set; }
         public IEnumerable<DrieDecimalLijstObjectViewModel> Lijst { get; set; }
-        [Range(typeof(decimal), "0", "79228162514264337593543950335", ErrorMessage = "Het getal moet positief zijn.")]
-        public decimal Veld1 { get; set; }
-        [Range(typeof(decimal), "0", "79228162514264337593543950335", ErrorMessage = "Het getal moet positief zijn.")]
-        public decimal Veld2 { get; set; }
-        [Range(typeof(decimal), "0", "79228162514264337593543950335", ErrorMessage = "Het getal moet positief zijn.")]
-        public decimal Veld3 { get; set; }
+
+        [RegularExpression("[0-9]*([,][0-9]+)?", ErrorMessage = "Het getal moet positief zijn met eventueel een komma.")]
+        public string Veld1 { get; set; }
+
+        [RegularExpression("[0-9]*([,][0-9]+)?", ErrorMessage = "Het getal moet positief zijn met eventueel een komma.")]
+        public string Veld2 { get; set; }
+
+        [RegularExpression("[0-9]*([,][0-9]+)?", ErrorMessage = "Het getal moet positief zijn met eventueel een komma.")]
+        public string Veld3 { get; set; }
         public int BerekeningId { get; set; }
 
         public DrieDecimalViewModel()
@@ -43,10 +46,10 @@ namespace KostenBatenTool.Models.AnalyseViewModels
         public DrieDecimalViewModel(Lijn lijn, Berekening berekening, int analyseId) : this(berekening, analyseId)
         {
             LijnId = lijn.LijnId;
-            Veld1 = (decimal)lijn.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("uren")).Value;
+            Veld1 = string.Format("{0:0.##}", (decimal)lijn.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("uren")).Value);
             Veld2 =
-                (decimal)lijn.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals(berekening.GetType().ToString().Equals("KostenBatenTool.Models.Domain.AdministratieBegeleidingsKost") ? "bruto maandloon begeleider" : "bruto maandloon fulltime")).Value;
-            Veld3 = (decimal)lijn.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals(berekening.GetType().ToString().Equals("KostenBatenTool.Models.Domain.AdministratieBegeleidingsKost") ? "jaarbedrag" : "totale loonkost per jaar")).Value;
+                string.Format("{0:0.##}", (decimal)lijn.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals(berekening.GetType().ToString().Equals("KostenBatenTool.Models.Domain.AdministratieBegeleidingsKost") ? "bruto maandloon begeleider" : "bruto maandloon fulltime")).Value);
+            Veld3 = string.Format("{0:0.##}", (decimal)lijn.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals(berekening.GetType().ToString().Equals("KostenBatenTool.Models.Domain.AdministratieBegeleidingsKost") ? "jaarbedrag" : "totale loonkost per jaar")).Value);
         }
     }
 }

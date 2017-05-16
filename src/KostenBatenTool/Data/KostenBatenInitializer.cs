@@ -36,7 +36,9 @@ namespace KostenBatenTool.Data
                 //_dbContext.SaveChanges();
                 
                 //vul hier je eigen e-mailadres in
+
                 Persoon superadmin = new Administrator("Moens", "Bart", "sharonvanhove1@gmail.com", true);
+
                 ((Administrator) superadmin).WachtwoordReset = true;
 
                 _dbContext.Personen.Add(superadmin);

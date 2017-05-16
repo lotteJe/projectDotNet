@@ -15,6 +15,7 @@ using KostenBatenTool.Models;
 using KostenBatenTool.Models.Domain;
 using KostenBatenTool.Services;
 using Microsoft.AspNetCore.Hosting.Internal;
+using Microsoft.AspNetCore.Mvc.DataAnnotations.Internal;
 
 namespace KostenBatenTool
 {
@@ -81,7 +82,7 @@ namespace KostenBatenTool
                 x.Password.RequireNonAlphanumeric = false;
                 x.Password.RequireDigit = false;
             }).AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
-        }
+           }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, KostenBatenInitializer kostenBatenInitializer)

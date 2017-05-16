@@ -331,6 +331,16 @@ a.dropdown-toggle {
         display: inline-block;
     }
 
+.lock:hover .icon-unlock:before {
+    content: "\f00c";
+    color: green;
+}
+
+.lock1:hover .icon-unlock1:before {
+    content: "\f00d";
+    color: #AF0000;
+}
+
 .cardHeader {
     margin-top: 0;
 }
@@ -451,7 +461,7 @@ a.dropdown-toggle {
 
     .overzicht td:nth-of-type(3), .overzichtB td:nth-of-type(3) {
         color: green;
-        text-align: right !important;
+        text-align: right;
         padding-right: 40px;
         font-size: 80%;
     }
@@ -463,20 +473,15 @@ a.dropdown-toggle {
         font-size: 80%;
     }
 
-.resultaatR {
-    font-weight: bold;
-    font-size: 22px;
-    text-align: center !important;
-}
 
-.overzicht td:nth-of-type(3), .overzicht td:nth-of-type(4), .overzicht th:nth-of-type(3), .overzicht th:nth-of-type(4) {
-    width: 150px;
-    text-align: center;
-}
+    .overzicht td:nth-of-type(3), .overzicht td:nth-of-type(4), .overzicht th:nth-of-type(3), .overzicht th:nth-of-type(4) {
+        width: 150px;
+        text-align: center;
+    }
 
-.overzicht td:nth-of-type(5), .overzicht th:last-of-type {
-    text-align: right;
-}
+    .overzicht td:nth-of-type(5), .overzicht th:last-of-type {
+        text-align: right;
+    }
 
 /*.overzicht th:nth-of-type(1), .overzicht th:nth-of-type(2), .overzicht th:nth-of-type(3), .b th {
         background-color: #9ccd0b;
@@ -499,6 +504,12 @@ a.dropdown-toggle {
             color: #9CCD0B;
             cursor: pointer;
         }
+
+.resultaatR {
+    font-weight: bold;
+    font-size: 22px;
+    text-align: center !important;
+}
 
 
 .overzicht td a {
@@ -708,12 +719,12 @@ textarea#Bericht {
 #show-change {
     color: dimgrey;
     font-size: 16px;
-  
     vertical-align: bottom;
 }
-#show-change:hover {
-      text-decoration: underline;
-}
+
+    #show-change:hover {
+        text-decoration: underline;
+    }
 
 /* ARCHIEF*/
 .archief {
@@ -738,18 +749,27 @@ textarea#Bericht {
         background-color: rgba(156, 205, 11, 0.5);
     }
 
-
-    .archief td:nth-of-type(1),
-    .archief td:nth-of-type(2),
-    .archief td:nth-of-type(5),
-    .archief td:nth-of-type(6),
-    .archief td:nth-of-type(7) {
-        width: 12%;
+    .archief tr td:nth-of-type(5), .archief tr td:nth-of-type(6), .archief tr td:nth-of-type(7) {
+        text-align: right;
+        padding-right: 40px;
     }
 
-    .archief td:nth-of-type(8) {
-        width: 8%;
-    }
+) .archief tr td:last-of-type {
+    text-align: left;
+    padding-left: 15px;
+}
+
+.archief td:nth-of-type(1),
+.archief td:nth-of-type(2),
+.archief td:nth-of-type(5),
+.archief td:nth-of-type(6),
+.archief td:nth-of-type(7) {
+    width: 12%;
+}
+
+.archief td:nth-of-type(8) {
+    width: 8%;
+}
 
 .form-inline {
     text-align: right;
@@ -773,6 +793,10 @@ i.fa.fa-times.btn.btn-default.zoekKnop {
     font-size: 10px;
     vertical-align: middle;
     color: dimgrey;
+}
+
+.afwerken {
+    margin: 0;
 }
 
 .zoekTerm {

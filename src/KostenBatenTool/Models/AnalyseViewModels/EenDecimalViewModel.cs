@@ -10,8 +10,9 @@ namespace KostenBatenTool.Models.AnalyseViewModels
     public class EenDecimalViewModel
     {
         public int AnalyseId { get; set; }
-        [Range(typeof(decimal), "0", "79228162514264337593543950335", ErrorMessage = "Het getal moet positief zijn.")]
-        public decimal Jaarbedrag { get; set; }
+
+        [RegularExpression("[0-9]*([,][0-9]+)?", ErrorMessage = "Het getal moet positief zijn met eventueel een komma.")]
+        public string Jaarbedrag { get; set; }
 
         public EenDecimalViewModel()
         {
@@ -21,7 +22,7 @@ namespace KostenBatenTool.Models.AnalyseViewModels
         public EenDecimalViewModel(Berekening besparing, int id) : this()
         {
             AnalyseId = id;
-            Jaarbedrag = (decimal)besparing.Lijnen[0].VeldenWaarden.First(v => v.VeldKey.Equals("jaarbedrag")).Value;
+            Jaarbedrag = string.Format("{0:0.##}", (decimal)besparing.Lijnen[0].VeldenWaarden.First(v => v.VeldKey.Equals("jaarbedrag")).Value);
         }
     }
 }

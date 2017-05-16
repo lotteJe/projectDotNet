@@ -11,7 +11,6 @@ using KostenBatenTool.Models;
 using KostenBatenTool.Services;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using MimeKit;
 using Microsoft.Net.Http.Headers;
 
@@ -111,12 +110,12 @@ namespace KostenBatenTool.Controllers
                     ViewData["pijlAfdeling"] = "fa-chevron-down";
                     break;
                 default:
-                    a = a.OrderBy(s => s.AanmaakDatum);
+                    a = a?.OrderBy(s => s.AanmaakDatum);
                     ViewData["pijlDatum"] = "fa-chevron-up";
                     break;
             }
             int pageSize = 10;
-            return View(PaginatedList<Analyse>.CreateAsync(a.AsQueryable(), page ?? 1, pageSize));
+            return View(a == null ? null : PaginatedList<Analyse>.CreateAsync(a.AsQueryable(), page ?? 1, pageSize));
         }
 
         public IActionResult Nieuw()
@@ -135,11 +134,12 @@ namespace KostenBatenTool.Controllers
             return PartialView("_werkgeversPartial", organisaties);
         }
 
-        public IActionResult Werkgever(int id = -1, bool nieuw = false)
+        public IActionResult Werkgever(int id = -1, bool nieuw = false, int analyseId = -1)
         {
             ViewData["nieuw"] = nieuw;
             Organisatie o = _organisatieRepository.GetOrganisatie(id);
-            WerkgeverViewModel model = o == null ? new WerkgeverViewModel() : new WerkgeverViewModel(o);
+            WerkgeverViewModel model = o == null ? new WerkgeverViewModel() : (analyseId < 0 ? new WerkgeverViewModel(o) : new WerkgeverViewModel(o, analyseId));
+
             return View(model);
         }
 
@@ -153,8 +153,8 @@ namespace KostenBatenTool.Controllers
                 {
                     Organisatie o = new Organisatie(model.Naam, model.Straat, model.Huisnummer, model.Postcode,
                         model.Gemeente);
-                    o.UrenWerkWeek = model.Werkuren;
-                    o.PatronaleBijdrage = model.Bijdrage / 100;
+                    o.UrenWerkWeek = Convert.ToDecimal(model.Werkuren);
+                    o.PatronaleBijdrage = Convert.ToDecimal(model.Bijdrage) / 100;
                     o.Afdeling = model.Afdeling;
                     if (model.EmailContactpersoon != null)
                     {
@@ -169,7 +169,8 @@ namespace KostenBatenTool.Controllers
                     a.VoegNieuweAnalyseToe(analyse);
                     _analyseRepository.SerialiseerVelden(analyse);
                     _analyseRepository.SaveChanges();
-                    return RedirectToAction(nameof(Overzicht));
+                    return RedirectToAction(nameof(Overzicht), new { analyseId = model.AnalyseId });
+
                 }
                 catch (Exception e)
                 {
@@ -178,6 +179,8 @@ namespace KostenBatenTool.Controllers
                 }
 
             }
+
+            ModelState.AddModelError("EmailReg", "Uw e-mailadres is onjuist, bent u al geregistreerd?");
             return View(model);
         }
 
@@ -185,6 +188,7 @@ namespace KostenBatenTool.Controllers
         public IActionResult WerkgeverEdit(WerkgeverViewModel model, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
+
             if (ModelState.IsValid)
             {
                 try
@@ -195,8 +199,8 @@ namespace KostenBatenTool.Controllers
                     o.Gemeente = model.Gemeente;
                     o.Straat = model.Straat;
                     o.Huisnummer = model.Huisnummer;
-                    o.UrenWerkWeek = model.Werkuren;
-                    o.PatronaleBijdrage = model.Bijdrage / 100;
+                    o.UrenWerkWeek = Convert.ToDecimal(model.Werkuren);
+                    o.PatronaleBijdrage = Convert.ToDecimal(model.Bijdrage) / 100;
                     if (o.Contactpersoon == null && model.EmailContactpersoon != null)
                     {
                         Contactpersoon contactpersoon = new Contactpersoon(model.NaamContactpersoon,
@@ -211,7 +215,7 @@ namespace KostenBatenTool.Controllers
                     }
 
                     _arbeidsBemiddelaarRepository.SaveChanges();
-                    return RedirectToAction(nameof(Overzicht));
+                    return RedirectToAction(nameof(Overzicht), new { analyseId = model.AnalyseId });
                 }
                 catch (Exception e)
                 {
@@ -220,7 +224,8 @@ namespace KostenBatenTool.Controllers
                 }
 
             }
-            return View(model);
+            ViewData["nieuw"] = false;
+            return View(nameof(Werkgever), model);
         }
 
         [HttpGet]
@@ -268,14 +273,15 @@ namespace KostenBatenTool.Controllers
                     }
                     analyse.VulVeldIn("LoonKost", model.LijnId, "functie", model.Functie);
                     analyse.VulVeldIn("LoonKost", model.LijnId, "uren per week", model.UrenPerWeek);
-                    analyse.VulVeldIn("LoonKost", model.LijnId, "bruto maandloon fulltime", model.BrutoMaandloon);
+                    analyse.VulVeldIn("LoonKost", model.LijnId, "bruto maandloon fulltime", Convert.ToDecimal(model.BrutoMaandloon));
                     Doelgroep doelgroep = _doelgroepRepository.GetById(model.DoelgroepId);
                     ((LoonKostLijn)analyse.GetBerekening("LoonKost").Lijnen.FirstOrDefault(l => l.LijnId == model.LijnId)).Doelgroep = doelgroep;
                     analyse.VulVeldIn("LoonKost", model.LijnId, "% Vlaamse ondersteuningspremie", model.VopId);
                     analyse.VulVeldIn("LoonKost", model.LijnId, "aantal maanden IBO", model.AantalMaanden);
-                    analyse.VulVeldIn("LoonKost", model.LijnId, "totale productiviteitspremie IBO", model.Ibo);
+                    analyse.VulVeldIn("LoonKost", model.LijnId, "totale productiviteitspremie IBO", Convert.ToDecimal(model.Ibo));
                     _analyseRepository.SerialiseerVelden(analyse);
                     _analyseRepository.SaveChanges();
+                    TempData["message"] = "De functie werd succesvol toegevoegd.";
 
                     return RedirectToAction("Loonkost", new { analyseId = analyse.AnalyseId });
                 }
@@ -329,9 +335,11 @@ namespace KostenBatenTool.Controllers
                         analyse.GetBerekening("AanpassingsKost").VoegLijnToe();
                     }
                     analyse.VulVeldIn("AanpassingsKost", model.LijnId, "type", model.Type);
-                    analyse.VulVeldIn("AanpassingsKost", model.LijnId, "bedrag", model.Bedrag);
+                    analyse.VulVeldIn("AanpassingsKost", model.LijnId, "bedrag", Convert.ToDecimal(model.Bedrag));
                     _analyseRepository.SerialiseerVelden(analyse);
                     _analyseRepository.SaveChanges();
+                    TempData["message"] = "De kost werd succesvol toegevoegd.";
+
                     return RedirectToAction(nameof(AanpassingsKost), new { analyseId = analyse.AnalyseId });
                 }
                 catch (Exception e)
@@ -364,10 +372,13 @@ namespace KostenBatenTool.Controllers
                 {
                     Analyse analyse = GetAnalyse(model.AnalyseId);
                     Lijn lijn = ((AanpassingsSubsidie)analyse.GetBerekening("AanpassingsSubsidie")).Lijnen[0];
-                    analyse.VulVeldIn("AanpassingsSubsidie", lijn.LijnId, "jaarbedrag", model.Jaarbedrag);
+
+                    analyse.VulVeldIn("AanpassingsSubsidie", lijn.LijnId, "jaarbedrag", Convert.ToDecimal(model.Jaarbedrag));
                     _analyseRepository.SerialiseerVelden(analyse);
                     _analyseRepository.SaveChanges();
-                    return RedirectToAction(nameof(Overzicht), model.AnalyseId);
+                     TempData["message"] = "De subsidie werd succesvol toegevoegd.";
+                    return RedirectToAction(nameof(AanpassingsSubsidie), new { analyseId = model.AnalyseId });
+
                 }
                 catch (Exception e)
                 {
@@ -407,12 +418,13 @@ namespace KostenBatenTool.Controllers
                     {
                         analyse.GetBerekening("AdministratieBegeleidingsKost").VoegLijnToe();
                     }
-                    analyse.VulVeldIn("AdministratieBegeleidingsKost", model.LijnId, "uren", model.Veld1);
-                    analyse.VulVeldIn("AdministratieBegeleidingsKost", model.LijnId, "bruto maandloon begeleider",
-                        model.Veld2);
-                    analyse.VulVeldIn("AdministratieBegeleidingsKost", model.LijnId, "jaarbedrag", model.Veld3);
+                    analyse.VulVeldIn("AdministratieBegeleidingsKost", model.LijnId, "uren", Convert.ToDecimal(model.Veld1));
+                    analyse.VulVeldIn("AdministratieBegeleidingsKost", model.LijnId, "bruto maandloon begeleider", Convert.ToDecimal(model.Veld2));
+                    analyse.VulVeldIn("AdministratieBegeleidingsKost", model.LijnId, "jaarbedrag", Convert.ToDecimal(model.Veld3));
                     _analyseRepository.SerialiseerVelden(analyse);
                     _analyseRepository.SaveChanges();
+                    TempData["message"] = "De uren werden succesvol toegevoegd.";
+
                     return RedirectToAction(nameof(AdministratieBegeleidingsKost), new { analyseId = analyse.AnalyseId });
                 }
                 catch (Exception e)
@@ -457,9 +469,11 @@ namespace KostenBatenTool.Controllers
                         analyse.GetBerekening("AndereBesparing").VoegLijnToe();
                     }
                     analyse.VulVeldIn("AndereBesparing", model.LijnId, "beschrijving", model.Type);
-                    analyse.VulVeldIn("AndereBesparing", model.LijnId, "jaarbedrag", model.Bedrag);
+                    analyse.VulVeldIn("AndereBesparing", model.LijnId, "jaarbedrag", Convert.ToDecimal(model.Bedrag));
                     _analyseRepository.SerialiseerVelden(analyse);
                     _analyseRepository.SaveChanges();
+                    TempData["message"] = "De besparing werd succesvol toegevoegd.";
+
                     return RedirectToAction(nameof(AndereBesparing), new { analyseId = analyse.AnalyseId });
                 }
                 catch (Exception e)
@@ -503,9 +517,11 @@ namespace KostenBatenTool.Controllers
                         analyse.GetBerekening("AndereKost").VoegLijnToe();
                     }
                     analyse.VulVeldIn("AndereKost", model.LijnId, "type", model.Type);
-                    analyse.VulVeldIn("AndereKost", model.LijnId, "bedrag", model.Bedrag);
+                    analyse.VulVeldIn("AndereKost", model.LijnId, "bedrag", Convert.ToDecimal(model.Bedrag));
                     _analyseRepository.SerialiseerVelden(analyse);
                     _analyseRepository.SaveChanges();
+                    TempData["message"] = "De kost werd succesvol toegevoegd.";
+
                     return RedirectToAction(nameof(AndereKost), new { analyseId = analyse.AnalyseId });
                 }
                 catch (Exception e)
@@ -538,13 +554,12 @@ namespace KostenBatenTool.Controllers
                 {
                     Analyse analyse = GetAnalyse(model.AnalyseId);
                     Lijn lijn = ((LogistiekeBesparing)analyse.GetBerekening("LogistiekeBesparing")).Lijnen[0];
-                    analyse.VulVeldIn("LogistiekeBesparing", lijn.LijnId, "transportkosten jaarbedrag", model.Transport);
-                    analyse.VulVeldIn("LogistiekeBesparing", lijn.LijnId, "logistieke kosten jaarbedrag",
-                        model.Logistiek);
+                    analyse.VulVeldIn("LogistiekeBesparing", lijn.LijnId, "transportkosten jaarbedrag", Convert.ToDecimal(model.Transport));
+                    analyse.VulVeldIn("LogistiekeBesparing", lijn.LijnId, "logistieke kosten jaarbedrag",Convert.ToDecimal(model.Logistiek));
                     _analyseRepository.SerialiseerVelden(analyse);
                     _analyseRepository.SaveChanges();
-                    return RedirectToAction(nameof(Overzicht), model.AnalyseId);
-
+                    TempData["message"] = "De kosten werden succesvol toegevoegd.";
+                    return RedirectToAction(nameof(LogistiekeBesparing), new { analyseId = model.AnalyseId });
 
                 }
                 catch (Exception e)
@@ -613,13 +628,14 @@ namespace KostenBatenTool.Controllers
                     {
                         analyse.GetBerekening("MedewerkerHogerNiveauBesparing").VoegLijnToe();
                     }
-                    analyse.VulVeldIn("MedewerkerHogerNiveauBesparing", model.LijnId, "uren", model.Veld1);
+                    analyse.VulVeldIn("MedewerkerHogerNiveauBesparing", model.LijnId, "uren", Convert.ToDecimal(model.Veld1));
                     analyse.VulVeldIn("MedewerkerHogerNiveauBesparing", model.LijnId, "bruto maandloon fulltime",
-                        model.Veld2);
-                    analyse.VulVeldIn("MedewerkerHogerNiveauBesparing", model.LijnId, "totale loonkost per jaar",
-                        model.Veld3);
+                       Convert.ToDecimal(model.Veld2));
+                    analyse.VulVeldIn("MedewerkerHogerNiveauBesparing", model.LijnId, "totale loonkost per jaar", Convert.ToDecimal(model.Veld3));
                     _analyseRepository.SerialiseerVelden(analyse);
                     _analyseRepository.SaveChanges();
+                    TempData["message"] = "Het loon werd succesvol toegevoegd.";
+
                     return RedirectToAction(nameof(MedewerkerHogerNiveauBesparing), new { analyseId = analyse.AnalyseId });
                 }
                 catch (Exception e)
@@ -663,13 +679,14 @@ namespace KostenBatenTool.Controllers
                     {
                         analyse.GetBerekening("MedewerkerZelfdeNiveauBesparing").VoegLijnToe();
                     }
-                    analyse.VulVeldIn("MedewerkerZelfdeNiveauBesparing", model.LijnId, "uren", model.Veld1);
+                    analyse.VulVeldIn("MedewerkerZelfdeNiveauBesparing", model.LijnId, "uren", Convert.ToDecimal(model.Veld1));
                     analyse.VulVeldIn("MedewerkerZelfdeNiveauBesparing", model.LijnId, "bruto maandloon fulltime",
-                        model.Veld2);
-                    analyse.VulVeldIn("MedewerkerZelfdeNiveauBesparing", model.LijnId, "totale loonkost per jaar",
-                        model.Veld3);
+                        Convert.ToDecimal(model.Veld2));
+                    analyse.VulVeldIn("MedewerkerZelfdeNiveauBesparing", model.LijnId, "totale loonkost per jaar", Convert.ToDecimal(model.Veld3));
                     _analyseRepository.SerialiseerVelden(analyse);
                     _analyseRepository.SaveChanges();
+                    TempData["message"] = "Het loon werd succesvol toegevoegd.";
+
                     return RedirectToAction(nameof(MedewerkerZelfdeNiveauBesparing), new { analyseId = analyse.AnalyseId });
                 }
                 catch (Exception e)
@@ -702,11 +719,13 @@ namespace KostenBatenTool.Controllers
                 {
                     Analyse analyse = GetAnalyse(model.AnalyseId);
                     Lijn lijn = ((OmzetverliesBesparing)analyse.GetBerekening("OmzetverliesBesparing")).Lijnen[0];
-                    analyse.VulVeldIn("OmzetverliesBesparing", lijn.LijnId, "jaarbedrag omzetverlies", model.Veld1);
-                    analyse.VulVeldIn("OmzetverliesBesparing", lijn.LijnId, "% besparing", model.Veld2 / 100);
+                    analyse.VulVeldIn("OmzetverliesBesparing", lijn.LijnId, "jaarbedrag omzetverlies", Convert.ToDecimal(model.Veld1));
+                    analyse.VulVeldIn("OmzetverliesBesparing", lijn.LijnId, "% besparing", Convert.ToDecimal(model.Veld2 )/ 100);
                     _analyseRepository.SerialiseerVelden(analyse);
                     _analyseRepository.SaveChanges();
-                    return RedirectToAction(nameof(Overzicht), model.AnalyseId);
+                    TempData["message"] = "Het bedrag werd succesvol toegevoegd.";
+                    return RedirectToAction(nameof(OmzetverliesBesparing), new { analyseId = model.AnalyseId });
+
                 }
                 catch (Exception e)
                 {
@@ -747,9 +766,11 @@ namespace KostenBatenTool.Controllers
                         analyse.GetBerekening("OpleidingsKost").VoegLijnToe();
                     }
                     analyse.VulVeldIn("OpleidingsKost", model.LijnId, "type", model.Type);
-                    analyse.VulVeldIn("OpleidingsKost", model.LijnId, "bedrag", model.Bedrag);
+                    analyse.VulVeldIn("OpleidingsKost", model.LijnId, "bedrag", Convert.ToDecimal(model.Bedrag));
                     _analyseRepository.SerialiseerVelden(analyse);
                     _analyseRepository.SaveChanges();
+                    TempData["message"] = "De opleidingskost werd succesvol toegevoegd.";
+
                     return RedirectToAction(nameof(OpleidingsKost), new { analyseId = analyse.AnalyseId });
                 }
                 catch (Exception e)
@@ -793,9 +814,11 @@ namespace KostenBatenTool.Controllers
                         analyse.GetBerekening("OutsourcingBesparing").VoegLijnToe();
                     }
                     analyse.VulVeldIn("OutsourcingBesparing", model.LijnId, "beschrijving", model.Type);
-                    analyse.VulVeldIn("OutsourcingBesparing", model.LijnId, "jaarbedrag", model.Bedrag);
+                    analyse.VulVeldIn("OutsourcingBesparing", model.LijnId, "jaarbedrag", Convert.ToDecimal(model.Bedrag));
                     _analyseRepository.SerialiseerVelden(analyse);
                     _analyseRepository.SaveChanges();
+                    TempData["message"] = "Het bedrag werd succesvol toegevoegd.";
+
                     return RedirectToAction(nameof(OutsourcingBesparing), new { analyseId = analyse.AnalyseId });
                 }
                 catch (Exception e)
@@ -828,10 +851,12 @@ namespace KostenBatenTool.Controllers
                 {
                     Analyse analyse = GetAnalyse(model.AnalyseId);
                     Lijn lijn = ((OverurenBesparing)analyse.GetBerekening("OverurenBesparing")).Lijnen[0];
-                    analyse.VulVeldIn("OverurenBesparing", lijn.LijnId, "jaarbedrag", model.Jaarbedrag);
+                    analyse.VulVeldIn("OverurenBesparing", lijn.LijnId, "jaarbedrag", Convert.ToDecimal(model.Jaarbedrag));
                     _analyseRepository.SerialiseerVelden(analyse);
                     _analyseRepository.SaveChanges();
-                    return RedirectToAction(nameof(Overzicht), model.AnalyseId);
+                    TempData["message"] = "De kost werd succesvol toegevoegd.";
+                    return RedirectToAction(nameof(OverurenBesparing), new { analyseId = model.AnalyseId });
+
                 }
                 catch (Exception e)
                 {
@@ -861,16 +886,22 @@ namespace KostenBatenTool.Controllers
                 {
                     Analyse analyse = GetAnalyse(model.AnalyseId);
                     Lijn lijn = ((ProductiviteitsWinst)analyse.GetBerekening("ProductiviteitsWinst")).Lijnen[0];
-                    analyse.VulVeldIn("ProductiviteitsWinst", lijn.LijnId, "jaarbedrag", model.Jaarbedrag);
+                    analyse.VulVeldIn("ProductiviteitsWinst", lijn.LijnId, "jaarbedrag", Convert.ToDecimal(model.Jaarbedrag));
                     _analyseRepository.SerialiseerVelden(analyse);
                     _analyseRepository.SaveChanges();
-                    return RedirectToAction(nameof(Overzicht), model.AnalyseId);
+                    TempData["message"] = "Het bedrag werd succesvol toegevoegd.";
+                    return RedirectToAction(nameof(ProductiviteitsWinst), new { analyseId = model.AnalyseId });
+
                 }
                 catch (Exception e)
                 {
                     Console.WriteLine(e);
                     throw;
                 }
+            }
+            if (Convert.ToDecimal(model.Jaarbedrag) == 0)
+            {
+                ModelState.AddModelError("Bedrag", "Gelieve een komma te gebruiken.");
             }
             return View(model);
         }
@@ -905,9 +936,11 @@ namespace KostenBatenTool.Controllers
                         analyse.GetBerekening("UitzendkrachtenBesparing").VoegLijnToe();
                     }
                     analyse.VulVeldIn("UitzendkrachtenBesparing", model.LijnId, "beschrijving", model.Type);
-                    analyse.VulVeldIn("UitzendkrachtenBesparing", model.LijnId, "jaarbedrag", model.Bedrag);
+                    analyse.VulVeldIn("UitzendkrachtenBesparing", model.LijnId, "jaarbedrag", Convert.ToDecimal(model.Bedrag));
                     _analyseRepository.SerialiseerVelden(analyse);
                     _analyseRepository.SaveChanges();
+                    TempData["message"] = "De besparing werd succesvol toegevoegd.";
+
                     return RedirectToAction(nameof(UitzendkrachtenBesparing), new { analyseId = analyse.AnalyseId });
                 }
                 catch (Exception e)
@@ -951,9 +984,11 @@ namespace KostenBatenTool.Controllers
                         analyse.GetBerekening("VoorbereidingsKost").VoegLijnToe();
                     }
                     analyse.VulVeldIn("VoorbereidingsKost", model.LijnId, "type", model.Type);
-                    analyse.VulVeldIn("VoorbereidingsKost", model.LijnId, "bedrag", model.Bedrag);
+                    analyse.VulVeldIn("VoorbereidingsKost", model.LijnId, "bedrag", Convert.ToDecimal(model.Bedrag));
                     _analyseRepository.SerialiseerVelden(analyse);
                     _analyseRepository.SaveChanges();
+                    TempData["message"] = "De kost werd succesvol toegevoegd.";
+
                     return RedirectToAction(nameof(VoorbereidingsKost), new { analyseId = analyse.AnalyseId });
                 }
                 catch (Exception e)
@@ -963,7 +998,7 @@ namespace KostenBatenTool.Controllers
                 }
             }
             ViewData["open"] = true;
-                 model.Lijst = GetAnalyse(model.AnalyseId).GetBerekening("VoorbereidingsKost").Lijnen.Select(lijn => new TypeBedragLijstObjectViewModel(lijn, "type", "bedrag")).ToList();
+            model.Lijst = GetAnalyse(model.AnalyseId).GetBerekening("VoorbereidingsKost").Lijnen.Select(lijn => new TypeBedragLijstObjectViewModel(lijn, "type", "bedrag")).ToList();
             return View(model);
         }
 
@@ -997,9 +1032,11 @@ namespace KostenBatenTool.Controllers
                         analyse.GetBerekening("WerkkledijKost").VoegLijnToe();
                     }
                     analyse.VulVeldIn("WerkkledijKost", model.LijnId, "type", model.Type);
-                    analyse.VulVeldIn("WerkkledijKost", model.LijnId, "bedrag", model.Bedrag);
+                    analyse.VulVeldIn("WerkkledijKost", model.LijnId, "bedrag", Convert.ToDecimal(model.Bedrag));
                     _analyseRepository.SerialiseerVelden(analyse);
                     _analyseRepository.SaveChanges();
+                    TempData["message"] = "De kost werd succesvol toegevoegd.";
+
                     return RedirectToAction(nameof(WerkkledijKost), new { analyseId = analyse.AnalyseId });
                 }
                 catch (Exception e)
