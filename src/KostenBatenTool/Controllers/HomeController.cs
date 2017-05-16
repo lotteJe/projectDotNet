@@ -21,13 +21,18 @@ namespace KostenBatenTool.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailService _emailService;
         private readonly IArbeidsBemiddelaarRepository _arbeidsBemiddelaarRepository;
+        private readonly IAnalyseRepository _analyseRepository;
         private readonly IBerichtenRepository _berichtenRepository;
 
         public HomeController(UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager, IArbeidsBemiddelaarRepository arbeidsBemiddelaarRepository, IBerichtenRepository berichtenRepository, IEmailService emailService)
+            SignInManager<ApplicationUser> signInManager, 
+            IArbeidsBemiddelaarRepository arbeidsBemiddelaarRepository, 
+            IAnalyseRepository analyseRepository,
+            IBerichtenRepository berichtenRepository, IEmailService emailService)
         {
             _arbeidsBemiddelaarRepository = arbeidsBemiddelaarRepository;
             _berichtenRepository = berichtenRepository;
+            _analyseRepository = analyseRepository;
             _userManager = userManager;
             _signInManager = signInManager;
             _emailService = emailService;
@@ -99,7 +104,7 @@ namespace KostenBatenTool.Controllers
 
         public IActionResult ZetAfgewerkt(int analyseId)
         {
-            _arbeidsBemiddelaarRepository.ZetAnalyseAfgewerkt(User.Identity.Name,analyseId);
+            _analyseRepository.ZetAnalyseAfgewerkt(analyseId);
             _arbeidsBemiddelaarRepository.SaveChanges();
             return RedirectToAction(nameof(Index));
         }

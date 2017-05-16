@@ -23,7 +23,7 @@ namespace KostenBatenTool.Data
 
         public async Task InitializeData()
         {
-           // _dbContext.Database.EnsureDeleted();
+           //_dbContext.Database.EnsureDeleted();
 
             if (_dbContext.Database.EnsureCreated())
             {
@@ -36,7 +36,7 @@ namespace KostenBatenTool.Data
                 //_dbContext.SaveChanges();
                 
                 //vul hier je eigen e-mailadres in
-                Persoon superadmin = new Administrator("Bart", "Moens", "sharonvanhove1@gmail.com", true);
+                Persoon superadmin = new Administrator("Moens", "Bart", "sharonvanhove1@gmail.com", true);
                 ((Administrator) superadmin).WachtwoordReset = true;
 
                 _dbContext.Personen.Add(superadmin);

@@ -46,7 +46,7 @@ namespace KostenBatenTool.Controllers
         [HttpGet]
         public IActionResult Edit()
         {
-            ArbeidsBemiddelaar a = _arbeidsBemiddelaarRepository.GetBy(User.Identity.Name);
+            ArbeidsBemiddelaar a = _arbeidsBemiddelaarRepository.GetArbeidsBemiddelaar(User.Identity.Name);
             return View(new EditViewModel(a));
         }
 
@@ -56,7 +56,7 @@ namespace KostenBatenTool.Controllers
         {
             if (ModelState.IsValid)
             {
-                ArbeidsBemiddelaar a = _arbeidsBemiddelaarRepository.GetBy(User.Identity.Name);
+                ArbeidsBemiddelaar a = _arbeidsBemiddelaarRepository.GetArbeidsBemiddelaar(User.Identity.Name);
                 a.Naam = model.Naam;
                 a.Voornaam = model.Voornaam;
                 a.Email = model.Email;
@@ -95,7 +95,7 @@ namespace KostenBatenTool.Controllers
         public async Task<IActionResult> Login(LoginViewModel model, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
-            ArbeidsBemiddelaar test = _arbeidsBemiddelaarRepository.GetBy(model.Email);
+            ArbeidsBemiddelaar test = _arbeidsBemiddelaarRepository.GetArbeidsBemiddelaar(model.Email);
             if (test == null)
             {
                 ModelState.AddModelError("EmailReg", "Uw e-mailadres is onjuist, bent u al geregistreerd?");
@@ -146,7 +146,7 @@ namespace KostenBatenTool.Controllers
         public async Task<IActionResult> Register(RegisterViewModel model, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
-            ArbeidsBemiddelaar test = _arbeidsBemiddelaarRepository.GetBy(model.Email);
+            ArbeidsBemiddelaar test = _arbeidsBemiddelaarRepository.GetArbeidsBemiddelaar(model.Email);
             if (test != null)
             {
                 ModelState.AddModelError("EmailGer", "U bent reeds geregistreerd.");
@@ -257,7 +257,7 @@ namespace KostenBatenTool.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel model)
         {
-            ArbeidsBemiddelaar test = _arbeidsBemiddelaarRepository.GetBy(model.Email);
+            ArbeidsBemiddelaar test = _arbeidsBemiddelaarRepository.GetArbeidsBemiddelaar(model.Email);
             if (test == null)
             {
                 ModelState.AddModelError("WWVergeten", "Uw e-mailadres werd niet gevonden.");

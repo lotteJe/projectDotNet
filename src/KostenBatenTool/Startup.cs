@@ -62,6 +62,10 @@ namespace KostenBatenTool
             services.AddScoped<IArbeidsBemiddelaarRepository, ArbeidsBemiddelaarRepository>();
             services.AddScoped<IBerichtenRepository, BerichtenRepository>();
             services.AddScoped<IDoelgroepRepository, DoelgroepRepository>();
+            services.AddScoped<IAnalyseRepository, AnalyseRepository>();
+            services.AddScoped<IOrganisatieRepository, OrganisatieRepository>();
+            services.AddScoped<ILijnRepository, LijnRepository>();
+            services.AddScoped<IBerekeningRepository, BerekeningRepository>();
             services.AddScoped<KostenBatenInitializer>();
 
             // Add application services.
