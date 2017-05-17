@@ -46,22 +46,29 @@ namespace KostenBatenTool.Data.Repositories
         }
         
         public IEnumerable<Organisatie> GetOrganisatiesVanArbeidsBemiddelaar(string emailadres)
-        {
+        {  
             if (!_arbeidsBemiddelaars.Include(a => a.Analyses).First(a => a.Email.Equals(emailadres)).Analyses.Any())
             {
                 return null;
             }
+            
             return
                 _arbeidsBemiddelaars.Include(a => a.Analyses).ThenInclude(an => an.Organisatie).First(a => a.Email.Equals(emailadres)).Analyses.Select(a => a.Organisatie).Distinct().ToList();
         }
         public IEnumerable<Analyse> GetAllAnalysesVanArbeidsBemiddelaar(string emailadres)
         {
+            IEnumerable<Analyse> analyses =
+                _arbeidsBemiddelaars.Include(a => a.Analyses).First(a => a.Email.Equals(emailadres)).Analyses;
 
-            if (!_arbeidsBemiddelaars.Include(a => a.Analyses).First(a => a.Email.Equals(emailadres)).Analyses.Any())
+            if (!analyses.Any())
             {
                 return null;
             }
-            return _arbeidsBemiddelaars.Include(a => a.Analyses).First(a => a.Email.Equals(emailadres)).Analyses.Where(a => !a.Verwijderd);
+            if (analyses.Any(a => !a.Verwijderd))
+            {
+                return _arbeidsBemiddelaars.Include(a => a.Analyses).ThenInclude(an => an.Organisatie).First(a => a.Email.Equals(emailadres)).Analyses.Where(a => !a.Verwijderd);
+            }
+            return null;
         }
 
         public IEnumerable<Analyse> ZoekAnalysesWerkgever(string emailadres, string searchString)

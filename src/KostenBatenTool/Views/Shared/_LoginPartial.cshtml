@@ -5,11 +5,24 @@
 @inject UserManager<ApplicationUser> UserManager
 
 @{
+    var icoon = "";
+    var melding = "";
     ApplicationUser user = await UserManager.GetUserAsync(User);
     if (user != null)
     {
         ViewData["naam"] = user.Voornaam + " " + user.Naam;
+        if (user.OngelezenBerichten)
+        {
+            icoon = "fa-bell-o";
+            melding = "fa-bell-o";
+        }
+        else
+        {
+            icoon ="fa-commenting-o";
+        }
+
     }
+
 }
 <form asp-area="" asp-controller="Account" asp-action="LogOff" method="post" id="logoutForm" class="navbar-right noMobile col-xs-4 col-xs-offset-5 col-sm-2 col-sm-offset-5">
     <ul class="nav navbar-nav">
@@ -20,7 +33,7 @@
                 <li class="Nmobile"><a asp-area="" asp-controller="Analyse" asp-action="Nieuw"><span class="fa fa-balance-scale "></span>   Nieuwe analyse</a></li>
                 <li class="Nmobile"><a asp-area="" asp-controller="Analyse" asp-action="Index"><span class="fa fa-archive "></span>   Archief</a></li>
                 <li class="divider"></li>
-                <li><a asp-area="" asp-controller="Home" asp-action="Berichten"><span class="fa fa-commenting-o"></span>   Berichten</a></li>
+                <li><a asp-area="" asp-controller="Home" asp-action="Berichten"><span class="fa @icoon"></span>   Berichten</a></li>
                 <li><a asp-area="" asp-controller="Home" asp-action="Contact"><span class="fa fa-envelope-o"></span>   Contact</a></li>
                 <li class="divider"></li>
                 <li><a asp-area="" asp-controller="Account" asp-action="Edit"><span class="fa fa-user"></span>   Mijn profiel</a></li>
@@ -35,11 +48,11 @@
 <form asp-area="" asp-controller="Account" asp-action="LogOff" method="post" id="logoutForm" class="navbar-right mobile">
     <ul class="nav navbar-nav">
         <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">@ViewData["naam"] <span class="caret"></span></a>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="fa @melding"></span> @ViewData["naam"] <span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
                 <li><a asp-area="" asp-controller="Account" asp-action="Edit"><span class="fa fa-user"></span> Mijn profiel</a></li>
                 <li class="divider"></li>
-                <li><a asp-area="" asp-controller="Home" asp-action="Berichten"><span class="fa fa-commenting-o"></span> Berichten</a></li>
+                <li><a asp-area="" asp-controller="Home" asp-action="Berichten"><span class="fa @icoon"></span> Berichten</a></li>
                 <li class="divider"></li>
                 <li><a asp-area="" asp-controller="Home" asp-action="Contact"><span class="fa fa-envelope-o"></span> Contact</a></li>
                 <li class="divider"></li>

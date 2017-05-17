@@ -276,6 +276,11 @@ img#logo {
     width: 30px;
 }
 
+.fa-bell-o{
+    color: red;
+}
+
+
 .wrap .nav-bar .nav .dropdown-menu > li > a, .uitloggen {
     font-size: 20px;
     color: dimgray;
