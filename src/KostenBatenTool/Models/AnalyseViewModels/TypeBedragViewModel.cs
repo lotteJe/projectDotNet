@@ -12,7 +12,7 @@ namespace KostenBatenTool.Models.AnalyseViewModels
         public int LijnId { get; set; }
         public int AnalyseId { get; set; }
         public IEnumerable<TypeBedragLijstObjectViewModel> Lijst { get; set; }
-        [Required(ErrorMessage = "Type is verplicht.")]
+        [Required(ErrorMessage = "Dit veld is verplicht.")]
         public string Type { get; set; }
        
         [RegularExpression("[0-9]*([,][0-9]+)?", ErrorMessage = "Het getal moet positief zijn met eventueel een komma.")]

@@ -272,12 +272,12 @@ namespace KostenBatenTool.Controllers
                         analyse.GetBerekening("LoonKost").VoegLijnToe();
                     }
                     analyse.VulVeldIn("LoonKost", model.LijnId, "functie", model.Functie);
-                    analyse.VulVeldIn("LoonKost", model.LijnId, "uren per week", model.UrenPerWeek);
+                    analyse.VulVeldIn("LoonKost", model.LijnId, "uren per week", Convert.ToDecimal(model.UrenPerWeek));
                     analyse.VulVeldIn("LoonKost", model.LijnId, "bruto maandloon fulltime", Convert.ToDecimal(model.BrutoMaandloon));
                     Doelgroep doelgroep = _doelgroepRepository.GetById(model.DoelgroepId);
                     ((LoonKostLijn)analyse.GetBerekening("LoonKost").Lijnen.FirstOrDefault(l => l.LijnId == model.LijnId)).Doelgroep = doelgroep;
                     analyse.VulVeldIn("LoonKost", model.LijnId, "% Vlaamse ondersteuningspremie", model.VopId);
-                    analyse.VulVeldIn("LoonKost", model.LijnId, "aantal maanden IBO", model.AantalMaanden);
+                    analyse.VulVeldIn("LoonKost", model.LijnId, "aantal maanden IBO", Convert.ToDecimal(model.AantalMaanden));
                     analyse.VulVeldIn("LoonKost", model.LijnId, "totale productiviteitspremie IBO", Convert.ToDecimal(model.Ibo));
                     _analyseRepository.SerialiseerVelden(analyse);
                     _analyseRepository.SaveChanges();
@@ -292,7 +292,10 @@ namespace KostenBatenTool.Controllers
                 }
             }
             ViewData["open"] = true;
-            //IList<LoonKostLijn> lijnen = _arbeidsBemiddelaarRepository.GetLoonKostLijnen(loonkost.BerekeningId, loonkost.Velden);
+            Berekening loonkost = GetAnalyse(model.AnalyseId).GetBerekening("LoonKost");
+            model.Lijnen = _lijnRepository.GetLoonKostLijnen(loonkost.BerekeningId, loonkost.Velden).Select( lijn => new LoonkostLijnViewModel(lijn)).ToList();
+            model.DoelgroepList = _doelgroepRepository.GetAll();
+            model.VopList = new List<Veld> { new Veld("0%", 0, 1), new Veld("20%", 0.20, 1), new Veld("30%", 0.30, 2), new Veld("40%", 0.40, 3) };
             return View(model);
         }
 
@@ -1075,9 +1078,16 @@ namespace KostenBatenTool.Controllers
             _lijnRepository.VerwijderLijn(lijn);
             _arbeidsBemiddelaarRepository.SaveChanges();
             return RedirectToAction(b.GetType().Name, new { analyseId, lijnId = 0 });
-
-
         }
+
+        public IActionResult DeleteLoonKostLijn(int analyseId, int lijnId)
+        {
+            Lijn lijn = _lijnRepository.GetLoonKostLijn(lijnId);
+            _lijnRepository.VerwijderLijn(lijn);
+            _arbeidsBemiddelaarRepository.SaveChanges();
+            return RedirectToAction("LoonKost", new { analyseId, lijnId = 0 });
+        }
+
 
         [HttpGet]
         public IActionResult EmailResultaat(int id, int analyseId)
