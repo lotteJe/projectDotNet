@@ -31,6 +31,12 @@ namespace KostenBatenTool.Data.Repositories
             lijn.Deserialiseer(velden);
             return lijn;
         }
+
+        public LoonKostLijn GetLoonKostLijn(int lijnId)
+        {
+           return _lijnen.Include(l => l.VeldenWaarden).OfType<LoonKostLijn>().FirstOrDefault(l => l.LijnId == lijnId);
+
+        }
         public IList<LoonKostLijn> GetLoonKostLijnen(int berekeningId, List<Veld> velden)
         {
             IEnumerable<int> lijnIds =

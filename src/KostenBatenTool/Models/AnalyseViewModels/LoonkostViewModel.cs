@@ -11,15 +11,16 @@ namespace KostenBatenTool.Models.AnalyseViewModels
     public class LoonkostViewModel
     {
         public int LijnId { get; set; }
+        [Required(ErrorMessage = "Functie is verplicht.")]
         public string Functie { get; set; }
-        public decimal UrenPerWeek { get; set; }
-
+        [RegularExpression("[0-9]*([,][0-9]+)?", ErrorMessage = "Het getal moet positief zijn met eventueel een komma.")]
+        public string UrenPerWeek { get; set; }
         [RegularExpression("[0-9]*([,][0-9]+)?", ErrorMessage = "Het getal moet positief zijn met eventueel een komma.")]
         public string BrutoMaandloon { get; set; }
         public string Doelgroep { get; set; }
         public decimal Vop { get; set; }
-        public decimal AantalMaanden { get; set; }
-
+        [RegularExpression("[0-9]*([,][0-9]+)?", ErrorMessage = "Het getal moet positief zijn met eventueel een komma.")]
+        public string AantalMaanden { get; set; }
         [RegularExpression("[0-9]*([,][0-9]+)?", ErrorMessage = "Het getal moet positief zijn met eventueel een komma.")]
         public string Ibo { get; set; }
         public int AnalyseId { get; set; }
@@ -44,13 +45,13 @@ namespace KostenBatenTool.Models.AnalyseViewModels
         {
             LijnId = lijn.LijnId;
             Functie = lijn.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("functie")).Value.ToString();
-            UrenPerWeek = (decimal)lijn.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("uren per week")).Value;
+            UrenPerWeek = string.Format("{0:0.##}", (decimal)lijn.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("uren per week")).Value);
             BrutoMaandloon =
                 string.Format("{0:0.##}", (decimal)lijn.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("bruto maandloon fulltime")).Value);
             Doelgroep = ((LoonKostLijn)lijn).Doelgroep.Soort;
             Vop =
                 (decimal)lijn.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("% Vlaamse ondersteuningspremie")).Value;
-            AantalMaanden = (decimal)lijn.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("aantal maanden IBO")).Value;
+            AantalMaanden = string.Format("{0:0.##}", (decimal)lijn.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("aantal maanden IBO")).Value);
             Ibo =
               string.Format("{0:0.##}", (decimal)
                     lijn.VeldenWaarden.FirstOrDefault(v => v.VeldKey.Equals("totale productiviteitspremie IBO")).Value);

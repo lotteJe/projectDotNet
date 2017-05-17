@@ -96,15 +96,15 @@
         </tr>
         @foreach (LoonkostLijnViewModel lijn in Model.Lijnen)
         {
-            <tr id="lijnEdit" onclick="location.href = '@(Url.Action("LoonKost","Analyse", new {analyseId = Model.AnalyseId, lijnId = lijn.LijnId}))'" style="cursor: pointer">
-                <td>@lijn.Functie</td>
-                <td>@lijn.UrenPerWeek</td>
-                <td>@($"€ {lijn.BrutoMaandloon:N2}")</td>
-                <td>@lijn.Doelgroep</td>
-                <td>@(lijn.Vop * 100) %</td>
-                <td>@lijn.AantalMaanden</td>
-                <td>@($"€ {lijn.Ibo:N2}")</td>
-                <td><a asp-controller="Analyse" asp-action="DeleteLijn" asp-route-id="new {analyseId = Model.AnalyseId, lijnId = lijn.LijnId}"><i class="fa fa-trash animated fadeInDown" aria-hidden="true"></i></a></td>
+            <tr id="lijnEdit"  style="cursor: pointer">
+                <td onclick="location.href = '@(Url.Action("LoonKost","Analyse", new {analyseId = Model.AnalyseId, lijnId = lijn.LijnId}))'">@lijn.Functie</td>
+                <td onclick="location.href = '@(Url.Action("LoonKost","Analyse", new {analyseId = Model.AnalyseId, lijnId = lijn.LijnId}))'">@lijn.UrenPerWeek</td>
+                <td onclick="location.href = '@(Url.Action("LoonKost","Analyse", new {analyseId = Model.AnalyseId, lijnId = lijn.LijnId}))'">@($"€ {lijn.BrutoMaandloon:N2}")</td>
+                <td onclick="location.href = '@(Url.Action("LoonKost","Analyse", new {analyseId = Model.AnalyseId, lijnId = lijn.LijnId}))'">@lijn.Doelgroep</td>
+                <td onclick="location.href = '@(Url.Action("LoonKost","Analyse", new {analyseId = Model.AnalyseId, lijnId = lijn.LijnId}))'">@(lijn.Vop * 100) %</td>
+                <td onclick="location.href = '@(Url.Action("LoonKost","Analyse", new {analyseId = Model.AnalyseId, lijnId = lijn.LijnId}))'">@lijn.AantalMaanden</td>
+                <td onclick="location.href = '@(Url.Action("LoonKost","Analyse", new {analyseId = Model.AnalyseId, lijnId = lijn.LijnId}))'">@($"€ {lijn.Ibo:N2}")</td>
+                <td><a asp-controller="Analyse" asp-action="DeleteLoonKostLijn" asp-route-analyseId="@Model.AnalyseId" asp-route-lijnId="@lijn.LijnId"><i class="fa fa-trash animated fadeInDown" aria-hidden="true"></i></a></td>
             </tr>
         }
 

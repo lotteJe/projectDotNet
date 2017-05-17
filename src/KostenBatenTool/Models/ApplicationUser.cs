@@ -28,6 +28,7 @@ namespace KostenBatenTool.Models
         public string Postcode { get; set; }
 
         public string Gemeente { get; set; }
+        public bool OngelezenBerichten { get; set; } = true;
         //public Organisatie Organisatie { get; set; }
     }
 }

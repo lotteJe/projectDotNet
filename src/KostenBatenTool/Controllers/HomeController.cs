@@ -95,10 +95,13 @@ namespace KostenBatenTool.Controllers
         }
 
         [HttpGet]
-        public IActionResult Berichten()
+        public async Task<IActionResult> Berichten()
         {
             IEnumerable<Bericht> berichten = _berichtenRepository.GeefBerichten();
             IList<Bericht> berichtenGesorteerd = berichten.OrderByDescending(b => b.AanmaakDatum).ToList();
+            ApplicationUser user = await GetCurrentUserAsync();
+            user.OngelezenBerichten = false;
+            await _userManager.UpdateAsync(user);
             return View(berichtenGesorteerd);
         }
 
