@@ -37,7 +37,7 @@ namespace KostenBatenTool.Data
                 
                 //vul hier je eigen e-mailadres in
 
-                Persoon superadmin = new Administrator("Moens", "Bart", "sharonvanhove1@gmail.com", true);
+                Persoon superadmin = new Administrator("Moens", "Bart", "lottejespers1@gmail.com", true);
 
                 ((Administrator) superadmin).WachtwoordReset = true;
 

@@ -902,10 +902,6 @@ namespace KostenBatenTool.Controllers
                     throw;
                 }
             }
-            if (Convert.ToDecimal(model.Jaarbedrag) == 0)
-            {
-                ModelState.AddModelError("Bedrag", "Gelieve een komma te gebruiken.");
-            }
             return View(model);
         }
 

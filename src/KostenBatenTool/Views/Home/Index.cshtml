@@ -8,7 +8,7 @@
     var percentK = 50;
     var percentB = 50;
     var color = "dimgray";
-   }
+}
 
 <h1>@ViewData["Title"]</h1>
 <hr />
@@ -20,10 +20,10 @@
         {
             <div class="col-md-4 col-sm-6 col-xs-12 analyseDetail animated fadeIn" style="cursor: pointer" onclick="location.href = '@(Url.Action("Overzicht","Analyse", new {analyseId = analyse.AnalyseId}))'">
                 <div class="row">
-                    <h3 class="cardHeader col-md-10">@analyse.Organisatie.Naam</h3>
-                    <a asp-controller="Home" asp-action="ZetAfgewerkt" asp-route-analyseId="@analyse.AnalyseId" class="col-md-2 @*lock*@"> <i class="fa fa-check afwerken @*icon-unlock*@" aria-hidden="true" style="color: dimgrey" tool-tip-toggle="tooltip" data-placement="bottom" data-original-title="Markeer als afgewerkt"></i></a>
+                    <h3 class="cardHeader col-md-10 col-sm-10 col-xs-10">@analyse.Organisatie.Naam</h3>
+                    <a asp-controller="Home" asp-action="ZetAfgewerkt" asp-route-analyseId="@analyse.AnalyseId" class="col-md-2 col-sm-2 col-xs-2 lock"> <i class="fa fa-times afwerken icon-unlock" aria-hidden="true" style="color: #d9534f" tool-tip-toggle="tooltip" data-placement="bottom" data-original-title="Markeer als afgewerkt"></i></a>
                 </div>
-                <hr/>
+                <hr />
                 <div>
                     <table class="table table-responsive">
                         <tr class="header">

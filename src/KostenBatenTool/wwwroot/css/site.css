@@ -328,9 +328,9 @@ a.dropdown-toggle {
         background-color: rgba(157, 204, 11, 0.5);
     }
 
-    /*.analyseDetail > div > a > i {
+    .analyseDetail > div > a > i {
         display: none;
-    }*/
+    }
 
     .analyseDetail:hover > div > a > i {
         display: inline-block;
