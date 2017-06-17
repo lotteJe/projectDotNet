@@ -70,12 +70,16 @@ namespace KostenBatenTool.Controllers
                     MimeMessage emailMessage = new MimeMessage();
                     emailMessage.Subject = "Vraag via contactformulier";
                     BodyBuilder builder = new BodyBuilder();
-                    builder.HtmlBody = @"<h2>Vraag via contactformulier</h2>
+                    builder.HtmlBody = @"
+<div style='background-color:#9CCD0B;color:white;padding-left:7%;padding-right:7%;padding-top:5%;padding-bottom:5%;font-family:Arial, Helvetica;color:#555555;font-size:14px;'>
+                        <div style='background-color:rgba(255,255,255, 0.74);padding:7%; border-radius:5px;'> 
+<h2>Vraag via contactformulier</h2>
                         <h3>Onderwerp: " + $"{model.Onderwerp}" + @"</h3>
                         <p>" + $"{model.Omschrijving}" + @"</p>
-                        <b>Afzender: " + $"{user.Result.Voornaam} {user.Result.Naam} {user.Result.Email}" + @"</b>";
+                        <p>Afzender: " + $"{user.Result.Voornaam} {user.Result.Naam} {user.Result.Email}" + @"</p>
+</div></div>";
                     emailMessage.Body = builder.ToMessageBody();
-                    await _emailService.SendEmailAsync(user.Result.Email, "lotje.j@hotmail.com", emailMessage);
+                    await _emailService.SendEmailAsync(user.Result.Email, "kairos.paperclip@gmail.com", emailMessage);
                     TempData["message"] = "Je bericht werd succesvol verstuurd.";
                     return RedirectToAction(nameof(AnalyseController.Index), "Home");
                 }
