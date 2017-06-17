@@ -1114,7 +1114,8 @@ namespace KostenBatenTool.Controllers
                     MimeMessage emailMessage = new MimeMessage();
                     emailMessage.Subject = $"Analyse {o.Naam}";
                     BodyBuilder builder = new BodyBuilder();
-                    builder.TextBody = model.Bericht;
+                    builder.HtmlBody = @"<div style='background-color:#9CCD0B;color:white;padding-left:7%;padding-right:7%;padding-top:5%;padding-bottom:5%;font-family:Arial, Helvetica;color:#555555;font-size:14px;'>
+                        <div style='background-color:rgba(255,255,255, 0.74);padding:7%; border-radius:5px;'> " + model.Bericht + @"</div></div>";
                     builder.Attachments.Add(savePath);
                     if (System.IO.File.Exists(savePath))
                     {
