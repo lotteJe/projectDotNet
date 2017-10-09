@@ -64,7 +64,7 @@
             @foreach (var item in Model.Lijst)
             {
 
-                <tr>
+                <tr style="cursor: pointer">
                     <td onclick="location.href = '@(Url.Action("VoorbereidingsKost","Analyse", new {analyseId = Model.AnalyseId, lijnId = item.LijnId}))'">@item.Type</td>
                     <td onclick="location.href = '@(Url.Action("VoorbereidingsKost","Analyse", new {analyseId = Model.AnalyseId, lijnId = item.LijnId}))'">@($"€ {item.Bedrag:N2}")</td>
                     <td><a asp-controller="Analyse" asp-action="DeleteLijn" asp-route-analyseId="@Model.AnalyseId" asp-route-lijnId="@item.LijnId" asp-route-berekeningId="@Model.BerekeningId"><i class="fa fa-trash animated fadeInDown" aria-hidden="true"></i></a></td>

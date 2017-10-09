@@ -276,8 +276,8 @@ img#logo {
     width: 30px;
 }
 
-.fa-bell-o{
-    color: red;
+.fa-bell{
+    color: #9CCD0B;
 }
 
 
@@ -328,9 +328,9 @@ a.dropdown-toggle {
         background-color: rgba(157, 204, 11, 0.5);
     }
 
-    /*.analyseDetail > div > a > i {
+    .analyseDetail > div > a > i {
         display: none;
-    }*/
+    }
 
     .analyseDetail:hover > div > a > i {
         display: inline-block;
@@ -1148,6 +1148,9 @@ i.fa.fa-times.btn.btn-default.zoekKnop {
     #logoIntro1 {
         display: none;
     }
+    .fa-bell{
+    color: #9CCD0B;
+}
 }
 
 @media (max-width: 767px) {
@@ -1180,4 +1183,7 @@ i.fa.fa-times.btn.btn-default.zoekKnop {
     .table-responsive {
         border: 0;
     }
+    .fa-bell{
+    color: #9CCD0B;
+}
 }

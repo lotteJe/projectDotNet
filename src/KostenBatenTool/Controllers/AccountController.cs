@@ -107,7 +107,7 @@ namespace KostenBatenTool.Controllers
                 {
                     _logger.LogInformation(1, "User logged in.");
                     var user = await _userManager.FindByNameAsync(model.Email);
-                   return RedirectToLocal(returnUrl);
+                    return RedirectToLocal(returnUrl);
                 }
                 if (result.RequiresTwoFactor)
                 {
@@ -165,17 +165,19 @@ namespace KostenBatenTool.Controllers
                     MimeMessage emailMessage = new MimeMessage();
                     emailMessage.Subject = "Welkom bij KAIROS\' kosten-baten tool!";
                     BodyBuilder builder = new BodyBuilder();
-                    builder.HtmlBody = @"
-                        <img src='https://static.wixstatic.com/media/192f9b_a49f1a3533c149a2a803ee4ab519ef2e~mv2.png/v1/crop/x_2,y_0,w_1257,h_515/fill/w_500,h_205,al_c,usm_0.66_1.00_0.01/192f9b_a49f1a3533c149a2a803ee4ab519ef2e~mv2.png' alt='Logo Kairos' height='40px'/>
+                    builder.HtmlBody = @"<div style='background-color:#9CCD0B;color:white;padding-left:7%;padding-right:7%;padding-top:5%;padding-bottom:5%;font-family:Arial, Helvetica;color:#555555;font-size:14px;'>
+                        <div style='background-color:rgba(255,255,255, 0.74);padding:7%; border-radius:5px;'> <img style='text-align:center' src='https://static.wixstatic.com/media/192f9b_a49f1a3533c149a2a803ee4ab519ef2e~mv2.png/v1/crop/x_2,y_0,w_1257,h_515/fill/w_500,h_205,al_c,usm_0.66_1.00_0.01/192f9b_a49f1a3533c149a2a803ee4ab519ef2e~mv2.png' alt='Logo Kairos' height='40px'/>
                         <br><br><b>Beste " + $"{model.Voornaam}" + @"</b>
                         <p>Leuk dat je gebruik wil maken van onze tool om werkgevers meer inzicht te geven in de kosten en baten bij het tewerkstellen van personen met een grote afstand tot de arbeidsmarkt.</p>
                         <p>Gelieve je registratie te voltooien via deze <a href='" + $"{callbackUrl}" + @"'>link</a>.</p>
                         <p>Veel succes met het gebruik van onze tool!</p>
                         <p>Wil je meer weten over wie we zijn en wat we doen, surf naar www.hetmomentvooriedereen.be.</p>
                         <p>Hartelijke groet</p>
-                        <p>Het team van KAIROS</p>";
+                        <p>Het team van KAIROS</p>
+</div>
+                        </div>";
                     emailMessage.Body = builder.ToMessageBody();
-                    await _emailService.SendEmailAsync("lottejespers1@gmail.com", model.Email, emailMessage);
+                    await _emailService.SendEmailAsync("kairos.paperclip@gmail.com", model.Email, emailMessage);
                     // Comment out following line to prevent a new user automatically logged on.
                     //await _signInManager.SignInAsync(user, isPersistent: false);
                     _logger.LogInformation(3, "User created a new account with password.");
@@ -278,14 +280,17 @@ namespace KostenBatenTool.Controllers
                 emailMessage.Subject = "Paswoord KAIROS kosten-baten tool vergeten";
                 BodyBuilder builder = new BodyBuilder();
                 builder.HtmlBody = @"
-                 <img src='https://static.wixstatic.com/media/192f9b_a49f1a3533c149a2a803ee4ab519ef2e~mv2.png/v1/crop/x_2,y_0,w_1257,h_515/fill/w_500,h_205,al_c,usm_0.66_1.00_0.01/192f9b_a49f1a3533c149a2a803ee4ab519ef2e~mv2.png' alt='Logo Kairos' height='40px'/>
+                 <div style='background-color:#9CCD0B;color:white;padding-left:7%;padding-right:7%;padding-top:5%;padding-bottom:5%;font-family:Arial, Helvetica;color:#555555;font-size:14px;'>
+                        <div style='background-color:rgba(255,255,255, 0.74);padding:7%; border-radius:5px;'> <img src='https://static.wixstatic.com/media/192f9b_a49f1a3533c149a2a803ee4ab519ef2e~mv2.png/v1/crop/x_2,y_0,w_1257,h_515/fill/w_500,h_205,al_c,usm_0.66_1.00_0.01/192f9b_a49f1a3533c149a2a803ee4ab519ef2e~mv2.png' alt='Logo Kairos' height='40px'/>
                  <br><br><b>Beste " + $"{user.Voornaam}" + @"</b>
                  <p>Je hebt aangegeven dat je jouw paswoord vergeten bent.</p>
                  <p>Via deze <a href='" + $"{callbackUrl}" + @"'>link</a> kan je een nieuw paswoord aanmaken.</p>
                  <p>Hartelijke groet</p>
-                 <p>Het team van KAIROS</p>";
+                 <p>Het team van KAIROS</p>
+</div>
+</div>";
                 emailMessage.Body = builder.ToMessageBody();
-                await _emailService.SendEmailAsync("lottejespers1@gmail.com", model.Email, emailMessage);
+                await _emailService.SendEmailAsync("kairos.paperclip@gmail.com", model.Email, emailMessage);
 
                 return View("ForgotPasswordConfirmation");
             }
@@ -392,7 +397,7 @@ namespace KostenBatenTool.Controllers
             if (model.SelectedProvider == "Email")
             {
 
-                await _emailService.SendEmailAsync("lottejespers1@gmail.com", await _userManager.GetEmailAsync(user), message);
+                await _emailService.SendEmailAsync("kairos.paperclip@gmail.com", await _userManager.GetEmailAsync(user), message);
             }
 
             return RedirectToAction(nameof(VerifyCode), new { Provider = model.SelectedProvider, model.ReturnUrl, model.RememberMe });
@@ -472,7 +477,7 @@ namespace KostenBatenTool.Controllers
             }
         }
 
-       
+
         #endregion
     }
 }

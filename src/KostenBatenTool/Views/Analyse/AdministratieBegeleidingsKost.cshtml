@@ -43,7 +43,7 @@
                     </div><div class="row">
                         <label asp-for="Veld3" class="col-md-4 col-sm-4 col-md-offset-2 control-label ww">Jaarbedrag</label>
                         <div class="col-md-6 col-sm-6">
-                            <input asp-for="Veld3" class="form-control" type="numtextber" />
+                            <input asp-for="Veld3" class="form-control" type="text" disabled />
                             <span asp-validation-for="Veld3" class="text-danger"></span>
                         </div>
                     </div>
@@ -71,7 +71,7 @@
             @foreach (var item in Model.Lijst)
             {
 
-                <tr>
+                <tr  style="cursor: pointer">
                     <td onclick="location.href = '@(Url.Action("AdministratieBegeleidingsKost","Analyse", new {analyseId = Model.AnalyseId, lijnId = item.LijnId}))'">@item.Veld1</td>
                     <td onclick="location.href = '@(Url.Action("AdministratieBegeleidingsKost","Analyse", new {analyseId = Model.AnalyseId, lijnId = item.LijnId}))'">@($"€ {item.Veld2:N2}")</td>
                     <td onclick="location.href = '@(Url.Action("AdministratieBegeleidingsKost","Analyse", new {analyseId = Model.AnalyseId, lijnId = item.LijnId}))'">@($"€ {item.Veld3:N2}")</td>
@@ -104,7 +104,7 @@
                         </div><div class="row">
                             <label asp-for="Veld3" class="col-md-4  col-md-offset-2 control-label ww">Jaarbedrag</label>
                             <div class="col-md-6">
-                                <input asp-for="Veld3" class="form-control" type="text" />
+                                <input asp-for="Veld3" class="form-control" type="text" disabled/>
                                 <span asp-validation-for="Veld3" class="text-danger"></span>
                             </div>
                         </div>

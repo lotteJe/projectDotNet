@@ -39,7 +39,7 @@ namespace KostenBatenTool.Models.AnalyseViewModels
         public string Werkuren { get; set; }
 
         [Required(ErrorMessage = "Bijdrage is verplicht")]
-        [RegularExpression("^[0-9][0-9]?([,][0-9]+)?$|^100$", ErrorMessage = "De waarde moet tussen 0 en 100 liggen.")]
+        [RegularExpression("^[0-9][0-9]?([,][0-9]+)?$|^100$", ErrorMessage = "De waarde moet tussen 0 en 100 liggen, eventueel gescheiden door een komma.")]
         [Display(Name = "Patronale bijdrage")]
         public string Bijdrage { get; set; }
 

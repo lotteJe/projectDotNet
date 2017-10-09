@@ -1,8 +1,19 @@
 ﻿@{
-    ViewData["Title"] = "Locked out";
+    Layout = "~/Views/Shared/CustomLayout.cshtml";
+}
+@{
+    ViewData["Title"] = "Geblokkeerd";
 }
 
-<header>
-    <h1 class="text-danger">Locked out.</h1>
-    <p class="text-danger">This account has been locked out, please try again later.</p>
-</header>
+<div class="jumbotron col-xs-offset-1 col-xs-10 col-md-4 col-md-offset-1 box box-left" id="login">
+
+    <div class="col-md-1 col-md-offset-11 kruisdiv">
+        <a asp-area="" asp-controller="Account" asp-action="Login" class="kruis"><span><i class="fa fa-times fa-2x" aria-hidden="true"></i> </span></a>
+    </div>
+    <div class="vergeten">
+        <h2 class="tabWw">Account geblokkeerd</h2>
+        <p>
+           Je account is geblokkeerd. Neem contact op met de administrator.
+        </p>
+    </div>
+</div>
