@@ -11,6 +11,7 @@ namespace KostenBatenTool.Models.Domain
         public string Soort { get; set; }
         public decimal Bedrag1 { get; set; }
         public decimal Bedrag2 { get; set; }
+        public bool Zichtbaar { get; set; }
 
         protected Doelgroep()
         {
@@ -22,6 +23,7 @@ namespace KostenBatenTool.Models.Domain
             Soort = soort;
             Bedrag1 = bedrag1;
             Bedrag2 = bedrag2;
+            Zichtbaar = true;
         }
        
 
