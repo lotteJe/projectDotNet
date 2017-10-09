@@ -18,7 +18,7 @@ namespace KostenBatenTool.Data.Repositories
         }
         public List<Doelgroep> GetAll()
         {
-            return _doelgroepen.ToList();
+            return _doelgroepen.Where(d => d.Zichtbaar).ToList();
         }
 
         public Doelgroep GetBySoort(string soort)

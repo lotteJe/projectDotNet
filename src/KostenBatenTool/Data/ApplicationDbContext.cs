@@ -56,6 +56,7 @@ namespace KostenBatenTool.Data
             d.HasKey(dg => dg.DoelgroepId);
             d.Property(dg => dg.DoelgroepId).ValueGeneratedOnAdd();
             d.Property(dg => dg.Soort);
+            d.Property(dg => dg.Zichtbaar);
         }
 
         private void MapAdministrator(EntityTypeBuilder<Administrator> a)
